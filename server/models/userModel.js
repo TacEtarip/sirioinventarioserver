@@ -1,0 +1,31 @@
+import {Schema} from 'mongoose';
+import bcrypt from 'bcrypt';
+
+export const UserSchema = new Schema({
+    username:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    hashPassword: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    created_date: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+UserSchema.methods.comparePassword = async (password, hashPassword) => {
+    try {
+        const result = await bcrypt.compare(password, hashPassword);
+        return result;
+    } catch (error) {
+        return error;
+    }
+};
