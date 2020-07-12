@@ -52,7 +52,7 @@ export const getItem = async (req, res) => {
     try {
         switch (req.params.tipo) {
             case 'cod':
-                result = await Item.findOne({codigo: req.body.codigo});
+                result = await Item.findOne({codigo: req.params.codigo});
                 break;
 
             case 'name':

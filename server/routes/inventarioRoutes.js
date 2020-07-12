@@ -13,7 +13,7 @@ routes.get('/getItems', getAllItem);
 
 routes.get('/getItemsByType/:tipo', getAllItemsOfType);
 
-routes.get('/getItem/:tipo', getItem);
+routes.get('/getItem/:tipo/:codigo', getItem);
 
 // routes.put('/uploadPhotoName', uploadPhotoName);
 
