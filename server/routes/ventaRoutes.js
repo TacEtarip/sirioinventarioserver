@@ -6,4 +6,4 @@ const routes = new Router();
 
 routes.post('/generarVenta', loginRequired, generarVenta);
 
-export default routes;
+export default routes; 

@@ -14,6 +14,9 @@ const config = {
         mongoKey: process.env.MONGO_KEY,
         tinyKey: process.env.TINY_KEY,
         jwtKey: process.env.JWT_KEY,
+        awsID: process.env.AWS_ID,
+        awsKey: process.env.AWS_KEY,
+        bucket: process.env.S3_BUCKET,
         log: () => getLogger(name, version, 'debug'),
     }
 };

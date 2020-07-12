@@ -6,6 +6,7 @@ import compression from 'compression';
 import cors from 'cors';
 import tinyfy from 'tinify';
 import jwt from 'jsonwebtoken';
+import aws from 'aws-sdk';
 
 import inventarioRoutes from './routes/inventarioRoutes';
 import authRoutes from './routes/authRoutes';
@@ -19,6 +20,10 @@ tinyfy.key = config.develoment.tinyKey;
 const app = express();
 
 const log = config.develoment.log();
+
+const bucketName = config.develoment.bucket;
+
+// aws.config.region = 'us-east-1';
 
 
 app.use(helmet());
