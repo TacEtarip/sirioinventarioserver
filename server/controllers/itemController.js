@@ -113,8 +113,10 @@ export const updateCantidad = async (req, res) => {
 export const updateItem = async (req, res) => {
     try {
         const newItem = req.body;
-        newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
-        const result = await Item.findByIdAndUpdate({codigo: req.body.codigo}, newItem, {new: true, useFindAndModify: false});
+        if (newItem.priceIGV) {
+            newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
+        }
+        const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, newItem, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
