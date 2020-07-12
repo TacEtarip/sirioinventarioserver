@@ -1,0 +1,88 @@
+import {Schema} from 'mongoose';
+
+const DocumentoSchema = new Schema({
+    type: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+
+    codigo: {
+        type: Number,
+        trim: true,
+        required: true,
+    }
+}, { _id : false });
+
+const ItemVendidoSchema = new Schema({
+    codigo: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+
+    priceIGV: {
+        type: Number,
+        required: true,
+        trim: true,
+    },
+
+    priceNoIGV: {
+        type: Number,
+        required: true,
+        trim: true,
+    },
+
+    cantidad: {
+        type: Number,
+        required: true,
+        trim: true,
+    }
+}, { _id : false });
+
+const VentaSchema = new Schema ({
+
+    codigo: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    
+    totalPrice: {
+        type: Number,
+        trim: true,
+        required: true,
+    },
+
+    totalPriceNoIGV: {
+        type: Number,
+        trim: true,
+        required: true,
+    },
+
+    estado: {
+        type: String,
+        trim: true,
+        required: true,
+    },
+
+    documento: {
+        type: DocumentoSchema,
+        required: true,
+    },
+
+    itemsVendidos: {
+        type: [ItemVendidoSchema],
+        required: true
+    },
+
+    date:{
+        type: Date,
+        default: Date.now
+    },
+
+});
+
+export default VentaSchema;
+

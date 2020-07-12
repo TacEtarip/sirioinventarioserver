@@ -58,6 +58,11 @@ const ItemSchema = new Schema ({
         type: String,
         trim: true,
         default: 'noPhoto.jpg',
+    },
+
+    ficha: {
+        type: Boolean,
+        default: false
     }
 
 });

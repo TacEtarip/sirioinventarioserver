@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 
 import inventarioRoutes from './routes/inventarioRoutes';
 import authRoutes from './routes/authRoutes';
+import ventasRoutes from './routes/ventaRoutes';
 
 import connectDB from './lib/mongoConnection';
 import config from '../config/index';
@@ -91,6 +92,8 @@ app.use((req, res, next) => {
 
 app.use('/inventario', inventarioRoutes);
 app.use('/auth', authRoutes);
+app.use('/ventas', ventasRoutes);
+
 /*
 app.post('/uploads/image/:codigo', uploadImage.single('img'), (req, res, next) => {
     const file = req.file;

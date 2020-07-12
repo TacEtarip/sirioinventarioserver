@@ -1,21 +1,21 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, 
-        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName} from '../controllers/itemController';
+        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, changeFileStatus } from '../controllers/itemController';
 import { addNewTipo, getAllTipos } from '../controllers/tipoController';
-import { upload, uploadImage, uploadPDF } from '../controllers/uploadsController';
-import {loginRequired} from '../controllers/usersController';
+import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload } from '../controllers/uploadsController';
+import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
 
 routes.post('/addItem', loginRequired, addNewItem);
 
-routes.get('/getItems', loginRequired, getAllItem);
+routes.get('/getItems', getAllItem);
 
 routes.get('/getItemsByType/:tipo', getAllItemsOfType);
 
 routes.get('/getItem/:tipo', getItem);
 
-routes.put('/uploadPhotoName', uploadPhotoName);
+// routes.put('/uploadPhotoName', uploadPhotoName);
 
 routes.put('/modCant/:tipo', loginRequired, updateCantidad);
 
@@ -31,8 +31,10 @@ routes.post('/addTipo', loginRequired,addNewTipo);
 
 routes.get('/getTipos', getAllTipos);
 
-routes.post('/uploads/image/:codigo', loginRequired, uploadImage.single('img'), upload);
+routes.post('/uploads/image/:codigo', uploadImage.single('img'), imageUpload, uploadPhotoName);
 
-routes.post('/uploads/ficha/:codigo', loginRequired, uploadPDF.single('pdf'), upload);
+// routes.post('/uploads/ficha/:codigo', uploadPDF.single('pdf'), upload);
 
-export default routes;
+routes.post('/uploads/ficha/:codigo', loginRequired, uploadPDF.single('pdf'), fichaUpload, changeFileStatus);
+
+export default routes; 

@@ -1,6 +1,7 @@
 import multer from 'multer';
 import tinyfy from 'tinify';
 
+
 const storageImages = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, './server/uploads/images');
@@ -29,6 +30,9 @@ const storageImages = multer.diskStorage({
       if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         cb(new Error('Please upload JPG and PNG images only!'));
       }
+      if (file.size > 1000000) {
+        cb(new Error('Please upload JPG and PNG images only!'));
+      }
       cb(undefined, true);
     }
   });
@@ -37,7 +41,7 @@ const storageImages = multer.diskStorage({
     storage: storagePDF,
     limits: {
       fileSize: 1000000
-    },
+    }, 
     fileFilter(req, file, cb) {
       if (!file.originalname.match(/\.(pdf)$/)) {
         cb(new Error('Please upload PDF only!'));
@@ -48,9 +52,10 @@ const storageImages = multer.diskStorage({
 
 export const upload = (req, res, next) => {
     const file = req.file;
-    console.log(file);
-    console.log(file.path);
-    tinyfy.fromFile(file.path).toFile(file.path);
+    tinyfy.fromFile(file.path).toFile(file.path)
+          .catch(error => {
+            return next(error);
+          });
     if (!file) {
         const error = new Error('Please upload a file');
         error.httpStatusCode = 400;
@@ -61,4 +66,39 @@ export const upload = (req, res, next) => {
         status: 'success',
         uploadedFile: file
     });
+};
+
+export const fichaUpload = (req, res, next) => {
+  const file = req.file;
+  if (!file) {
+      const error = new Error('Please upload a file');
+      error.httpStatusCode = 400;
+      return next(error);
+  }
+  req.uploadInfo = {
+    statusCode: 200,
+    status: 'success',
+    uploadedFile: file
+  };
+  next();
+};
+
+export const imageUpload = (req, res, next) => {
+  const file = req.file;
+  tinyfy.fromFile(file.path).toFile(file.path)
+          .catch(error => {
+            return next(error);
+          });
+  if (!file) {
+      const error = new Error('Please upload a file');
+      error.httpStatusCode = 400;
+      return next(error);
+  }
+  req.fileName = file.filename;
+  req.uploadInfo = {
+    statusCode: 200,
+    status: 'success',
+    uploadedFile: file
+  };
+  next();
 };

@@ -9,7 +9,7 @@ export const addNewTipo = async (req, res) => {
         const result = await newTipo.save();
         return res.json(result);
     } catch (error) {
-        throw res.status(500).json({errorMSG: error});
+        return res.status(500).json({errorMSG: error});
 
     }
 };
@@ -19,7 +19,7 @@ export const getAllTipos = async (req, res) => {
         const result = await Tipo.find({});
         return res.json(result);
     } catch (error) {
-        throw res.status(500).json({errorMSG: error});
+        return res.status(500).json({errorMSG: error});
 
     }
 };
@@ -30,8 +30,7 @@ export const updateTipo = async (req, res) => {
         const result = await Tipo.findOne({name: req.body.name}, req.body, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
-        throw res.status(500).json({errorMSG: error});
-
+        return res.status(500).json({errorMSG: error});
     }
 };
 
@@ -40,7 +39,7 @@ export const deleteTipo = async (req, res) => {
         const result = await Tipo.findByIdAndDelete({name: req.body.name});
         res.json(result);
     } catch (error) {
-        throw res.status(500).json({errorMSG: error});
+        return res.status(500).json({errorMSG: error});
     }
 };
 
