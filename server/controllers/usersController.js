@@ -18,6 +18,8 @@ export const loginRequired = (req, res, next) => {
 export const register = async (req, res) => {
     try {
         const newUser = new User(req.body);
+        newUser.displayName = newUser.username;
+        newUser.username = newUser.username.toLowerCase();
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
@@ -31,7 +33,7 @@ export const register = async (req, res) => {
 
 export const login = (req, res) => {
     User.findOne({
-        username: req.body.username
+        username: req.body.username.toLowerCase()
     }, (err, user) => {
         if(err){
             throw err;
@@ -42,7 +44,7 @@ export const login = (req, res) => {
             if(!user.comparePassword(req.body.password, user.hashPassword)){
                 return res.status(401).json({username: req.body.username, success:false ,message: 'Authenticacion failed. Incorrect Password!', token: null});
             } else {
-                return res.json({username: req.body.username, success:true, message: 'Success', token: jwt.sign({type: user.type, username: user.username, 
+                return res.json({displayName: user.displayName, username: req.body.username, success:true, message: 'Success', token: jwt.sign({type: user.type, username: user.username, 
                         _id: user.id}, config.develoment.jwtKey)});
             }
         }

@@ -41,6 +41,14 @@ const s3 = new aws.S3({
     }
   };
 
+  export const deleteImage = async (req, res) => {
+    try {
+      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.body.photoToDelete}).promise();
+    } catch (error) {
+      return res.status(500).json({message: error});
+    }
+  };
+
   export const getPDF = async (req, res) => {
     try {
       const data = await s3.getObject({Bucket: config.develoment.bucket, Key: req.params.pdfName}).promise();
