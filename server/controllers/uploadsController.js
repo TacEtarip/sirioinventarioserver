@@ -60,7 +60,6 @@ const s3 = new aws.S3({
       cb(null,  'ficha-' + req.params.codigo + '.' + 'pdf');
     }
   });*/
-  
   export const uploadImage = multer({
     storage: multerS3({
       s3: s3,
@@ -70,7 +69,7 @@ const s3 = new aws.S3({
       },
       key: (req, file, cb) => {
         const extension = file.originalname.split('.')[1];
-        cb(null, file.fieldname + '-' + req.params.codigo + '.' + extension);
+        cb(null, file.fieldname + '-' + req.params.codigo + '-' + Date.now().toString() + '.' + extension);
       }
     }),
     limits: {
