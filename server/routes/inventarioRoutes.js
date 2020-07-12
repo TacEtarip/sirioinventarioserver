@@ -19,7 +19,7 @@ routes.get('/getItem/:tipo', getItem);
 
 routes.put('/modCant/:tipo', loginRequired, updateCantidad);
 
-routes.put('/updateItem', updateItem);
+routes.put('/updateItem', loginRequired,updateItem);
 
 routes.delete('/deleteItem', loginRequired, deleteItem);
 
