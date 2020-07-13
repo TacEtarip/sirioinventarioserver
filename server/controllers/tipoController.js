@@ -36,7 +36,7 @@ export const updateTipo = async (req, res) => {
 
 export const deleteTipo = async (req, res) => {
     try {
-        const result = await Tipo.findOneAndDelete({name: req.body.name});
+        const result = await Tipo.findOneAndDelete({name: req.params.name});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
