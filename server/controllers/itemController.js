@@ -126,8 +126,7 @@ export const updateItem = async (req, res) => {
 
 export const updateItemsTipo = async (req, res) => {
     try {
-        config.develoment.log(req.body);
-        const result = await Item.updateMany({tipo: req.body.name}, { tipo: req.body.name}, {new: true, useFindAndModify: false});
+        const result = await Item.updateMany({tipo: req.beforeName}, { tipo: req.body.name}, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
