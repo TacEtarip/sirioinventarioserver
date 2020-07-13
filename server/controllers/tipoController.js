@@ -26,7 +26,7 @@ export const getAllTipos = async (req, res) => {
 };
 
 
-export const updateTipo = async (next, req, res) => {
+export const updateTipo = async (req, res, next) => {
     try {
         console.log(req.body);
         await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
