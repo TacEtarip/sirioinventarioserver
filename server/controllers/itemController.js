@@ -134,6 +134,16 @@ export const deleteItem = async (req, res) => {
     }
 };
 
+export const deleteItemsTipo = async (req, res) => {
+    try {
+        const result = await Item.deleteMany({tipo: req.tipoName});
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+
+    }
+};
+
 export const addOffer = async (req, res) => {
     try {
         const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, {oferta: req.body.ofertaNum}, {new: true, useFindAndModify: false});

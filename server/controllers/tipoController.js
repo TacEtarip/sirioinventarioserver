@@ -35,10 +35,12 @@ export const updateTipo = async (req, res) => {
     }
 };
 
-export const deleteTipo = async (req, res) => {
+export const deleteTipo = async (req, res, next) => {
     try {
-        const result = await Tipo.findOneAndDelete({codigo: req.params.codigo});
-        res.json(result);
+        const tipo = await Tipo.findOne({codigo: req.params.codigo});
+        await Tipo.findOneAndDelete({codigo: req.params.codigo});
+        req.tipoName = tipo.name;
+        next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }

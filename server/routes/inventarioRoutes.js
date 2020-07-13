@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, 
-        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, changeFileStatus } from '../controllers/itemController';
+        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, changeFileStatus, deleteItemsTipo } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
@@ -23,7 +23,7 @@ routes.put('/updateItem', loginRequired,updateItem);
 
 routes.delete('/deleteItem', loginRequired, deleteItem);
 
-routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo);
+routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo, deleteItemsTipo);
 
 routes.put('/offer/add', loginRequired, addOffer);
 
