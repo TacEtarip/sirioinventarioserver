@@ -28,7 +28,7 @@ export const getAllTipos = async (req, res) => {
 
 export const updateTipo = async (next, req, res) => {
     try {
-        await Tipo.findOne({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
+        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
         next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});
