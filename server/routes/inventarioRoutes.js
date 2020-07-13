@@ -23,7 +23,7 @@ routes.put('/updateItem', loginRequired,updateItem);
 
 routes.delete('/deleteItem', loginRequired, deleteItem);
 
-routes.delete('/deleteTipo/:name', loginRequired, deleteTipo);
+routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo);
 
 routes.put('/offer/add', loginRequired, addOffer);
 

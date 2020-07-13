@@ -10,7 +10,12 @@ const Tipochema = new Schema ({
     date:{
         type: Date,
         default: Date.now
+    },
+
+    codigo: {
+        type: String,
     }
+
 });
 
 export default Tipochema;

@@ -6,6 +6,7 @@ const Tipo = mongoose.model('Tipo', tipoSchema);
 export const addNewTipo = async (req, res) => {
     try {
         let newTipo = new Tipo(req.body);
+        newTipo.codigo = Date.now().toString();
         const result = await newTipo.save();
         return res.json(result);
     } catch (error) {
@@ -36,7 +37,7 @@ export const updateTipo = async (req, res) => {
 
 export const deleteTipo = async (req, res) => {
     try {
-        const result = await Tipo.findOneAndDelete({name: req.params.name});
+        const result = await Tipo.findOneAndDelete({codigo: req.params.codigo});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
