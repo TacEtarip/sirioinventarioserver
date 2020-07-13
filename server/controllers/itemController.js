@@ -124,6 +124,16 @@ export const updateItem = async (req, res) => {
     }
 };
 
+export const updateItemsTipo = async (req, res) => {
+    try {
+        const result = await Item.updateMany({tipo: req.body.tipo}, { tipo: req.tipoBN }, {new: true, useFindAndModify: false});
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+
+    }
+};
+
 export const deleteItem = async (req, res) => {
     try {
         const result = await Item.findByIdAndDelete({codigo: req.body.codigo});

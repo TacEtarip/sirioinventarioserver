@@ -1,7 +1,8 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, 
-        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, changeFileStatus, deleteItemsTipo } from '../controllers/itemController';
-import { addNewTipo, getAllTipos, deleteTipo } from '../controllers/tipoController';
+        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
+        changeFileStatus, deleteItemsTipo, updateItemsTipo } from '../controllers/itemController';
+import { addNewTipo, getAllTipos, deleteTipo, updateTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
@@ -20,6 +21,8 @@ routes.get('/getItem/:tipo/:codigo', getItem);
 routes.put('/modCant/:tipo', loginRequired, updateCantidad);
 
 routes.put('/updateItem', loginRequired,updateItem);
+
+routes.put('/updateTipo', loginRequired, updateTipo, updateItemsTipo);
 
 routes.delete('/deleteItem', loginRequired, deleteItem);
 
