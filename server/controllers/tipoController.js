@@ -28,8 +28,6 @@ export const getAllTipos = async (req, res) => {
 
 export const updateTipo = async (next, req, res) => {
     try {
-        const tipo = await Tipo.findOne({codigo: req.body.codigo});
-        req.tipoBN = tipo.name;
         await Tipo.findOne({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
         next();
     } catch (error) {
