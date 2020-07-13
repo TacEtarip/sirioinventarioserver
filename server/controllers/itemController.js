@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import itemSchema from '../models/itemModel';
+import config   from '../../config/index';
 
 const Item = mongoose.model('Item', itemSchema);
-
 const IGV = 0.18;
 
 export const addNewItem = async (req, res) => {
@@ -126,6 +126,7 @@ export const updateItem = async (req, res) => {
 
 export const updateItemsTipo = async (req, res) => {
     try {
+        config.develoment.log(req.body);
         const result = await Item.updateMany({tipo: req.body.name}, { tipo: req.body.name}, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
