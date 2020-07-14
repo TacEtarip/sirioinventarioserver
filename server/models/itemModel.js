@@ -6,6 +6,12 @@ const ItemSchema = new Schema ({
         required: true,
         trim: true,
     },
+    
+    nameLowerCase: {
+        type: String,
+        trim: true,
+        lowercase: true
+    },
 
     priceIGV: {
         type: Number,

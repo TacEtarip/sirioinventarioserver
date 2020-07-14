@@ -19,7 +19,6 @@ export const register = async (req, res) => {
     try {
         const newUser = new User(req.body);
         newUser.displayName = newUser.username;
-        newUser.username = newUser.username.toLowerCase();
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;

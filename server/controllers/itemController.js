@@ -10,6 +10,7 @@ export const addNewItem = async (req, res) => {
         let newItem = new Item(req.body);
         newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
         newItem.codigo = await generateCode(newItem.name, newItem.tipo);
+        newItem.nameLowerCase = newItem.name;
         const result = await newItem.save();
         return res.json(result);
     } catch (error) {
