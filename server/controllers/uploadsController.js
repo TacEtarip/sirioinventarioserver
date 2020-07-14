@@ -43,7 +43,9 @@ const s3 = new aws.S3({
 
   export const deleteImage = async (req, res, next) => {
     try {
+      if (req.body.oldPhoto !== 'noPhoto.jpg') {
       await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.body.oldPhoto}).promise();
+      }
       next();
     } catch (error) {
       return res.status(500).json({message: error});
@@ -52,7 +54,9 @@ const s3 = new aws.S3({
 
   export const deleteImageSecond = async (req, res, next) => {
     try {
-      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.photNameToDelete}).promise();
+      if (req.photNameToDelete !== 'noPhoto.jpg') {
+        await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.photNameToDelete}).promise();
+      }
       res.json({message: 'Succes'});
     } catch (error) {
       return res.status(500).json({message: error});
