@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, 
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
-        changeFileStatus, deleteItemsTipo, updateItemsTipo } from '../controllers/itemController';
+        changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
@@ -15,6 +15,8 @@ routes.get('/getItems', getAllItem);
 routes.get('/getItemsByType/:tipo', getAllItemsOfType);
 
 routes.get('/getItem/:tipo/:codigo', getItem);
+
+routes.get('/getAllItemsSort/:filtro/:tipoBusqueda/:tipoSort', getAllItemSort);
 
 // routes.put('/uploadPhotoName', uploadPhotoName);
 

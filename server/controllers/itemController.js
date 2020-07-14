@@ -39,6 +39,27 @@ export const getAllItem = async (req, res) => {
     }
 };
 
+export const getAllItemSort = async (req, res) => {
+    try {
+        let tipoOrder = 0;
+        if (req.params.tipoSort === 'asc') {
+            tipoOrder = 1;
+        } else if (req.params.tipoSort === 'dsc') {
+            tipoOrder = -1;
+        }
+        const tipoBusqueda = req.params.tipoBusqueda;
+        let filtro = {};
+        if (req.params.filtro !== 'all') {
+            const filtroValue = req.params.filtro;
+            filtro = {tipo: filtroValue};
+        }
+        const result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({tipoBusqueda: tipoOrder});
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const getAllItemsOfType = async (req, res) => {
     try {
         const result = await Item.find({tipo: req.params.tipo});
