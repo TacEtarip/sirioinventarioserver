@@ -41,9 +41,19 @@ const s3 = new aws.S3({
     }
   };
 
-  export const deleteImage = async (req, res) => {
+  export const deleteImage = async (req, res, next) => {
     try {
-      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.body.photoToDelete}).promise();
+      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.body.oldPhoto}).promise();
+      next();
+    } catch (error) {
+      return res.status(500).json({message: error});
+    }
+  };
+
+  export const deleteImageSecond = async (req, res, next) => {
+    try {
+      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.photNameToDelete}).promise();
+      res.json({message: 'Succes'});
     } catch (error) {
       return res.status(500).json({message: error});
     }
@@ -151,15 +161,12 @@ export const fichaUpload = (req, res, next) => {
 
 export const imageUpload = (req, res, next) => {
   const file = req.file;
-  /*tinyfy.fromFile(file.path).toFile(file.path)
-          .catch(error => {
-            return next(error);
-          });*/
   if (!file) {
       const error = new Error('Please upload a file');
       error.httpStatusCode = 400;
       return next(error);
   }
+  
   req.fileName = file.key;
   req.uploadInfo = {
     statusCode: 200,

@@ -3,7 +3,7 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
         changeFileStatus, deleteItemsTipo, updateItemsTipo } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo } from '../controllers/tipoController';
-import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF } from '../controllers/uploadsController';
+import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
@@ -24,7 +24,7 @@ routes.put('/updateItem', loginRequired,updateItem);
 
 routes.put('/updateTipo', loginRequired, updateTipo, updateItemsTipo);
 
-routes.delete('/deleteItem/:codigo', loginRequired, deleteItem);
+routes.delete('/deleteItem/:codigo', loginRequired, deleteItem, deleteImageSecond);
 
 routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo, deleteItemsTipo);
 
@@ -36,7 +36,7 @@ routes.post('/addTipo', loginRequired,addNewTipo);
 
 routes.get('/getTipos', getAllTipos);
 
-routes.post('/uploads/image/:codigo', loginRequired, uploadImage.single('img'), imageUpload, uploadPhotoName);
+routes.post('/uploads/image/:codigo', loginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);
 
 // routes.post('/uploads/ficha/:codigo', uploadPDF.single('pdf'), upload);
 

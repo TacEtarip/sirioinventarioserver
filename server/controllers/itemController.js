@@ -134,10 +134,11 @@ export const updateItemsTipo = async (req, res) => {
     }
 };
 
-export const deleteItem = async (req, res) => {
+export const deleteItem = async (req, res, next) => {
     try {
         const result = await Item.findOneAndDelete({codigo: req.params.codigo});
-        res.json(result);
+        req.photNameToDelete = result.photo;
+        next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
