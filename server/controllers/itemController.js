@@ -136,11 +136,10 @@ export const updateItemsTipo = async (req, res) => {
 
 export const deleteItem = async (req, res) => {
     try {
-        const result = await Item.findByIdAndDelete({codigo: req.body.codigo});
+        const result = await Item.findOneAndDelete({codigo: req.params.codigo});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
-
     }
 };
 

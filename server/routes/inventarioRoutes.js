@@ -24,7 +24,7 @@ routes.put('/updateItem', loginRequired,updateItem);
 
 routes.put('/updateTipo', loginRequired, updateTipo, updateItemsTipo);
 
-routes.delete('/deleteItem', loginRequired, deleteItem);
+routes.delete('/deleteItem/:codigo', loginRequired, deleteItem);
 
 routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo, deleteItemsTipo);
 
