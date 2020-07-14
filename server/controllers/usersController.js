@@ -17,8 +17,9 @@ export const loginRequired = (req, res, next) => {
 
 export const register = async (req, res) => {
     try {
+        const displayName = req.body.username;
         const newUser = new User(req.body);
-        newUser.displayName = newUser.username;
+        newUser.displayName = displayName;
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
