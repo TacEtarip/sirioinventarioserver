@@ -53,7 +53,21 @@ export const getAllItemSort = async (req, res) => {
             const filtroValue = req.params.filtro;
             filtro = {tipo: filtroValue};
         }
-        const result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({tipoBusqueda: tipoOrder});
+        let result;
+        switch (tipoBusqueda) {
+            case 'date':
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({date: tipoOrder});
+                break;
+            case 'name':
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({name: tipoOrder});
+                break;
+            case 'priceIGV':
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({priceIGV: tipoOrder});
+                break;                         
+            default:
+                break;
+        }
+
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
