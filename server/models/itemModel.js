@@ -1,5 +1,63 @@
 import {Schema} from 'mongoose';
 
+const OrderSchema = new Schema({
+    name: {
+        type: String,
+        trim: true,
+        required: true
+    },
+
+    nameSecond: {
+        type: String,
+        trim: true,
+    },
+
+    cantidad: {
+        type: Number
+    }
+
+}, { _id : false });
+
+const SubCantidadSchema = new Schema({
+    name: {
+        type: String,
+        trim: true,
+        required: true
+    },
+
+    nameSecond: {
+        type: String,
+        trim: true,
+    },
+
+    order: {
+        type: [OrderSchema]
+    }
+}, { _id : false });
+
+const VariacionSchema = new Schema ({
+    date:{
+        type: Date,
+        default: Date.now
+    },
+    cantidad: {
+        type: Number,
+        default: 0,
+    },
+    tipo: {
+        type: Boolean,
+        default: false
+    },
+    comentario: {
+        type: String,
+        trim: true,
+    },
+    costoVar: {
+        type: Number,
+    }
+}, { _id : false });
+
+
 const ItemSchema = new Schema ({
     name:{
         type: String,
@@ -27,6 +85,14 @@ const ItemSchema = new Schema ({
         default: 0,
     },
 
+    subConteo: {
+        type: SubCantidadSchema
+    },
+    
+    variaciones: {
+        type: [VariacionSchema]
+    },
+
     codigo: {
         type: String,
         required: true,
@@ -36,7 +102,12 @@ const ItemSchema = new Schema ({
 
     tipo: {
         type: String,
-        default: 'Indefinido',
+        required: true,
+    },
+
+    subTipo: {
+        type: String,
+        default: 'noone'
     },
 
     unidadDeMedida:{
@@ -70,9 +141,31 @@ const ItemSchema = new Schema ({
     ficha: {
         type: Boolean,
         default: false
+    },
+
+    marca: {
+        type: String,
+        default: 'noone'
+    },
+
+    costoPropio: {
+        type: Number
+    },
+
+    multiSearchParams: {
+        type: String,
+        trim: true,
     }
 
 });
+
+ItemSchema.index({
+            nameLowerCase: 'text', 
+            tipo: 'text', 
+            subTipo: 'text', 
+            marca: 'text',
+            multiSearchParams: 'text'
+            });
 
 export default ItemSchema;
 

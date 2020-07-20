@@ -1,20 +1,117 @@
 import mongoose from 'mongoose';
 import itemSchema from '../models/itemModel';
+import marcaSchema from '../models/marcaModel';
 import config   from '../../config/index';
 
 const Item = mongoose.model('Item', itemSchema);
+const Marca = mongoose.model('Marca', marcaSchema);
 const IGV = 0.18;
+
+
+export const cantidadUpdate = async (req, res) => {
+    try {
+        let cantidad;
+        let tipo;
+        if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
+            cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+            tipo = true;
+        } else {
+            cantidad = req.body.cantidadAntigua - req.body.cantidadNueva;
+            tipo = false;
+        }
+        const variacion = { date: Date.now(), cantidad: cantidad, 
+                            tipo: tipo, comentario: req.body.comentario, 
+                            costoVar: req.body.costoVar };
+
+        const result = await Item.findOneAndUpdate(
+                                        {codigo: req.body.codigo}, 
+                                        {
+                                            cantidad: req.body.cantidadNueva,
+                                            $push: {variaciones: variacion}
+                                        }, {new: true, useFindAndModify: false});
+
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const subCantidadUpdate = async (req, res) => {
+    try {
+        let cantidad;
+        let tipo;
+        if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
+            cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+            tipo = true;
+        } else {
+            cantidad = req.body.cantidadAntigua - req.body.cantidadNueva;
+            tipo = false;
+        }
+        const variacion = { date: Date.now(), cantidad: cantidad, 
+                            tipo: tipo, comentario: req.body.comentario, 
+                            costoVar: req.body.costoVar };
+
+        const result = 
+                    await Item.findOneAndUpdate(
+                                {codigo: req.body.codigo}, 
+                                {
+                                    subConteo: req.body.subConteo, 
+                                    cantidad: req.body.cantidadNueva,
+                                    $push: {variaciones: variacion}
+                                }, {new: true, useFindAndModify: false});
+
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+
+export const addMarca = async (req, res) => {
+    try {
+        let newMarca = new Marca(req.body);
+        newMarca.codigo = Date.now().toString();
+        const result = await newMarca.save();
+        console.log(result);
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const deleteMarcas = async (req, res) => {
+    try {
+        const deleteArray = req.params.deleteString.split('_');
+        await Marca.deleteMany({name: {$in: deleteArray} });
+        res.json({message: 'succes'});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getMarcas = async (req, res) => {
+    try {
+        const result = await Marca.find({});
+        res.json(result);
+    } catch (error) {
+        
+    }
+};
 
 export const addNewItem = async (req, res) => {
     try {
+
         let newItem = new Item(req.body);
         newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
         newItem.codigo = await generateCode(newItem.name, newItem.tipo);
         newItem.nameLowerCase = newItem.name;
+        const variacion = { date: Date.now(), cantidad: newItem.cantidad, 
+            tipo: true, comentario: 'new item', 
+            costoVar: newItem.costoPropio };
+        newItem.variaciones = [variacion];
         const result = await newItem.save();
         return res.json(result);
     } catch (error) {
-        return res.status(500).json({errorMSG: error});
     }
 };
 
@@ -47,11 +144,16 @@ export const getAllItemSort = async (req, res) => {
         } else if (req.params.tipoSort === 'dsc') {
             tipoOrder = -1;
         }
+        const filtroSelect = req.params.subORtipo;
         const tipoBusqueda = req.params.tipoBusqueda;
+        const filtroValue = req.params.filtro;
         let filtro = {};
         if (req.params.filtro !== 'all') {
-            const filtroValue = req.params.filtro;
-            filtro = {tipo: filtroValue};
+            if (filtroSelect === 'sub') {
+                filtro = {subTipo: filtroValue};
+            } else if(filtroSelect === 'tipo') {
+                filtro = {tipo: filtroValue};
+            }
         }
         let result;
         switch (tipoBusqueda) {
@@ -77,6 +179,15 @@ export const getAllItemSort = async (req, res) => {
 export const getAllItemsOfType = async (req, res) => {
     try {
         const result = await Item.find({tipo: req.params.tipo});
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getAllItemsSubTipoName = async (req, res) => {
+    try {
+        const result = await Item.find({subTipo: req.params.subTipo}).select('name -_id');
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -160,6 +271,16 @@ export const updateItem = async (req, res) => {
     }
 };
 
+export const updateItemsSubTipo = async (req, res) => {
+    try {
+        const result = await Item.updateMany({subTipo: req.body.antiguoSubName}, { subTipo: req.body.newSubName}, {new: true, useFindAndModify: false});
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+
+    }
+};
+
 export const updateItemsTipo = async (req, res) => {
     try {
         const result = await Item.updateMany({tipo: req.beforeName}, { tipo: req.body.name}, {new: true, useFindAndModify: false});
@@ -183,6 +304,16 @@ export const deleteItem = async (req, res, next) => {
 export const deleteItemsTipo = async (req, res) => {
     try {
         const result = await Item.deleteMany({tipo: req.tipoName});
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+
+    }
+};
+
+export const deleteItemsSubTipo = async (req, res) => {
+    try {
+        const result = await Item.deleteMany({subTipo: req.params.subTipoName});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});

@@ -4,13 +4,16 @@ const DocumentoSchema = new Schema({
     type: {
         type: String,
         required: true,
+    },
+
+    name: {
+        type: String,
         trim: true,
     },
 
     codigo: {
         type: Number,
         trim: true,
-        required: true,
     }
 }, { _id : false });
 
@@ -69,7 +72,6 @@ const VentaSchema = new Schema ({
 
     documento: {
         type: DocumentoSchema,
-        required: true,
     },
 
     itemsVendidos: {

@@ -14,6 +14,10 @@ const Tipochema = new Schema ({
 
     codigo: {
         type: String,
+    },
+
+    subTipo: {
+        type: [String]
     }
 
 });
