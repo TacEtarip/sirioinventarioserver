@@ -1,12 +1,11 @@
 import PDFDocument from 'pdfkit';
-import fs from 'fs';
-import path from 'path';
 
-export const createDocumento = (invoice) => {
+
+export const createDocumento = (invoice, imageB) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     // const writeStream = fs.createWriteStream(path.resolve(__dirname, './test3.pdf'));
 
-    generateHeader(doc);
+    generateHeader(doc, imageB);
     generateCustomerInformation(doc, invoice);
     generateInvoiceTable(doc, invoice);
     generateFooter(doc);
@@ -15,9 +14,9 @@ export const createDocumento = (invoice) => {
     // doc.end();
 };
 
-const generateHeader = (doc) => {
+const generateHeader = (doc, imageB) => {
     doc
-        .image(path.join(__dirname, '/uploads/images/sirio-logo.png'), 50, 30, { width: 70 })
+        .image(imageB, 50, 30, { width: 70 })
             .fillColor("#444444")
             .fontSize(20)
             .fontSize(10)

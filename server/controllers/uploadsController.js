@@ -34,7 +34,8 @@ const s3 = new aws.S3({
 
 export const uploadPDFventa = async (venta) => {
   try {
-    const doc = createDocumento(venta);
+    const data = await s3.getObject({Bucket: config.develoment.bucket, Key: 'sirio-logo.png'}).promise();
+    const doc = createDocumento(venta, data.Body);
     doc.end();
     await s3.upload({Bucket: config.develoment.bucket, Key: `${venta.codigo}.pdf`, Body: doc, ContentType: 'application/pdf'}).promise();
   } catch (error) {
