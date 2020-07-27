@@ -274,7 +274,7 @@ export const ventaSimpleItemUpdate = async (req, res) => {
 };
 const generarCodigoVent = async (tipo) => {
     try {
-        const count = await Venta.countDocuments({});
+        const count = await Venta.countDocuments({}) + 1;
         let preCod = 'SD01-000000';
         switch (tipo) {
             case 'factura':
