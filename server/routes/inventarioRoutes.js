@@ -3,12 +3,14 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
         changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, 
         deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate} from '../controllers/itemController';
+        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, testFind} from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
+
+routes.get('/testFind', testFind);
 
 routes.post('/addItem', loginRequired, addNewItem);
 
@@ -24,9 +26,9 @@ routes.get('/getTipo/:codigo', getTipo);
 
 routes.get('/getItemsSubTipo/:subTipo', getAllItemsSubTipoName);
 
-routes.put('/uploadVariationSC', subCantidadUpdate);
+routes.put('/uploadVariationSC', loginRequired, subCantidadUpdate);
 
-routes.put('/uploadVariationSimple', cantidadUpdate);
+routes.put('/uploadVariationSimple', loginRequired, cantidadUpdate);
 
 // routes.put('/uploadPhotoName', uploadPhotoName);
 
@@ -40,15 +42,15 @@ routes.delete('/deleteItem/:codigo', loginRequired, deleteItem, deleteImageSecon
 
 routes.delete('/deleteTipo/:codigo', loginRequired, deleteTipo, deleteItemsTipo);
 
-routes.delete('/deleteSupTipo/:codigo/:subTipoName', deleteSubTipo, deleteItemsSubTipo);
+routes.delete('/deleteSupTipo/:codigo/:subTipoName', loginRequired, deleteSubTipo, deleteItemsSubTipo);
 
-routes.put('/addSubTipo', addNewSubTipo);
+routes.put('/addSubTipo', loginRequired, addNewSubTipo);
 
 routes.put('/offer/add', loginRequired, addOffer);
 
 routes.put('/offer/remove', loginRequired, removeOffer);
 
-routes.post('/addTipo',addNewTipo);
+routes.post('/addTipo', loginRequired, addNewTipo);
 
 routes.get('/getTipos', getAllTipos);
 
@@ -57,11 +59,11 @@ routes.get('/getSubTipos/:tipoCod', getSubTipos);
 
 routes.get('/marcas/getAll', getMarcas);
 
-routes.delete('/marcas/delete/:deleteString', deleteMarcas);
+routes.delete('/marcas/delete/:deleteString', loginRequired, deleteMarcas);
 
-routes.post('/marcas/add', addMarca);
+routes.post('/marcas/add', loginRequired,addMarca);
 
-routes.put('/uptateSupTipos', updateSubTipo, updateItemsSubTipo);
+routes.put('/uptateSupTipos', loginRequired, updateSubTipo, updateItemsSubTipo);
 
 
 routes.post('/uploads/image/:codigo', loginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);

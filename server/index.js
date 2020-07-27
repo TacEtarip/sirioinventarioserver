@@ -15,6 +15,8 @@ import ventasRoutes from './routes/ventaRoutes';
 import connectDB from './lib/mongoConnection';
 import config from '../config/index';
 
+import { createDocumento } from './lib/documentGenerator';
+
 tinyfy.key = config.develoment.tinyKey;
 
 const app = express();
@@ -37,6 +39,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 connectDB(config.develoment.mongoKey);
 
+/*
+app.get('/test', (req, res) => {
+  let doc = new PDFdocument();
+
+  res.writeHead(200, {'Content-Type': 'aplication/pdf', 'Content-disposition': 'attachment;filename=testd.pdf'});
+  doc.pipe(res);
+
+  createDocumento();
+
+  doc.save()
+  .moveTo(100, 150)
+  .lineTo(100, 250)
+  .lineTo(200, 250)
+  .fill("#FF3300");
+
+  doc.end();
+});*/
 
 app.use((req, res, next) => {
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {

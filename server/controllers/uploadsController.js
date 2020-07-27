@@ -2,8 +2,11 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import aws from 'aws-sdk';
 import tinyfy from 'tinify';
+import fs, { createReadStream } from 'fs';
 
+import { createDocumento } from '../lib/documentGenerator';
 import config from '../../config/index';
+
 
 /*aws.config.update({
   secretAccessKey: config.develoment.awsKey,
@@ -30,12 +33,23 @@ const s3 = new aws.S3({
     }
   });*/
 
-  export const getImage = async (req, res) => {
+export const uploadPDFventa = async (venta) => {
+  try {
+    const doc = createDocumento(venta);
+    doc.end();
+    await s3.upload({Bucket: config.develoment.bucket, Key: `${venta.codigo}.pdf`, Body: doc, ContentType: 'application/pdf'}).promise();
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getImage = async (req, res) => {
     try {
       const data = await s3.getObject({Bucket: config.develoment.bucket, Key: req.params.imgName}).promise();
       res.writeHead(200, {'Content-Type': 'image/jpeg'});
       res.write(data.Body, 'binary');
       res.end(null, 'binary');
+      // res.end(new Buffer.from(data.Body));
     } catch (error) {
       return res.status(500).json({message: error});
     }
@@ -73,6 +87,7 @@ const s3 = new aws.S3({
       return res.status(500).json({message: error});
     }
   };
+
   
   /*const storagePDF = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -82,6 +97,8 @@ const s3 = new aws.S3({
       cb(null,  'ficha-' + req.params.codigo + '.' + 'pdf');
     }
   });*/
+
+
   export const uploadImage = multer({
     storage: multerS3({
       s3: s3,
@@ -107,6 +124,8 @@ const s3 = new aws.S3({
       cb(undefined, true);
     }
   });
+
+
   
 export const uploadPDF = multer({
     storage: multerS3({

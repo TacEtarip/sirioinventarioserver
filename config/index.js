@@ -17,6 +17,7 @@ const config = {
         awsID: process.env.AWS_ID,
         awsKey: process.env.AWS_KEY,
         bucket: process.env.S3_BUCKET,
+        sunatToken: process.env.SUNAT_TOKEN,
         log: () => getLogger(name, version, 'debug'),
     }
 };

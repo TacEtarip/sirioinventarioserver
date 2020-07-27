@@ -1,5 +1,12 @@
 import {Schema} from 'mongoose';
 
+const CantidadOrderSC = new Schema({
+    name: {type: String},
+    nameSecond: {type: String},
+    cantidadDisponible: {type: Number},
+    cantidadVenta: {type: Number},
+});
+
 const DocumentoSchema = new Schema({
     type: {
         type: String,
@@ -21,6 +28,17 @@ const ItemVendidoSchema = new Schema({
     codigo: {
         type: String,
         required: true,
+        unique: true,
+        trim: true,
+    },
+
+    name: {
+        type: String,
+        trim: true,
+    },
+
+    descripcion: {
+        type: String,
         trim: true,
     },
 
@@ -40,7 +58,22 @@ const ItemVendidoSchema = new Schema({
         type: Number,
         required: true,
         trim: true,
+        min: 0
+    },
+
+    cantidadSC: {
+        type: [CantidadOrderSC],
+        default: []
+    },
+
+    totalPrice: {
+        type: Number
+    },
+
+    totalPriceNoIGV: {
+        type: Number
     }
+    
 }, { _id : false });
 
 const VentaSchema = new Schema ({

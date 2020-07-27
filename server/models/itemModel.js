@@ -13,7 +13,7 @@ const OrderSchema = new Schema({
     },
 
     cantidad: {
-        type: Number
+        type: Number,
     }
 
 }, { _id : false });
@@ -63,6 +63,7 @@ const ItemSchema = new Schema ({
         type: String,
         required: true,
         trim: true,
+        unique: true,
     },
     
     nameLowerCase: {
