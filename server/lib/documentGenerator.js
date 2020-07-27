@@ -17,7 +17,7 @@ export const createDocumento = (invoice) => {
 
 const generateHeader = (doc) => {
     doc
-        .image(path.resolve(__dirname, '../uploads/images/sirio-logo.png'), 50, 30, { width: 70 })
+        .image(path.join(__dirname, 'uploads/images/sirio-logo.png'), 50, 30, { width: 70 })
             .fillColor("#444444")
             .fontSize(20)
             .fontSize(10)
