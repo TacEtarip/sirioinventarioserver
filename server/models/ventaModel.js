@@ -28,7 +28,6 @@ const ItemVendidoSchema = new Schema({
     codigo: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
 

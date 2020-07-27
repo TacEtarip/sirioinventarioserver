@@ -268,6 +268,7 @@ export const ventaSimpleItemUpdate = async (req, res) => {
         await session.abortTransaction();
         session.endSession();
 
+
         return res.status(500).json({errorMSG: error});
     }
 };
