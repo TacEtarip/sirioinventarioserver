@@ -149,7 +149,7 @@ const generateInvoiceTable = (doc, invoice) => {
       formatCurrency(invoice.totalPrice)
     );
     doc.font("Helvetica");
-  }
+  };
   
 const generateFooter = (doc) => {
     doc
@@ -160,7 +160,7 @@ const generateFooter = (doc) => {
         780,
         { align: "center", width: 500 }
       );
-  }
+};
   
 const generateTableRow = (
     doc,

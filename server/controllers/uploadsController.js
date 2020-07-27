@@ -2,7 +2,6 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import aws from 'aws-sdk';
 import tinyfy from 'tinify';
-import fs, { createReadStream } from 'fs';
 
 import { createDocumento } from '../lib/documentGenerator';
 import config from '../../config/index';
@@ -39,6 +38,7 @@ export const uploadPDFventa = async (venta) => {
     doc.end();
     await s3.upload({Bucket: config.develoment.bucket, Key: `${venta.codigo}.pdf`, Body: doc, ContentType: 'application/pdf'}).promise();
   } catch (error) {
+    config.develoment.log().error(error);
     return error;
   }
 };
