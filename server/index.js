@@ -17,13 +17,13 @@ import config from '../config/index';
 
 import { createDocumento } from './lib/documentGenerator';
 
-tinyfy.key = config.develoment.tinyKey;
+tinyfy.key = config[process.env.NODE_ENV].tinyKey;
 
 const app = express();
 
-const log = config.develoment.log();
+const log = config[process.env.NODE_ENV].log();
 
-const bucketName = config.develoment.bucket;
+const bucketName = config[process.env.NODE_ENV].bucket;
 
 // aws.config.region = 'us-east-1';
 
@@ -37,7 +37,7 @@ app.use(cors({credentials: true, origin: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-connectDB(config.develoment.mongoKey);
+connectDB(config[process.env.NODE_ENV].mongoKey);
 
 /*
 app.get('/test', (req, res) => {
@@ -59,7 +59,7 @@ app.get('/test', (req, res) => {
 
 app.use((req, res, next) => {
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-      jwt.verify(req.headers.authorization.split(' ')[1], config.develoment.jwtKey, (err, decode) => {
+      jwt.verify(req.headers.authorization.split(' ')[1], config[process.env.NODE_ENV].jwtKey, (err, decode) => {
           if (err) req.user = undefined;
           req.user = decode;
           next();

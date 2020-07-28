@@ -8,9 +8,9 @@ import config from '../config/index';
 
 const server = http.createServer(app);
 
-const PORT = config.develoment.PORT;
+const PORT = config[process.env.NODE_ENV].PORT;
 
-const log = config.develoment.log();
+const log = config[process.env.NODE_ENV].log();
 
 const WORKERS = process.env.WEB_CONCURRENCY || 1;
 

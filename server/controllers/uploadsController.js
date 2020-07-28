@@ -14,9 +14,9 @@ import config from '../../config/index';
 });*/
 
 const s3 = new aws.S3({
-  accessKeyId: config.develoment.awsID,
-  secretAccessKey: config.develoment.awsKey,
-  Bucket: config.develoment.bucket,
+  accessKeyId: config[process.env.NODE_ENV].awsID,
+  secretAccessKey: config[process.env.NODE_ENV].awsKey,
+  Bucket: config[process.env.NODE_ENV].bucket, 
   region: 'us-east-1'
 });
 
@@ -34,19 +34,19 @@ const s3 = new aws.S3({
 
 export const uploadPDFventa = async (venta) => {
   try {
-    const data = await s3.getObject({Bucket: config.develoment.bucket, Key: 'sirio-logo.png'}).promise();
+    const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo.png'}).promise();
     const doc = createDocumento(venta, data.Body);
     doc.end();
-    await s3.upload({Bucket: config.develoment.bucket, Key: `${venta.codigo}.pdf`, Body: doc, ContentType: 'application/pdf'}).promise();
+    await s3.upload({Bucket: config[process.env.NODE_ENV].bucket, Key: `${venta.codigo}.pdf`, Body: doc, ContentType: 'application/pdf'}).promise();
   } catch (error) {
-    config.develoment.log().error(error);
+    config[process.env.NODE_ENV].log().error(error);
     return error;
   }
 };
 
 export const getImage = async (req, res) => {
     try {
-      const data = await s3.getObject({Bucket: config.develoment.bucket, Key: req.params.imgName}).promise();
+      const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.params.imgName}).promise();
       res.writeHead(200, {'Content-Type': 'image/jpeg'});
       res.write(data.Body, 'binary');
       res.end(null, 'binary');
@@ -59,7 +59,7 @@ export const getImage = async (req, res) => {
   export const deleteImage = async (req, res, next) => {
     try {
       if (req.body.oldPhoto !== 'noPhoto.jpg') {
-      await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.body.oldPhoto}).promise();
+      await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.body.oldPhoto}).promise();
       }
       next();
     } catch (error) {
@@ -70,7 +70,7 @@ export const getImage = async (req, res) => {
   export const deleteImageSecond = async (req, res, next) => {
     try {
       if (req.photNameToDelete !== 'noPhoto.jpg') {
-        await s3.deleteObject({Bucket: config.develoment.bucket, Key: req.photNameToDelete}).promise();
+        await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.photNameToDelete}).promise();
       }
       res.json({message: 'Succes'});
     } catch (error) {
@@ -80,7 +80,7 @@ export const getImage = async (req, res) => {
 
   export const getPDF = async (req, res) => {
     try {
-      const data = await s3.getObject({Bucket: config.develoment.bucket, Key: req.params.pdfName}).promise();
+      const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.params.pdfName}).promise();
       res.writeHead(200, {'Content-Type': 'aplication/pdf'});
       res.write(data.Body, 'binary');
       res.end(null, 'binary');
@@ -103,7 +103,7 @@ export const getImage = async (req, res) => {
   export const uploadImage = multer({
     storage: multerS3({
       s3: s3,
-      bucket: config.develoment.bucket,
+      bucket: config[process.env.NODE_ENV].bucket,
       metadata: (req, file, cb) => {
         cb(null, Object.assign({}, req.body));
       },
@@ -131,7 +131,7 @@ export const getImage = async (req, res) => {
 export const uploadPDF = multer({
     storage: multerS3({
       s3: s3,
-      bucket: config.develoment.bucket,
+      bucket: config[process.env.NODE_ENV].bucket,
       metadata: (req, file, cb) => {
         cb(null, Object.assign({}, req.body));
       },

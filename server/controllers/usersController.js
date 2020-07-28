@@ -45,7 +45,7 @@ export const login = (req, res) => {
                 return res.status(401).json({username: req.body.username, success:false ,message: 'Authenticacion failed. Incorrect Password!', token: null});
             } else {
                 return res.json({displayName: user.displayName, username: req.body.username, success:true, message: 'Success', token: jwt.sign({type: user.type, username: user.username, 
-                        _id: user.id}, config.develoment.jwtKey)});
+                        _id: user.id}, config[process.env.NODE_ENV].jwtKey)});
             }
         }
     });

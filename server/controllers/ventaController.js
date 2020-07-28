@@ -3,7 +3,7 @@ import ventaModel from '../models/ventaModel';
 import axios from 'axios';
 import config from '../../config/index';
 
-const tokenSunat = config.develoment.sunatToken;
+const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
 
 const Venta = mongoose.model('Venta', ventaModel);

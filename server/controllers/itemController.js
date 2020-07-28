@@ -3,7 +3,6 @@ import itemSchema from '../models/itemModel';
 import marcaSchema from '../models/marcaModel';
 import ventaModel from '../models/ventaModel';
 import { uploadPDFventa } from './uploadsController';
-import config   from '../../config/index';
 
 const Item = mongoose.model('Item', itemSchema);
 const Marca = mongoose.model('Marca', marcaSchema);

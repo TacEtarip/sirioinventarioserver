@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import config from '../../config/index';
 
-const log = config.develoment.log();
+const log = config[process.env.NODE_ENV].log();
 
 const connectToMongoAtlas = async (key) => {
     try {

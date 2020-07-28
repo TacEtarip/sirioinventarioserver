@@ -79,7 +79,7 @@ const VentaSchema = new Schema ({
 
     codigo: {
         type: String,
-        required: true,
+        required: true, 
         trim: true,
         unique: true
     },
