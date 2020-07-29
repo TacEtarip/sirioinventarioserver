@@ -412,14 +412,13 @@ export const getMarcas = async (req, res) => {
 
 export const addNewItem = async (req, res) => {
     try {
-
         let newItem = new Item(req.body);
         newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
         newItem.codigo = await generateCode(newItem.name, newItem.tipo);
         newItem.nameLowerCase = newItem.name;
         const variacion = { date: Date.now(), cantidad: newItem.cantidad, 
             tipo: true, comentario: 'new item', 
-            costoVar: newItem.costoPropio, cantidadSC: [] };
+        costoVar:   (Math.round(((newItem.costoPropio * newItem.cantidad) + Number.EPSILON) * 100) / 100), cantidadSC: [] };
         if (newItem.subConteo) {
             for (const sc of newItem.subConteo.order) {
                 variacion.cantidadSC.push({name: sc.name, nameSecond: sc.nameSecond, cantidadDisponible: sc.cantidad, cantidadVenta: 0});
