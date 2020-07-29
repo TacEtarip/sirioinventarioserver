@@ -366,7 +366,6 @@ export const subCantidadUpdate = async (req, res) => {
 
         res.json(result);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
@@ -430,7 +429,6 @@ export const addNewItem = async (req, res) => {
         const result = await newItem.save();
         return res.json(result);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
