@@ -42,16 +42,16 @@ const  generateCustomerInformation = (doc, invoice) => {
       .font("Helvetica-Bold")
       .text(invoice.codigo, 150, customerInformationTop)
       .font("Helvetica")
-      .text("Fecha de emisión:", 50, customerInformationTop + 15)
-      .text(formatDate(new Date()), 150, customerInformationTop + 15)
+      .text("Fecha de emisión:", 50, customerInformationTop + 40)
+      .text(formatDate(new Date()), 150, customerInformationTop + 40)
   
       .font("Helvetica-Bold")
       .text(invoice.documento.name, 300, customerInformationTop)
       .font("Helvetica")
-      .text(invoice.documento.codigo, 300, customerInformationTop + 15)
+      .text(invoice.documento.codigo, 300, customerInformationTop + 40)
       .moveDown();
   
-    generateHr(doc, 235);
+    generateHr(doc, 260);
   };
 
 const generateHr = (doc, y) => {
@@ -77,7 +77,7 @@ const formatDate = (date) => {
 
 const generateInvoiceTable = (doc, invoice) => {
     let i;
-    const invoiceTableTop = 290;
+    const invoiceTableTop = 300;
     doc
         .fontSize(8)
         .font("Helvetica-Bold");
