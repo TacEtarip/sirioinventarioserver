@@ -126,7 +126,7 @@ export const ventaEjecutar = async (req, res) => {
             itemsVendidosCod.push(item.codigo);
             variaciones.push({
                               date: Date.now(), cantidad: item.cantidad, 
-                              tipo: true, comentario: 'venta', 
+                              tipo: false, comentario: 'venta', 
                               costoVar: item.totalPrice,
                               cantidadSC: item.cantidadSC,
                             });
@@ -208,7 +208,7 @@ export const ventaSimpleItemUpdate = async (req, res) => {
 
 
         const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
-            tipo: true, comentario: 'venta', 
+            tipo: false, comentario: 'venta', 
             costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
         if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
             for (const csc of req.body.venta.itemsVendidos[0].cantidadSC) {
@@ -303,15 +303,15 @@ export const cantidadUpdate = async (req, res) => {
         let cantidad;
         let tipo;
         if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
-            cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
             tipo = true;
         } else {
-            cantidad = req.body.cantidadAntigua - req.body.cantidadNueva;
             tipo = false;
         }
+        cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+
         const variacion = { date: Date.now(), cantidad: cantidad, 
                             tipo: tipo, comentario: req.body.comentario, 
-                            costoVar: req.body.costoVar };
+                            costoVar: req.body.costoVar, cantidadSC: [] };
 
         const result = await Item.findOneAndUpdate(
                                         {codigo: req.body.codigo}, 
@@ -330,16 +330,30 @@ export const subCantidadUpdate = async (req, res) => {
     try {
         let cantidad;
         let tipo;
+        const itemOriginal = await Item.findOne({codigo: req.body.codigo});
         if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
-            cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
             tipo = true;
         } else {
-            cantidad = req.body.cantidadAntigua - req.body.cantidadNueva;
             tipo = false;
         }
+
+        cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+
         const variacion = { date: Date.now(), cantidad: cantidad, 
                             tipo: tipo, comentario: req.body.comentario, 
-                            costoVar: req.body.costoVar };
+                            costoVar: req.body.costoVar, cantidadSC: [] };
+
+        
+        let index = 0;
+        for (const sc of req.body.subConteo.order) {
+            let cantidadOrg = 0;
+            if (itemOriginal.subConteo.order[index]) {
+                cantidadOrg = itemOriginal.subConteo.order[index].cantidad;
+            }
+            variacion.cantidadSC.push({cantidad: cantidad, name: sc.name, nameSecond: sc.nameSecond, 
+                cantidadDisponible: (cantidadOrg), cantidadVenta: ((cantidadOrg) - sc.cantidad)*-1});
+            index++;
+        }
 
         const result = 
                     await Item.findOneAndUpdate(
@@ -352,6 +366,7 @@ export const subCantidadUpdate = async (req, res) => {
 
         res.json(result);
     } catch (error) {
+        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
@@ -405,11 +420,18 @@ export const addNewItem = async (req, res) => {
         newItem.nameLowerCase = newItem.name;
         const variacion = { date: Date.now(), cantidad: newItem.cantidad, 
             tipo: true, comentario: 'new item', 
-            costoVar: newItem.costoPropio };
+            costoVar: newItem.costoPropio, cantidadSC: [] };
+        if (newItem.subConteo) {
+            for (const sc of newItem.subConteo.order) {
+                variacion.cantidadSC.push({name: sc.name, nameSecond: sc.nameSecond, cantidadDisponible: sc.cantidad, cantidadVenta: 0});
+            }
+        }
         newItem.variaciones = [variacion];
         const result = await newItem.save();
         return res.json(result);
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({errorMSG: error});
     }
 };
 
