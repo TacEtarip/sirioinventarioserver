@@ -7,7 +7,7 @@ import {loginRequired} from '../controllers/usersController';
 const routes = new Router();
 
 routes.post('/generarVenta', loginRequired, generarVenta);
-
+ 
 routes.get('/dni/:dni', loginRequired, getDNI);
 
 routes.get('/testTotal', loginRequired, getCantidadTotal);

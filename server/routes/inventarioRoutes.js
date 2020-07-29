@@ -76,5 +76,5 @@ routes.post('/uploads/ficha/:codigo', loginRequired, uploadPDF.single('pdf'), fi
 routes.get('/image/:imgName', getImage);
 routes.get('/pdf/:pdfName', getPDF);
 
-
+  
 export default routes; 

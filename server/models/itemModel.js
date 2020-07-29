@@ -104,11 +104,13 @@ const ItemSchema = new Schema ({
     tipo: {
         type: String,
         required: true,
+        trim: true,
     },
 
     subTipo: {
         type: String,
-        default: 'noone'
+        default: 'noone',
+        trim: true,
     },
 
     unidadDeMedida:{

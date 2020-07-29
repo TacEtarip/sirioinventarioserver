@@ -6,7 +6,8 @@ export const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        lowercase: true
+        lowercase: true,
+        trim: true,
     },
     hashPassword: {
         type: String,
@@ -14,7 +15,8 @@ export const UserSchema = new Schema({
     },
     type: {
         type: String, 
-        required: true
+        required: true,
+        trim: true,
     },
     created_date: {
         type: Date,
@@ -22,7 +24,8 @@ export const UserSchema = new Schema({
     },
     displayName: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
     }
 });
 

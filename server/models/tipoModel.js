@@ -4,7 +4,8 @@ const Tipochema = new Schema ({
     name:{
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
     },
 
     date:{
@@ -17,7 +18,8 @@ const Tipochema = new Schema ({
     },
 
     subTipo: {
-        type: [String]
+        type: [String],
+        trim: true,
     }
 
 });
