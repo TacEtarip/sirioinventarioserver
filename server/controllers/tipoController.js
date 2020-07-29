@@ -67,7 +67,7 @@ export const updateTipo = async (req, res, next) => {
     try {
         const tipo = await Tipo.findOne({codigo: req.body.codigo});
         req.beforeName = tipo.name;
-        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
+        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false, runValidators: true});
         next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -79,7 +79,7 @@ export const updateSubTipo = async (req, res, next) => {
         const tipo = await Tipo.findOne({codigo: req.body.codigo});
         const index = tipo.subTipo.indexOf(req.body.antiguoSubName);
         tipo.subTipo[index] = req.body.newSubName;
-        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {subTipo: tipo.subTipo}, {new: true, useFindAndModify: false});
+        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {subTipo: tipo.subTipo}, {new: true, useFindAndModify: false, runValidators: true});
         next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});

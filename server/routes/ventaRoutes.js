@@ -15,7 +15,7 @@ routes.get('/testTotal', loginRequired, getCantidadTotal);
 routes.get('/ruc/:ruc', loginRequired, getRUC);
 
 routes.get('/obtenerVenta/:ventaCod', loginRequired, getVenta);
-
+ 
 routes.post('/ventaSimple', loginRequired, ventaSimpleItemUpdate);
 
 routes.post('/agregarVenta', loginRequired, generarVentaNueva);
