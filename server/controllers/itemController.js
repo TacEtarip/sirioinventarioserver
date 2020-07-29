@@ -560,7 +560,7 @@ export const updateItem = async (req, res) => {
         if (newItem.priceIGV) {
             newItem.priceNoIGV = getNoIGV_Price(newItem.priceIGV);
         }
-        const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, newItem, {new: true, useFindAndModify: false, runValidators: true});
+        const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, newItem, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -570,7 +570,7 @@ export const updateItem = async (req, res) => {
 
 export const updateItemsSubTipo = async (req, res) => {
     try {
-        const result = await Item.updateMany({subTipo: req.body.antiguoSubName}, { subTipo: req.body.newSubName}, {new: true, useFindAndModify: false, runValidators: true});
+        const result = await Item.updateMany({subTipo: req.body.antiguoSubName}, { subTipo: req.body.newSubName}, {new: true, useFindAndModify: false});
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
