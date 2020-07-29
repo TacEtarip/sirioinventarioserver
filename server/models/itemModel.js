@@ -1,5 +1,12 @@
 import {Schema} from 'mongoose';
 
+const CantidadOrderSC = new Schema({
+    name: {type: String},
+    nameSecond: {type: String},
+    cantidadDisponible: {type: Number},
+    cantidadVenta: {type: Number},
+}, { _id : false });
+
 const OrderSchema = new Schema({
     name: {
         type: String,
@@ -54,6 +61,10 @@ const VariacionSchema = new Schema ({
     },
     costoVar: {
         type: Number,
+    },
+    cantidadSC: {
+        type: [CantidadOrderSC],
+        default: []
     }
 }, { _id : false });
 

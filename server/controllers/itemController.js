@@ -125,9 +125,10 @@ export const ventaEjecutar = async (req, res) => {
         for (const item of req.body.venta.itemsVendidos) {
             itemsVendidosCod.push(item.codigo);
             variaciones.push({
-                              date: Date.now(), cantidad: item.candidad, 
+                              date: Date.now(), cantidad: item.cantidad, 
                               tipo: true, comentario: 'venta', 
-                              costoVar: req.body.venta.totalPrice
+                              costoVar: item.totalPrice,
+                              cantidadSC: item.cantidadSC,
                             });
         }
 
@@ -208,7 +209,7 @@ export const ventaSimpleItemUpdate = async (req, res) => {
 
         const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
             tipo: true, comentario: 'venta', 
-            costoVar: req.body.venta.totalPrice };
+            costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
         if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
             for (const csc of req.body.venta.itemsVendidos[0].cantidadSC) {
                 if (csc.cantidadVenta > 0) {
