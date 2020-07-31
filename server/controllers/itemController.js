@@ -206,10 +206,11 @@ export const ventaSimpleItemUpdate = async (req, res) => {
         // req.body.venta.itemsVendidos[0].priceIGV = lastResort.priceIGV;
         // req.body.venta.itemsVendidos[0].priceNoIGV = lastResort.priceNoIGV; poder esto para la venta/compra de clientes
 
-
         const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
             tipo: false, comentario: 'venta', 
             costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
+
+        
         if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
             for (const csc of req.body.venta.itemsVendidos[0].cantidadSC) {
                 if (csc.cantidadVenta > 0) {

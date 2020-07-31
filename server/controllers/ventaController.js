@@ -28,6 +28,35 @@ export const getVentasActivas = async (req, res) => {
     }
 };
 
+export const getVentasEjecutadas = async (req, res) => {   
+    
+    try {
+        let result;
+        if (req.params.dateOne === 'noone' || req.params.dateTwo === 'noone') {
+            result = await Venta.find({estado: 'ejecutada'})
+                        .skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit));
+        } 
+        else {
+            result = await Venta.find({estado: 'ejecutada', 
+                        date: {$gte: new Date('Fri Jul 31 2020 00:00:00 GMT-0500').toISOString(), $lt: new Date('Sat Aug 01 2020 00:00:00 GMT-0500').toISOString()}})
+                        .skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit));
+        }
+
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
+export const getCantidadDeVentasPorEstado = async (req, res) => {
+    try {
+        const result = await Venta.aggregate([{$match: {estado: req.params.estado}}, {$count: 'cantidadVentas'}]);
+        res.json(result[0]);
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
 export const getDNI = async (req, res) => {
     try {
         const result = await axios.post('https://api.migo.pe/api/v1/dni', { token: tokenSunat, dni: req.params.dni });
