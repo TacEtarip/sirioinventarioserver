@@ -77,7 +77,7 @@ const formatDate = (date) => {
 
 const generateInvoiceTable = (doc, invoice) => {
     let i;
-    const invoiceTableTop = 300;
+    let invoiceTableTop = 307;
     doc
         .fontSize(8)
         .font("Helvetica-Bold");
@@ -91,27 +91,49 @@ const generateInvoiceTable = (doc, invoice) => {
       "Cantidad",
       "Total"
     );
+
+    invoiceTableTop = 300;
+
     generateHr(doc, invoiceTableTop + 25);
     doc.font("Helvetica");
+
   
     for (i = 0; i < invoice.itemsVendidos.length; i++) {
       const item = invoice.itemsVendidos[i];
-      const position = invoiceTableTop + (i + 1) * 30;
+
+      let scString = item.descripcion;
+
+      if (item.cantidadSC.length > 0) {
+        scString = scString + '\n' + 'Cantidades: ';
+      } 
+
+      for (let y = 0; y < item.cantidadSC.length; y++) {
+        if (item.cantidadSC[y].cantidadVenta > 0) {
+          scString = scString + item.cantidadSC[y].name + ' - ' + item.cantidadSC[y].nameSecond + ': ' + item.cantidadSC[y].cantidadVenta + ', ';
+        }
+      }
+
+
+      if (item.cantidadSC.length > 0) {
+        scString = scString.slice(0, -2) + '.';
+      } 
+
+      const position = invoiceTableTop + ((i*2) + 1) * 30;
       generateTableRow(
         doc,
         position,
         item.codigo,
         item.name,
-        item.descripcion,
+        scString,
         formatCurrency(item.priceNoIGV),
         item.cantidad,
         formatCurrency(item.totalPriceNoIGV)
       );
   
-      generateHr(doc, position + 25);
+      generateHr(doc, position + 55);
     }
   
-    const subtotalPosition = invoiceTableTop + (i + 1) * 32;
+    const subtotalPosition = invoiceTableTop + ((i*2) + 1) * 31;
     generateTableRow(
       doc,
       subtotalPosition,
