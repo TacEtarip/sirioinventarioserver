@@ -38,7 +38,7 @@ export const getVentasEjecutadas = async (req, res) => {
         } 
         else {
             result = await Venta.find({estado: 'ejecutada', 
-                        date: {$gte: new Date('Fri Jul 31 2020 00:00:00 GMT-0500').toISOString(), $lt: new Date('Sat Aug 01 2020 00:00:00 GMT-0500').toISOString()}})
+                        date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}})
                         .skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit));
         }
 
@@ -50,7 +50,17 @@ export const getVentasEjecutadas = async (req, res) => {
 
 export const getCantidadDeVentasPorEstado = async (req, res) => {
     try {
-        const result = await Venta.aggregate([{$match: {estado: req.params.estado}}, {$count: 'cantidadVentas'}]);
+        let result;
+        if (req.params.dateOne === 'noone' || req.params.dateTwo === 'noone') {
+            result = await Venta.aggregate([{$match: { estado: req.params.estado }}, 
+                                            {$count: 'cantidadVentas'}]);
+        } 
+        else {
+            result = await Venta.aggregate([{$match: {estado: req.params.estado, 
+                                            date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}}}, 
+                                            {$count: 'cantidadVentas'}]);
+        }
+
         res.json(result[0]);
     } catch (error) {
         return res.status(500).json({ errorMSG: error }); 

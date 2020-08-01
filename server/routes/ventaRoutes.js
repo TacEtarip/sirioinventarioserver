@@ -13,7 +13,7 @@ routes.get('/dni/:dni', loginRequired, getDNI);
 
 routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', getVentasEjecutadas);
 
-routes.get('/getCantidadVentas/:estado', getCantidadDeVentasPorEstado);
+routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', getCantidadDeVentasPorEstado);
 
 routes.get('/testTotal', loginRequired, getCantidadTotal);
 
