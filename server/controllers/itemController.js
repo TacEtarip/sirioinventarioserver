@@ -126,7 +126,7 @@ export const ventaEjecutar = async (req, res) => {
             itemsVendidosCod.push(item.codigo);
             variaciones.push({
                               date: Date.now(), cantidad: item.cantidad, 
-                              tipo: false, comentario: 'venta', 
+                              tipo: false, comentario: 'venta|' + req.body.venta.codigo, 
                               costoVar: item.totalPrice,
                               cantidadSC: item.cantidadSC,
                             });
@@ -200,14 +200,15 @@ export const ventaSimpleItemUpdate = async (req, res) => {
     session.startTransaction();
     // session.withTransaction
     try {
-        
+        const codigoVenta = await generarCodigoVent(req.body.venta.documento.type);
+
         const lastResort = await Item.findOne({codigo: req.body.venta.itemsVendidos[0].codigo});
 
         // req.body.venta.itemsVendidos[0].priceIGV = lastResort.priceIGV;
         // req.body.venta.itemsVendidos[0].priceNoIGV = lastResort.priceNoIGV; poder esto para la venta/compra de clientes
 
         const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
-            tipo: false, comentario: 'venta', 
+            tipo: false, comentario: 'venta|' + codigoVenta, 
             costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
 
         
@@ -254,7 +255,7 @@ export const ventaSimpleItemUpdate = async (req, res) => {
         req.newItem = result;
 
         const newVenta = new Venta(req.body.venta);
-        newVenta.codigo = await generarCodigoVent(newVenta.documento.type);
+        newVenta.codigo = codigoVenta;
         await newVenta.save({session});
 
 
