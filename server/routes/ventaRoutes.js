@@ -1,13 +1,21 @@
 import {Router} from 'express';
 import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, 
-        getCantidadDeVentasPorEstado, getVentasEjecutadas} from '../controllers/ventaController';
+        getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, 
+        eliminarItemScVenta} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
-    agregarItemVenta, getVentasActivasParaCard, ventaEjecutar, ventaAnular} from '../controllers/itemController';
+    agregarItemVenta, getVentasActivasParaCard, ventaEjecutar, 
+    ventaAnular, ventaAnularPost} from '../controllers/itemController';
 import {loginRequired} from '../controllers/usersController';
 
 const routes = new Router();
 
 routes.post('/generarVenta', loginRequired, generarVenta);
+
+routes.put('/eliminarItemVenta', eliminarItemVenta);
+
+routes.put('/eliminarItemSCVenta', eliminarItemScVenta);
+
+routes.put('/anularVentaPost', ventaAnularPost);
  
 routes.get('/dni/:dni', loginRequired, getDNI);
 

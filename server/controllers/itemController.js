@@ -115,6 +115,59 @@ export const generarVentaNueva = async (req, res) => {
     }
 };
 
+export const ventaAnularPost = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const variaciones = [];
+        const itemsVendidosCod = [];
+
+        for (const item of req.body.itemsVendidos) {
+            itemsVendidosCod.push(item.codigo);
+            variaciones.push({
+                              date: Date.now(), cantidad: item.cantidad, 
+                              tipo: false, comentario: 'anular|' + req.body.codigo, 
+                              costoVar: item.totalPrice,
+                              cantidadSC: item.cantidadSC,
+                            });
+        }
+
+        let index = 0;
+
+        for (const item of req.body.itemsVendidos) {
+            for (const csc of item.cantidadSC) {
+                if (csc.cantidadVenta > 0) {
+                    await Item.findOneAndUpdate({codigo: item.codigo, 
+                        'subConteo.order': {$elemMatch: {name: csc.name, nameSecond: csc.nameSecond}}}, 
+                        {$inc: {'subConteo.order.$.cantidad': csc.cantidadVenta}}, {useFindAndModify: false, new: true, session});
+
+                }
+            }
+            await Item.findOneAndUpdate(
+                {codigo: item.codigo}, 
+                {   
+                    $inc:  {cantidad: item.cantidad},
+                    $push: {variaciones: variaciones[index]},
+
+                }, {new: true, useFindAndModify: false, session: session});
+
+            index++;
+        }
+
+        const venta = await Venta.findOneAndUpdate({codigo: req.body.codigo}, {estado: 'anuladaPost'},{useFindAndModify: false, new: true, session});
+
+        await session.commitTransaction();
+        session.endSession();
+        
+        res.json({message: `succes||${venta.codigo}`});
+
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const ventaEjecutar = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();

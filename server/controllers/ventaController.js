@@ -8,6 +8,66 @@ const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
 const Venta = mongoose.model('Venta', ventaModel);
 
+export const eliminarItemScVenta = async (req, res) => {
+    try {
+        const preSearch = await Venta.findOne({codigo: req.body.codigo});
+        const newTotalPrice = (Math.round(((preSearch.totalPrice - req.body.totalPriceSC) + Number.EPSILON) * 100) / 100);
+        const newTotalPriceNoIGV = getNoIGV_Price(newTotalPrice);
+
+        let itemNewTotalPrice = 0;
+        let itemNewTotalPriceNoIGV = 0;
+
+        for (const item of preSearch.itemsVendidos) {
+            if (req.body.itemCodigo === item.codigo) {
+                itemNewTotalPrice = (Math.round(((item.totalPrice - req.body.totalPriceSC) + Number.EPSILON) * 100) / 100);
+                itemNewTotalPriceNoIGV = getNoIGV_Price(itemNewTotalPrice);
+                break;
+            }
+        }
+
+        const result = await Venta.findOneAndUpdate({ codigo: req.body.codigo, itemsVendidos: { $elemMatch: { codigo: req.body.itemCodigo } } }, 
+                                {   $pull: { 'itemsVendidos.$.cantidadSC': { name: req.body.name, nameSecond: req.body.nameSecond } },
+                                    $inc: { 
+                                      'itemsVendidos.$.cantidad': -req.body.cantidadVenta
+                                        },
+                                    $set: { 
+                                            'itemsVendidos.$.totalPrice': itemNewTotalPrice,
+                                            'itemsVendidos.$.totalPriceNoIGV': itemNewTotalPriceNoIGV, 
+                                            totalPrice: newTotalPrice, totalPriceNoIGV: newTotalPriceNoIGV
+                                              }
+                                     }, 
+                                { new: true, useFindAndModify: false });
+        
+        res.json(result);
+
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
+
+export const eliminarItemVenta = async (req, res) => {
+    try {
+        const preSearch = await Venta.findOne({codigo: req.body.codigo});
+        const newTotalPrice = (Math.round(((preSearch.totalPrice - req.body.totalItemPrice) + Number.EPSILON) * 100) / 100);
+        const newTotalPriceNoIGV = getNoIGV_Price(newTotalPrice);
+        const result = await Venta.findOneAndUpdate({ codigo: req.body.codigo }, 
+                                { $pull: { itemsVendidos: { codigo: req.body.itemCodigo } },
+                                  $set: { totalPrice: newTotalPrice,  totalPriceNoIGV: newTotalPriceNoIGV } }, 
+                                { new: true, useFindAndModify: false });
+
+        
+        res.json(result);
+
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
+const getNoIGV_Price = (igvPrice) =>{
+    var aprox_NO_IGV = igvPrice/1.18;
+    return Math.round(((aprox_NO_IGV) + Number.EPSILON) * 100) / 100;
+};
 
 export const getVenta = async (req, res) => {
     try {
