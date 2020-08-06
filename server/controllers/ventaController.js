@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import ventaModel from '../models/ventaModel';
 import axios from 'axios';
 import config from '../../config/index';
+import { createExcelReport } from '../lib/createExcelReport';
 
 const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
@@ -169,6 +170,22 @@ export const ventaSimple = async (req, res, next) => {
         newVenta.codigo = await generarCodigo();
         await newVenta.save();
         res.json({item: req.newItem, message: 'Succes'});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const createExcel = async (req, res) => {
+    try {
+        const ventas = await Venta.find({estado: 'ejecutada', 
+        date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}});
+        
+        const buffer = await createExcelReport('Ventas', 'Reporte De Ventas', ['Fecha', 'Codigo', 'Para', 'Precio No IGV', 'Precio'], ventas);
+        res.writeHead(200, 
+            { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition': 'attachment; filename=reporte.xlsx' });
+        res.write(buffer, 'binary');
+        res.end(null, 'binary');
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }

@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, 
         getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, 
-        eliminarItemScVenta} from '../controllers/ventaController';
+        eliminarItemScVenta, createExcel} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar, 
     ventaAnular, ventaAnularPost} from '../controllers/itemController';
@@ -18,6 +18,9 @@ routes.put('/eliminarItemSCVenta', eliminarItemScVenta);
 routes.put('/anularVentaPost', ventaAnularPost);
  
 routes.get('/dni/:dni', loginRequired, getDNI);
+
+routes.get('/createExcelReport/:dateOne/:dateTwo', loginRequired, createExcel);
+
 
 routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', getVentasEjecutadas);
 
