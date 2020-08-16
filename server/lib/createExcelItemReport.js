@@ -284,11 +284,8 @@ const createTableCtnWS = (ws, item, startRow, sn, sns, cDesv) => {
         .string(subC)
         .style(style);
 
-        let costo = currentVar.costoVar;
+        const  costo = currentVar.costoVar;
 
-        if (currentVar.comentario === 'new item') {
-            costo = (Math.round(((currentVar.costoVar * currentVar.cantidad) + Number.EPSILON) * 100) / 100);
-        }
 
         ws.cell(startRow, 6)
         .number(costo)
