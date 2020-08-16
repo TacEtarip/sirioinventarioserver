@@ -3,6 +3,7 @@ import itemSchema from '../models/itemModel';
 import marcaSchema from '../models/marcaModel';
 import ventaModel from '../models/ventaModel';
 import { uploadPDFventa } from './uploadsController';
+import { createExcelItemReport } from '../lib/createExcelItemReport';
 
 const Item = mongoose.model('Item', itemSchema);
 const Marca = mongoose.model('Marca', marcaSchema);
@@ -10,6 +11,51 @@ const Venta = mongoose.model('Venta', ventaModel);
 
 const IGV = 0.18;
 
+export const getItemBalance = async (req, res) => {
+    try {
+        const item = await Item.findOne({ codigo: req.params.codigo });
+        const balance = calcularBalance(item.variaciones);
+        res.json({ message: balance });
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
+
+const calcularBalance = (variaciones) => {
+    try {
+        let ganancia = 0;
+        let gasto = 0;
+        for (const vari of variaciones) {
+            if (vari.tipo === true) {
+                gasto = gasto + vari.costoVar;
+            } 
+            else {
+                ganancia = ganancia + vari.costoVar;
+            }
+        }
+
+        return (Math.round(((ganancia - gasto) + Number.EPSILON) * 100) / 100);
+        
+    } catch (error) {
+        throw new Error(error);
+    }
+
+};
+
+
+export const getItemReport = async (req, res) => {
+    try {
+        const item = await Item.findOne({ codigo: req.params.codigo });
+        const buffer = await createExcelItemReport(item);
+        res.writeHead(200, 
+            { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition': `attachment; filename=reporteItem-${item.codigo}.xlsx` });
+        res.write(buffer, 'binary');
+        res.end(null, 'binary');
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
 
 export const testFind = async (req, res) => {
     try {
@@ -126,7 +172,7 @@ export const ventaAnularPost = async (req, res) => {
             itemsVendidosCod.push(item.codigo);
             variaciones.push({
                               date: Date.now(), cantidad: item.cantidad, 
-                              tipo: false, comentario: 'anular|' + req.body.codigo, 
+                              tipo: true, comentario: 'anular|' + req.body.codigo, 
                               costoVar: item.totalPrice,
                               cantidadSC: item.cantidadSC,
                             });

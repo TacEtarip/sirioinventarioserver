@@ -3,12 +3,17 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
         changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, 
         deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, testFind} from '../controllers/itemController';
+        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, 
+        testFind, getItemReport, getItemBalance} from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
+
+routes.get('/getItemBalance/:codigo', loginRequired, getItemBalance);
+
+routes.get('/getItemReport/:codigo', loginRequired, getItemReport);
 
 routes.get('/testFind', testFind);
 
