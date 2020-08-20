@@ -11,6 +11,16 @@ const Venta = mongoose.model('Venta', ventaModel);
 
 const IGV = 0.18;
 
+
+export const searchText = async (req, res) => {
+    try {
+        const result = await Item.find( { $text: { $search: req.params.searchTerms } } );
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
+
 export const getItemBalance = async (req, res) => {
     try {
         const item = await Item.findOne({ codigo: req.params.codigo });
@@ -565,6 +575,8 @@ export const getAllItemSort = async (req, res) => {
         const filtroSelect = req.params.subORtipo;
         const tipoBusqueda = req.params.tipoBusqueda;
         const filtroValue = req.params.filtro;
+        const limit = parseInt(req.params.limit);
+        const skip = limit - 12;
         let filtro = {};
         if (req.params.filtro !== 'all') {
             if (filtroSelect === 'sub') {
@@ -576,13 +588,13 @@ export const getAllItemSort = async (req, res) => {
         let result;
         switch (tipoBusqueda) {
             case 'date':
-                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({date: tipoOrder*-1});
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({date: tipoOrder*-1}).skip(skip).limit(limit);
                 break;
             case 'name':
-                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({name: tipoOrder});
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({name: tipoOrder}).skip(skip).limit(limit);
                 break;
             case 'priceIGV':
-                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({priceIGV: tipoOrder});
+                result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({priceIGV: tipoOrder}).skip(skip).limit(limit);
                 break;                         
             default:
                 break;

@@ -4,12 +4,14 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, 
         deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
         addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, 
-        testFind, getItemReport, getItemBalance} from '../controllers/itemController';
+        testFind, getItemReport, getItemBalance, searchText} from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
+
+routes.get('/getItemsSearch/:searchTerms', searchText);
 
 routes.get('/getItemBalance/:codigo', loginRequired, getItemBalance);
 
@@ -25,7 +27,7 @@ routes.get('/getItemsByType/:tipo', getAllItemsOfType);
 
 routes.get('/getItem/:tipo/:codigo', getItem);
 
-routes.get('/getAllItemsSort/:subORtipo/:filtro/:tipoBusqueda/:tipoSort', getAllItemSort);
+routes.get('/getAllItemsSort/:subORtipo/:filtro/:tipoBusqueda/:tipoSort/:limit', getAllItemSort);
 
 routes.get('/getTipo/:codigo', getTipo);
 
