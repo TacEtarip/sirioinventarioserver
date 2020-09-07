@@ -284,11 +284,8 @@ const createTableCtnWS = (ws, item, startRow, sn, sns, cDesv) => {
         .string(subC)
         .style(style);
 
-        let costo = currentVar.costoVar * -1;
+        const  costo = currentVar.costoVar;
 
-        if (costo < 0) {
-            costo = costo * -1;
-        }
 
         ws.cell(startRow, 6)
         .number(costo)
@@ -373,11 +370,7 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         .string(subC)
         .style(style);
 
-        let costo = currentVar.costoVar;
-
-        if (costo < 0) {
-            costo = costo * -1;
-        }
+        const costo = currentVar.costoVar;
 
         ws.cell(startRow, 6)
         .number(costo)
@@ -390,7 +383,7 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         }
 
         ws.cell(startRow, 3)
-        .string(comentariParse)
+        .string('test')
         .style(style);
 
         return 1 + createTableCtnWS2(ws, item, startRow + 1, sn, sns, cDesv);
