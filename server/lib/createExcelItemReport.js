@@ -373,7 +373,7 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         const costo = currentVar.costoVar;
 
         ws.cell(startRow, 6)
-        .number(costo)
+        .number(costo * -1)
         .style(style);
 
         let comentariParse = currentVar.comentario;
@@ -383,7 +383,7 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         }
 
         ws.cell(startRow, 3)
-        .string('test')
+        .string(comentariParse)
         .style(style);
 
         return 1 + createTableCtnWS2(ws, item, startRow + 1, sn, sns, cDesv);
