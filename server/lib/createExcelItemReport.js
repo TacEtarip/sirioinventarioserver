@@ -370,7 +370,11 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         .string(subC)
         .style(style);
 
-        const costo = currentVar.costoVar;
+        let costo = currentVar.costoVar;
+
+        if (costo < 0) {
+            costo = costo * -1;
+        }
 
         ws.cell(startRow, 6)
         .number(costo)
