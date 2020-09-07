@@ -284,7 +284,7 @@ const createTableCtnWS = (ws, item, startRow, sn, sns, cDesv) => {
         .string(subC)
         .style(style);
 
-        let costo = currentVar.costoVar;
+        let costo = currentVar.costoVar * -1;
 
         if (costo < 0) {
             costo = costo * -1;
