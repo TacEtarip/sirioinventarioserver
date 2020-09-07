@@ -373,7 +373,7 @@ const createTableCtnWS2 = (ws, item, startRow, sn, sns, cDesv) => {
         const costo = currentVar.costoVar;
 
         ws.cell(startRow, 6)
-        .number(3)
+        .number(costo)
         .style(style);
 
         let comentariParse = currentVar.comentario;
