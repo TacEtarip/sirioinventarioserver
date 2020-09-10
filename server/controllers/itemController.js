@@ -14,7 +14,7 @@ const IGV = 0.18;
 
 export const getSimilarItems = async (req, res) => {
     try {
-        const result = await Item.find( { tipo: req.params.tipo, codigo: {$ne: req.params.codigo} } ).limit(6);
+        const result = await Item.find( { tipo: req.params.tipo, codigo: {$ne: req.params.codigo} } ).limit(8);
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
