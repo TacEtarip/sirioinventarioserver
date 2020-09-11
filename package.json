@@ -1,6 +1,6 @@
 {
   "name": "inv-mannager",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Manejo General De Inventario De Sirio Dinar",
   "main": "index.js",
   "scripts": {
