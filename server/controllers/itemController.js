@@ -12,6 +12,16 @@ const Venta = mongoose.model('Venta', ventaModel);
 const IGV = 0.18;
 
 
+export const getItemsDestacados = async (req, res) => {
+    try {
+        const result = await Item.find({ oferta: { $gt: 0 } });
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
+
+
 export const getSimilarItems = async (req, res) => {
     try {
         const result = await Item.find( { tipo: req.params.tipo, codigo: {$ne: req.params.codigo} } ).limit(8);

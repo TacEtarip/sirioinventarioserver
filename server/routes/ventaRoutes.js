@@ -13,18 +13,18 @@ routes.post('/generarVenta', loginRequired, generarVenta);
 
 routes.put('/eliminarItemVenta', eliminarItemVenta);
 
-routes.put('/eliminarItemSCVenta', eliminarItemScVenta);
+routes.put('/eliminarItemSCVenta', loginRequired, eliminarItemScVenta);
 
-routes.put('/anularVentaPost', ventaAnularPost);
+routes.put('/anularVentaPost', loginRequired, ventaAnularPost);
  
 routes.get('/dni/:dni', loginRequired, getDNI);
 
 routes.get('/createExcelReport/:dateOne/:dateTwo', loginRequired, createExcel);
 
 
-routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', getVentasEjecutadas);
+routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', loginRequired, getVentasEjecutadas);
 
-routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', getCantidadDeVentasPorEstado);
+routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', loginRequired, getCantidadDeVentasPorEstado);
 
 routes.get('/testTotal', loginRequired, getCantidadTotal);
 

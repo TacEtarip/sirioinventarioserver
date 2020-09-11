@@ -4,12 +4,14 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, 
         deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
         addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, 
-        testFind, getItemReport, getItemBalance, searchText, getSimilarItems} from '../controllers/itemController';
+        testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados} from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {loginRequired, login} from '../controllers/usersController';
 
 const routes = new Router();
+
+routes.get('/getItemsDestacados', getItemsDestacados);
 
 routes.get('/getItemsRelacionados/:tipo/:codigo', getSimilarItems);
 
@@ -64,7 +66,6 @@ routes.post('/addTipo', loginRequired, addNewTipo);
 routes.get('/getTipos', getAllTipos);
 
 routes.get('/getSubTipos/:tipoCod', getSubTipos);
-
 
 routes.get('/marcas/getAll', getMarcas);
 
