@@ -598,13 +598,18 @@ export const getAllItemSort = async (req, res) => {
         const skip = limit - 12;
         let filtro = {};
         if (req.params.filtro !== 'all') {
-            if (filtroSelect === 'sub') {
+            if (filtroValue.toLowerCase() === 'destacado') {
+                filtro = { oferta: { $gt: 0 } };
+            }
+            else if (filtroSelect === 'sub') {
                 filtro = {subTipo: filtroValue};
             } else if(filtroSelect === 'tipo') {
                 filtro = {tipo: filtroValue};
             }
         }
+        
         let result;
+        
         switch (tipoBusqueda) {
             case 'date':
                 result = await Item.find(filtro).collation({locale:'en', strength: 2}).sort({date: tipoOrder*-1}).skip(skip).limit(limit);
