@@ -641,7 +641,7 @@ export const getAllItemsOfType = async (req, res) => {
 
 export const getAllItemsSubTipoName = async (req, res) => {
     try {
-        const result = await Item.find({subTipo: req.params.subTipo}).select('name -_id');
+        const result = await Item.find({subTipo: req.params.subTipo});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
