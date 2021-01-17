@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import http from 'http';
 import throng from 'throng';
+import connectDB from '../server/lib/mongoConnection';
 
 import app from '../server/index.js';
 import config from '../config/index';
@@ -16,15 +17,13 @@ const WORKERS = process.env.WEB_CONCURRENCY || 1;
 
 app.set('port', PORT);
 
-const start = () => {
+const start = (id, disconnect) => {
+  log.info(`Id Worker ${id}`);
   server.listen(PORT || 0);
+  connectDB(config[process.env.NODE_ENV].mongoKey);
 };
 
-throng({
-  workers: WORKERS,
-  lifetime: Infinity,
-},  start);
-
+throng({worker: start, count: WORKERS});
 
 
 server.on('listening', () => {

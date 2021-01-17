@@ -583,6 +583,25 @@ export const getAllItem = async (req, res) => {
     }
 };
 
+
+export const convertToFavorite = async (req, res) => {
+    try {
+        const result = await Item.findOneAndUpdate({ codigo: req.body.codigo }, { oferta: 1 }, { new: true, useFindAndModify: false });
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const deConvertToFavorite = async (req, res) => {
+    try {
+        const result = await Item.findOneAndUpdate({ codigo: req.body.codigo }, { oferta: 0 }, { new: true, useFindAndModify: false });
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const getAllItemSort = async (req, res) => {
     try {
         let tipoOrder = 0;

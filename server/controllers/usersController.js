@@ -7,11 +7,19 @@ import config from '../../config/index';
 
 const User = mongoose.model('User', UserSchema);
 
-export const loginRequired = (req, res, next) => {
-    if(req.user && req.user.type === 'admin'){
+export const adminLoginRequired = (req, res, next) => {
+    if(req.user && req.user.aud.split(' ')[1] === 'admin'){
         next();
     }else{
-        return res.status(401).json({message: 'Unauthorized User'});
+        return res.status(401).json({message: 'Usuario No Autorizado'});
+    }
+};
+
+export const normalLoginRequired = (req, res, next) => {
+    if(req.user && (req.user.aud.split(' ')[1] === 'vent' || req.user.aud.split(' ')[1] === 'admin')){
+        next();
+    }else{
+        return res.status(401).json({message: 'Usuario No Autorizado'});
     }
 };
 
@@ -20,6 +28,7 @@ export const register = async (req, res) => {
         const displayName = req.body.username;
         const newUser = new User(req.body);
         newUser.displayName = displayName;
+        newUser.username = displayName.toLowerCase();
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
@@ -44,7 +53,8 @@ export const login = (req, res) => {
             if(!user.comparePassword(req.body.password, user.hashPassword)){
                 return res.status(401).json({username: req.body.username, success:false ,message: 'Authenticacion failed. Incorrect Password!', token: null});
             } else {
-                return res.json({displayName: user.displayName, username: req.body.username, success:true, message: 'Success', token: jwt.sign({type: user.type, username: user.username, 
+                return res.json({displayName: user.displayName, username: req.body.username, success:true, message: 'Success', type: user.type, 
+                        token: jwt.sign({ aud: user.username + ' ' + user.type, 
                         _id: user.id}, config[process.env.NODE_ENV].jwtKey)});
             }
         }

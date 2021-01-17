@@ -5,45 +5,45 @@ import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta,
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar, 
     ventaAnular, ventaAnularPost} from '../controllers/itemController';
-import {loginRequired} from '../controllers/usersController';
+import {normalLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
 
-routes.post('/generarVenta', loginRequired, generarVenta);
+routes.post('/generarVenta', normalLoginRequired, generarVenta);
 
 routes.put('/eliminarItemVenta', eliminarItemVenta);
 
-routes.put('/eliminarItemSCVenta', loginRequired, eliminarItemScVenta);
+routes.put('/eliminarItemSCVenta', normalLoginRequired, eliminarItemScVenta);
 
-routes.put('/anularVentaPost', loginRequired, ventaAnularPost);
+routes.put('/anularVentaPost', normalLoginRequired, ventaAnularPost);
  
-routes.get('/dni/:dni', loginRequired, getDNI);
+routes.get('/dni/:dni', normalLoginRequired, getDNI);
 
-routes.get('/createExcelReport/:dateOne/:dateTwo', loginRequired, createExcel);
+routes.get('/createExcelReport/:dateOne/:dateTwo', normalLoginRequired, createExcel);
 
 
-routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', loginRequired, getVentasEjecutadas);
+routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', normalLoginRequired, getVentasEjecutadas);
 
-routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', loginRequired, getCantidadDeVentasPorEstado);
+routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', normalLoginRequired, getCantidadDeVentasPorEstado);
 
-routes.get('/testTotal', loginRequired, getCantidadTotal);
+routes.get('/testTotal', normalLoginRequired, getCantidadTotal);
 
-routes.get('/ruc/:ruc', loginRequired, getRUC);
+routes.get('/ruc/:ruc', normalLoginRequired, getRUC);
 
-routes.get('/obtenerVenta/:ventaCod', loginRequired, getVenta);
+routes.get('/obtenerVenta/:ventaCod', normalLoginRequired, getVenta);
  
-routes.post('/ventaSimple', loginRequired, ventaSimpleItemUpdate);
+routes.post('/ventaSimple', normalLoginRequired, ventaSimpleItemUpdate);
 
-routes.post('/agregarVenta', loginRequired, generarVentaNueva);
+routes.post('/agregarVenta', normalLoginRequired, generarVentaNueva);
 
-routes.get('/ventasPendientes', loginRequired, getVentasActivas);
+routes.get('/ventasPendientes', normalLoginRequired, getVentasActivas);
 
-routes.post('/agregarItemVenta', loginRequired, agregarItemVenta);
+routes.post('/agregarItemVenta', normalLoginRequired, agregarItemVenta);
 
-routes.post('/ventasForCard', loginRequired, getVentasActivasParaCard);
+routes.post('/ventasForCard', normalLoginRequired, getVentasActivasParaCard);
 
-routes.post('/ejecutarVenta', loginRequired, ventaEjecutar);
+routes.post('/ejecutarVenta', normalLoginRequired, ventaEjecutar);
 
-routes.put('/anularVenta', loginRequired, ventaAnular);
+routes.put('/anularVenta', normalLoginRequired, ventaAnular);
 
 export default routes; 

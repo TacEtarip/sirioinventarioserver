@@ -14,6 +14,7 @@ export const createDocumento = (invoice, imageB) => {
     // doc.end();
 };
 
+
 const generateHeader = (doc, imageB) => {
     doc
         .image(imageB, 50, 30, { width: 70 })

@@ -116,6 +116,11 @@ const VentaSchema = new Schema ({
         default: Date.now
     },
 
+    vendedor: {
+        type: String,
+        default: 'admin'
+    }
+
 });
 
 export default VentaSchema;
