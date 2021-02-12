@@ -162,6 +162,7 @@ export const googleExito = async (req, res) => {
 
 export const googlePreRegistro = async (req, res, next) => {
     try {
+        console.log('jere');
         const result = await User.exists({email: req.user._json.email});
         if (result) {
             return next();
@@ -176,6 +177,7 @@ export const googlePreRegistro = async (req, res, next) => {
 
 export const loginGoogle = async (req, res, next) => {
     try {
+        console.log('jiri');
         const result = await User.findOne({ email: req.user._json.email });
         const token = jwt
         .sign({_id: result._id}, 
