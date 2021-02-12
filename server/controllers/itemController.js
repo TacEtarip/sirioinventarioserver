@@ -230,7 +230,7 @@ export const ventaAnularPost = async (req, res) => {
         }
         const venta = 
         await Venta.findOneAndUpdate({codigo: req.body.codigo}, 
-            {estado: 'anuladaPost', enlace_del_pdf: documentoAnulado}, 
+            {estado: 'anuladaPost', linkComprobante: documentoAnulado}, 
             { useFindAndModify: false, new: true, session });
 
         await session.commitTransaction();
