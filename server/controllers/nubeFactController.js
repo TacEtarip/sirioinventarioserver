@@ -12,7 +12,6 @@ export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, m
         headers: { 'Content-Type': 'application/json', Authorization: config[process.env.NODE_ENV].nbfToken },
         body: JSON.stringify(bodyToSend)
         }).then(resT => resT.json());
-        console.log(response);
         return response.enlace_del_pdf;
     } catch (error) {
         throw error;
@@ -27,7 +26,7 @@ const getNowDate = () => {
     arrayDate[0] = arrayDate[1];
     arrayDate[1] = tempoPos;
     return arrayDate.join('-');
-}
+};
 
 export const generarGuia = (req, res, next) => {
     if (!req.body.venta.guia) {
@@ -78,7 +77,7 @@ export const generarGuia = (req, res, next) => {
         .then(json => {
             req.sunat_guia = json;
             if (json.errors) {
-                console.log(json);
+                console.log('HANDLE');
             }
             next();
         })

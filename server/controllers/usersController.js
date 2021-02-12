@@ -162,7 +162,6 @@ export const googleExito = async (req, res) => {
 
 export const googlePreRegistro = async (req, res, next) => {
     try {
-        console.log('jere');
         const result = await User.exists({email: req.user._json.email});
         if (result) {
             return next();
@@ -170,14 +169,12 @@ export const googlePreRegistro = async (req, res, next) => {
         const token = jwt.sign(req.user._json, config[process.env.NODE_ENV].jwtGoogleLogin, { expiresIn: '30s' });
         return res.redirect(`${config[process.env.NODE_ENV].link_front}login/registro/${token}`);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
 
 export const loginGoogle = async (req, res, next) => {
     try {
-        console.log('jiri');
         const result = await User.findOne({ email: req.user._json.email });
         const token = jwt
         .sign({_id: result._id}, 
@@ -186,7 +183,6 @@ export const loginGoogle = async (req, res, next) => {
         await User.findByIdAndUpdate(result._id, {verified: true}, {useFindAndModify: false});
         return res.redirect(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
     } catch (error) {
-        console.log(error);
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
