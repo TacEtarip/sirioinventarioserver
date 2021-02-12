@@ -19,7 +19,15 @@ export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, m
     }
 };
 
-
+const getNowDate = () => {
+    const dateNew = new Date();
+    const lclString = dateNew.toLocaleDateString('es-PE');
+    const arrayDate = lclString.split('/');
+    const tempoPos = arrayDate[0];
+    arrayDate[0] = arrayDate[1];
+    arrayDate[1] = tempoPos;
+    return arrayDate.join('-');
+}
 
 export const generarGuia = (req, res, next) => {
     if (!req.body.venta.guia) {
@@ -35,9 +43,8 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.cliente_numero_de_documento = req.ventResult.documento.codigo;
     temporalJSON.cliente_denominacion = req.ventResult.documento.name;
     temporalJSON.cliente_direccion = req.ventResult.documento.direccion || '';
-    temporalJSON.fecha_de_emision = new Date().toLocaleDateString('es-PE');
-    console.log(temporalJSON.fecha_de_emision);
-    temporalJSON.fecha_de_inicio_de_traslado = new Date().toLocaleDateString('es-PE');
+    temporalJSON.fecha_de_emision = getNowDate();
+    temporalJSON.fecha_de_inicio_de_traslado = getNowDate();
     temporalJSON.numero_de_bultos = req.body.venta.bultos;
     temporalJSON.peso_bruto_total = req.body.venta.peso;
     if (req.body.venta.transportista_codigo.length === 8) {
@@ -71,7 +78,7 @@ export const generarGuia = (req, res, next) => {
         .then(json => {
             req.sunat_guia = json;
             if (json.errors) {
-                console.log('hANDLE');
+                console.log(json);
             }
             next();
         })

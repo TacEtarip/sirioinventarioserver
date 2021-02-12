@@ -29,7 +29,6 @@ export default class NubeFactBuilder {
     getNowDate() {
         const dateNew = new Date();
         const lclString = dateNew.toLocaleDateString('es-PE');
-        console.log(lclString);
         const arrayDate = lclString.split('/');
         const tempoPos = arrayDate[0];
         arrayDate[0] = arrayDate[1];
