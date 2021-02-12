@@ -29,8 +29,12 @@ export default class NubeFactBuilder {
     getNowDate() {
         const dateNew = new Date();
         const lclString = dateNew.toLocaleDateString('es-PE');
-        const arrayDate = lclString.split('-');
-        return arrayDate.reverse().join('-');
+        console.log(lclString);
+        const arrayDate = lclString.split('/');
+        const tempoPos = arrayDate[0];
+        arrayDate[0] = arrayDate[1];
+        arrayDate[1] = tempoPos;
+        return arrayDate.join('-');
     }
 
     addDireccion(cliente_direccion) {
