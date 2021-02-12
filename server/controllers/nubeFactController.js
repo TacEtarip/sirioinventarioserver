@@ -12,6 +12,7 @@ export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, m
         headers: { 'Content-Type': 'application/json', Authorization: config[process.env.NODE_ENV].nbfToken },
         body: JSON.stringify(bodyToSend)
         }).then(resT => resT.json());
+        console.log(response);
         return response.enlace_del_pdf;
     } catch (error) {
         throw error;
@@ -35,6 +36,7 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.cliente_denominacion = req.ventResult.documento.name;
     temporalJSON.cliente_direccion = req.ventResult.documento.direccion || '';
     temporalJSON.fecha_de_emision = new Date().toLocaleDateString('es-PE');
+    console.log(temporalJSON.fecha_de_emision);
     temporalJSON.fecha_de_inicio_de_traslado = new Date().toLocaleDateString('es-PE');
     temporalJSON.numero_de_bultos = req.body.venta.bultos;
     temporalJSON.peso_bruto_total = req.body.venta.peso;
