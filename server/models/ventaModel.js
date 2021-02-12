@@ -21,6 +21,10 @@ const DocumentoSchema = new Schema({
     codigo: {
         type: Number,
         trim: true,
+    },
+
+    direccion: {
+        type: String
     }
 }, { _id : false });
 
@@ -118,7 +122,52 @@ const VentaSchema = new Schema ({
 
     vendedor: {
         type: String,
+    },
+
+    tipoVendedor: {
+        type: String,
         default: 'admin'
+    },
+
+    medio_de_pago: {
+        type: String
+    },
+    
+    linkComprobante: {
+        type: String
+    },
+
+    serie: {
+        type: String
+    },
+
+    tipoComprobante: {
+        type: String
+    },
+
+    numero: {
+        type: Number
+    },
+
+    cliente_email: {
+        type: String
+    },
+
+    guia_serie: {
+        type: String
+    },
+
+    guia_numero: {
+        type: String
+    },
+
+    guia: {
+        type: Boolean,
+        default: false
+    },
+
+    guia_link: {
+        type: String
     }
 
 });

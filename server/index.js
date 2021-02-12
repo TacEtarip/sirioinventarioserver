@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import inventarioRoutes from './routes/inventarioRoutes';
 import authRoutes from './routes/authRoutes';
 import ventasRoutes from './routes/ventaRoutes';
+import emailrouter from './routes/emailRoutes';
 
 import config from '../config/index';
 
@@ -23,8 +24,8 @@ const log = config[process.env.NODE_ENV].log();
 app.use(helmet());
 app.use(compression());
 
-app.options('*', cors({credentials: true, origin: true}));
-app.use(cors({credentials: true, origin: true}));
+app.options('*', cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
+app.use(cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -53,6 +54,7 @@ app.use((req, res, next) => {
 app.use('/inventario', inventarioRoutes);
 app.use('/auth', authRoutes);
 app.use('/ventas', ventasRoutes);
+app.use('/email', emailrouter);
 
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 

@@ -11,7 +11,6 @@ export const UserSchema = new Schema({
     },
     hashPassword: {
         type: String,
-        required: true
     },
     type: {
         type: String, 
@@ -26,6 +25,60 @@ export const UserSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    email: {
+        type: String,
+        trim: true,
+        unique: true    
+    },
+    dirOne: {
+        type: String,
+        trim: true
+    },
+    dirTwo: {
+        type: String,
+        trim: true
+    },
+    reference: {
+        type: String,
+        trim: true
+    },
+    ciudad: {
+        type: String,
+        trim: true
+    },
+    nombre: {
+        type: String,
+        trim: true
+    },
+    apellido: {
+        type: String,
+        trim: true
+    },
+    nomape: {
+        type: String
+    },
+    googleCod: {
+        type: String,
+        unique: true
+    },
+    documento: {
+        type: String,
+        trim: true
+    },
+    tipoPersona: {
+        type: String,
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    celular: {
+        type: String
+    },
+
+    ventaActiva: {
+        type: String,
     }
 });
 

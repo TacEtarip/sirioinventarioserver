@@ -9,6 +9,15 @@ const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
 const Venta = mongoose.model('Venta', ventaModel);
 
+export const getVentaUser = async (req, res) => {
+    try {
+        const venta = await Venta.findOne({codigo: req.ventaCod});
+        res.json(venta);
+    } catch (error) {   
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
 export const eliminarItemScVenta = async (req, res) => {
     try {
         const preSearch = await Venta.findOne({codigo: req.body.codigo});
@@ -94,15 +103,14 @@ export const getVentasEjecutadas = async (req, res) => {
     try {
         let result;
         if (req.params.dateOne === 'noone' || req.params.dateTwo === 'noone') {
-            result = await Venta.find({estado: 'ejecutada'})
+            result = await Venta.find({estado: { $in: ['ejecutada', 'anuladaPost'] } })
                         .skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit));
         } 
         else {
-            result = await Venta.find({estado: 'ejecutada', 
+            result = await Venta.find({estado: { $in: ['ejecutada', 'anuladaPost'] }, 
                         date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}})
                         .skip(parseInt(req.params.skip)).limit(parseInt(req.params.limit));
         }
-
         res.json(result);
     } catch (error) {
         return res.status(500).json({ errorMSG: error }); 
@@ -113,11 +121,11 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
     try {
         let result;
         if (req.params.dateOne === 'noone' || req.params.dateTwo === 'noone') {
-            result = await Venta.aggregate([{$match: { estado: req.params.estado }}, 
+            result = await Venta.aggregate([{$match: { estado: { $in: ['ejecutada', 'anuladaPost'] } }}, 
                                             {$count: 'cantidadVentas'}]);
         } 
         else {
-            result = await Venta.aggregate([{$match: {estado: req.params.estado, 
+            result = await Venta.aggregate([{$match: {estado: { $in: ['ejecutada', 'anuladaPost'] }, 
                                             date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}}}, 
                                             {$count: 'cantidadVentas'}]);
         }
@@ -168,7 +176,7 @@ export const ventaSimple = async (req, res, next) => {
     try {
         const newVenta = new Venta(req.body.venta);
         newVenta.codigo = await generarCodigo();
-        await newVenta.save();
+        const result = await newVenta.save();
         res.json({item: req.newItem, message: 'Succes'});
     } catch (error) {
         return res.status(500).json({errorMSG: error});

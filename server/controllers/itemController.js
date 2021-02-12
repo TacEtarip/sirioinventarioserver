@@ -2,12 +2,16 @@ import mongoose from 'mongoose';
 import itemSchema from '../models/itemModel';
 import marcaSchema from '../models/marcaModel';
 import ventaModel from '../models/ventaModel';
+import { UserSchema } from '../models/userModel';
 import { uploadPDFventa } from './uploadsController';
 import { createExcelItemReport } from '../lib/createExcelItemReport';
+import { anularComprobanteSunat } from '../controllers/nubeFactController';
+
 
 const Item = mongoose.model('Item', itemSchema);
 const Marca = mongoose.model('Marca', marcaSchema);
 const Venta = mongoose.model('Venta', ventaModel);
+const User = mongoose.model('User', UserSchema);
 
 const IGV = 0.18;
 
@@ -33,7 +37,8 @@ export const getSimilarItems = async (req, res) => {
 
 export const searchText = async (req, res) => {
     try {
-        const result = await Item.find( { $text: { $search: req.params.searchTerms } } );
+        const searchRegex = new RegExp(req.params.searchTerms, 'gi');
+        const result = await Item.find( { nameLowerCase: searchRegex } );
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
@@ -161,29 +166,13 @@ export const agregarItemVenta = async (req, res) => {
     }
 };
 
-export const generarVentaNueva = async (req, res) => {
+export const generarVentaNueva = async (req, res, next) => {
     try {
-        const result = await Venta.aggregate([
-        {
-            $match: {
-                estado: 'pendiente'
-            },
-        },
-
-        {
-            $count: 'ventasActivas'
-        }
-        ]);
-
-
-        if (result[0]) {
-            return res.status(202).json({message: 'Ya tienes una venta pendiente'});
-        }
-        
         const newVenta = new Venta(req.body.venta);
         newVenta.codigo = await generarCodigoVent(newVenta.documento.type);
-        const saveResult = await newVenta.save();
-        res.json({message: `Venta generada con el codigo: ${saveResult.codigo}`, venta: newVenta});
+        req.saveResult = await newVenta.save();
+        next();
+       // res.json({message: `Venta generada con el codigo: ${saveResult.codigo}`, venta: newVenta});
 
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -229,7 +218,20 @@ export const ventaAnularPost = async (req, res) => {
             index++;
         }
 
-        const venta = await Venta.findOneAndUpdate({codigo: req.body.codigo}, {estado: 'anuladaPost'},{useFindAndModify: false, new: true, session});
+        let documentoAnulado = '';
+
+        if (req.body.documento.type !== 'noone') {
+            if (req.body.documento.type === 'factura') {
+                documentoAnulado = await anularComprobanteSunat(1, req.body.serie, req.body.numero, 'Anulación de venta');
+            }
+            if (req.body.documento.type === 'boleta') {
+                documentoAnulado = await anularComprobanteSunat(2, req.body.serie, req.body.numero, 'Anulación de venta');
+            }
+        }
+        const venta = 
+        await Venta.findOneAndUpdate({codigo: req.body.codigo}, 
+            {estado: 'anuladaPost', enlace_del_pdf: documentoAnulado}, 
+            { useFindAndModify: false, new: true, session });
 
         await session.commitTransaction();
         session.endSession();
@@ -243,7 +245,77 @@ export const ventaAnularPost = async (req, res) => {
     }
 };
 
-export const ventaEjecutar = async (req, res) => {
+export const ventaSimpleItemUpdate = async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const codigoVenta = await generarCodigoVent(req.body.venta.documento.type);
+
+        const lastResort = await Item.findOne({codigo: req.body.venta.itemsVendidos[0].codigo});
+
+        const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
+            tipo: false, comentario: 'venta|' + codigoVenta, 
+            costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
+        
+        if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
+            for (const csc of req.body.venta.itemsVendidos[0].cantidadSC) {
+                if (csc.cantidadVenta > 0) {
+                    let resultTemp = await Item.findOneAndUpdate({codigo: req.body.venta.itemsVendidos[0].codigo, 
+                        'subConteo.order': {$elemMatch: {name: csc.name, nameSecond: csc.nameSecond}}}, 
+                        {$inc: {'subConteo.order.$.cantidad': -csc.cantidadVenta}}, {useFindAndModify: false, new: true, session});
+                    for (let index = 0; index < resultTemp.subConteo.order.length; index++) {
+                        if (resultTemp.subConteo.order[index].cantidad < 0) {
+                            await session.abortTransaction();
+                            session.endSession();
+                            return res.status(202).json({message: 'La Cantidad Ha Cambiado', item: lastResort});
+                        }
+                    }
+                }
+            }
+        }
+        
+        const result = await Item.findOneAndUpdate(
+                {codigo: req.body.venta.itemsVendidos[0].codigo}, 
+                {   
+                    $inc:  {cantidad: -req.body.venta.itemsVendidos[0].cantidad},
+                    $push: {variaciones: variacion},
+
+                }, {new: true, useFindAndModify: false, session: session});
+        
+        if (result.cantidad < 0) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(202).json({message: 'La Cantidad Ha Cambiado', item: lastResort});
+        }
+
+        const newVenta = new Venta(req.body.venta);
+        newVenta.codigo = codigoVenta;
+        req.ventResult = await newVenta.save({session});
+
+        if (newVenta.documento.type === 'factura') {
+            req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 1 } });
+        } else if (newVenta.documento.type === 'boleta') {
+            req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 2 } });
+        }
+
+        if (req.body.venta.guia) {
+           req.countGuia =  await Venta.countDocuments({ guia: { $eq: true } });
+        }
+        
+        await uploadPDFventa(newVenta);
+        await session.commitTransaction();
+        session.endSession();
+
+        next();
+
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const ventaEjecutar = async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -294,22 +366,36 @@ export const ventaEjecutar = async (req, res) => {
             index++;
         }
 
-        const venta = await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, {estado: 'ejecutada'},{useFindAndModify: false, new: true, session});
+        const venta = await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, 
+            req.body.venta,
+            {useFindAndModify: false, new: true, session});
 
+        req.ventResult = venta;
 
+        if (venta.documento.type === 'factura') {
+            req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 1 } });
+        } else if (venta.documento.type === 'boleta') {
+            req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 2 } });
+        }
 
+        if (req.body.venta.guia) {
+            req.countGuia =  await Venta.countDocuments({ guia: { $eq: true} });
+        }
+
+        await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, 
+        { ventaActiva:  '' }, {useFindAndModify: false});
+
+        await uploadPDFventa(venta);
         await session.commitTransaction();
         session.endSession();
         
-        await uploadPDFventa(venta);
+        next();
 
-
-        res.json({message: `succes||${venta.codigo}`});
+        // res.json({message: `succes||${venta.codigo}`});
 
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-
         return res.status(500).json({errorMSG: error});
     }
 };
@@ -317,91 +403,31 @@ export const ventaEjecutar = async (req, res) => {
 export const ventaAnular = async (req, res) => {
     try {
         await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, {estado: 'anulada'}, {useFindAndModify: true});
+        await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, { ventaActiva: '' } ,{ useFindAndModify: false });
         res.json({message: 'succes'});
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
 };
 
-export const ventaSimpleItemUpdate = async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    // session.withTransaction
+
+
+export const addLinkToPDF = async (req, res) => {
     try {
-        const codigoVenta = await generarCodigoVent(req.body.venta.documento.type);
-
-        const lastResort = await Item.findOne({codigo: req.body.venta.itemsVendidos[0].codigo});
-
-        // req.body.venta.itemsVendidos[0].priceIGV = lastResort.priceIGV;
-        // req.body.venta.itemsVendidos[0].priceNoIGV = lastResort.priceNoIGV; poder esto para la venta/compra de clientes
-
-        const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
-            tipo: false, comentario: 'venta|' + codigoVenta, 
-            costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
-
-        
-        if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
-            for (const csc of req.body.venta.itemsVendidos[0].cantidadSC) {
-                if (csc.cantidadVenta > 0) {
-                    let resultTemp = await Item.findOneAndUpdate({codigo: req.body.venta.itemsVendidos[0].codigo, 
-                        'subConteo.order': {$elemMatch: {name: csc.name, nameSecond: csc.nameSecond}}}, 
-                        {$inc: {'subConteo.order.$.cantidad': -csc.cantidadVenta}}, {useFindAndModify: false, new: true, session});
-                    for (let index = 0; index < resultTemp.subConteo.order.length; index++) {
-                        if (resultTemp.subConteo.order[index].cantidad < 0) {
-                            await session.abortTransaction();
-                            session.endSession();
-                            return res.status(202).json({message: 'La Cantidad Ha Cambiado', item: lastResort});
-                        }
-                    }
-                }
-            }
-            /*
-            subConteosToUpdate = req.body.info.subConteosToUpdate;
-            lastResort.subConteo.order.forEach( ord => {
-                subConteosToUpdate.forEach(sc => {
-                    if ((ord.name === sc.name) && (ord.nameSecond === sc.nameSecond)) {
-                        ord.cantidad = sc.cantidadDisponible - sc.cantidadVenta;
-                    }
-                });
-            }); */
-
+        if (!req.sunat_guia) {
+            req.sunat_guia = '';
         }
-        
-        const result = await Item.findOneAndUpdate(
-                {codigo: req.body.venta.itemsVendidos[0].codigo}, 
-                {   
-                    $inc:  {cantidad: -req.body.venta.itemsVendidos[0].cantidad},
-                    $push: {variaciones: variacion},
-
-                }, {new: true, useFindAndModify: false, session: session});
-        
-        if (result.cantidad < 0) {
-            await session.abortTransaction();
-            session.endSession();
-            return res.status(202).json({message: 'La Cantidad Ha Cambiado', item: lastResort});
-        }
-        req.newItem = result;
-
-        const newVenta = new Venta(req.body.venta);
-        newVenta.codigo = codigoVenta;
-        await newVenta.save({session});
-
-
-        await session.commitTransaction();
-        session.endSession();
-
-        await uploadPDFventa(newVenta);
-        
-        res.json({item: req.newItem, message: `Succes||${newVenta.codigo}`});
-
+        const result = 
+        await Venta.findByIdAndUpdate(req.ventResult._id, 
+            {   linkComprobante: req.sunat.enlace_del_pdf, numero: req.sunat.numero, guia_link: req.sunat_guia.enlace_del_pdf,
+                serie: req.sunat.serie, tipoComprobante: req.sunat.tipo_de_comprobante }, 
+            { new: true, useFindAndModify: false });
+        res.json({ item: result, message: `Succes||${req.ventResult.codigo}`, _sunat: req.sunat });
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
-
-
         return res.status(500).json({errorMSG: error});
     }
 };
+
 const generarCodigoVent = async (tipo) => {
     try {
         const count = await Venta.countDocuments({}) + 1;

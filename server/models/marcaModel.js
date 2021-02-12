@@ -9,10 +9,10 @@ const MarcaSchema = new Schema ({
 
     codigo:{
         type: String,
-        required: true,
+        required: true, 
         unique: true
     },
-
+ 
     ruc: {
         type: Number
     }

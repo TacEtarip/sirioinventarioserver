@@ -1,0 +1,8438 @@
+[
+  {
+    "departamento": "AMAZONAS",
+    "provincias": [
+      {
+        "provincia": "CHACHAPOYAS",
+        "distritos": [
+          {
+            "distrito": "CHACHAPOYAS",
+            "codigo": "010101"
+          },
+          {
+            "distrito": "ASUNCION",
+            "codigo": "010102"
+          },
+          {
+            "distrito": "BALSAS",
+            "codigo": "010103"
+          },
+          {
+            "distrito": "CHETO",
+            "codigo": "010104"
+          },
+          {
+            "distrito": "CHILIQUIN",
+            "codigo": "010105"
+          },
+          {
+            "distrito": "CHUQUIBAMBA",
+            "codigo": "010106"
+          },
+          {
+            "distrito": "GRANADA",
+            "codigo": "010107"
+          },
+          {
+            "distrito": "HUANCAS",
+            "codigo": "010108"
+          },
+          {
+            "distrito": "LA JALCA",
+            "codigo": "010109"
+          },
+          {
+            "distrito": "LEIMEBAMBA",
+            "codigo": "010110"
+          },
+          {
+            "distrito": "LEVANTO",
+            "codigo": "010111"
+          },
+          {
+            "distrito": "MAGDALENA",
+            "codigo": "010112"
+          },
+          {
+            "distrito": "MARISCAL CASTILLA",
+            "codigo": "010113"
+          },
+          {
+            "distrito": "MOLINOPAMPA",
+            "codigo": "010114"
+          },
+          {
+            "distrito": "MONTEVIDEO",
+            "codigo": "010115"
+          },
+          {
+            "distrito": "OLLEROS",
+            "codigo": "010116"
+          },
+          {
+            "distrito": "QUINJALCA",
+            "codigo": "010117"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE DAGUAS",
+            "codigo": "010118"
+          },
+          {
+            "distrito": "SAN ISIDRO DE MAINO",
+            "codigo": "010119"
+          },
+          {
+            "distrito": "SOLOCO",
+            "codigo": "010120"
+          },
+          {
+            "distrito": "SONCHE",
+            "codigo": "010121"
+          }
+        ]
+      },
+      {
+        "provincia": "BAGUA",
+        "distritos": [
+          {
+            "distrito": "BAGUA",
+            "codigo": "010201"
+          },
+          {
+            "distrito": "ARAMANGO",
+            "codigo": "010202"
+          },
+          {
+            "distrito": "COPALLIN",
+            "codigo": "010203"
+          },
+          {
+            "distrito": "EL PARCO",
+            "codigo": "010204"
+          },
+          {
+            "distrito": "IMAZA",
+            "codigo": "010205"
+          },
+          {
+            "distrito": "LA PECA",
+            "codigo": "010206"
+          }
+        ]
+      },
+      {
+        "provincia": "BONGARA",
+        "distritos": [
+          {
+            "distrito": "JUMBILLA",
+            "codigo": "010301"
+          },
+          {
+            "distrito": "CHISQUILLA",
+            "codigo": "010302"
+          },
+          {
+            "distrito": "CHURUJA",
+            "codigo": "010303"
+          },
+          {
+            "distrito": "COROSHA",
+            "codigo": "010304"
+          },
+          {
+            "distrito": "CUISPES",
+            "codigo": "010305"
+          },
+          {
+            "distrito": "FLORIDA",
+            "codigo": "010306"
+          },
+          {
+            "distrito": "JAZAN",
+            "codigo": "010307"
+          },
+          {
+            "distrito": "RECTA",
+            "codigo": "010308"
+          },
+          {
+            "distrito": "SAN CARLOS",
+            "codigo": "010309"
+          },
+          {
+            "distrito": "SHIPASBAMBA",
+            "codigo": "010310"
+          },
+          {
+            "distrito": "VALERA",
+            "codigo": "010311"
+          },
+          {
+            "distrito": "YAMBRASBAMBA",
+            "codigo": "010312"
+          }
+        ]
+      },
+      {
+        "provincia": "CONDORCANQUI",
+        "distritos": [
+          {
+            "distrito": "NIEVA",
+            "codigo": "010401"
+          },
+          {
+            "distrito": "EL CENEPA",
+            "codigo": "010402"
+          },
+          {
+            "distrito": "RIO SANTIAGO",
+            "codigo": "010403"
+          }
+        ]
+      },
+      {
+        "provincia": "LUYA",
+        "distritos": [
+          {
+            "distrito": "LAMUD",
+            "codigo": "010501"
+          },
+          {
+            "distrito": "CAMPORREDONDO",
+            "codigo": "010502"
+          },
+          {
+            "distrito": "COCABAMBA",
+            "codigo": "010503"
+          },
+          {
+            "distrito": "COLCAMAR",
+            "codigo": "010504"
+          },
+          {
+            "distrito": "CONILA",
+            "codigo": "010505"
+          },
+          {
+            "distrito": "INGUILPATA",
+            "codigo": "010506"
+          },
+          {
+            "distrito": "LONGUITA",
+            "codigo": "010507"
+          },
+          {
+            "distrito": "LONYA CHICO",
+            "codigo": "010508"
+          },
+          {
+            "distrito": "LUYA",
+            "codigo": "010509"
+          },
+          {
+            "distrito": "LUYA VIEJO",
+            "codigo": "010510"
+          },
+          {
+            "distrito": "MARIA",
+            "codigo": "010511"
+          },
+          {
+            "distrito": "OCALLI",
+            "codigo": "010512"
+          },
+          {
+            "distrito": "OCUMAL",
+            "codigo": "010513"
+          },
+          {
+            "distrito": "PISUQUIA",
+            "codigo": "010514"
+          },
+          {
+            "distrito": "PROVIDENCIA",
+            "codigo": "010515"
+          },
+          {
+            "distrito": "SAN CRISTOBAL",
+            "codigo": "010516"
+          },
+          {
+            "distrito": "SAN FRANCISCO DEL YESO",
+            "codigo": "010517"
+          },
+          {
+            "distrito": "SAN JERONIMO",
+            "codigo": "010518"
+          },
+          {
+            "distrito": "SAN JUAN DE LOPECANCHA",
+            "codigo": "010519"
+          },
+          {
+            "distrito": "SANTA CATALINA",
+            "codigo": "010520"
+          },
+          {
+            "distrito": "SANTO TOMAS",
+            "codigo": "010521"
+          },
+          {
+            "distrito": "TINGO",
+            "codigo": "010522"
+          },
+          {
+            "distrito": "TRITA",
+            "codigo": "010523"
+          }
+        ]
+      },
+      {
+        "provincia": "RODRIGUEZ DE MENDOZA",
+        "distritos": [
+          {
+            "distrito": "SAN NICOLAS",
+            "codigo": "010601"
+          },
+          {
+            "distrito": "CHIRIMOTO",
+            "codigo": "010602"
+          },
+          {
+            "distrito": "COCHAMAL",
+            "codigo": "010603"
+          },
+          {
+            "distrito": "HUAMBO",
+            "codigo": "010604"
+          },
+          {
+            "distrito": "LIMABAMBA",
+            "codigo": "010605"
+          },
+          {
+            "distrito": "LONGAR",
+            "codigo": "010606"
+          },
+          {
+            "distrito": "MARISCAL BENAVIDES",
+            "codigo": "010607"
+          },
+          {
+            "distrito": "MILPUC",
+            "codigo": "010608"
+          },
+          {
+            "distrito": "OMIA",
+            "codigo": "010609"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "010610"
+          },
+          {
+            "distrito": "TOTORA",
+            "codigo": "010611"
+          },
+          {
+            "distrito": "VISTA ALEGRE",
+            "codigo": "010612"
+          }
+        ]
+      },
+      {
+        "provincia": "UTCUBAMBA",
+        "distritos": [
+          {
+            "distrito": "BAGUA GRANDE",
+            "codigo": "010701"
+          },
+          {
+            "distrito": "CAJARURO",
+            "codigo": "010702"
+          },
+          {
+            "distrito": "CUMBA",
+            "codigo": "010703"
+          },
+          {
+            "distrito": "EL MILAGRO",
+            "codigo": "010704"
+          },
+          {
+            "distrito": "JAMALCA",
+            "codigo": "010705"
+          },
+          {
+            "distrito": "LONYA GRANDE",
+            "codigo": "010706"
+          },
+          {
+            "distrito": "YAMON",
+            "codigo": "010707"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "ANCASH",
+    "provincias": [
+      {
+        "provincia": "HUARAZ",
+        "distritos": [
+          {
+            "distrito": "HUARAZ",
+            "codigo": "020101"
+          },
+          {
+            "distrito": "COCHABAMBA",
+            "codigo": "020102"
+          },
+          {
+            "distrito": "COLCABAMBA",
+            "codigo": "020103"
+          },
+          {
+            "distrito": "HUANCHAY",
+            "codigo": "020104"
+          },
+          {
+            "distrito": "INDEPENDENCIA",
+            "codigo": "020105"
+          },
+          {
+            "distrito": "JANGAS",
+            "codigo": "020106"
+          },
+          {
+            "distrito": "LA LIBERTAD",
+            "codigo": "020107"
+          },
+          {
+            "distrito": "OLLEROS",
+            "codigo": "020108"
+          },
+          {
+            "distrito": "PAMPAS",
+            "codigo": "020109"
+          },
+          {
+            "distrito": "PARIACOTO",
+            "codigo": "020110"
+          },
+          {
+            "distrito": "PIRA",
+            "codigo": "020111"
+          },
+          {
+            "distrito": "TARICA",
+            "codigo": "020112"
+          }
+        ]
+      },
+      {
+        "provincia": "AIJA",
+        "distritos": [
+          {
+            "distrito": "AIJA",
+            "codigo": "020201"
+          },
+          {
+            "distrito": "CORIS",
+            "codigo": "020202"
+          },
+          {
+            "distrito": "HUACLLAN",
+            "codigo": "020203"
+          },
+          {
+            "distrito": "LA MERCED",
+            "codigo": "020204"
+          },
+          {
+            "distrito": "SUCCHA",
+            "codigo": "020205"
+          }
+        ]
+      },
+      {
+        "provincia": "ANTONIO RAYMONDI",
+        "distritos": [
+          {
+            "distrito": "LLAMELLIN",
+            "codigo": "020301"
+          },
+          {
+            "distrito": "ACZO",
+            "codigo": "020302"
+          },
+          {
+            "distrito": "CHACCHO",
+            "codigo": "020303"
+          },
+          {
+            "distrito": "CHINGAS",
+            "codigo": "020304"
+          },
+          {
+            "distrito": "MIRGAS",
+            "codigo": "020305"
+          },
+          {
+            "distrito": "SAN JUAN DE RONTOY",
+            "codigo": "020306"
+          }
+        ]
+      },
+      {
+        "provincia": "ASUNCION",
+        "distritos": [
+          {
+            "distrito": "CHACAS",
+            "codigo": "020401"
+          },
+          {
+            "distrito": "ACOCHACA",
+            "codigo": "020402"
+          }
+        ]
+      },
+      {
+        "provincia": "BOLOGNESI",
+        "distritos": [
+          {
+            "distrito": "CHIQUIAN",
+            "codigo": "020501"
+          },
+          {
+            "distrito": "ABELARDO PARDO LEZAMETA",
+            "codigo": "020502"
+          },
+          {
+            "distrito": "ANTONIO RAYMONDI",
+            "codigo": "020503"
+          },
+          {
+            "distrito": "AQUIA",
+            "codigo": "020504"
+          },
+          {
+            "distrito": "CAJACAY",
+            "codigo": "020505"
+          },
+          {
+            "distrito": "CANIS",
+            "codigo": "020506"
+          },
+          {
+            "distrito": "COLQUIOC",
+            "codigo": "020507"
+          },
+          {
+            "distrito": "HUALLANCA",
+            "codigo": "020508"
+          },
+          {
+            "distrito": "HUASTA",
+            "codigo": "020509"
+          },
+          {
+            "distrito": "HUAYLLACAYAN",
+            "codigo": "020510"
+          },
+          {
+            "distrito": "LA PRIMAVERA",
+            "codigo": "020511"
+          },
+          {
+            "distrito": "MANGAS",
+            "codigo": "020512"
+          },
+          {
+            "distrito": "PACLLON",
+            "codigo": "020513"
+          },
+          {
+            "distrito": "SAN MIGUEL DE CORPANQUI",
+            "codigo": "020514"
+          },
+          {
+            "distrito": "TICLLOS",
+            "codigo": "020515"
+          }
+        ]
+      },
+      {
+        "provincia": "CARHUAZ",
+        "distritos": [
+          {
+            "distrito": "CARHUAZ",
+            "codigo": "020601"
+          },
+          {
+            "distrito": "ACOPAMPA",
+            "codigo": "020602"
+          },
+          {
+            "distrito": "AMASHCA",
+            "codigo": "020603"
+          },
+          {
+            "distrito": "ANTA",
+            "codigo": "020604"
+          },
+          {
+            "distrito": "ATAQUERO",
+            "codigo": "020605"
+          },
+          {
+            "distrito": "MARCARA",
+            "codigo": "020606"
+          },
+          {
+            "distrito": "PARIAHUANCA",
+            "codigo": "020607"
+          },
+          {
+            "distrito": "SAN MIGUEL DE ACO",
+            "codigo": "020608"
+          },
+          {
+            "distrito": "SHILLA",
+            "codigo": "020609"
+          },
+          {
+            "distrito": "TINCO",
+            "codigo": "020610"
+          },
+          {
+            "distrito": "YUNGAR",
+            "codigo": "020611"
+          }
+        ]
+      },
+      {
+        "provincia": "CARLOS FERMIN FITZCARRALD",
+        "distritos": [
+          {
+            "distrito": "SAN LUIS",
+            "codigo": "020701"
+          },
+          {
+            "distrito": "SAN NICOLAS",
+            "codigo": "020702"
+          },
+          {
+            "distrito": "YAUYA",
+            "codigo": "020703"
+          }
+        ]
+      },
+      {
+        "provincia": "CASMA",
+        "distritos": [
+          {
+            "distrito": "CASMA",
+            "codigo": "020801"
+          },
+          {
+            "distrito": "BUENA VISTA ALTA",
+            "codigo": "020802"
+          },
+          {
+            "distrito": "COMANDANTE NOEL",
+            "codigo": "020803"
+          },
+          {
+            "distrito": "YAUTAN",
+            "codigo": "020804"
+          }
+        ]
+      },
+      {
+        "provincia": "CORONGO",
+        "distritos": [
+          {
+            "distrito": "CORONGO",
+            "codigo": "020901"
+          },
+          {
+            "distrito": "ACO",
+            "codigo": "020902"
+          },
+          {
+            "distrito": "BAMBAS",
+            "codigo": "020903"
+          },
+          {
+            "distrito": "CUSCA",
+            "codigo": "020904"
+          },
+          {
+            "distrito": "LA PAMPA",
+            "codigo": "020905"
+          },
+          {
+            "distrito": "YANAC",
+            "codigo": "020906"
+          },
+          {
+            "distrito": "YUPAN",
+            "codigo": "020907"
+          }
+        ]
+      },
+      {
+        "provincia": "HUARI",
+        "distritos": [
+          {
+            "distrito": "HUARI",
+            "codigo": "021001"
+          },
+          {
+            "distrito": "ANRA",
+            "codigo": "021002"
+          },
+          {
+            "distrito": "CAJAY",
+            "codigo": "021003"
+          },
+          {
+            "distrito": "CHAVIN DE HUANTAR",
+            "codigo": "021004"
+          },
+          {
+            "distrito": "HUACACHI",
+            "codigo": "021005"
+          },
+          {
+            "distrito": "HUACCHIS",
+            "codigo": "021006"
+          },
+          {
+            "distrito": "HUACHIS",
+            "codigo": "021007"
+          },
+          {
+            "distrito": "HUANTAR",
+            "codigo": "021008"
+          },
+          {
+            "distrito": "MASIN",
+            "codigo": "021009"
+          },
+          {
+            "distrito": "PAUCAS",
+            "codigo": "021010"
+          },
+          {
+            "distrito": "PONTO",
+            "codigo": "021011"
+          },
+          {
+            "distrito": "RAHUAPAMPA",
+            "codigo": "021012"
+          },
+          {
+            "distrito": "RAPAYAN",
+            "codigo": "021013"
+          },
+          {
+            "distrito": "SAN MARCOS",
+            "codigo": "021014"
+          },
+          {
+            "distrito": "SAN PEDRO DE CHANA",
+            "codigo": "021015"
+          },
+          {
+            "distrito": "UCO",
+            "codigo": "021016"
+          }
+        ]
+      },
+      {
+        "provincia": "HUARMEY",
+        "distritos": [
+          {
+            "distrito": "HUARMEY",
+            "codigo": "021101"
+          },
+          {
+            "distrito": "COCHAPETI",
+            "codigo": "021102"
+          },
+          {
+            "distrito": "CULEBRAS",
+            "codigo": "021103"
+          },
+          {
+            "distrito": "HUAYAN",
+            "codigo": "021104"
+          },
+          {
+            "distrito": "MALVAS",
+            "codigo": "021105"
+          }
+        ]
+      },
+      {
+        "provincia": "HUAYLAS",
+        "distritos": [
+          {
+            "distrito": "CARAZ",
+            "codigo": "021201"
+          },
+          {
+            "distrito": "HUALLANCA",
+            "codigo": "021202"
+          },
+          {
+            "distrito": "HUATA",
+            "codigo": "021203"
+          },
+          {
+            "distrito": "HUAYLAS",
+            "codigo": "021204"
+          },
+          {
+            "distrito": "MATO",
+            "codigo": "021205"
+          },
+          {
+            "distrito": "PAMPAROMAS",
+            "codigo": "021206"
+          },
+          {
+            "distrito": "PUEBLO LIBRE",
+            "codigo": "021207"
+          },
+          {
+            "distrito": "SANTA CRUZ",
+            "codigo": "021208"
+          },
+          {
+            "distrito": "SANTO TORIBIO",
+            "codigo": "021209"
+          },
+          {
+            "distrito": "YURACMARCA",
+            "codigo": "021210"
+          }
+        ]
+      },
+      {
+        "provincia": "MARISCAL LUZURIAGA",
+        "distritos": [
+          {
+            "distrito": "PISCOBAMBA",
+            "codigo": "021301"
+          },
+          {
+            "distrito": "CASCA",
+            "codigo": "021302"
+          },
+          {
+            "distrito": "ELEAZAR GUZMAN BARRON",
+            "codigo": "021303"
+          },
+          {
+            "distrito": "FIDEL OLIVAS ESCUDERO",
+            "codigo": "021304"
+          },
+          {
+            "distrito": "LLAMA",
+            "codigo": "021305"
+          },
+          {
+            "distrito": "LLUMPA",
+            "codigo": "021306"
+          },
+          {
+            "distrito": "LUCMA",
+            "codigo": "021307"
+          },
+          {
+            "distrito": "MUSGA",
+            "codigo": "021308"
+          }
+        ]
+      },
+      {
+        "provincia": "OCROS",
+        "distritos": [
+          {
+            "distrito": "OCROS",
+            "codigo": "021401"
+          },
+          {
+            "distrito": "ACAS",
+            "codigo": "021402"
+          },
+          {
+            "distrito": "CAJAMARQUILLA",
+            "codigo": "021403"
+          },
+          {
+            "distrito": "CARHUAPAMPA",
+            "codigo": "021404"
+          },
+          {
+            "distrito": "COCHAS",
+            "codigo": "021405"
+          },
+          {
+            "distrito": "CONGAS",
+            "codigo": "021406"
+          },
+          {
+            "distrito": "LLIPA",
+            "codigo": "021407"
+          },
+          {
+            "distrito": "SAN CRISTOBAL DE RAJAN",
+            "codigo": "021408"
+          },
+          {
+            "distrito": "SAN PEDRO",
+            "codigo": "021409"
+          },
+          {
+            "distrito": "SANTIAGO DE CHILCAS",
+            "codigo": "021410"
+          }
+        ]
+      },
+      {
+        "provincia": "PALLASCA",
+        "distritos": [
+          {
+            "distrito": "CABANA",
+            "codigo": "021501"
+          },
+          {
+            "distrito": "BOLOGNESI",
+            "codigo": "021502"
+          },
+          {
+            "distrito": "CONCHUCOS",
+            "codigo": "021503"
+          },
+          {
+            "distrito": "HUACASCHUQUE",
+            "codigo": "021504"
+          },
+          {
+            "distrito": "HUANDOVAL",
+            "codigo": "021505"
+          },
+          {
+            "distrito": "LACABAMBA",
+            "codigo": "021506"
+          },
+          {
+            "distrito": "LLAPO",
+            "codigo": "021507"
+          },
+          {
+            "distrito": "PALLASCA",
+            "codigo": "021508"
+          },
+          {
+            "distrito": "PAMPAS",
+            "codigo": "021509"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "021510"
+          },
+          {
+            "distrito": "TAUCA",
+            "codigo": "021511"
+          }
+        ]
+      },
+      {
+        "provincia": "POMABAMBA",
+        "distritos": [
+          {
+            "distrito": "POMABAMBA",
+            "codigo": "021601"
+          },
+          {
+            "distrito": "HUAYLLAN",
+            "codigo": "021602"
+          },
+          {
+            "distrito": "PAROBAMBA",
+            "codigo": "021603"
+          },
+          {
+            "distrito": "QUINUABAMBA",
+            "codigo": "021604"
+          }
+        ]
+      },
+      {
+        "provincia": "RECUAY",
+        "distritos": [
+          {
+            "distrito": "RECUAY",
+            "codigo": "021701"
+          },
+          {
+            "distrito": "CATAC",
+            "codigo": "021702"
+          },
+          {
+            "distrito": "COTAPARACO",
+            "codigo": "021703"
+          },
+          {
+            "distrito": "HUAYLLAPAMPA",
+            "codigo": "021704"
+          },
+          {
+            "distrito": "LLACLLIN",
+            "codigo": "021705"
+          },
+          {
+            "distrito": "MARCA",
+            "codigo": "021706"
+          },
+          {
+            "distrito": "PAMPAS CHICO",
+            "codigo": "021707"
+          },
+          {
+            "distrito": "PARARIN",
+            "codigo": "021708"
+          },
+          {
+            "distrito": "TAPACOCHA",
+            "codigo": "021709"
+          },
+          {
+            "distrito": "TICAPAMPA",
+            "codigo": "021710"
+          }
+        ]
+      },
+      {
+        "provincia": "SANTA",
+        "distritos": [
+          {
+            "distrito": "CHIMBOTE",
+            "codigo": "021801"
+          },
+          {
+            "distrito": "CACERES DEL PERU",
+            "codigo": "021802"
+          },
+          {
+            "distrito": "COISHCO",
+            "codigo": "021803"
+          },
+          {
+            "distrito": "MACATE",
+            "codigo": "021804"
+          },
+          {
+            "distrito": "MORO",
+            "codigo": "021805"
+          },
+          {
+            "distrito": "NEPENA",
+            "codigo": "021806"
+          },
+          {
+            "distrito": "SAMANCO",
+            "codigo": "021807"
+          },
+          {
+            "distrito": "SANTA",
+            "codigo": "021808"
+          },
+          {
+            "distrito": "NUEVO CHIMBOTE",
+            "codigo": "021809"
+          }
+        ]
+      },
+      {
+        "provincia": "SIHUAS",
+        "distritos": [
+          {
+            "distrito": "SIHUAS",
+            "codigo": "021901"
+          },
+          {
+            "distrito": "ACOBAMBA",
+            "codigo": "021902"
+          },
+          {
+            "distrito": "ALFONSO UGARTE",
+            "codigo": "021903"
+          },
+          {
+            "distrito": "CASHAPAMPA",
+            "codigo": "021904"
+          },
+          {
+            "distrito": "CHINGALPO",
+            "codigo": "021905"
+          },
+          {
+            "distrito": "HUAYLLABAMBA",
+            "codigo": "021906"
+          },
+          {
+            "distrito": "QUICHES",
+            "codigo": "021907"
+          },
+          {
+            "distrito": "RAGASH",
+            "codigo": "021908"
+          },
+          {
+            "distrito": "SAN JUAN",
+            "codigo": "021909"
+          },
+          {
+            "distrito": "SICSIBAMBA",
+            "codigo": "021910"
+          }
+        ]
+      },
+      {
+        "provincia": "YUNGAY",
+        "distritos": [
+          {
+            "distrito": "YUNGAY",
+            "codigo": "022001"
+          },
+          {
+            "distrito": "CASCAPARA",
+            "codigo": "022002"
+          },
+          {
+            "distrito": "MANCOS",
+            "codigo": "022003"
+          },
+          {
+            "distrito": "MATACOTO",
+            "codigo": "022004"
+          },
+          {
+            "distrito": "QUILLO",
+            "codigo": "022005"
+          },
+          {
+            "distrito": "RANRAHIRCA",
+            "codigo": "022006"
+          },
+          {
+            "distrito": "SHUPLUY",
+            "codigo": "022007"
+          },
+          {
+            "distrito": "YANAMA",
+            "codigo": "022008"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "APURIMAC",
+    "provincias": [
+      {
+        "provincia": "ABANCAY",
+        "distritos": [
+          {
+            "distrito": "ABANCAY",
+            "codigo": "030101"
+          },
+          {
+            "distrito": "CHACOCHE",
+            "codigo": "030102"
+          },
+          {
+            "distrito": "CIRCA",
+            "codigo": "030103"
+          },
+          {
+            "distrito": "CURAHUASI",
+            "codigo": "030104"
+          },
+          {
+            "distrito": "HUANIPACA",
+            "codigo": "030105"
+          },
+          {
+            "distrito": "LAMBRAMA",
+            "codigo": "030106"
+          },
+          {
+            "distrito": "PICHIRHUA",
+            "codigo": "030107"
+          },
+          {
+            "distrito": "SAN PEDRO DE CACHORA",
+            "codigo": "030108"
+          },
+          {
+            "distrito": "TAMBURCO",
+            "codigo": "030109"
+          }
+        ]
+      },
+      {
+        "provincia": "ANDAHUAYLAS",
+        "distritos": [
+          {
+            "distrito": "ANDAHUAYLAS",
+            "codigo": "030201"
+          },
+          {
+            "distrito": "ANDARAPA",
+            "codigo": "030202"
+          },
+          {
+            "distrito": "CHIARA",
+            "codigo": "030203"
+          },
+          {
+            "distrito": "HUANCARAMA",
+            "codigo": "030204"
+          },
+          {
+            "distrito": "HUANCARAY",
+            "codigo": "030205"
+          },
+          {
+            "distrito": "HUAYANA",
+            "codigo": "030206"
+          },
+          {
+            "distrito": "KISHUARA",
+            "codigo": "030207"
+          },
+          {
+            "distrito": "PACOBAMBA",
+            "codigo": "030208"
+          },
+          {
+            "distrito": "PACUCHA",
+            "codigo": "030209"
+          },
+          {
+            "distrito": "PAMPACHIRI",
+            "codigo": "030210"
+          },
+          {
+            "distrito": "POMACOCHA",
+            "codigo": "030211"
+          },
+          {
+            "distrito": "SAN ANTONIO DE CACHI",
+            "codigo": "030212"
+          },
+          {
+            "distrito": "SAN JERONIMO",
+            "codigo": "030213"
+          },
+          {
+            "distrito": "SAN MIGUEL DE CHACCRAMPA",
+            "codigo": "030214"
+          },
+          {
+            "distrito": "SANTA MARIA DE CHICMO",
+            "codigo": "030215"
+          },
+          {
+            "distrito": "TALAVERA",
+            "codigo": "030216"
+          },
+          {
+            "distrito": "TUMAY HUARACA",
+            "codigo": "030217"
+          },
+          {
+            "distrito": "TURPO",
+            "codigo": "030218"
+          },
+          {
+            "distrito": "KAQUIABAMBA",
+            "codigo": "030219"
+          }
+        ]
+      },
+      {
+        "provincia": "ANTABAMBA",
+        "distritos": [
+          {
+            "distrito": "ANTABAMBA",
+            "codigo": "030301"
+          },
+          {
+            "distrito": "EL ORO",
+            "codigo": "030302"
+          },
+          {
+            "distrito": "HUAQUIRCA",
+            "codigo": "030303"
+          },
+          {
+            "distrito": "JUAN ESPINOZA MEDRANO",
+            "codigo": "030304"
+          },
+          {
+            "distrito": "OROPESA",
+            "codigo": "030305"
+          },
+          {
+            "distrito": "PACHACONAS",
+            "codigo": "030306"
+          },
+          {
+            "distrito": "SABAINO",
+            "codigo": "030307"
+          }
+        ]
+      },
+      {
+        "provincia": "AYMARAES",
+        "distritos": [
+          {
+            "distrito": "CHALHUANCA",
+            "codigo": "030401"
+          },
+          {
+            "distrito": "CAPAYA",
+            "codigo": "030402"
+          },
+          {
+            "distrito": "CARAYBAMBA",
+            "codigo": "030403"
+          },
+          {
+            "distrito": "CHAPIMARCA",
+            "codigo": "030404"
+          },
+          {
+            "distrito": "COLCABAMBA",
+            "codigo": "030405"
+          },
+          {
+            "distrito": "COTARUSE",
+            "codigo": "030406"
+          },
+          {
+            "distrito": "HUAYLLO",
+            "codigo": "030407"
+          },
+          {
+            "distrito": "JUSTO APU SAHUARAURA",
+            "codigo": "030408"
+          },
+          {
+            "distrito": "LUCRE",
+            "codigo": "030409"
+          },
+          {
+            "distrito": "POCOHUANCA",
+            "codigo": "030410"
+          },
+          {
+            "distrito": "SAN JUAN DE CHACNA",
+            "codigo": "030411"
+          },
+          {
+            "distrito": "SANAYCA",
+            "codigo": "030412"
+          },
+          {
+            "distrito": "SORAYA",
+            "codigo": "030413"
+          },
+          {
+            "distrito": "TAPAIRIHUA",
+            "codigo": "030414"
+          },
+          {
+            "distrito": "TINTAY",
+            "codigo": "030415"
+          },
+          {
+            "distrito": "TORAYA",
+            "codigo": "030416"
+          },
+          {
+            "distrito": "YANACA",
+            "codigo": "030417"
+          }
+        ]
+      },
+      {
+        "provincia": "COTABAMBAS",
+        "distritos": [
+          {
+            "distrito": "TAMBOBAMBA",
+            "codigo": "030501"
+          },
+          {
+            "distrito": "COTABAMBAS",
+            "codigo": "030502"
+          },
+          {
+            "distrito": "COYLLURQUI",
+            "codigo": "030503"
+          },
+          {
+            "distrito": "HAQUIRA",
+            "codigo": "030504"
+          },
+          {
+            "distrito": "MARA",
+            "codigo": "030505"
+          },
+          {
+            "distrito": "CHALLHUAHUACHO",
+            "codigo": "030506"
+          }
+        ]
+      },
+      {
+        "provincia": "CHINCHEROS",
+        "distritos": [
+          {
+            "distrito": "CHINCHEROS",
+            "codigo": "030601"
+          },
+          {
+            "distrito": "ANCO",
+            "codigo": "030602"
+          },
+          {
+            "distrito": "COCHARCAS",
+            "codigo": "030603"
+          },
+          {
+            "distrito": "HUACCANA",
+            "codigo": "030604"
+          },
+          {
+            "distrito": "OCOBAMBA",
+            "codigo": "030605"
+          },
+          {
+            "distrito": "ONGOY",
+            "codigo": "030606"
+          },
+          {
+            "distrito": "URANMARCA",
+            "codigo": "030607"
+          },
+          {
+            "distrito": "RANRACANCHA",
+            "codigo": "030608"
+          }
+        ]
+      },
+      {
+        "provincia": "GRAU",
+        "distritos": [
+          {
+            "distrito": "CHUQUIBAMBILLA",
+            "codigo": "030701"
+          },
+          {
+            "distrito": "CURPAHUASI",
+            "codigo": "030702"
+          },
+          {
+            "distrito": "GAMARRA",
+            "codigo": "030703"
+          },
+          {
+            "distrito": "HUAYLLATI",
+            "codigo": "030704"
+          },
+          {
+            "distrito": "MAMARA",
+            "codigo": "030705"
+          },
+          {
+            "distrito": "MICAELA BASTIDAS",
+            "codigo": "030706"
+          },
+          {
+            "distrito": "PATAYPAMPA",
+            "codigo": "030707"
+          },
+          {
+            "distrito": "PROGRESO",
+            "codigo": "030708"
+          },
+          {
+            "distrito": "SAN ANTONIO",
+            "codigo": "030709"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "030710"
+          },
+          {
+            "distrito": "TURPAY",
+            "codigo": "030711"
+          },
+          {
+            "distrito": "VILCABAMBA",
+            "codigo": "030712"
+          },
+          {
+            "distrito": "VIRUNDO",
+            "codigo": "030713"
+          },
+          {
+            "distrito": "CURASCO",
+            "codigo": "030714"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "AREQUIPA",
+    "provincias": [
+      {
+        "provincia": "AREQUIPA",
+        "distritos": [
+          {
+            "distrito": "AREQUIPA",
+            "codigo": "040101"
+          },
+          {
+            "distrito": "ALTO SELVA ALEGRE",
+            "codigo": "040102"
+          },
+          {
+            "distrito": "CAYMA",
+            "codigo": "040103"
+          },
+          {
+            "distrito": "CERRO COLORADO",
+            "codigo": "040104"
+          },
+          {
+            "distrito": "CHARACATO",
+            "codigo": "040105"
+          },
+          {
+            "distrito": "CHIGUATA",
+            "codigo": "040106"
+          },
+          {
+            "distrito": "JACOBO HUNTER",
+            "codigo": "040107"
+          },
+          {
+            "distrito": "LA JOYA",
+            "codigo": "040108"
+          },
+          {
+            "distrito": "MARIANO MELGAR",
+            "codigo": "040109"
+          },
+          {
+            "distrito": "MIRAFLORES",
+            "codigo": "040110"
+          },
+          {
+            "distrito": "MOLLEBAYA",
+            "codigo": "040111"
+          },
+          {
+            "distrito": "PAUCARPATA",
+            "codigo": "040112"
+          },
+          {
+            "distrito": "POCSI",
+            "codigo": "040113"
+          },
+          {
+            "distrito": "POLOBAYA",
+            "codigo": "040114"
+          },
+          {
+            "distrito": "QUEQUENA",
+            "codigo": "040115"
+          },
+          {
+            "distrito": "SABANDIA",
+            "codigo": "040116"
+          },
+          {
+            "distrito": "SACHACA",
+            "codigo": "040117"
+          },
+          {
+            "distrito": "SAN JUAN DE SIGUAS",
+            "codigo": "040118"
+          },
+          {
+            "distrito": "SAN JUAN DE TARUCANI",
+            "codigo": "040119"
+          },
+          {
+            "distrito": "SANTA ISABEL DE SIGUAS",
+            "codigo": "040120"
+          },
+          {
+            "distrito": "SANTA RITA DE SIGUAS",
+            "codigo": "040121"
+          },
+          {
+            "distrito": "SOCABAYA",
+            "codigo": "040122"
+          },
+          {
+            "distrito": "TIABAYA",
+            "codigo": "040123"
+          },
+          {
+            "distrito": "UCHUMAYO",
+            "codigo": "040124"
+          },
+          {
+            "distrito": "VITOR",
+            "codigo": "040125"
+          },
+          {
+            "distrito": "YANAHUARA",
+            "codigo": "040126"
+          },
+          {
+            "distrito": "YARABAMBA",
+            "codigo": "040127"
+          },
+          {
+            "distrito": "YURA",
+            "codigo": "040128"
+          },
+          {
+            "distrito": "JOSE LUIS BUSTAMANTE Y RIVERO",
+            "codigo": "040129"
+          }
+        ]
+      },
+      {
+        "provincia": "CAMANA",
+        "distritos": [
+          {
+            "distrito": "CAMANA",
+            "codigo": "040201"
+          },
+          {
+            "distrito": "JOSE MARIA QUIMPER",
+            "codigo": "040202"
+          },
+          {
+            "distrito": "MARIANO NICOLAS VALCARCEL",
+            "codigo": "040203"
+          },
+          {
+            "distrito": "MARISCAL CACERES",
+            "codigo": "040204"
+          },
+          {
+            "distrito": "NICOLAS DE PIEROLA",
+            "codigo": "040205"
+          },
+          {
+            "distrito": "OCONA",
+            "codigo": "040206"
+          },
+          {
+            "distrito": "QUILCA",
+            "codigo": "040207"
+          },
+          {
+            "distrito": "SAMUEL PASTOR",
+            "codigo": "040208"
+          }
+        ]
+      },
+      {
+        "provincia": "CARAVELI",
+        "distritos": [
+          {
+            "distrito": "CARAVELI",
+            "codigo": "040301"
+          },
+          {
+            "distrito": "ACARI",
+            "codigo": "040302"
+          },
+          {
+            "distrito": "ATICO",
+            "codigo": "040303"
+          },
+          {
+            "distrito": "ATIQUIPA",
+            "codigo": "040304"
+          },
+          {
+            "distrito": "BELLA UNION",
+            "codigo": "040305"
+          },
+          {
+            "distrito": "CAHUACHO",
+            "codigo": "040306"
+          },
+          {
+            "distrito": "CHALA",
+            "codigo": "040307"
+          },
+          {
+            "distrito": "CHAPARRA",
+            "codigo": "040308"
+          },
+          {
+            "distrito": "HUANUHUANU",
+            "codigo": "040309"
+          },
+          {
+            "distrito": "JAQUI",
+            "codigo": "040310"
+          },
+          {
+            "distrito": "LOMAS",
+            "codigo": "040311"
+          },
+          {
+            "distrito": "QUICACHA",
+            "codigo": "040312"
+          },
+          {
+            "distrito": "YAUCA",
+            "codigo": "040313"
+          }
+        ]
+      },
+      {
+        "provincia": "CASTILLA",
+        "distritos": [
+          {
+            "distrito": "APLAO",
+            "codigo": "040401"
+          },
+          {
+            "distrito": "ANDAGUA",
+            "codigo": "040402"
+          },
+          {
+            "distrito": "AYO",
+            "codigo": "040403"
+          },
+          {
+            "distrito": "CHACHAS",
+            "codigo": "040404"
+          },
+          {
+            "distrito": "CHILCAYMARCA",
+            "codigo": "040405"
+          },
+          {
+            "distrito": "CHOCO",
+            "codigo": "040406"
+          },
+          {
+            "distrito": "HUANCARQUI",
+            "codigo": "040407"
+          },
+          {
+            "distrito": "MACHAGUAY",
+            "codigo": "040408"
+          },
+          {
+            "distrito": "ORCOPAMPA",
+            "codigo": "040409"
+          },
+          {
+            "distrito": "PAMPACOLCA",
+            "codigo": "040410"
+          },
+          {
+            "distrito": "TIPAN",
+            "codigo": "040411"
+          },
+          {
+            "distrito": "UNON",
+            "codigo": "040412"
+          },
+          {
+            "distrito": "URACA",
+            "codigo": "040413"
+          },
+          {
+            "distrito": "VIRACO",
+            "codigo": "040414"
+          }
+        ]
+      },
+      {
+        "provincia": "CAYLLOMA",
+        "distritos": [
+          {
+            "distrito": "CHIVAY",
+            "codigo": "040501"
+          },
+          {
+            "distrito": "ACHOMA",
+            "codigo": "040502"
+          },
+          {
+            "distrito": "CABANACONDE",
+            "codigo": "040503"
+          },
+          {
+            "distrito": "CALLALLI",
+            "codigo": "040504"
+          },
+          {
+            "distrito": "CAYLLOMA",
+            "codigo": "040505"
+          },
+          {
+            "distrito": "COPORAQUE",
+            "codigo": "040506"
+          },
+          {
+            "distrito": "HUAMBO",
+            "codigo": "040507"
+          },
+          {
+            "distrito": "HUANCA",
+            "codigo": "040508"
+          },
+          {
+            "distrito": "ICHUPAMPA",
+            "codigo": "040509"
+          },
+          {
+            "distrito": "LARI",
+            "codigo": "040510"
+          },
+          {
+            "distrito": "LLUTA",
+            "codigo": "040511"
+          },
+          {
+            "distrito": "MACA",
+            "codigo": "040512"
+          },
+          {
+            "distrito": "MADRIGAL",
+            "codigo": "040513"
+          },
+          {
+            "distrito": "SAN ANTONIO DE CHUCA",
+            "codigo": "040514"
+          },
+          {
+            "distrito": "SIBAYO",
+            "codigo": "040515"
+          },
+          {
+            "distrito": "TAPAY",
+            "codigo": "040516"
+          },
+          {
+            "distrito": "TISCO",
+            "codigo": "040517"
+          },
+          {
+            "distrito": "TUTI",
+            "codigo": "040518"
+          },
+          {
+            "distrito": "YANQUE",
+            "codigo": "040519"
+          },
+          {
+            "distrito": "MAJES",
+            "codigo": "040520"
+          }
+        ]
+      },
+      {
+        "provincia": "CONDESUYOS",
+        "distritos": [
+          {
+            "distrito": "CHUQUIBAMBA",
+            "codigo": "040601"
+          },
+          {
+            "distrito": "ANDARAY",
+            "codigo": "040602"
+          },
+          {
+            "distrito": "CAYARANI",
+            "codigo": "040603"
+          },
+          {
+            "distrito": "CHICHAS",
+            "codigo": "040604"
+          },
+          {
+            "distrito": "IRAY",
+            "codigo": "040605"
+          },
+          {
+            "distrito": "RIO GRANDE",
+            "codigo": "040606"
+          },
+          {
+            "distrito": "SALAMANCA",
+            "codigo": "040607"
+          },
+          {
+            "distrito": "YANAQUIHUA",
+            "codigo": "040608"
+          }
+        ]
+      },
+      {
+        "provincia": "ISLAY",
+        "distritos": [
+          {
+            "distrito": "MOLLENDO",
+            "codigo": "040701"
+          },
+          {
+            "distrito": "COCACHACRA",
+            "codigo": "040702"
+          },
+          {
+            "distrito": "DEAN VALDIVIA",
+            "codigo": "040703"
+          },
+          {
+            "distrito": "ISLAY",
+            "codigo": "040704"
+          },
+          {
+            "distrito": "MEJIA",
+            "codigo": "040705"
+          },
+          {
+            "distrito": "PUNTA DE BOMBON",
+            "codigo": "040706"
+          }
+        ]
+      },
+      {
+        "provincia": "LA UNION",
+        "distritos": [
+          {
+            "distrito": "COTAHUASI",
+            "codigo": "040801"
+          },
+          {
+            "distrito": "ALCA",
+            "codigo": "040802"
+          },
+          {
+            "distrito": "CHARCANA",
+            "codigo": "040803"
+          },
+          {
+            "distrito": "HUAYNACOTAS",
+            "codigo": "040804"
+          },
+          {
+            "distrito": "PAMPAMARCA",
+            "codigo": "040805"
+          },
+          {
+            "distrito": "PUYCA",
+            "codigo": "040806"
+          },
+          {
+            "distrito": "QUECHUALLA",
+            "codigo": "040807"
+          },
+          {
+            "distrito": "SAYLA",
+            "codigo": "040808"
+          },
+          {
+            "distrito": "TAURIA",
+            "codigo": "040809"
+          },
+          {
+            "distrito": "TOMEPAMPA",
+            "codigo": "040810"
+          },
+          {
+            "distrito": "TORO",
+            "codigo": "040811"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "AYACUCHO",
+    "provincias": [
+      {
+        "provincia": "HUAMANGA",
+        "distritos": [
+          {
+            "distrito": "AYACUCHO",
+            "codigo": "050101"
+          },
+          {
+            "distrito": "ACOCRO",
+            "codigo": "050102"
+          },
+          {
+            "distrito": "ACOS VINCHOS",
+            "codigo": "050103"
+          },
+          {
+            "distrito": "CARMEN ALTO",
+            "codigo": "050104"
+          },
+          {
+            "distrito": "CHIARA",
+            "codigo": "050105"
+          },
+          {
+            "distrito": "OCROS",
+            "codigo": "050106"
+          },
+          {
+            "distrito": "PACAYCASA",
+            "codigo": "050107"
+          },
+          {
+            "distrito": "QUINUA",
+            "codigo": "050108"
+          },
+          {
+            "distrito": "SAN JOSE DE TICLLAS",
+            "codigo": "050109"
+          },
+          {
+            "distrito": "SAN JUAN BAUTISTA",
+            "codigo": "050110"
+          },
+          {
+            "distrito": "SANTIAGO DE PISCHA",
+            "codigo": "050111"
+          },
+          {
+            "distrito": "SOCOS",
+            "codigo": "050112"
+          },
+          {
+            "distrito": "TAMBILLO",
+            "codigo": "050113"
+          },
+          {
+            "distrito": "VINCHOS",
+            "codigo": "050114"
+          },
+          {
+            "distrito": "JESUS NAZARENO",
+            "codigo": "050115"
+          }
+        ]
+      },
+      {
+        "provincia": "CANGALLO",
+        "distritos": [
+          {
+            "distrito": "CANGALLO",
+            "codigo": "050201"
+          },
+          {
+            "distrito": "CHUSCHI",
+            "codigo": "050202"
+          },
+          {
+            "distrito": "LOS MOROCHUCOS",
+            "codigo": "050203"
+          },
+          {
+            "distrito": "MARIA PARADO DE BELLIDO",
+            "codigo": "050204"
+          },
+          {
+            "distrito": "PARAS",
+            "codigo": "050205"
+          },
+          {
+            "distrito": "TOTOS",
+            "codigo": "050206"
+          }
+        ]
+      },
+      {
+        "provincia": "HUANCA SANCOS",
+        "distritos": [
+          {
+            "distrito": "SANCOS",
+            "codigo": "050301"
+          },
+          {
+            "distrito": "CARAPO",
+            "codigo": "050302"
+          },
+          {
+            "distrito": "SACSAMARCA",
+            "codigo": "050303"
+          },
+          {
+            "distrito": "SANTIAGO DE LUCANAMARCA",
+            "codigo": "050304"
+          }
+        ]
+      },
+      {
+        "provincia": "HUANTA",
+        "distritos": [
+          {
+            "distrito": "HUANTA",
+            "codigo": "050401"
+          },
+          {
+            "distrito": "AYAHUANCO",
+            "codigo": "050402"
+          },
+          {
+            "distrito": "HUAMANGUILLA",
+            "codigo": "050403"
+          },
+          {
+            "distrito": "IGUAIN",
+            "codigo": "050404"
+          },
+          {
+            "distrito": "LURICOCHA",
+            "codigo": "050405"
+          },
+          {
+            "distrito": "SANTILLANA",
+            "codigo": "050406"
+          },
+          {
+            "distrito": "SIVIA",
+            "codigo": "050407"
+          },
+          {
+            "distrito": "LLOCHEGUA",
+            "codigo": "050408"
+          }
+        ]
+      },
+      {
+        "provincia": "LA MAR",
+        "distritos": [
+          {
+            "distrito": "SAN MIGUEL",
+            "codigo": "050501"
+          },
+          {
+            "distrito": "ANCO",
+            "codigo": "050502"
+          },
+          {
+            "distrito": "AYNA",
+            "codigo": "050503"
+          },
+          {
+            "distrito": "CHILCAS",
+            "codigo": "050504"
+          },
+          {
+            "distrito": "CHUNGUI",
+            "codigo": "050505"
+          },
+          {
+            "distrito": "LUIS CARRANZA",
+            "codigo": "050506"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "050507"
+          },
+          {
+            "distrito": "TAMBO",
+            "codigo": "050508"
+          }
+        ]
+      },
+      {
+        "provincia": "LUCANAS",
+        "distritos": [
+          {
+            "distrito": "PUQUIO",
+            "codigo": "050601"
+          },
+          {
+            "distrito": "AUCARA",
+            "codigo": "050602"
+          },
+          {
+            "distrito": "CABANA",
+            "codigo": "050603"
+          },
+          {
+            "distrito": "CARMEN SALCEDO",
+            "codigo": "050604"
+          },
+          {
+            "distrito": "CHAVINA",
+            "codigo": "050605"
+          },
+          {
+            "distrito": "CHIPAO",
+            "codigo": "050606"
+          },
+          {
+            "distrito": "HUAC",
+            "codigo": "050607"
+          },
+          {
+            "distrito": "LARAMATE",
+            "codigo": "050608"
+          },
+          {
+            "distrito": "LEONCIO PRADO",
+            "codigo": "050609"
+          },
+          {
+            "distrito": "LLAUTA",
+            "codigo": "050610"
+          },
+          {
+            "distrito": "LUCANAS",
+            "codigo": "050611"
+          },
+          {
+            "distrito": "OCANA",
+            "codigo": "050612"
+          },
+          {
+            "distrito": "OTOCA",
+            "codigo": "050613"
+          },
+          {
+            "distrito": "SAISA",
+            "codigo": "050614"
+          },
+          {
+            "distrito": "SAN CRISTOBAL",
+            "codigo": "050615"
+          },
+          {
+            "distrito": "SAN JUAN",
+            "codigo": "050616"
+          },
+          {
+            "distrito": "SAN PEDRO",
+            "codigo": "050617"
+          },
+          {
+            "distrito": "SAN PEDRO DE PALCO",
+            "codigo": "050618"
+          },
+          {
+            "distrito": "SANCOS",
+            "codigo": "050619"
+          },
+          {
+            "distrito": "SANTA ANA DE HUAYCAHUACHO",
+            "codigo": "050620"
+          },
+          {
+            "distrito": "SANTA LUCIA",
+            "codigo": "050621"
+          }
+        ]
+      },
+      {
+        "provincia": "PARINACOCHAS",
+        "distritos": [
+          {
+            "distrito": "CORACORA",
+            "codigo": "050701"
+          },
+          {
+            "distrito": "CHUMPI",
+            "codigo": "050702"
+          },
+          {
+            "distrito": "CORONEL CASTANEDA",
+            "codigo": "050703"
+          },
+          {
+            "distrito": "PACAPAUSA",
+            "codigo": "050704"
+          },
+          {
+            "distrito": "PULLO",
+            "codigo": "050705"
+          },
+          {
+            "distrito": "PUYUSCA",
+            "codigo": "050706"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE RAVACAYCO",
+            "codigo": "050707"
+          },
+          {
+            "distrito": "UPAHUACHO",
+            "codigo": "050708"
+          }
+        ]
+      },
+      {
+        "provincia": "PAUCAR DEL SARA SARA",
+        "distritos": [
+          {
+            "distrito": "PAUSA",
+            "codigo": "050801"
+          },
+          {
+            "distrito": "COLTA",
+            "codigo": "050802"
+          },
+          {
+            "distrito": "CORCULLA",
+            "codigo": "050803"
+          },
+          {
+            "distrito": "LAMPA",
+            "codigo": "050804"
+          },
+          {
+            "distrito": "MARCABAMBA",
+            "codigo": "050805"
+          },
+          {
+            "distrito": "OYOLO",
+            "codigo": "050806"
+          },
+          {
+            "distrito": "PARARCA",
+            "codigo": "050807"
+          },
+          {
+            "distrito": "SAN JAVIER DE ALPABAMBA",
+            "codigo": "050808"
+          },
+          {
+            "distrito": "SAN JOSE DE USHUA",
+            "codigo": "050809"
+          },
+          {
+            "distrito": "SARA SARA",
+            "codigo": "050810"
+          }
+        ]
+      },
+      {
+        "provincia": "SUCRE",
+        "distritos": [
+          {
+            "distrito": "QUEROBAMBA",
+            "codigo": "050901"
+          },
+          {
+            "distrito": "BELEN",
+            "codigo": "050902"
+          },
+          {
+            "distrito": "CHALCOS",
+            "codigo": "050903"
+          },
+          {
+            "distrito": "CHILCAYOC",
+            "codigo": "050904"
+          },
+          {
+            "distrito": "HUACANA",
+            "codigo": "050905"
+          },
+          {
+            "distrito": "MORCOLLA",
+            "codigo": "050906"
+          },
+          {
+            "distrito": "PAICO",
+            "codigo": "050907"
+          },
+          {
+            "distrito": "SAN PEDRO DE LARCAY",
+            "codigo": "050908"
+          },
+          {
+            "distrito": "SAN SALVADOR DE QUIJE",
+            "codigo": "050909"
+          },
+          {
+            "distrito": "SANTIAGO DE PAUCARAY",
+            "codigo": "050910"
+          },
+          {
+            "distrito": "SORAS",
+            "codigo": "050911"
+          }
+        ]
+      },
+      {
+        "provincia": "VICTOR FAJARDO",
+        "distritos": [
+          {
+            "distrito": "HUANCAPI",
+            "codigo": "051001"
+          },
+          {
+            "distrito": "ALCAMENCA",
+            "codigo": "051002"
+          },
+          {
+            "distrito": "APONGO",
+            "codigo": "051003"
+          },
+          {
+            "distrito": "ASQUIPATA",
+            "codigo": "051004"
+          },
+          {
+            "distrito": "CANARIA",
+            "codigo": "051005"
+          },
+          {
+            "distrito": "CAYARA",
+            "codigo": "051006"
+          },
+          {
+            "distrito": "COLCA",
+            "codigo": "051007"
+          },
+          {
+            "distrito": "HUAMANQUIQUIA",
+            "codigo": "051008"
+          },
+          {
+            "distrito": "HUANCARAYLLA",
+            "codigo": "051009"
+          },
+          {
+            "distrito": "HUAYA",
+            "codigo": "051010"
+          },
+          {
+            "distrito": "SARHUA",
+            "codigo": "051011"
+          },
+          {
+            "distrito": "VILCANCHOS",
+            "codigo": "051012"
+          }
+        ]
+      },
+      {
+        "provincia": "VILCAS HUAMAN",
+        "distritos": [
+          {
+            "distrito": "VILCAS HUAMAN",
+            "codigo": "051101"
+          },
+          {
+            "distrito": "ACCOMARCA",
+            "codigo": "051102"
+          },
+          {
+            "distrito": "CARHUANCA",
+            "codigo": "051103"
+          },
+          {
+            "distrito": "CONCEPCION",
+            "codigo": "051104"
+          },
+          {
+            "distrito": "HUAMBALPA",
+            "codigo": "051105"
+          },
+          {
+            "distrito": "INDEPENDENCIA",
+            "codigo": "051106"
+          },
+          {
+            "distrito": "SAURAMA",
+            "codigo": "051107"
+          },
+          {
+            "distrito": "VISCHONGO",
+            "codigo": "051108"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "CAJAMARCA",
+    "provincias": [
+      {
+        "provincia": "CAJAMARCA",
+        "distritos": [
+          {
+            "distrito": "CAJAMARCA",
+            "codigo": "060101"
+          },
+          {
+            "distrito": "ASUNCION",
+            "codigo": "060102"
+          },
+          {
+            "distrito": "CHETILLA",
+            "codigo": "060103"
+          },
+          {
+            "distrito": "COSPAN",
+            "codigo": "060104"
+          },
+          {
+            "distrito": "ENCANADA",
+            "codigo": "060105"
+          },
+          {
+            "distrito": "JESUS",
+            "codigo": "060106"
+          },
+          {
+            "distrito": "LLACANORA",
+            "codigo": "060107"
+          },
+          {
+            "distrito": "LOS BANOS DEL INCA",
+            "codigo": "060108"
+          },
+          {
+            "distrito": "MAGDALENA",
+            "codigo": "060109"
+          },
+          {
+            "distrito": "MATARA",
+            "codigo": "060110"
+          },
+          {
+            "distrito": "NAMORA",
+            "codigo": "060111"
+          },
+          {
+            "distrito": "SAN JUAN",
+            "codigo": "060112"
+          }
+        ]
+      },
+      {
+        "provincia": "CAJABAMBA",
+        "distritos": [
+          {
+            "distrito": "CAJABAMBA",
+            "codigo": "060201"
+          },
+          {
+            "distrito": "CACHACHI",
+            "codigo": "060202"
+          },
+          {
+            "distrito": "CONDEBAMBA",
+            "codigo": "060203"
+          },
+          {
+            "distrito": "SITACOCHA",
+            "codigo": "060204"
+          }
+        ]
+      },
+      {
+        "provincia": "CELENDIN",
+        "distritos": [
+          {
+            "distrito": "CELENDIN",
+            "codigo": "060301"
+          },
+          {
+            "distrito": "CHUMUCH",
+            "codigo": "060302"
+          },
+          {
+            "distrito": "CORTEGANA",
+            "codigo": "060303"
+          },
+          {
+            "distrito": "HUASMIN",
+            "codigo": "060304"
+          },
+          {
+            "distrito": "JORGE CHAVEZ",
+            "codigo": "060305"
+          },
+          {
+            "distrito": "JOSE GALVEZ",
+            "codigo": "060306"
+          },
+          {
+            "distrito": "MIGUEL IGLESIAS",
+            "codigo": "060307"
+          },
+          {
+            "distrito": "OXAMARCA",
+            "codigo": "060308"
+          },
+          {
+            "distrito": "SOROCHUCO",
+            "codigo": "060309"
+          },
+          {
+            "distrito": "SUCRE",
+            "codigo": "060310"
+          },
+          {
+            "distrito": "UTCO",
+            "codigo": "060311"
+          },
+          {
+            "distrito": "LA LIBERTAD DE PALLAN",
+            "codigo": "060312"
+          }
+        ]
+      },
+      {
+        "provincia": "CHOTA",
+        "distritos": [
+          {
+            "distrito": "CHOTA",
+            "codigo": "060401"
+          },
+          {
+            "distrito": "ANGUIA",
+            "codigo": "060402"
+          },
+          {
+            "distrito": "CHADIN",
+            "codigo": "060403"
+          },
+          {
+            "distrito": "CHIGUIRIP",
+            "codigo": "060404"
+          },
+          {
+            "distrito": "CHIMBAN",
+            "codigo": "060405"
+          },
+          {
+            "distrito": "CHOROPAMPA",
+            "codigo": "060406"
+          },
+          {
+            "distrito": "COCHABAMBA",
+            "codigo": "060407"
+          },
+          {
+            "distrito": "CONCHAN",
+            "codigo": "060408"
+          },
+          {
+            "distrito": "HUAMBOS",
+            "codigo": "060409"
+          },
+          {
+            "distrito": "LAJAS",
+            "codigo": "060410"
+          },
+          {
+            "distrito": "LLAMA",
+            "codigo": "060411"
+          },
+          {
+            "distrito": "MIRACOSTA",
+            "codigo": "060412"
+          },
+          {
+            "distrito": "PACCHA",
+            "codigo": "060413"
+          },
+          {
+            "distrito": "PION",
+            "codigo": "060414"
+          },
+          {
+            "distrito": "QUEROCOTO",
+            "codigo": "060415"
+          },
+          {
+            "distrito": "SAN JUAN DE LICUPIS",
+            "codigo": "060416"
+          },
+          {
+            "distrito": "TACABAMBA",
+            "codigo": "060417"
+          },
+          {
+            "distrito": "TOCMOCHE",
+            "codigo": "060418"
+          },
+          {
+            "distrito": "CHALAMARCA",
+            "codigo": "060419"
+          }
+        ]
+      },
+      {
+        "provincia": "CONTUMAZA",
+        "distritos": [
+          {
+            "distrito": "CONTUMAZA",
+            "codigo": "060501"
+          },
+          {
+            "distrito": "CHILETE",
+            "codigo": "060502"
+          },
+          {
+            "distrito": "CUPISNIQUE",
+            "codigo": "060503"
+          },
+          {
+            "distrito": "GUZMANGO",
+            "codigo": "060504"
+          },
+          {
+            "distrito": "SAN BENITO",
+            "codigo": "060505"
+          },
+          {
+            "distrito": "SANTA CRUZ DE TOLED",
+            "codigo": "060506"
+          },
+          {
+            "distrito": "TANTARICA",
+            "codigo": "060507"
+          },
+          {
+            "distrito": "YONAN",
+            "codigo": "060508"
+          }
+        ]
+      },
+      {
+        "provincia": "CUTERVO",
+        "distritos": [
+          {
+            "distrito": "CUTERVO",
+            "codigo": "060601"
+          },
+          {
+            "distrito": "CALLAYUC",
+            "codigo": "060602"
+          },
+          {
+            "distrito": "CHOROS",
+            "codigo": "060603"
+          },
+          {
+            "distrito": "CUJILLO",
+            "codigo": "060604"
+          },
+          {
+            "distrito": "LA RAMADA",
+            "codigo": "060605"
+          },
+          {
+            "distrito": "PIMPINGOS",
+            "codigo": "060606"
+          },
+          {
+            "distrito": "QUEROCOTILLO",
+            "codigo": "060607"
+          },
+          {
+            "distrito": "SAN ANDRES DE CUTERVO",
+            "codigo": "060608"
+          },
+          {
+            "distrito": "SAN JUAN DE CUTERVO",
+            "codigo": "060609"
+          },
+          {
+            "distrito": "SAN LUIS DE LUCMA",
+            "codigo": "060610"
+          },
+          {
+            "distrito": "SANTA CRUZ",
+            "codigo": "060611"
+          },
+          {
+            "distrito": "SANTO DOMINGO DE LA CAPILLA",
+            "codigo": "060612"
+          },
+          {
+            "distrito": "SANTO TOMAS",
+            "codigo": "060613"
+          },
+          {
+            "distrito": "SOCOTA",
+            "codigo": "060614"
+          },
+          {
+            "distrito": "TORIBIO CASANOVA",
+            "codigo": "060615"
+          }
+        ]
+      },
+      {
+        "provincia": "HUALGAYOC",
+        "distritos": [
+          {
+            "distrito": "BAMBAMARCA",
+            "codigo": "060701"
+          },
+          {
+            "distrito": "CHUGUR",
+            "codigo": "060702"
+          },
+          {
+            "distrito": "HUALGAYOC",
+            "codigo": "060703"
+          }
+        ]
+      },
+      {
+        "provincia": "JAEN",
+        "distritos": [
+          {
+            "distrito": "JAEN",
+            "codigo": "060801"
+          },
+          {
+            "distrito": "BELLAVISTA",
+            "codigo": "060802"
+          },
+          {
+            "distrito": "CHONTALI",
+            "codigo": "060803"
+          },
+          {
+            "distrito": "COLASAY",
+            "codigo": "060804"
+          },
+          {
+            "distrito": "HUABAL",
+            "codigo": "060805"
+          },
+          {
+            "distrito": "LAS PIRIAS",
+            "codigo": "060806"
+          },
+          {
+            "distrito": "POMAHUACA",
+            "codigo": "060807"
+          },
+          {
+            "distrito": "PUCARA",
+            "codigo": "060808"
+          },
+          {
+            "distrito": "SALLIQUE",
+            "codigo": "060809"
+          },
+          {
+            "distrito": "SAN FELIPE",
+            "codigo": "060810"
+          },
+          {
+            "distrito": "SAN JOSE DEL ALTO",
+            "codigo": "060811"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "060812"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN IGNACIO",
+        "distritos": [
+          {
+            "distrito": "SAN IGNACIO",
+            "codigo": "060901"
+          },
+          {
+            "distrito": "CHIRINOS",
+            "codigo": "060902"
+          },
+          {
+            "distrito": "HUARANGO",
+            "codigo": "060903"
+          },
+          {
+            "distrito": "LA COIPA",
+            "codigo": "060904"
+          },
+          {
+            "distrito": "NAMBALLE",
+            "codigo": "060905"
+          },
+          {
+            "distrito": "SAN JOSE DE LOURDES",
+            "codigo": "060906"
+          },
+          {
+            "distrito": "TABACONAS",
+            "codigo": "060907"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN MARCOS",
+        "distritos": [
+          {
+            "distrito": "PEDRO GALVEZ",
+            "codigo": "061001"
+          },
+          {
+            "distrito": "CHANCAY",
+            "codigo": "061002"
+          },
+          {
+            "distrito": "EDUARDO VILLANUEVA",
+            "codigo": "061003"
+          },
+          {
+            "distrito": "GREGORIO PITA",
+            "codigo": "061004"
+          },
+          {
+            "distrito": "ICHOCAN",
+            "codigo": "061005"
+          },
+          {
+            "distrito": "JOSE MANUEL QUIROZ",
+            "codigo": "061006"
+          },
+          {
+            "distrito": "JOSE SABOGAL",
+            "codigo": "061007"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN MIGUEL",
+        "distritos": [
+          {
+            "distrito": "SAN MIGUEL",
+            "codigo": "061101"
+          },
+          {
+            "distrito": "BOLIVAR",
+            "codigo": "061102"
+          },
+          {
+            "distrito": "CALQUIS",
+            "codigo": "061103"
+          },
+          {
+            "distrito": "CATILLUC",
+            "codigo": "061104"
+          },
+          {
+            "distrito": "EL PRADO",
+            "codigo": "061105"
+          },
+          {
+            "distrito": "LA FLORIDA",
+            "codigo": "061106"
+          },
+          {
+            "distrito": "LLAPA",
+            "codigo": "061107"
+          },
+          {
+            "distrito": "NANCHOC",
+            "codigo": "061108"
+          },
+          {
+            "distrito": "NIEPOS",
+            "codigo": "061109"
+          },
+          {
+            "distrito": "SAN GREGORIO",
+            "codigo": "061110"
+          },
+          {
+            "distrito": "SAN SILVESTRE DE COCHAN",
+            "codigo": "061111"
+          },
+          {
+            "distrito": "TONGOD",
+            "codigo": "061112"
+          },
+          {
+            "distrito": "UNION AGUA BLANCA",
+            "codigo": "061113"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN PABLO",
+        "distritos": [
+          {
+            "distrito": "SAN PABLO",
+            "codigo": "061201"
+          },
+          {
+            "distrito": "SAN BERNARDINO",
+            "codigo": "061202"
+          },
+          {
+            "distrito": "SAN LUIS",
+            "codigo": "061203"
+          },
+          {
+            "distrito": "TUMBADEN",
+            "codigo": "061204"
+          }
+        ]
+      },
+      {
+        "provincia": "SANTA CRUZ",
+        "distritos": [
+          {
+            "distrito": "SANTA CRUZ",
+            "codigo": "061301"
+          },
+          {
+            "distrito": "ANDABAMBA",
+            "codigo": "061302"
+          },
+          {
+            "distrito": "CATACHE",
+            "codigo": "061303"
+          },
+          {
+            "distrito": "CHANCAYBANOS",
+            "codigo": "061304"
+          },
+          {
+            "distrito": "LA ESPERANZA",
+            "codigo": "061305"
+          },
+          {
+            "distrito": "NINABAMBA",
+            "codigo": "061306"
+          },
+          {
+            "distrito": "PULAN",
+            "codigo": "061307"
+          },
+          {
+            "distrito": "SAUCEPAMPA",
+            "codigo": "061308"
+          },
+          {
+            "distrito": "SEXI",
+            "codigo": "061309"
+          },
+          {
+            "distrito": "UTICYACU",
+            "codigo": "061310"
+          },
+          {
+            "distrito": "YAUYUCAN",
+            "codigo": "061311"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "CALLAO",
+    "provincias": [
+      {
+        "provincia": "CALLAO",
+        "distritos": [
+          {
+            "distrito": "CALLAO",
+            "codigo": "070101"
+          },
+          {
+            "distrito": "BELLAVISTA",
+            "codigo": "070102"
+          },
+          {
+            "distrito": "CARMEN DE LA LEGUA REYNOSO",
+            "codigo": "070103"
+          },
+          {
+            "distrito": "LA PERLA",
+            "codigo": "070104"
+          },
+          {
+            "distrito": "LA PUNTA",
+            "codigo": "070105"
+          },
+          {
+            "distrito": "VENTANILLA",
+            "codigo": "070106"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "CUSCO",
+    "provincias": [
+      {
+        "provincia": "CUSCO",
+        "distritos": [
+          {
+            "distrito": "CUSCO",
+            "codigo": "080101"
+          },
+          {
+            "distrito": "CCORCA",
+            "codigo": "080102"
+          },
+          {
+            "distrito": "POROY",
+            "codigo": "080103"
+          },
+          {
+            "distrito": "SAN JERONIMO",
+            "codigo": "080104"
+          },
+          {
+            "distrito": "SAN SEBASTIAN",
+            "codigo": "080105"
+          },
+          {
+            "distrito": "SANTIAGO",
+            "codigo": "080106"
+          },
+          {
+            "distrito": "SAYLLA",
+            "codigo": "080107"
+          },
+          {
+            "distrito": "WANCHAQ",
+            "codigo": "080108"
+          }
+        ]
+      },
+      {
+        "provincia": "ACOMAYO",
+        "distritos": [
+          {
+            "distrito": "ACOMAYO",
+            "codigo": "080201"
+          },
+          {
+            "distrito": "ACOPIA",
+            "codigo": "080202"
+          },
+          {
+            "distrito": "ACOS",
+            "codigo": "080203"
+          },
+          {
+            "distrito": "MOSOC LLACTA",
+            "codigo": "080204"
+          },
+          {
+            "distrito": "POMACANCHI",
+            "codigo": "080205"
+          },
+          {
+            "distrito": "RONDOCAN",
+            "codigo": "080206"
+          },
+          {
+            "distrito": "SANGARARA",
+            "codigo": "080207"
+          }
+        ]
+      },
+      {
+        "provincia": "ANTA",
+        "distritos": [
+          {
+            "distrito": "ANTA",
+            "codigo": "080301"
+          },
+          {
+            "distrito": "ANCAHUASI",
+            "codigo": "080302"
+          },
+          {
+            "distrito": "CACHIMAYO",
+            "codigo": "080303"
+          },
+          {
+            "distrito": "CHINCHAYPUJIO",
+            "codigo": "080304"
+          },
+          {
+            "distrito": "HUAROCONDO",
+            "codigo": "080305"
+          },
+          {
+            "distrito": "LIMATAMBO",
+            "codigo": "080306"
+          },
+          {
+            "distrito": "MOLLEPATA",
+            "codigo": "080307"
+          },
+          {
+            "distrito": "PUCYURA",
+            "codigo": "080308"
+          },
+          {
+            "distrito": "ZURITE",
+            "codigo": "080309"
+          }
+        ]
+      },
+      {
+        "provincia": "CALCA",
+        "distritos": [
+          {
+            "distrito": "CALCA",
+            "codigo": "080401"
+          },
+          {
+            "distrito": "COYA",
+            "codigo": "080402"
+          },
+          {
+            "distrito": "LAMAY",
+            "codigo": "080403"
+          },
+          {
+            "distrito": "LARES",
+            "codigo": "080404"
+          },
+          {
+            "distrito": "PISAC",
+            "codigo": "080405"
+          },
+          {
+            "distrito": "SAN SALVADOR",
+            "codigo": "080406"
+          },
+          {
+            "distrito": "TARAY",
+            "codigo": "080407"
+          },
+          {
+            "distrito": "YANATILE",
+            "codigo": "080408"
+          }
+        ]
+      },
+      {
+        "provincia": "CANAS",
+        "distritos": [
+          {
+            "distrito": "YANAOCA",
+            "codigo": "080501"
+          },
+          {
+            "distrito": "CHECCA",
+            "codigo": "080502"
+          },
+          {
+            "distrito": "KUNTURKANKI",
+            "codigo": "080503"
+          },
+          {
+            "distrito": "LANGUI",
+            "codigo": "080504"
+          },
+          {
+            "distrito": "LAYO",
+            "codigo": "080505"
+          },
+          {
+            "distrito": "PAMPAMARCA",
+            "codigo": "080506"
+          },
+          {
+            "distrito": "QUEHUE",
+            "codigo": "080507"
+          },
+          {
+            "distrito": "TUPAC AMARU",
+            "codigo": "080508"
+          }
+        ]
+      },
+      {
+        "provincia": "CANCHIS",
+        "distritos": [
+          {
+            "distrito": "SICUANI",
+            "codigo": "080601"
+          },
+          {
+            "distrito": "CHECACUPE",
+            "codigo": "080602"
+          },
+          {
+            "distrito": "COMBAPATA",
+            "codigo": "080603"
+          },
+          {
+            "distrito": "MARANGANI",
+            "codigo": "080604"
+          },
+          {
+            "distrito": "PITUMARCA",
+            "codigo": "080605"
+          },
+          {
+            "distrito": "SAN PABLO",
+            "codigo": "080606"
+          },
+          {
+            "distrito": "SAN PEDRO",
+            "codigo": "080607"
+          },
+          {
+            "distrito": "TINTA",
+            "codigo": "080608"
+          }
+        ]
+      },
+      {
+        "provincia": "CHUMBIVILCAS",
+        "distritos": [
+          {
+            "distrito": "SANTO TOMAS",
+            "codigo": "080701"
+          },
+          {
+            "distrito": "CAPACMARCA",
+            "codigo": "080702"
+          },
+          {
+            "distrito": "CHAMACA",
+            "codigo": "080703"
+          },
+          {
+            "distrito": "COLQUEMARCA",
+            "codigo": "080704"
+          },
+          {
+            "distrito": "LIVITACA",
+            "codigo": "080705"
+          },
+          {
+            "distrito": "LLUSCO",
+            "codigo": "080706"
+          },
+          {
+            "distrito": "QUINOTA",
+            "codigo": "080707"
+          },
+          {
+            "distrito": "VELILLE",
+            "codigo": "080708"
+          }
+        ]
+      },
+      {
+        "provincia": "ESPINAR",
+        "distritos": [
+          {
+            "distrito": "ESPINAR",
+            "codigo": "080801"
+          },
+          {
+            "distrito": "CONDOROMA",
+            "codigo": "080802"
+          },
+          {
+            "distrito": "COPORAQUE",
+            "codigo": "080803"
+          },
+          {
+            "distrito": "OCORURO",
+            "codigo": "080804"
+          },
+          {
+            "distrito": "PALLPATA",
+            "codigo": "080805"
+          },
+          {
+            "distrito": "PICHIGUA",
+            "codigo": "080806"
+          },
+          {
+            "distrito": "SUYCKUTAMBO",
+            "codigo": "080807"
+          },
+          {
+            "distrito": "ALTO PICHIGUA",
+            "codigo": "080808"
+          }
+        ]
+      },
+      {
+        "provincia": "LA CONVENCION",
+        "distritos": [
+          {
+            "distrito": "SANTA ANA",
+            "codigo": "080901"
+          },
+          {
+            "distrito": "ECHARATE",
+            "codigo": "080902"
+          },
+          {
+            "distrito": "HUAYOPATA",
+            "codigo": "080903"
+          },
+          {
+            "distrito": "MARANURA",
+            "codigo": "080904"
+          },
+          {
+            "distrito": "OCOBAMBA",
+            "codigo": "080905"
+          },
+          {
+            "distrito": "QUELLOUNO",
+            "codigo": "080906"
+          },
+          {
+            "distrito": "KIMBIRI",
+            "codigo": "080907"
+          },
+          {
+            "distrito": "SANTA TERESA",
+            "codigo": "080908"
+          },
+          {
+            "distrito": "VILCABAMBA",
+            "codigo": "080909"
+          },
+          {
+            "distrito": "PICHARI",
+            "codigo": "080910"
+          }
+        ]
+      },
+      {
+        "provincia": "PARURO",
+        "distritos": [
+          {
+            "distrito": "PARURO",
+            "codigo": "081001"
+          },
+          {
+            "distrito": "ACCHA",
+            "codigo": "081002"
+          },
+          {
+            "distrito": "CCAPI",
+            "codigo": "081003"
+          },
+          {
+            "distrito": "COLCHA",
+            "codigo": "081004"
+          },
+          {
+            "distrito": "HUANOQUITE",
+            "codigo": "081005"
+          },
+          {
+            "distrito": "OMACHA",
+            "codigo": "081006"
+          },
+          {
+            "distrito": "PACCARITAMBO",
+            "codigo": "081007"
+          },
+          {
+            "distrito": "PILLPINTO",
+            "codigo": "081008"
+          },
+          {
+            "distrito": "YAURISQUE",
+            "codigo": "081009"
+          }
+        ]
+      },
+      {
+        "provincia": "PAUCARTAMBO",
+        "distritos": [
+          {
+            "distrito": "PAUCARTAMBO",
+            "codigo": "081101"
+          },
+          {
+            "distrito": "CAICAY",
+            "codigo": "081102"
+          },
+          {
+            "distrito": "CHALLABAMBA",
+            "codigo": "081103"
+          },
+          {
+            "distrito": "COLQUEPATA",
+            "codigo": "081104"
+          },
+          {
+            "distrito": "HUANCARANI",
+            "codigo": "081105"
+          },
+          {
+            "distrito": "KOSNIPATA",
+            "codigo": "081106"
+          }
+        ]
+      },
+      {
+        "provincia": "QUISPICANCHI",
+        "distritos": [
+          {
+            "distrito": "URCOS",
+            "codigo": "081201"
+          },
+          {
+            "distrito": "ANDAHUAYLILLAS",
+            "codigo": "081202"
+          },
+          {
+            "distrito": "CAMANTI",
+            "codigo": "081203"
+          },
+          {
+            "distrito": "CCARHUAYO",
+            "codigo": "081204"
+          },
+          {
+            "distrito": "CCATCA",
+            "codigo": "081205"
+          },
+          {
+            "distrito": "CUSIPATA",
+            "codigo": "081206"
+          },
+          {
+            "distrito": "HUARO",
+            "codigo": "081207"
+          },
+          {
+            "distrito": "LUCRE",
+            "codigo": "081208"
+          },
+          {
+            "distrito": "MARCAPATA",
+            "codigo": "081209"
+          },
+          {
+            "distrito": "OCONGATE",
+            "codigo": "081210"
+          },
+          {
+            "distrito": "OROPESA",
+            "codigo": "081211"
+          },
+          {
+            "distrito": "QUIQUIJANA",
+            "codigo": "081212"
+          }
+        ]
+      },
+      {
+        "provincia": "URUBAMBA",
+        "distritos": [
+          {
+            "distrito": "URUBAMBA",
+            "codigo": "081301"
+          },
+          {
+            "distrito": "CHINCHERO",
+            "codigo": "081302"
+          },
+          {
+            "distrito": "HUAYLLABAMBA",
+            "codigo": "081303"
+          },
+          {
+            "distrito": "MACHUPICCHU",
+            "codigo": "081304"
+          },
+          {
+            "distrito": "MARAS",
+            "codigo": "081305"
+          },
+          {
+            "distrito": "OLLANTAYTAMBO",
+            "codigo": "081306"
+          },
+          {
+            "distrito": "YUCAY",
+            "codigo": "081307"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "HUANCAVELICA",
+    "provincias": [
+      {
+        "provincia": "HUANCAVELICA",
+        "distritos": [
+          {
+            "distrito": "HUANCAVELICA",
+            "codigo": "090101"
+          },
+          {
+            "distrito": "ACOBAMBILLA",
+            "codigo": "090102"
+          },
+          {
+            "distrito": "ACORIA",
+            "codigo": "090103"
+          },
+          {
+            "distrito": "CONAYCA",
+            "codigo": "090104"
+          },
+          {
+            "distrito": "CUENCA",
+            "codigo": "090105"
+          },
+          {
+            "distrito": "HUACHOCOLPA",
+            "codigo": "090106"
+          },
+          {
+            "distrito": "HUAYLLAHUARA",
+            "codigo": "090107"
+          },
+          {
+            "distrito": "IZCUCHACA",
+            "codigo": "090108"
+          },
+          {
+            "distrito": "LARIA",
+            "codigo": "090109"
+          },
+          {
+            "distrito": "MANTA",
+            "codigo": "090110"
+          },
+          {
+            "distrito": "MARISCAL CACERES",
+            "codigo": "090111"
+          },
+          {
+            "distrito": "MOYA",
+            "codigo": "090112"
+          },
+          {
+            "distrito": "NUEVO OCCORO",
+            "codigo": "090113"
+          },
+          {
+            "distrito": "PALCA",
+            "codigo": "090114"
+          },
+          {
+            "distrito": "PILCHACA",
+            "codigo": "090115"
+          },
+          {
+            "distrito": "VILCA",
+            "codigo": "090116"
+          },
+          {
+            "distrito": "YAULI",
+            "codigo": "090117"
+          },
+          {
+            "distrito": "ASCENSION",
+            "codigo": "090118"
+          },
+          {
+            "distrito": "HUANDO",
+            "codigo": "090119"
+          }
+        ]
+      },
+      {
+        "provincia": "ACOBAMBA",
+        "distritos": [
+          {
+            "distrito": "ACOBAMBA",
+            "codigo": "090201"
+          },
+          {
+            "distrito": "ANDABAMBA",
+            "codigo": "090202"
+          },
+          {
+            "distrito": "ANTA",
+            "codigo": "090203"
+          },
+          {
+            "distrito": "CAJA",
+            "codigo": "090204"
+          },
+          {
+            "distrito": "MARCAS",
+            "codigo": "090205"
+          },
+          {
+            "distrito": "PAUCARA",
+            "codigo": "090206"
+          },
+          {
+            "distrito": "POMACOCHA",
+            "codigo": "090207"
+          },
+          {
+            "distrito": "ROSARIO",
+            "codigo": "090208"
+          }
+        ]
+      },
+      {
+        "provincia": "ANGARAES",
+        "distritos": [
+          {
+            "distrito": "LIRCAY",
+            "codigo": "090301"
+          },
+          {
+            "distrito": "ANCHONGA",
+            "codigo": "090302"
+          },
+          {
+            "distrito": "CALLANMARCA",
+            "codigo": "090303"
+          },
+          {
+            "distrito": "CCOCHACCASA",
+            "codigo": "090304"
+          },
+          {
+            "distrito": "CHINCHO",
+            "codigo": "090305"
+          },
+          {
+            "distrito": "CONGALLA",
+            "codigo": "090306"
+          },
+          {
+            "distrito": "HUANCA",
+            "codigo": "090307"
+          },
+          {
+            "distrito": "HUAYLLAY GRANDE",
+            "codigo": "090308"
+          },
+          {
+            "distrito": "JULCAMARCA",
+            "codigo": "090309"
+          },
+          {
+            "distrito": "SAN ANTONIO DE ANTAPARCO",
+            "codigo": "090310"
+          },
+          {
+            "distrito": "SANTO TOMAS DE PATA",
+            "codigo": "090311"
+          },
+          {
+            "distrito": "SECCLLA",
+            "codigo": "090312"
+          }
+        ]
+      },
+      {
+        "provincia": "CASTROVIRREYNA",
+        "distritos": [
+          {
+            "distrito": "CASTROVIRREYNA",
+            "codigo": "090401"
+          },
+          {
+            "distrito": "ARMA",
+            "codigo": "090402"
+          },
+          {
+            "distrito": "AURAHUA",
+            "codigo": "090403"
+          },
+          {
+            "distrito": "CAPILLAS",
+            "codigo": "090404"
+          },
+          {
+            "distrito": "CHUPAMARCA",
+            "codigo": "090405"
+          },
+          {
+            "distrito": "COCAS",
+            "codigo": "090406"
+          },
+          {
+            "distrito": "HUACHOS",
+            "codigo": "090407"
+          },
+          {
+            "distrito": "HUAMATAMBO",
+            "codigo": "090408"
+          },
+          {
+            "distrito": "MOLLEPAMPA",
+            "codigo": "090409"
+          },
+          {
+            "distrito": "SAN JUAN",
+            "codigo": "090410"
+          },
+          {
+            "distrito": "SANTA ANA",
+            "codigo": "090411"
+          },
+          {
+            "distrito": "TANTARA",
+            "codigo": "090412"
+          },
+          {
+            "distrito": "TICRAPO",
+            "codigo": "090413"
+          }
+        ]
+      },
+      {
+        "provincia": "CHURCAMPA",
+        "distritos": [
+          {
+            "distrito": "CHURCAMPA",
+            "codigo": "090501"
+          },
+          {
+            "distrito": "ANCO",
+            "codigo": "090502"
+          },
+          {
+            "distrito": "CHINCHIHUASI",
+            "codigo": "090503"
+          },
+          {
+            "distrito": "EL CARMEN",
+            "codigo": "090504"
+          },
+          {
+            "distrito": "LA MERCED",
+            "codigo": "090505"
+          },
+          {
+            "distrito": "LOCROJA",
+            "codigo": "090506"
+          },
+          {
+            "distrito": "PAUCARBAMBA",
+            "codigo": "090507"
+          },
+          {
+            "distrito": "SAN MIGUEL DE MAYOCC",
+            "codigo": "090508"
+          },
+          {
+            "distrito": "SAN PEDRO DE CORIS",
+            "codigo": "090509"
+          },
+          {
+            "distrito": "PACHAMARCA",
+            "codigo": "090510"
+          }
+        ]
+      },
+      {
+        "provincia": "HUAYTARA",
+        "distritos": [
+          {
+            "distrito": "HUAYTARA",
+            "codigo": "090601"
+          },
+          {
+            "distrito": "AYAVI",
+            "codigo": "090602"
+          },
+          {
+            "distrito": "CORDOVA",
+            "codigo": "090603"
+          },
+          {
+            "distrito": "HUAYACUNDO ARMA",
+            "codigo": "090604"
+          },
+          {
+            "distrito": "LARAMARCA",
+            "codigo": "090605"
+          },
+          {
+            "distrito": "OCOYO",
+            "codigo": "090606"
+          },
+          {
+            "distrito": "PILPICHACA",
+            "codigo": "090607"
+          },
+          {
+            "distrito": "QUERCO",
+            "codigo": "090608"
+          },
+          {
+            "distrito": "QUITO",
+            "codigo": "090609"
+          },
+          {
+            "distrito": "SAN ANTONIO DE CUSICANCHA",
+            "codigo": "090610"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE SANGAYAICO",
+            "codigo": "090611"
+          },
+          {
+            "distrito": "SAN ISIDRO",
+            "codigo": "090612"
+          },
+          {
+            "distrito": "SANTIAGO DE CHOCORVOS",
+            "codigo": "090613"
+          },
+          {
+            "distrito": "SANTIAGO DE QUIRAHUARA",
+            "codigo": "090614"
+          },
+          {
+            "distrito": "SANTO DOMINGO DE CAPILLAS",
+            "codigo": "090615"
+          },
+          {
+            "distrito": "TAMBO",
+            "codigo": "090616"
+          }
+        ]
+      },
+      {
+        "provincia": "TAYACAJA",
+        "distritos": [
+          {
+            "distrito": "PAMPAS",
+            "codigo": "090701"
+          },
+          {
+            "distrito": "ACOSTAMBO",
+            "codigo": "090702"
+          },
+          {
+            "distrito": "ACRAQUIA",
+            "codigo": "090703"
+          },
+          {
+            "distrito": "AHUAYCHA",
+            "codigo": "090704"
+          },
+          {
+            "distrito": "COLCABAMBA",
+            "codigo": "090705"
+          },
+          {
+            "distrito": "DANIEL HERNANDEZ",
+            "codigo": "090706"
+          },
+          {
+            "distrito": "HUACHOCOLPA",
+            "codigo": "090707"
+          },
+          {
+            "distrito": "HUARIBAMBA",
+            "codigo": "090709"
+          },
+          {
+            "distrito": "NAHUIMPUQUIO",
+            "codigo": "090710"
+          },
+          {
+            "distrito": "PAZOS",
+            "codigo": "090711"
+          },
+          {
+            "distrito": "QUISHUAR",
+            "codigo": "090713"
+          },
+          {
+            "distrito": "SALCABAMBA",
+            "codigo": "090714"
+          },
+          {
+            "distrito": "SALCAHUASI",
+            "codigo": "090715"
+          },
+          {
+            "distrito": "SAN MARCOS DE ROCCHAC",
+            "codigo": "090716"
+          },
+          {
+            "distrito": "SURCUBAMBA",
+            "codigo": "090717"
+          },
+          {
+            "distrito": "TINTAY PUNCU",
+            "codigo": "090718"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "HUANUCO",
+    "provincias": [
+      {
+        "provincia": "HUANUCO",
+        "distritos": [
+          {
+            "distrito": "HUANUCO",
+            "codigo": "100101"
+          },
+          {
+            "distrito": "AMARILIS",
+            "codigo": "100102"
+          },
+          {
+            "distrito": "CHINCHAO",
+            "codigo": "100103"
+          },
+          {
+            "distrito": "CHURUBAMBA",
+            "codigo": "100104"
+          },
+          {
+            "distrito": "MARGOS",
+            "codigo": "100105"
+          },
+          {
+            "distrito": "QUISQUI",
+            "codigo": "100106"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE CAYRAN",
+            "codigo": "100107"
+          },
+          {
+            "distrito": "SAN PEDRO DE CHAULAN",
+            "codigo": "100108"
+          },
+          {
+            "distrito": "SANTA MARIA DEL VALLE",
+            "codigo": "100109"
+          },
+          {
+            "distrito": "YARUMAYO",
+            "codigo": "100110"
+          },
+          {
+            "distrito": "PILLCO MARCA",
+            "codigo": "100111"
+          }
+        ]
+      },
+      {
+        "provincia": "AMBO",
+        "distritos": [
+          {
+            "distrito": "AMBO",
+            "codigo": "100201"
+          },
+          {
+            "distrito": "CAYNA",
+            "codigo": "100202"
+          },
+          {
+            "distrito": "COLPAS",
+            "codigo": "100203"
+          },
+          {
+            "distrito": "CONCHAMARCA",
+            "codigo": "100204"
+          },
+          {
+            "distrito": "HUACAR",
+            "codigo": "100205"
+          },
+          {
+            "distrito": "SAN FRANCISCO",
+            "codigo": "100206"
+          },
+          {
+            "distrito": "SAN RAFAEL",
+            "codigo": "100207"
+          },
+          {
+            "distrito": "TOMAY KICHWA",
+            "codigo": "100208"
+          }
+        ]
+      },
+      {
+        "provincia": "DOS DE MAYO",
+        "distritos": [
+          {
+            "distrito": "LA UNION",
+            "codigo": "100301"
+          },
+          {
+            "distrito": "CHUQUIS",
+            "codigo": "100307"
+          },
+          {
+            "distrito": "MARIAS",
+            "codigo": "100311"
+          },
+          {
+            "distrito": "PACHAS",
+            "codigo": "100313"
+          },
+          {
+            "distrito": "QUIVILLA",
+            "codigo": "100316"
+          },
+          {
+            "distrito": "RIPAN",
+            "codigo": "100317"
+          },
+          {
+            "distrito": "SHUNQUI",
+            "codigo": "100321"
+          },
+          {
+            "distrito": "SILLAPATA",
+            "codigo": "100322"
+          },
+          {
+            "distrito": "YANAS",
+            "codigo": "100323"
+          }
+        ]
+      },
+      {
+        "provincia": "HUACAYBAMBA",
+        "distritos": [
+          {
+            "distrito": "HUACAYBAMBA",
+            "codigo": "100401"
+          },
+          {
+            "distrito": "CANCHABAMBA",
+            "codigo": "100402"
+          },
+          {
+            "distrito": "COCHABAMBA",
+            "codigo": "100403"
+          },
+          {
+            "distrito": "PINRA",
+            "codigo": "100404"
+          }
+        ]
+      },
+      {
+        "provincia": "HUAMALIES",
+        "distritos": [
+          {
+            "distrito": "LLATA",
+            "codigo": "100501"
+          },
+          {
+            "distrito": "ARANCAY",
+            "codigo": "100502"
+          },
+          {
+            "distrito": "CHAVIN DE PARIARCA",
+            "codigo": "100503"
+          },
+          {
+            "distrito": "JACAS GRANDE",
+            "codigo": "100504"
+          },
+          {
+            "distrito": "JIRCAN",
+            "codigo": "100505"
+          },
+          {
+            "distrito": "MIRAFLORES",
+            "codigo": "100506"
+          },
+          {
+            "distrito": "MONZON",
+            "codigo": "100507"
+          },
+          {
+            "distrito": "PUNCHAO",
+            "codigo": "100508"
+          },
+          {
+            "distrito": "PUNOS",
+            "codigo": "100509"
+          },
+          {
+            "distrito": "SINGA",
+            "codigo": "100510"
+          },
+          {
+            "distrito": "TANTAMAYO",
+            "codigo": "100511"
+          }
+        ]
+      },
+      {
+        "provincia": "LEONCIO PRADO",
+        "distritos": [
+          {
+            "distrito": "RUPA",
+            "codigo": "100601"
+          },
+          {
+            "distrito": "DANIEL ALOMIA ROBLES",
+            "codigo": "100602"
+          },
+          {
+            "distrito": "HERMILIO VALDIZAN",
+            "codigo": "100603"
+          },
+          {
+            "distrito": "JOSE CRESPO Y CASTILLO",
+            "codigo": "100604"
+          },
+          {
+            "distrito": "LUYANDO",
+            "codigo": "100605"
+          },
+          {
+            "distrito": "MARIANO DAMASO BERAUN",
+            "codigo": "100606"
+          }
+        ]
+      },
+      {
+        "provincia": "MARANON",
+        "distritos": [
+          {
+            "distrito": "HUACRACHUCO",
+            "codigo": "100701"
+          },
+          {
+            "distrito": "CHOLON",
+            "codigo": "100702"
+          },
+          {
+            "distrito": "SAN BUENAVENTURA",
+            "codigo": "100703"
+          }
+        ]
+      },
+      {
+        "provincia": "PACHITEA",
+        "distritos": [
+          {
+            "distrito": "PANAO",
+            "codigo": "100801"
+          },
+          {
+            "distrito": "CHAGLLA",
+            "codigo": "100802"
+          },
+          {
+            "distrito": "MOLINO",
+            "codigo": "100803"
+          },
+          {
+            "distrito": "UMARI",
+            "codigo": "100804"
+          }
+        ]
+      },
+      {
+        "provincia": "PUERTO INCA",
+        "distritos": [
+          {
+            "distrito": "PUERTO INCA",
+            "codigo": "100901"
+          },
+          {
+            "distrito": "CODO DEL POZUZO",
+            "codigo": "100902"
+          },
+          {
+            "distrito": "HONORIA",
+            "codigo": "100903"
+          },
+          {
+            "distrito": "TOURNAVISTA",
+            "codigo": "100904"
+          },
+          {
+            "distrito": "YUYAPICHIS",
+            "codigo": "100905"
+          }
+        ]
+      },
+      {
+        "provincia": "LAURICOCHA",
+        "distritos": [
+          {
+            "distrito": "JESUS",
+            "codigo": "101001"
+          },
+          {
+            "distrito": "BANOS",
+            "codigo": "101002"
+          },
+          {
+            "distrito": "JIVIA",
+            "codigo": "101003"
+          },
+          {
+            "distrito": "QUEROPALCA",
+            "codigo": "101004"
+          },
+          {
+            "distrito": "RONDOS",
+            "codigo": "101005"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE ASIS",
+            "codigo": "101006"
+          },
+          {
+            "distrito": "SAN MIGUEL DE CAURI",
+            "codigo": "101007"
+          }
+        ]
+      },
+      {
+        "provincia": "YAROWILCA",
+        "distritos": [
+          {
+            "distrito": "CHAVINILLO",
+            "codigo": "101101"
+          },
+          {
+            "distrito": "CAHUAC",
+            "codigo": "101102"
+          },
+          {
+            "distrito": "CHACABAMBA",
+            "codigo": "101103"
+          },
+          {
+            "distrito": "APARICIO POMARES",
+            "codigo": "101104"
+          },
+          {
+            "distrito": "JACAS CHICO",
+            "codigo": "101105"
+          },
+          {
+            "distrito": "OBAS",
+            "codigo": "101106"
+          },
+          {
+            "distrito": "PAMPAMARCA",
+            "codigo": "101107"
+          },
+          {
+            "distrito": "CHORAS",
+            "codigo": "101108"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "ICA",
+    "provincias": [
+      {
+        "provincia": "ICA",
+        "distritos": [
+          {
+            "distrito": "ICA",
+            "codigo": "110101"
+          },
+          {
+            "distrito": "LA TINGUINA",
+            "codigo": "110102"
+          },
+          {
+            "distrito": "LOS AQUIJES",
+            "codigo": "110103"
+          },
+          {
+            "distrito": "OCUCAJE",
+            "codigo": "110104"
+          },
+          {
+            "distrito": "PACHACUTEC",
+            "codigo": "110105"
+          },
+          {
+            "distrito": "PARCONA",
+            "codigo": "110106"
+          },
+          {
+            "distrito": "PUEBLO NUEVO",
+            "codigo": "110107"
+          },
+          {
+            "distrito": "SALAS",
+            "codigo": "110108"
+          },
+          {
+            "distrito": "SAN JOSE DE LOS MOLINOS",
+            "codigo": "110109"
+          },
+          {
+            "distrito": "SAN JUAN BAUTISTA",
+            "codigo": "110110"
+          },
+          {
+            "distrito": "SANTIAGO",
+            "codigo": "110111"
+          },
+          {
+            "distrito": "SUBTANJALLA",
+            "codigo": "110112"
+          },
+          {
+            "distrito": "TATE",
+            "codigo": "110113"
+          },
+          {
+            "distrito": "YAUCA DEL ROSARIO",
+            "codigo": "110114"
+          }
+        ]
+      },
+      {
+        "provincia": "CHINCHA",
+        "distritos": [
+          {
+            "distrito": "CHINCHA ALTA",
+            "codigo": "110201"
+          },
+          {
+            "distrito": "ALTO LARAN",
+            "codigo": "110202"
+          },
+          {
+            "distrito": "CHAVIN",
+            "codigo": "110203"
+          },
+          {
+            "distrito": "CHINCHA BAJA",
+            "codigo": "110204"
+          },
+          {
+            "distrito": "EL CARMEN",
+            "codigo": "110205"
+          },
+          {
+            "distrito": "GROCIO PRADO",
+            "codigo": "110206"
+          },
+          {
+            "distrito": "PUEBLO NUEVO",
+            "codigo": "110207"
+          },
+          {
+            "distrito": "SAN JUAN DE YANAC",
+            "codigo": "110208"
+          },
+          {
+            "distrito": "SAN PEDRO DE HUACARPANA",
+            "codigo": "110209"
+          },
+          {
+            "distrito": "SUNAMPE",
+            "codigo": "110210"
+          },
+          {
+            "distrito": "TAMBO DE MORA",
+            "codigo": "110211"
+          }
+        ]
+      },
+      {
+        "provincia": "NAZCA",
+        "distritos": [
+          {
+            "distrito": "NAZCA",
+            "codigo": "110301"
+          },
+          {
+            "distrito": "CHANGUILLO",
+            "codigo": "110302"
+          },
+          {
+            "distrito": "EL INGENIO",
+            "codigo": "110303"
+          },
+          {
+            "distrito": "MARCONA",
+            "codigo": "110304"
+          },
+          {
+            "distrito": "VISTA ALEGRE",
+            "codigo": "110305"
+          }
+        ]
+      },
+      {
+        "provincia": "PALPA",
+        "distritos": [
+          {
+            "distrito": "PALPA",
+            "codigo": "110401"
+          },
+          {
+            "distrito": "LLIPATA",
+            "codigo": "110402"
+          },
+          {
+            "distrito": "RIO GRANDE",
+            "codigo": "110403"
+          },
+          {
+            "distrito": "SANTA CRUZ",
+            "codigo": "110404"
+          },
+          {
+            "distrito": "TIBILLO",
+            "codigo": "110405"
+          }
+        ]
+      },
+      {
+        "provincia": "PISCO",
+        "distritos": [
+          {
+            "distrito": "PISCO",
+            "codigo": "110501"
+          },
+          {
+            "distrito": "HUANCANO",
+            "codigo": "110502"
+          },
+          {
+            "distrito": "HUMAY",
+            "codigo": "110503"
+          },
+          {
+            "distrito": "INDEPENDENCIA",
+            "codigo": "110504"
+          },
+          {
+            "distrito": "PARACAS",
+            "codigo": "110505"
+          },
+          {
+            "distrito": "SAN ANDRES",
+            "codigo": "110506"
+          },
+          {
+            "distrito": "SAN CLEMENTE",
+            "codigo": "110507"
+          },
+          {
+            "distrito": "TUPAC AMARU INCA",
+            "codigo": "110508"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "JUNIN",
+    "provincias": [
+      {
+        "provincia": "HUANCAYO",
+        "distritos": [
+          {
+            "distrito": "HUANCAYO",
+            "codigo": "120101"
+          },
+          {
+            "distrito": "CARHUACALLANGA",
+            "codigo": "120104"
+          },
+          {
+            "distrito": "CHACAPAMPA",
+            "codigo": "120105"
+          },
+          {
+            "distrito": "CHICCHE",
+            "codigo": "120106"
+          },
+          {
+            "distrito": "CHILCA",
+            "codigo": "120107"
+          },
+          {
+            "distrito": "CHONGOS ALTO",
+            "codigo": "120108"
+          },
+          {
+            "distrito": "CHUPURO",
+            "codigo": "120111"
+          },
+          {
+            "distrito": "COLCA",
+            "codigo": "120112"
+          },
+          {
+            "distrito": "CULLHUAS",
+            "codigo": "120113"
+          },
+          {
+            "distrito": "EL TAMBO",
+            "codigo": "120114"
+          },
+          {
+            "distrito": "HUACRAPUQUIO",
+            "codigo": "120116"
+          },
+          {
+            "distrito": "HUALHUAS",
+            "codigo": "120117"
+          },
+          {
+            "distrito": "HUANCAN",
+            "codigo": "120119"
+          },
+          {
+            "distrito": "HUASICANCHA",
+            "codigo": "120120"
+          },
+          {
+            "distrito": "HUAYUCACHI",
+            "codigo": "120121"
+          },
+          {
+            "distrito": "INGENIO",
+            "codigo": "120122"
+          },
+          {
+            "distrito": "PARIAHUANCA",
+            "codigo": "120124"
+          },
+          {
+            "distrito": "PILCOMAYO",
+            "codigo": "120125"
+          },
+          {
+            "distrito": "PUCARA",
+            "codigo": "120126"
+          },
+          {
+            "distrito": "QUICHUAY",
+            "codigo": "120127"
+          },
+          {
+            "distrito": "QUILCAS",
+            "codigo": "120128"
+          },
+          {
+            "distrito": "SAN AGUSTIN",
+            "codigo": "120129"
+          },
+          {
+            "distrito": "SAN JERONIMO DE TUNAN",
+            "codigo": "120130"
+          },
+          {
+            "distrito": "SANO",
+            "codigo": "120132"
+          },
+          {
+            "distrito": "SAPALLANGA",
+            "codigo": "120133"
+          },
+          {
+            "distrito": "SICAYA",
+            "codigo": "120134"
+          },
+          {
+            "distrito": "SANTO DOMINGO DE ACOBAMBA",
+            "codigo": "120135"
+          },
+          {
+            "distrito": "VIQUES",
+            "codigo": "120136"
+          }
+        ]
+      },
+      {
+        "provincia": "CONCEPCION",
+        "distritos": [
+          {
+            "distrito": "CONCEPCION",
+            "codigo": "120201"
+          },
+          {
+            "distrito": "ACO",
+            "codigo": "120202"
+          },
+          {
+            "distrito": "ANDAMARCA",
+            "codigo": "120203"
+          },
+          {
+            "distrito": "CHAMBARA",
+            "codigo": "120204"
+          },
+          {
+            "distrito": "COCHAS",
+            "codigo": "120205"
+          },
+          {
+            "distrito": "COMAS",
+            "codigo": "120206"
+          },
+          {
+            "distrito": "HEROINAS TOLEDO",
+            "codigo": "120207"
+          },
+          {
+            "distrito": "MANZANARES",
+            "codigo": "120208"
+          },
+          {
+            "distrito": "MARISCAL CASTILLA",
+            "codigo": "120209"
+          },
+          {
+            "distrito": "MATAHUASI",
+            "codigo": "120210"
+          },
+          {
+            "distrito": "MITO",
+            "codigo": "120211"
+          },
+          {
+            "distrito": "NUEVE DE JULIO",
+            "codigo": "120212"
+          },
+          {
+            "distrito": "ORCOTUNA",
+            "codigo": "120213"
+          },
+          {
+            "distrito": "SAN JOSE DE QUERO",
+            "codigo": "120214"
+          },
+          {
+            "distrito": "SANTA ROSA DE OCOPA",
+            "codigo": "120215"
+          }
+        ]
+      },
+      {
+        "provincia": "CHANCHAMAYO",
+        "distritos": [
+          {
+            "distrito": "CHANCHAMAYO",
+            "codigo": "120301"
+          },
+          {
+            "distrito": "PERENE",
+            "codigo": "120302"
+          },
+          {
+            "distrito": "PICHANAQUI",
+            "codigo": "120303"
+          },
+          {
+            "distrito": "SAN LUIS DE SHUARO",
+            "codigo": "120304"
+          },
+          {
+            "distrito": "SAN RAMON",
+            "codigo": "120305"
+          },
+          {
+            "distrito": "VITOC",
+            "codigo": "120306"
+          }
+        ]
+      },
+      {
+        "provincia": "JAUJA",
+        "distritos": [
+          {
+            "distrito": "JAUJA",
+            "codigo": "120401"
+          },
+          {
+            "distrito": "ACOLLA",
+            "codigo": "120402"
+          },
+          {
+            "distrito": "APATA",
+            "codigo": "120403"
+          },
+          {
+            "distrito": "ATAURA",
+            "codigo": "120404"
+          },
+          {
+            "distrito": "CANCHAYLLO",
+            "codigo": "120405"
+          },
+          {
+            "distrito": "CURICACA",
+            "codigo": "120406"
+          },
+          {
+            "distrito": "EL MANTARO",
+            "codigo": "120407"
+          },
+          {
+            "distrito": "HUAMALI",
+            "codigo": "120408"
+          },
+          {
+            "distrito": "HUARIPAMPA",
+            "codigo": "120409"
+          },
+          {
+            "distrito": "HUERTAS",
+            "codigo": "120410"
+          },
+          {
+            "distrito": "JANJAILLO",
+            "codigo": "120411"
+          },
+          {
+            "distrito": "JULCAN",
+            "codigo": "120412"
+          },
+          {
+            "distrito": "LEONOR ORDONEZ",
+            "codigo": "120413"
+          },
+          {
+            "distrito": "LLOCLLAPAMPA",
+            "codigo": "120414"
+          },
+          {
+            "distrito": "MARCO",
+            "codigo": "120415"
+          },
+          {
+            "distrito": "MASMA",
+            "codigo": "120416"
+          },
+          {
+            "distrito": "MASMA CHICCHE",
+            "codigo": "120417"
+          },
+          {
+            "distrito": "MOLINOS",
+            "codigo": "120418"
+          },
+          {
+            "distrito": "MONOBAMBA",
+            "codigo": "120419"
+          },
+          {
+            "distrito": "MUQUI",
+            "codigo": "120420"
+          },
+          {
+            "distrito": "MUQUIYAUYO",
+            "codigo": "120421"
+          },
+          {
+            "distrito": "PACA",
+            "codigo": "120422"
+          },
+          {
+            "distrito": "PACCHA",
+            "codigo": "120423"
+          },
+          {
+            "distrito": "PANCAN",
+            "codigo": "120424"
+          },
+          {
+            "distrito": "PARCO",
+            "codigo": "120425"
+          },
+          {
+            "distrito": "POMACANCHA",
+            "codigo": "120426"
+          },
+          {
+            "distrito": "RICRAN",
+            "codigo": "120427"
+          },
+          {
+            "distrito": "SAN LORENZO",
+            "codigo": "120428"
+          },
+          {
+            "distrito": "SAN PEDRO DE CHUNAN",
+            "codigo": "120429"
+          },
+          {
+            "distrito": "SAUSA",
+            "codigo": "120430"
+          },
+          {
+            "distrito": "SINCOS",
+            "codigo": "120431"
+          },
+          {
+            "distrito": "TUNAN MARCA",
+            "codigo": "120432"
+          },
+          {
+            "distrito": "YAULI",
+            "codigo": "120433"
+          },
+          {
+            "distrito": "YAUYOS",
+            "codigo": "120434"
+          }
+        ]
+      },
+      {
+        "provincia": "JUNIN",
+        "distritos": [
+          {
+            "distrito": "JUNIN",
+            "codigo": "120501"
+          },
+          {
+            "distrito": "CARHUAMAYO",
+            "codigo": "120502"
+          },
+          {
+            "distrito": "ONDORES",
+            "codigo": "120503"
+          },
+          {
+            "distrito": "ULCUMAYO",
+            "codigo": "120504"
+          }
+        ]
+      },
+      {
+        "provincia": "SATIPO",
+        "distritos": [
+          {
+            "distrito": "SATIPO",
+            "codigo": "120601"
+          },
+          {
+            "distrito": "COVIRIALI",
+            "codigo": "120602"
+          },
+          {
+            "distrito": "LLAYLLA",
+            "codigo": "120603"
+          },
+          {
+            "distrito": "MAZAMARI",
+            "codigo": "120604"
+          },
+          {
+            "distrito": "PAMPA HERMOSA",
+            "codigo": "120605"
+          },
+          {
+            "distrito": "PANGOA",
+            "codigo": "120606"
+          },
+          {
+            "distrito": "RIO NEGRO",
+            "codigo": "120607"
+          },
+          {
+            "distrito": "RIO TAMBO",
+            "codigo": "120608"
+          }
+        ]
+      },
+      {
+        "provincia": "TARMA",
+        "distritos": [
+          {
+            "distrito": "TARMA",
+            "codigo": "120701"
+          },
+          {
+            "distrito": "ACOBAMBA",
+            "codigo": "120702"
+          },
+          {
+            "distrito": "HUARICOLCA",
+            "codigo": "120703"
+          },
+          {
+            "distrito": "HUASAHUASI",
+            "codigo": "120704"
+          },
+          {
+            "distrito": "LA UNION",
+            "codigo": "120705"
+          },
+          {
+            "distrito": "PALCA",
+            "codigo": "120706"
+          },
+          {
+            "distrito": "PALCAMAYO",
+            "codigo": "120707"
+          },
+          {
+            "distrito": "SAN PEDRO DE CAJAS",
+            "codigo": "120708"
+          },
+          {
+            "distrito": "TAPO",
+            "codigo": "120709"
+          }
+        ]
+      },
+      {
+        "provincia": "YAULI",
+        "distritos": [
+          {
+            "distrito": "LA OROYA",
+            "codigo": "120801"
+          },
+          {
+            "distrito": "CHACAPALPA",
+            "codigo": "120802"
+          },
+          {
+            "distrito": "HUAY",
+            "codigo": "120803"
+          },
+          {
+            "distrito": "MARCAPOMACOCHA",
+            "codigo": "120804"
+          },
+          {
+            "distrito": "MOROCOCHA",
+            "codigo": "120805"
+          },
+          {
+            "distrito": "PACCHA",
+            "codigo": "120806"
+          },
+          {
+            "distrito": "SANTA BARBARA DE CARHUACAYAN",
+            "codigo": "120807"
+          },
+          {
+            "distrito": "SANTA ROSA DE SACCO",
+            "codigo": "120808"
+          },
+          {
+            "distrito": "SUITUCANCHA",
+            "codigo": "120809"
+          },
+          {
+            "distrito": "YAULI",
+            "codigo": "120810"
+          }
+        ]
+      },
+      {
+        "provincia": "CHUPACA",
+        "distritos": [
+          {
+            "distrito": "CHUPACA",
+            "codigo": "120901"
+          },
+          {
+            "distrito": "AHUAC",
+            "codigo": "120902"
+          },
+          {
+            "distrito": "CHONGOS BAJO",
+            "codigo": "120903"
+          },
+          {
+            "distrito": "HUACHAC",
+            "codigo": "120904"
+          },
+          {
+            "distrito": "HUAMANCACA CHICO",
+            "codigo": "120905"
+          },
+          {
+            "distrito": "SAN JUAN DE ISCOS",
+            "codigo": "120906"
+          },
+          {
+            "distrito": "SAN JUAN DE JARPA",
+            "codigo": "120907"
+          },
+          {
+            "distrito": "TRES DE DICIEMBRE",
+            "codigo": "120908"
+          },
+          {
+            "distrito": "YANACANCHA",
+            "codigo": "120909"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "LA LIBERTAD",
+    "provincias": [
+      {
+        "provincia": "TRUJILLO",
+        "distritos": [
+          {
+            "distrito": "TRUJILLO",
+            "codigo": "130101"
+          },
+          {
+            "distrito": "EL PORVENIR",
+            "codigo": "130102"
+          },
+          {
+            "distrito": "FLORENCIA DE MORA",
+            "codigo": "130103"
+          },
+          {
+            "distrito": "HUANCHACO",
+            "codigo": "130104"
+          },
+          {
+            "distrito": "LA ESPERANZA",
+            "codigo": "130105"
+          },
+          {
+            "distrito": "LAREDO",
+            "codigo": "130106"
+          },
+          {
+            "distrito": "MOCHE",
+            "codigo": "130107"
+          },
+          {
+            "distrito": "POROTO",
+            "codigo": "130108"
+          },
+          {
+            "distrito": "SALAVERRY",
+            "codigo": "130109"
+          },
+          {
+            "distrito": "SIMBAL",
+            "codigo": "130110"
+          },
+          {
+            "distrito": "VICTOR LARCO HERRERA",
+            "codigo": "130111"
+          }
+        ]
+      },
+      {
+        "provincia": "ASCOPE",
+        "distritos": [
+          {
+            "distrito": "ASCOPE",
+            "codigo": "130201"
+          },
+          {
+            "distrito": "CHICAMA",
+            "codigo": "130202"
+          },
+          {
+            "distrito": "CHOCOPE",
+            "codigo": "130203"
+          },
+          {
+            "distrito": "MAGDALENA DE CAO",
+            "codigo": "130204"
+          },
+          {
+            "distrito": "PAIJAN",
+            "codigo": "130205"
+          },
+          {
+            "distrito": "RAZURI",
+            "codigo": "130206"
+          },
+          {
+            "distrito": "SANTIAGO DE CAO",
+            "codigo": "130207"
+          },
+          {
+            "distrito": "CASA GRANDE",
+            "codigo": "130208"
+          }
+        ]
+      },
+      {
+        "provincia": "BOLIVAR",
+        "distritos": [
+          {
+            "distrito": "BOLIVAR",
+            "codigo": "130301"
+          },
+          {
+            "distrito": "BAMBAMARCA",
+            "codigo": "130302"
+          },
+          {
+            "distrito": "CONDORMARCA",
+            "codigo": "130303"
+          },
+          {
+            "distrito": "LONGOTEA",
+            "codigo": "130304"
+          },
+          {
+            "distrito": "UCHUMARCA",
+            "codigo": "130305"
+          },
+          {
+            "distrito": "UCUNCHA",
+            "codigo": "130306"
+          }
+        ]
+      },
+      {
+        "provincia": "CHEPEN",
+        "distritos": [
+          {
+            "distrito": "CHEPEN",
+            "codigo": "130401"
+          },
+          {
+            "distrito": "PACANGA",
+            "codigo": "130402"
+          },
+          {
+            "distrito": "PUEBLO NUEVO",
+            "codigo": "130403"
+          }
+        ]
+      },
+      {
+        "provincia": "JULCAN",
+        "distritos": [
+          {
+            "distrito": "JULCAN",
+            "codigo": "130501"
+          },
+          {
+            "distrito": "CALAMARCA",
+            "codigo": "130502"
+          },
+          {
+            "distrito": "CARABAMBA",
+            "codigo": "130503"
+          },
+          {
+            "distrito": "HUASO",
+            "codigo": "130504"
+          }
+        ]
+      },
+      {
+        "provincia": "OTUZCO",
+        "distritos": [
+          {
+            "distrito": "OTUZCO",
+            "codigo": "130601"
+          },
+          {
+            "distrito": "AGALLPAMPA",
+            "codigo": "130602"
+          },
+          {
+            "distrito": "CHARAT",
+            "codigo": "130604"
+          },
+          {
+            "distrito": "HUARANCHAL",
+            "codigo": "130605"
+          },
+          {
+            "distrito": "LA CUESTA",
+            "codigo": "130606"
+          },
+          {
+            "distrito": "MACHE",
+            "codigo": "130608"
+          },
+          {
+            "distrito": "PARANDAY",
+            "codigo": "130610"
+          },
+          {
+            "distrito": "SALPO",
+            "codigo": "130611"
+          },
+          {
+            "distrito": "SINSICAP",
+            "codigo": "130613"
+          },
+          {
+            "distrito": "USQUIL",
+            "codigo": "130614"
+          }
+        ]
+      },
+      {
+        "provincia": "PACASMAYO",
+        "distritos": [
+          {
+            "distrito": "SAN PEDRO DE LLOC",
+            "codigo": "130701"
+          },
+          {
+            "distrito": "GUADALUPE",
+            "codigo": "130702"
+          },
+          {
+            "distrito": "JEQUETEPEQUE",
+            "codigo": "130703"
+          },
+          {
+            "distrito": "PACASMAYO",
+            "codigo": "130704"
+          },
+          {
+            "distrito": "SAN JOSE",
+            "codigo": "130705"
+          }
+        ]
+      },
+      {
+        "provincia": "PATAZ",
+        "distritos": [
+          {
+            "distrito": "TAYABAMBA",
+            "codigo": "130801"
+          },
+          {
+            "distrito": "BULDIBUYO",
+            "codigo": "130802"
+          },
+          {
+            "distrito": "CHILLIA",
+            "codigo": "130803"
+          },
+          {
+            "distrito": "HUANCASPATA",
+            "codigo": "130804"
+          },
+          {
+            "distrito": "HUAYLILLAS",
+            "codigo": "130805"
+          },
+          {
+            "distrito": "HUAYO",
+            "codigo": "130806"
+          },
+          {
+            "distrito": "ONGON",
+            "codigo": "130807"
+          },
+          {
+            "distrito": "PARCOY",
+            "codigo": "130808"
+          },
+          {
+            "distrito": "PATAZ",
+            "codigo": "130809"
+          },
+          {
+            "distrito": "PIAS",
+            "codigo": "130810"
+          },
+          {
+            "distrito": "SANTIAGO DE CHALLAS",
+            "codigo": "130811"
+          },
+          {
+            "distrito": "TAURIJA",
+            "codigo": "130812"
+          },
+          {
+            "distrito": "URPAY",
+            "codigo": "130813"
+          }
+        ]
+      },
+      {
+        "provincia": "SANCHEZ CARRION",
+        "distritos": [
+          {
+            "distrito": "HUAMACHUCO",
+            "codigo": "130901"
+          },
+          {
+            "distrito": "CHUGAY",
+            "codigo": "130902"
+          },
+          {
+            "distrito": "COCHORCO",
+            "codigo": "130903"
+          },
+          {
+            "distrito": "CURGOS",
+            "codigo": "130904"
+          },
+          {
+            "distrito": "MARCABAL",
+            "codigo": "130905"
+          },
+          {
+            "distrito": "SANAGORAN",
+            "codigo": "130906"
+          },
+          {
+            "distrito": "SARIN",
+            "codigo": "130907"
+          },
+          {
+            "distrito": "SARTIMBAMBA",
+            "codigo": "130908"
+          }
+        ]
+      },
+      {
+        "provincia": "SANTIAGO DE CHUCO",
+        "distritos": [
+          {
+            "distrito": "SANTIAGO DE CHUCO",
+            "codigo": "131001"
+          },
+          {
+            "distrito": "ANGASMARCA",
+            "codigo": "131002"
+          },
+          {
+            "distrito": "CACHICADAN",
+            "codigo": "131003"
+          },
+          {
+            "distrito": "MOLLEBAMBA",
+            "codigo": "131004"
+          },
+          {
+            "distrito": "MOLLEPATA",
+            "codigo": "131005"
+          },
+          {
+            "distrito": "QUIRUVILCA",
+            "codigo": "131006"
+          },
+          {
+            "distrito": "SANTA CRUZ DE CHUCA",
+            "codigo": "131007"
+          },
+          {
+            "distrito": "SITABAMBA",
+            "codigo": "131008"
+          }
+        ]
+      },
+      {
+        "provincia": "GRAN CHIMU",
+        "distritos": [
+          {
+            "distrito": "CASCAS",
+            "codigo": "131101"
+          },
+          {
+            "distrito": "LUCMA",
+            "codigo": "131102"
+          },
+          {
+            "distrito": "COMPIN",
+            "codigo": "131103"
+          },
+          {
+            "distrito": "SAYAPULLO",
+            "codigo": "131104"
+          }
+        ]
+      },
+      {
+        "provincia": "VIRU",
+        "distritos": [
+          {
+            "distrito": "VIRU",
+            "codigo": "131201"
+          },
+          {
+            "distrito": "CHAO",
+            "codigo": "131202"
+          },
+          {
+            "distrito": "GUADALUPITO",
+            "codigo": "131203"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "LAMBAYEQUE",
+    "provincias": [
+      {
+        "provincia": "CHICLAYO",
+        "distritos": [
+          {
+            "distrito": "CHICLAYO",
+            "codigo": "140101"
+          },
+          {
+            "distrito": "CHONGOYAPE",
+            "codigo": "140102"
+          },
+          {
+            "distrito": "ETEN",
+            "codigo": "140103"
+          },
+          {
+            "distrito": "ETEN PUERTO",
+            "codigo": "140104"
+          },
+          {
+            "distrito": "JOSE LEONARDO ORTIZ",
+            "codigo": "140105"
+          },
+          {
+            "distrito": "LA VICTORIA",
+            "codigo": "140106"
+          },
+          {
+            "distrito": "LAGUNAS",
+            "codigo": "140107"
+          },
+          {
+            "distrito": "MONSEFU",
+            "codigo": "140108"
+          },
+          {
+            "distrito": "NUEVA ARICA",
+            "codigo": "140109"
+          },
+          {
+            "distrito": "OYOTUN",
+            "codigo": "140110"
+          },
+          {
+            "distrito": "PICSI",
+            "codigo": "140111"
+          },
+          {
+            "distrito": "PIMENTEL",
+            "codigo": "140112"
+          },
+          {
+            "distrito": "REQUE",
+            "codigo": "140113"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "140114"
+          },
+          {
+            "distrito": "SANA",
+            "codigo": "140115"
+          },
+          {
+            "distrito": "CAYALTI",
+            "codigo": "140116"
+          },
+          {
+            "distrito": "PATAPO",
+            "codigo": "140117"
+          },
+          {
+            "distrito": "POMALCA",
+            "codigo": "140118"
+          },
+          {
+            "distrito": "PUCALA",
+            "codigo": "140119"
+          },
+          {
+            "distrito": "TUMAN",
+            "codigo": "140120"
+          }
+        ]
+      },
+      {
+        "provincia": "FERRENAFE",
+        "distritos": [
+          {
+            "distrito": "FERRENAFE",
+            "codigo": "140201"
+          },
+          {
+            "distrito": "CANARIS",
+            "codigo": "140202"
+          },
+          {
+            "distrito": "INCAHUASI",
+            "codigo": "140203"
+          },
+          {
+            "distrito": "MANUEL ANTONIO MESONES MURO",
+            "codigo": "140204"
+          },
+          {
+            "distrito": "PITIPO",
+            "codigo": "140205"
+          },
+          {
+            "distrito": "PUEBLO NUEVO",
+            "codigo": "140206"
+          }
+        ]
+      },
+      {
+        "provincia": "LAMBAYEQUE",
+        "distritos": [
+          {
+            "distrito": "LAMBAYEQUE",
+            "codigo": "140301"
+          },
+          {
+            "distrito": "CHOCHOPE",
+            "codigo": "140302"
+          },
+          {
+            "distrito": "ILLIMO",
+            "codigo": "140303"
+          },
+          {
+            "distrito": "JAYANCA",
+            "codigo": "140304"
+          },
+          {
+            "distrito": "MOCHUMI",
+            "codigo": "140305"
+          },
+          {
+            "distrito": "MORROPE",
+            "codigo": "140306"
+          },
+          {
+            "distrito": "MOTUPE",
+            "codigo": "140307"
+          },
+          {
+            "distrito": "OLMOS",
+            "codigo": "140308"
+          },
+          {
+            "distrito": "PACORA",
+            "codigo": "140309"
+          },
+          {
+            "distrito": "SALAS",
+            "codigo": "140310"
+          },
+          {
+            "distrito": "SAN JOSE",
+            "codigo": "140311"
+          },
+          {
+            "distrito": "TUCUME",
+            "codigo": "140312"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "LIMA",
+    "provincias": [
+      {
+        "provincia": "LIMA",
+        "distritos": [
+          {
+            "distrito": "LIMA",
+            "codigo": "150101"
+          },
+          {
+            "distrito": "ANCON",
+            "codigo": "150102"
+          },
+          {
+            "distrito": "ATE",
+            "codigo": "150103"
+          },
+          {
+            "distrito": "BARRANCO",
+            "codigo": "150104"
+          },
+          {
+            "distrito": "BRENA",
+            "codigo": "150105"
+          },
+          {
+            "distrito": "CARABAYLLO",
+            "codigo": "150106"
+          },
+          {
+            "distrito": "CHACLACAYO",
+            "codigo": "150107"
+          },
+          {
+            "distrito": "CHORRILLOS",
+            "codigo": "150108"
+          },
+          {
+            "distrito": "CIENEGUILLA",
+            "codigo": "150109"
+          },
+          {
+            "distrito": "COMAS",
+            "codigo": "150110"
+          },
+          {
+            "distrito": "EL AGUSTINO",
+            "codigo": "150111"
+          },
+          {
+            "distrito": "INDEPENDENCIA",
+            "codigo": "150112"
+          },
+          {
+            "distrito": "JESUS MARIA",
+            "codigo": "150113"
+          },
+          {
+            "distrito": "LA MOLINA",
+            "codigo": "150114"
+          },
+          {
+            "distrito": "LA VICTORIA",
+            "codigo": "150115"
+          },
+          {
+            "distrito": "LINCE",
+            "codigo": "150116"
+          },
+          {
+            "distrito": "LOS OLIVOS",
+            "codigo": "150117"
+          },
+          {
+            "distrito": "LURIGANCHO",
+            "codigo": "150118"
+          },
+          {
+            "distrito": "LURIN",
+            "codigo": "150119"
+          },
+          {
+            "distrito": "MAGDALENA DEL MAR",
+            "codigo": "150120"
+          },
+          {
+            "distrito": "MAGDALENA VIEJA",
+            "codigo": "150121"
+          },
+          {
+            "distrito": "MIRAFLORES",
+            "codigo": "150122"
+          },
+          {
+            "distrito": "PACHACAMAC",
+            "codigo": "150123"
+          },
+          {
+            "distrito": "PUCUSANA",
+            "codigo": "150124"
+          },
+          {
+            "distrito": "PUENTE PIEDRA",
+            "codigo": "150125"
+          },
+          {
+            "distrito": "PUNTA HERMOSA",
+            "codigo": "150126"
+          },
+          {
+            "distrito": "PUNTA NEGRA",
+            "codigo": "150127"
+          },
+          {
+            "distrito": "RIMAC",
+            "codigo": "150128"
+          },
+          {
+            "distrito": "SAN BARTOLO",
+            "codigo": "150129"
+          },
+          {
+            "distrito": "SAN BORJA",
+            "codigo": "150130"
+          },
+          {
+            "distrito": "SAN ISIDRO",
+            "codigo": "150131"
+          },
+          {
+            "distrito": "SAN JUAN DE LURIGANCHO",
+            "codigo": "150132"
+          },
+          {
+            "distrito": "SAN JUAN DE MIRAFLORES",
+            "codigo": "150133"
+          },
+          {
+            "distrito": "SAN LUIS",
+            "codigo": "150134"
+          },
+          {
+            "distrito": "SAN MARTIN DE PORRES",
+            "codigo": "150135"
+          },
+          {
+            "distrito": "SAN MIGUEL",
+            "codigo": "150136"
+          },
+          {
+            "distrito": "SANTA ANITA",
+            "codigo": "150137"
+          },
+          {
+            "distrito": "SANTA MARIA DEL MAR",
+            "codigo": "150138"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "150139"
+          },
+          {
+            "distrito": "SANTIAGO DE SURCO",
+            "codigo": "150140"
+          },
+          {
+            "distrito": "SURQUILLO",
+            "codigo": "150141"
+          },
+          {
+            "distrito": "VILLA EL SALVADOR",
+            "codigo": "150142"
+          },
+          {
+            "distrito": "VILLA MARIA DEL TRIUNFO",
+            "codigo": "150143"
+          }
+        ]
+      },
+      {
+        "provincia": "BARRANCA",
+        "distritos": [
+          {
+            "distrito": "BARRANCA",
+            "codigo": "150201"
+          },
+          {
+            "distrito": "PARAMONGA",
+            "codigo": "150202"
+          },
+          {
+            "distrito": "PATIVILCA",
+            "codigo": "150203"
+          },
+          {
+            "distrito": "SUPE",
+            "codigo": "150204"
+          },
+          {
+            "distrito": "SUPE PUERTO",
+            "codigo": "150205"
+          }
+        ]
+      },
+      {
+        "provincia": "CAJATAMBO",
+        "distritos": [
+          {
+            "distrito": "CAJATAMBO",
+            "codigo": "150301"
+          },
+          {
+            "distrito": "COPA",
+            "codigo": "150302"
+          },
+          {
+            "distrito": "GORGOR",
+            "codigo": "150303"
+          },
+          {
+            "distrito": "HUANCAPON",
+            "codigo": "150304"
+          },
+          {
+            "distrito": "MANAS",
+            "codigo": "150305"
+          }
+        ]
+      },
+      {
+        "provincia": "CANTA",
+        "distritos": [
+          {
+            "distrito": "CANTA",
+            "codigo": "150401"
+          },
+          {
+            "distrito": "ARAHUAY",
+            "codigo": "150402"
+          },
+          {
+            "distrito": "HUAMANTANGA",
+            "codigo": "150403"
+          },
+          {
+            "distrito": "HUAROS",
+            "codigo": "150404"
+          },
+          {
+            "distrito": "LACHAQUI",
+            "codigo": "150405"
+          },
+          {
+            "distrito": "SAN BUENAVENTURA",
+            "codigo": "150406"
+          },
+          {
+            "distrito": "SANTA ROSA DE QUIVES",
+            "codigo": "150407"
+          }
+        ]
+      },
+      {
+        "provincia": "CANETE",
+        "distritos": [
+          {
+            "distrito": "SAN VICENTE DE CANETE",
+            "codigo": "150501"
+          },
+          {
+            "distrito": "ASIA",
+            "codigo": "150502"
+          },
+          {
+            "distrito": "CALANGO",
+            "codigo": "150503"
+          },
+          {
+            "distrito": "CERRO AZUL",
+            "codigo": "150504"
+          },
+          {
+            "distrito": "CHILCA",
+            "codigo": "150505"
+          },
+          {
+            "distrito": "COAYLLO",
+            "codigo": "150506"
+          },
+          {
+            "distrito": "IMPERIAL",
+            "codigo": "150507"
+          },
+          {
+            "distrito": "LUNAHUANA",
+            "codigo": "150508"
+          },
+          {
+            "distrito": "MALA",
+            "codigo": "150509"
+          },
+          {
+            "distrito": "NUEVO IMPERIAL",
+            "codigo": "150510"
+          },
+          {
+            "distrito": "PACARAN",
+            "codigo": "150511"
+          },
+          {
+            "distrito": "QUILMANA",
+            "codigo": "150512"
+          },
+          {
+            "distrito": "SAN ANTONIO",
+            "codigo": "150513"
+          },
+          {
+            "distrito": "SAN LUIS",
+            "codigo": "150514"
+          },
+          {
+            "distrito": "SANTA CRUZ DE FLORES",
+            "codigo": "150515"
+          },
+          {
+            "distrito": "ZUNIGA",
+            "codigo": "150516"
+          }
+        ]
+      },
+      {
+        "provincia": "HUARAL",
+        "distritos": [
+          {
+            "distrito": "HUARAL",
+            "codigo": "150601"
+          },
+          {
+            "distrito": "ATAVILLOS ALTO",
+            "codigo": "150602"
+          },
+          {
+            "distrito": "ATAVILLOS BAJO",
+            "codigo": "150603"
+          },
+          {
+            "distrito": "AUCALLAMA",
+            "codigo": "150604"
+          },
+          {
+            "distrito": "CHANCAY",
+            "codigo": "150605"
+          },
+          {
+            "distrito": "IHUARI",
+            "codigo": "150606"
+          },
+          {
+            "distrito": "LAMPIAN",
+            "codigo": "150607"
+          },
+          {
+            "distrito": "PACARAOS",
+            "codigo": "150608"
+          },
+          {
+            "distrito": "SAN MIGUEL DE ACOS",
+            "codigo": "150609"
+          },
+          {
+            "distrito": "SANTA CRUZ DE ANDAMARCA",
+            "codigo": "150610"
+          },
+          {
+            "distrito": "SUMBILCA",
+            "codigo": "150611"
+          },
+          {
+            "distrito": "VEINTISIETE DE NOVIEMBRE",
+            "codigo": "150612"
+          }
+        ]
+      },
+      {
+        "provincia": "HUAROCHIRI",
+        "distritos": [
+          {
+            "distrito": "MATUCANA",
+            "codigo": "150701"
+          },
+          {
+            "distrito": "ANTIOQUIA",
+            "codigo": "150702"
+          },
+          {
+            "distrito": "CALLAHUANCA",
+            "codigo": "150703"
+          },
+          {
+            "distrito": "CARAMPOMA",
+            "codigo": "150704"
+          },
+          {
+            "distrito": "CHICLA",
+            "codigo": "150705"
+          },
+          {
+            "distrito": "CUENCA",
+            "codigo": "150706"
+          },
+          {
+            "distrito": "HUACHUPAMPA",
+            "codigo": "150707"
+          },
+          {
+            "distrito": "HUANZA",
+            "codigo": "150708"
+          },
+          {
+            "distrito": "HUAROCHIRI",
+            "codigo": "150709"
+          },
+          {
+            "distrito": "LAHUAYTAMBO",
+            "codigo": "150710"
+          },
+          {
+            "distrito": "LANGA",
+            "codigo": "150711"
+          },
+          {
+            "distrito": "LARAOS",
+            "codigo": "150712"
+          },
+          {
+            "distrito": "MARIATANA",
+            "codigo": "150713"
+          },
+          {
+            "distrito": "RICARDO PALMA",
+            "codigo": "150714"
+          },
+          {
+            "distrito": "SAN ANDRES DE TUPICOCHA",
+            "codigo": "150715"
+          },
+          {
+            "distrito": "SAN ANTONIO",
+            "codigo": "150716"
+          },
+          {
+            "distrito": "SAN BARTOLOME",
+            "codigo": "150717"
+          },
+          {
+            "distrito": "SAN DAMIAN",
+            "codigo": "150718"
+          },
+          {
+            "distrito": "SAN JUAN DE IRIS",
+            "codigo": "150719"
+          },
+          {
+            "distrito": "SAN JUAN DE TANTARANCHE",
+            "codigo": "150720"
+          },
+          {
+            "distrito": "SAN LORENZO DE QUINTI",
+            "codigo": "150721"
+          },
+          {
+            "distrito": "SAN MATEO",
+            "codigo": "150722"
+          },
+          {
+            "distrito": "SAN MATEO DE OTAO",
+            "codigo": "150723"
+          },
+          {
+            "distrito": "SAN PEDRO DE CASTA",
+            "codigo": "150724"
+          },
+          {
+            "distrito": "SAN PEDRO DE HUANCAYRE",
+            "codigo": "150725"
+          },
+          {
+            "distrito": "SANGALLAYA",
+            "codigo": "150726"
+          },
+          {
+            "distrito": "SANTA CRUZ DE COCACHACRA",
+            "codigo": "150727"
+          },
+          {
+            "distrito": "SANTA EULALIA",
+            "codigo": "150728"
+          },
+          {
+            "distrito": "SANTIAGO DE ANCHUCAYA",
+            "codigo": "150729"
+          },
+          {
+            "distrito": "SANTIAGO DE TUNA",
+            "codigo": "150730"
+          },
+          {
+            "distrito": "SANTO DOMINGO DE LOS OLLEROS",
+            "codigo": "150731"
+          },
+          {
+            "distrito": "SURCO",
+            "codigo": "150732"
+          }
+        ]
+      },
+      {
+        "provincia": "HUAURA",
+        "distritos": [
+          {
+            "distrito": "HUACHO",
+            "codigo": "150801"
+          },
+          {
+            "distrito": "AMBAR",
+            "codigo": "150802"
+          },
+          {
+            "distrito": "CALETA DE CARQUIN",
+            "codigo": "150803"
+          },
+          {
+            "distrito": "CHECRAS",
+            "codigo": "150804"
+          },
+          {
+            "distrito": "HUALMAY",
+            "codigo": "150805"
+          },
+          {
+            "distrito": "HUAURA",
+            "codigo": "150806"
+          },
+          {
+            "distrito": "LEONCIO PRADO",
+            "codigo": "150807"
+          },
+          {
+            "distrito": "PACCHO",
+            "codigo": "150808"
+          },
+          {
+            "distrito": "SANTA LEONOR",
+            "codigo": "150809"
+          },
+          {
+            "distrito": "SANTA MARIA",
+            "codigo": "150810"
+          },
+          {
+            "distrito": "SAYAN",
+            "codigo": "150811"
+          },
+          {
+            "distrito": "VEGUETA",
+            "codigo": "150812"
+          }
+        ]
+      },
+      {
+        "provincia": "OYON",
+        "distritos": [
+          {
+            "distrito": "OYON",
+            "codigo": "150901"
+          },
+          {
+            "distrito": "ANDAJES",
+            "codigo": "150902"
+          },
+          {
+            "distrito": "CAUJUL",
+            "codigo": "150903"
+          },
+          {
+            "distrito": "COCHAMARCA",
+            "codigo": "150904"
+          },
+          {
+            "distrito": "NAVAN",
+            "codigo": "150905"
+          },
+          {
+            "distrito": "PACHANGARA",
+            "codigo": "150906"
+          }
+        ]
+      },
+      {
+        "provincia": "YAUYOS",
+        "distritos": [
+          {
+            "distrito": "YAUYOS",
+            "codigo": "151001"
+          },
+          {
+            "distrito": "ALIS",
+            "codigo": "151002"
+          },
+          {
+            "distrito": "AYAUCA",
+            "codigo": "151003"
+          },
+          {
+            "distrito": "AYAVIRI",
+            "codigo": "151004"
+          },
+          {
+            "distrito": "AZANGARO",
+            "codigo": "151005"
+          },
+          {
+            "distrito": "CACRA",
+            "codigo": "151006"
+          },
+          {
+            "distrito": "CARANIA",
+            "codigo": "151007"
+          },
+          {
+            "distrito": "CATAHUASI",
+            "codigo": "151008"
+          },
+          {
+            "distrito": "CHOCOS",
+            "codigo": "151009"
+          },
+          {
+            "distrito": "COCHAS",
+            "codigo": "151010"
+          },
+          {
+            "distrito": "COLONIA",
+            "codigo": "151011"
+          },
+          {
+            "distrito": "HONGOS",
+            "codigo": "151012"
+          },
+          {
+            "distrito": "HUAMPARA",
+            "codigo": "151013"
+          },
+          {
+            "distrito": "HUANCAYA",
+            "codigo": "151014"
+          },
+          {
+            "distrito": "HUANGASCAR",
+            "codigo": "151015"
+          },
+          {
+            "distrito": "HUANTAN",
+            "codigo": "151016"
+          },
+          {
+            "distrito": "HUANEC",
+            "codigo": "151017"
+          },
+          {
+            "distrito": "LARAOS",
+            "codigo": "151018"
+          },
+          {
+            "distrito": "LINCHA",
+            "codigo": "151019"
+          },
+          {
+            "distrito": "MADEAN",
+            "codigo": "151020"
+          },
+          {
+            "distrito": "MIRAFLORES",
+            "codigo": "151021"
+          },
+          {
+            "distrito": "OMAS",
+            "codigo": "151022"
+          },
+          {
+            "distrito": "PUTINZA",
+            "codigo": "151023"
+          },
+          {
+            "distrito": "QUINCHES",
+            "codigo": "151024"
+          },
+          {
+            "distrito": "QUINOCAY",
+            "codigo": "151025"
+          },
+          {
+            "distrito": "SAN JOAQUIN",
+            "codigo": "151026"
+          },
+          {
+            "distrito": "SAN PEDRO DE PILAS",
+            "codigo": "151027"
+          },
+          {
+            "distrito": "TANTA",
+            "codigo": "151028"
+          },
+          {
+            "distrito": "TAURIPAMPA",
+            "codigo": "151029"
+          },
+          {
+            "distrito": "TOMAS",
+            "codigo": "151030"
+          },
+          {
+            "distrito": "TUPE",
+            "codigo": "151031"
+          },
+          {
+            "distrito": "VINAC",
+            "codigo": "151032"
+          },
+          {
+            "distrito": "VITIS",
+            "codigo": "151033"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "LORETO",
+    "provincias": [
+      {
+        "provincia": "MAYNAS",
+        "distritos": [
+          {
+            "distrito": "IQUITOS",
+            "codigo": "160101"
+          },
+          {
+            "distrito": "ALTO NANAY",
+            "codigo": "160102"
+          },
+          {
+            "distrito": "FERNANDO LORES",
+            "codigo": "160103"
+          },
+          {
+            "distrito": "INDIANA",
+            "codigo": "160104"
+          },
+          {
+            "distrito": "LAS AMAZONAS",
+            "codigo": "160105"
+          },
+          {
+            "distrito": "MAZAN",
+            "codigo": "160106"
+          },
+          {
+            "distrito": "NAPO",
+            "codigo": "160107"
+          },
+          {
+            "distrito": "PUNCHANA",
+            "codigo": "160108"
+          },
+          {
+            "distrito": "PUTUMAYO",
+            "codigo": "160109"
+          },
+          {
+            "distrito": "TORRES CAUSANA",
+            "codigo": "160110"
+          },
+          {
+            "distrito": "BELEN",
+            "codigo": "160112"
+          },
+          {
+            "distrito": "SAN JUAN BAUTISTA",
+            "codigo": "160113"
+          },
+          {
+            "distrito": "TENIENTE MANUEL CLAVERO",
+            "codigo": "160114"
+          }
+        ]
+      },
+      {
+        "provincia": "ALTO AMAZONAS",
+        "distritos": [
+          {
+            "distrito": "YURIMAGUAS",
+            "codigo": "160201"
+          },
+          {
+            "distrito": "BALSAPUERTO",
+            "codigo": "160202"
+          },
+          {
+            "distrito": "JEBEROS",
+            "codigo": "160205"
+          },
+          {
+            "distrito": "LAGUNAS",
+            "codigo": "160206"
+          },
+          {
+            "distrito": "SANTA CRUZ",
+            "codigo": "160210"
+          },
+          {
+            "distrito": "TENIENTE CESAR LOPEZ ROJAS",
+            "codigo": "160211"
+          }
+        ]
+      },
+      {
+        "provincia": "LORETO",
+        "distritos": [
+          {
+            "distrito": "NAUTA",
+            "codigo": "160301"
+          },
+          {
+            "distrito": "PARINARI",
+            "codigo": "160302"
+          },
+          {
+            "distrito": "TIGRE",
+            "codigo": "160303"
+          },
+          {
+            "distrito": "TROMPETEROS",
+            "codigo": "160304"
+          },
+          {
+            "distrito": "URARINAS",
+            "codigo": "160305"
+          }
+        ]
+      },
+      {
+        "provincia": "MARISCAL RAMON CASTILLA",
+        "distritos": [
+          {
+            "distrito": "RAMON CASTILLA",
+            "codigo": "160401"
+          },
+          {
+            "distrito": "PEBAS",
+            "codigo": "160402"
+          },
+          {
+            "distrito": "YAVARI",
+            "codigo": "160403"
+          },
+          {
+            "distrito": "SAN PABLO",
+            "codigo": "160404"
+          }
+        ]
+      },
+      {
+        "provincia": "REQUENA",
+        "distritos": [
+          {
+            "distrito": "REQUENA",
+            "codigo": "160501"
+          },
+          {
+            "distrito": "ALTO TAPICHE",
+            "codigo": "160502"
+          },
+          {
+            "distrito": "CAPELO",
+            "codigo": "160503"
+          },
+          {
+            "distrito": "EMILIO SAN MARTIN",
+            "codigo": "160504"
+          },
+          {
+            "distrito": "MAQUIA",
+            "codigo": "160505"
+          },
+          {
+            "distrito": "PUINAHUA",
+            "codigo": "160506"
+          },
+          {
+            "distrito": "SAQUENA",
+            "codigo": "160507"
+          },
+          {
+            "distrito": "SOPLIN",
+            "codigo": "160508"
+          },
+          {
+            "distrito": "TAPICHE",
+            "codigo": "160509"
+          },
+          {
+            "distrito": "JENARO HERRERA",
+            "codigo": "160510"
+          },
+          {
+            "distrito": "YAQUERANA",
+            "codigo": "160511"
+          }
+        ]
+      },
+      {
+        "provincia": "UCAYALI",
+        "distritos": [
+          {
+            "distrito": "CONTAMANA",
+            "codigo": "160601"
+          },
+          {
+            "distrito": "INAHUAYA",
+            "codigo": "160602"
+          },
+          {
+            "distrito": "PADRE MARQUEZ",
+            "codigo": "160603"
+          },
+          {
+            "distrito": "PAMPA HERMOSA",
+            "codigo": "160604"
+          },
+          {
+            "distrito": "SARAYACU",
+            "codigo": "160605"
+          },
+          {
+            "distrito": "VARGAS GUERRA",
+            "codigo": "160606"
+          }
+        ]
+      },
+      {
+        "provincia": "DATEM DEL MARANON",
+        "distritos": [
+          {
+            "distrito": "BARRANCA",
+            "codigo": "160701"
+          },
+          {
+            "distrito": "CAHUAPANAS",
+            "codigo": "160702"
+          },
+          {
+            "distrito": "MANSERICHE",
+            "codigo": "160703"
+          },
+          {
+            "distrito": "MORONA",
+            "codigo": "160704"
+          },
+          {
+            "distrito": "PASTAZA",
+            "codigo": "160705"
+          },
+          {
+            "distrito": "ANDOAS",
+            "codigo": "160706"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "MADRE DE DIOS",
+    "provincias": [
+      {
+        "provincia": "TAMBOPATA",
+        "distritos": [
+          {
+            "distrito": "TAMBOPATA",
+            "codigo": "170101"
+          },
+          {
+            "distrito": "INAMBARI",
+            "codigo": "170102"
+          },
+          {
+            "distrito": "LAS PIEDRAS",
+            "codigo": "170103"
+          },
+          {
+            "distrito": "LABERINTO",
+            "codigo": "170104"
+          }
+        ]
+      },
+      {
+        "provincia": "MANU",
+        "distritos": [
+          {
+            "distrito": "MANU",
+            "codigo": "170201"
+          },
+          {
+            "distrito": "FITZCARRALD",
+            "codigo": "170202"
+          },
+          {
+            "distrito": "MADRE DE DIOS",
+            "codigo": "170203"
+          },
+          {
+            "distrito": "HUEPETUHE",
+            "codigo": "170204"
+          }
+        ]
+      },
+      {
+        "provincia": "TAHUAMANU",
+        "distritos": [
+          {
+            "distrito": "INAPARI",
+            "codigo": "170301"
+          },
+          {
+            "distrito": "IBERIA",
+            "codigo": "170302"
+          },
+          {
+            "distrito": "TAHUAMANU",
+            "codigo": "170303"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "MOQUEGUA",
+    "provincias": [
+      {
+        "provincia": "MARISCAL NIETO",
+        "distritos": [
+          {
+            "distrito": "MOQUEGUA",
+            "codigo": "180101"
+          },
+          {
+            "distrito": "CARUMAS",
+            "codigo": "180102"
+          },
+          {
+            "distrito": "CUCHUMBAYA",
+            "codigo": "180103"
+          },
+          {
+            "distrito": "SAMEGUA",
+            "codigo": "180104"
+          },
+          {
+            "distrito": "SAN CRISTOBAL",
+            "codigo": "180105"
+          },
+          {
+            "distrito": "TORATA",
+            "codigo": "180106"
+          }
+        ]
+      },
+      {
+        "provincia": "GENERAL SANCHEZ CERRO",
+        "distritos": [
+          {
+            "distrito": "OMATE",
+            "codigo": "180201"
+          },
+          {
+            "distrito": "CHOJATA",
+            "codigo": "180202"
+          },
+          {
+            "distrito": "COALAQUE",
+            "codigo": "180203"
+          },
+          {
+            "distrito": "ICHUNA",
+            "codigo": "180204"
+          },
+          {
+            "distrito": "LA CAPILLA",
+            "codigo": "180205"
+          },
+          {
+            "distrito": "LLOQUE",
+            "codigo": "180206"
+          },
+          {
+            "distrito": "MATALAQUE",
+            "codigo": "180207"
+          },
+          {
+            "distrito": "PUQUINA",
+            "codigo": "180208"
+          },
+          {
+            "distrito": "QUINISTAQUILLAS",
+            "codigo": "180209"
+          },
+          {
+            "distrito": "UBINAS",
+            "codigo": "180210"
+          },
+          {
+            "distrito": "YUNGA",
+            "codigo": "180211"
+          }
+        ]
+      },
+      {
+        "provincia": "ILO",
+        "distritos": [
+          {
+            "distrito": "ILO",
+            "codigo": "180301"
+          },
+          {
+            "distrito": "EL ALGARROBAL",
+            "codigo": "180302"
+          },
+          {
+            "distrito": "PACOCHA",
+            "codigo": "180303"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "PASCO",
+    "provincias": [
+      {
+        "provincia": "PASCO",
+        "distritos": [
+          {
+            "distrito": "CHAUPIMARCA",
+            "codigo": "190101"
+          },
+          {
+            "distrito": "HUACHON",
+            "codigo": "190102"
+          },
+          {
+            "distrito": "HUARIACA",
+            "codigo": "190103"
+          },
+          {
+            "distrito": "HUAYLLAY",
+            "codigo": "190104"
+          },
+          {
+            "distrito": "NINACACA",
+            "codigo": "190105"
+          },
+          {
+            "distrito": "PALLANCHACRA",
+            "codigo": "190106"
+          },
+          {
+            "distrito": "PAUCARTAMBO",
+            "codigo": "190107"
+          },
+          {
+            "distrito": "SAN FRANCISCO DE ASIS DE YARUSYACAN",
+            "codigo": "190108"
+          },
+          {
+            "distrito": "SIMON BOLIVAR",
+            "codigo": "190109"
+          },
+          {
+            "distrito": "TICLACAYAN",
+            "codigo": "190110"
+          },
+          {
+            "distrito": "TINYAHUARCO",
+            "codigo": "190111"
+          },
+          {
+            "distrito": "VICCO",
+            "codigo": "190112"
+          },
+          {
+            "distrito": "YANACANCHA",
+            "codigo": "190113"
+          }
+        ]
+      },
+      {
+        "provincia": "DANIEL ALCIDES CARRION",
+        "distritos": [
+          {
+            "distrito": "YANAHUANCA",
+            "codigo": "190201"
+          },
+          {
+            "distrito": "CHACAYAN",
+            "codigo": "190202"
+          },
+          {
+            "distrito": "GOYLLARISQUIZGA",
+            "codigo": "190203"
+          },
+          {
+            "distrito": "PAUCAR",
+            "codigo": "190204"
+          },
+          {
+            "distrito": "SAN PEDRO DE PILLAO",
+            "codigo": "190205"
+          },
+          {
+            "distrito": "SANTA ANA DE TUSI",
+            "codigo": "190206"
+          },
+          {
+            "distrito": "TAPUC",
+            "codigo": "190207"
+          },
+          {
+            "distrito": "VILCABAMBA",
+            "codigo": "190208"
+          }
+        ]
+      },
+      {
+        "provincia": "OXAPAMPA",
+        "distritos": [
+          {
+            "distrito": "OXAPAMPA",
+            "codigo": "190301"
+          },
+          {
+            "distrito": "CHONTABAMBA",
+            "codigo": "190302"
+          },
+          {
+            "distrito": "HUANCABAMBA",
+            "codigo": "190303"
+          },
+          {
+            "distrito": "PALCAZU",
+            "codigo": "190304"
+          },
+          {
+            "distrito": "POZUZO",
+            "codigo": "190305"
+          },
+          {
+            "distrito": "PUERTO BERMUDEZ",
+            "codigo": "190306"
+          },
+          {
+            "distrito": "VILLA RICA",
+            "codigo": "190307"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "PIURA",
+    "provincias": [
+      {
+        "provincia": "PIURA",
+        "distritos": [
+          {
+            "distrito": "PIURA",
+            "codigo": "200101"
+          },
+          {
+            "distrito": "CASTILLA",
+            "codigo": "200104"
+          },
+          {
+            "distrito": "CATACAOS",
+            "codigo": "200105"
+          },
+          {
+            "distrito": "CURA MORI",
+            "codigo": "200107"
+          },
+          {
+            "distrito": "EL TALLAN",
+            "codigo": "200108"
+          },
+          {
+            "distrito": "LA ARENA",
+            "codigo": "200109"
+          },
+          {
+            "distrito": "LA UNION",
+            "codigo": "200110"
+          },
+          {
+            "distrito": "LAS LOMAS",
+            "codigo": "200111"
+          },
+          {
+            "distrito": "TAMBO GRANDE",
+            "codigo": "200114"
+          }
+        ]
+      },
+      {
+        "provincia": "AYABACA",
+        "distritos": [
+          {
+            "distrito": "AYABACA",
+            "codigo": "200201"
+          },
+          {
+            "distrito": "FRIAS",
+            "codigo": "200202"
+          },
+          {
+            "distrito": "JILILI",
+            "codigo": "200203"
+          },
+          {
+            "distrito": "LAGUNAS",
+            "codigo": "200204"
+          },
+          {
+            "distrito": "MONTERO",
+            "codigo": "200205"
+          },
+          {
+            "distrito": "PACAIPAMPA",
+            "codigo": "200206"
+          },
+          {
+            "distrito": "PAIMAS",
+            "codigo": "200207"
+          },
+          {
+            "distrito": "SAPILLICA",
+            "codigo": "200208"
+          },
+          {
+            "distrito": "SICCHEZ",
+            "codigo": "200209"
+          },
+          {
+            "distrito": "SUYO",
+            "codigo": "200210"
+          }
+        ]
+      },
+      {
+        "provincia": "HUANCABAMBA",
+        "distritos": [
+          {
+            "distrito": "HUANCABAMBA",
+            "codigo": "200301"
+          },
+          {
+            "distrito": "CANCHAQUE",
+            "codigo": "200302"
+          },
+          {
+            "distrito": "EL CARMEN DE LA FRONTERA",
+            "codigo": "200303"
+          },
+          {
+            "distrito": "HUARMACA",
+            "codigo": "200304"
+          },
+          {
+            "distrito": "LALAQUIZ",
+            "codigo": "200305"
+          },
+          {
+            "distrito": "SAN MIGUEL DE EL FAIQUE",
+            "codigo": "200306"
+          },
+          {
+            "distrito": "SONDOR",
+            "codigo": "200307"
+          },
+          {
+            "distrito": "SONDORILLO",
+            "codigo": "200308"
+          }
+        ]
+      },
+      {
+        "provincia": "MORROPON",
+        "distritos": [
+          {
+            "distrito": "CHULUCANAS",
+            "codigo": "200401"
+          },
+          {
+            "distrito": "BUENOS AIRES",
+            "codigo": "200402"
+          },
+          {
+            "distrito": "CHALACO",
+            "codigo": "200403"
+          },
+          {
+            "distrito": "LA MATANZA",
+            "codigo": "200404"
+          },
+          {
+            "distrito": "MORROPON",
+            "codigo": "200405"
+          },
+          {
+            "distrito": "SALITRAL",
+            "codigo": "200406"
+          },
+          {
+            "distrito": "SAN JUAN DE BIGOTE",
+            "codigo": "200407"
+          },
+          {
+            "distrito": "SANTA CATALINA DE MOSSA",
+            "codigo": "200408"
+          },
+          {
+            "distrito": "SANTO DOMINGO",
+            "codigo": "200409"
+          },
+          {
+            "distrito": "YAMANGO",
+            "codigo": "200410"
+          }
+        ]
+      },
+      {
+        "provincia": "PAITA",
+        "distritos": [
+          {
+            "distrito": "PAITA",
+            "codigo": "200501"
+          },
+          {
+            "distrito": "AMOTAPE",
+            "codigo": "200502"
+          },
+          {
+            "distrito": "ARENAL",
+            "codigo": "200503"
+          },
+          {
+            "distrito": "COLAN",
+            "codigo": "200504"
+          },
+          {
+            "distrito": "LA HUACA",
+            "codigo": "200505"
+          },
+          {
+            "distrito": "TAMARINDO",
+            "codigo": "200506"
+          },
+          {
+            "distrito": "VICHAYAL",
+            "codigo": "200507"
+          }
+        ]
+      },
+      {
+        "provincia": "SULLANA",
+        "distritos": [
+          {
+            "distrito": "SULLANA",
+            "codigo": "200601"
+          },
+          {
+            "distrito": "BELLAVISTA",
+            "codigo": "200602"
+          },
+          {
+            "distrito": "IGNACIO ESCUDERO",
+            "codigo": "200603"
+          },
+          {
+            "distrito": "LANCONES",
+            "codigo": "200604"
+          },
+          {
+            "distrito": "MARCAVELICA",
+            "codigo": "200605"
+          },
+          {
+            "distrito": "MIGUEL CHECA",
+            "codigo": "200606"
+          },
+          {
+            "distrito": "QUERECOTILLO",
+            "codigo": "200607"
+          },
+          {
+            "distrito": "SALITRAL",
+            "codigo": "200608"
+          }
+        ]
+      },
+      {
+        "provincia": "TALARA",
+        "distritos": [
+          {
+            "distrito": "PARINAS",
+            "codigo": "200701"
+          },
+          {
+            "distrito": "EL ALTO",
+            "codigo": "200702"
+          },
+          {
+            "distrito": "LA BREA",
+            "codigo": "200703"
+          },
+          {
+            "distrito": "LOBITOS",
+            "codigo": "200704"
+          },
+          {
+            "distrito": "LOS ORGANOS",
+            "codigo": "200705"
+          },
+          {
+            "distrito": "MANCORA",
+            "codigo": "200706"
+          }
+        ]
+      },
+      {
+        "provincia": "SECHURA",
+        "distritos": [
+          {
+            "distrito": "SECHURA",
+            "codigo": "200801"
+          },
+          {
+            "distrito": "BELLAVISTA DE LA UNION",
+            "codigo": "200802"
+          },
+          {
+            "distrito": "BERNAL",
+            "codigo": "200803"
+          },
+          {
+            "distrito": "CRISTO NOS VALGA",
+            "codigo": "200804"
+          },
+          {
+            "distrito": "VICE",
+            "codigo": "200805"
+          },
+          {
+            "distrito": "RINCONADA LLICUAR",
+            "codigo": "200806"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "PUNO",
+    "provincias": [
+      {
+        "provincia": "PUNO",
+        "distritos": [
+          {
+            "distrito": "PUNO",
+            "codigo": "210101"
+          },
+          {
+            "distrito": "ACORA",
+            "codigo": "210102"
+          },
+          {
+            "distrito": "AMANTANI",
+            "codigo": "210103"
+          },
+          {
+            "distrito": "ATUNCOLLA",
+            "codigo": "210104"
+          },
+          {
+            "distrito": "CAPACHICA",
+            "codigo": "210105"
+          },
+          {
+            "distrito": "CHUCUITO",
+            "codigo": "210106"
+          },
+          {
+            "distrito": "COATA",
+            "codigo": "210107"
+          },
+          {
+            "distrito": "HUATA",
+            "codigo": "210108"
+          },
+          {
+            "distrito": "MANAZO",
+            "codigo": "210109"
+          },
+          {
+            "distrito": "PAUCARCOLLA",
+            "codigo": "210110"
+          },
+          {
+            "distrito": "PICHACANI",
+            "codigo": "210111"
+          },
+          {
+            "distrito": "PLATERIA",
+            "codigo": "210112"
+          },
+          {
+            "distrito": "SAN ANTONIO",
+            "codigo": "210113"
+          },
+          {
+            "distrito": "TIQUILLACA",
+            "codigo": "210114"
+          },
+          {
+            "distrito": "VILQUE",
+            "codigo": "210115"
+          }
+        ]
+      },
+      {
+        "provincia": "AZANGARO",
+        "distritos": [
+          {
+            "distrito": "AZANGARO",
+            "codigo": "210201"
+          },
+          {
+            "distrito": "ACHAYA",
+            "codigo": "210202"
+          },
+          {
+            "distrito": "ARAPA",
+            "codigo": "210203"
+          },
+          {
+            "distrito": "ASILLO",
+            "codigo": "210204"
+          },
+          {
+            "distrito": "CAMINACA",
+            "codigo": "210205"
+          },
+          {
+            "distrito": "CHUPA",
+            "codigo": "210206"
+          },
+          {
+            "distrito": "JOSE DOMINGO CHOQUEHUANCA",
+            "codigo": "210207"
+          },
+          {
+            "distrito": "MUNANI",
+            "codigo": "210208"
+          },
+          {
+            "distrito": "POTONI",
+            "codigo": "210209"
+          },
+          {
+            "distrito": "SAMAN",
+            "codigo": "210210"
+          },
+          {
+            "distrito": "SAN ANTON",
+            "codigo": "210211"
+          },
+          {
+            "distrito": "SAN JOSE",
+            "codigo": "210212"
+          },
+          {
+            "distrito": "SAN JUAN DE SALINAS",
+            "codigo": "210213"
+          },
+          {
+            "distrito": "SANTIAGO DE PUPUJA",
+            "codigo": "210214"
+          },
+          {
+            "distrito": "TIRAPATA",
+            "codigo": "210215"
+          }
+        ]
+      },
+      {
+        "provincia": "CARABAYA",
+        "distritos": [
+          {
+            "distrito": "MACUSANI",
+            "codigo": "210301"
+          },
+          {
+            "distrito": "AJOYANI",
+            "codigo": "210302"
+          },
+          {
+            "distrito": "AYAPATA",
+            "codigo": "210303"
+          },
+          {
+            "distrito": "COASA",
+            "codigo": "210304"
+          },
+          {
+            "distrito": "CORANI",
+            "codigo": "210305"
+          },
+          {
+            "distrito": "CRUCERO",
+            "codigo": "210306"
+          },
+          {
+            "distrito": "ITUATA",
+            "codigo": "210307"
+          },
+          {
+            "distrito": "OLLACHEA",
+            "codigo": "210308"
+          },
+          {
+            "distrito": "SAN GABAN",
+            "codigo": "210309"
+          },
+          {
+            "distrito": "USICAYOS",
+            "codigo": "210310"
+          }
+        ]
+      },
+      {
+        "provincia": "CHUCUITO",
+        "distritos": [
+          {
+            "distrito": "JULI",
+            "codigo": "210401"
+          },
+          {
+            "distrito": "DESAGUADERO",
+            "codigo": "210402"
+          },
+          {
+            "distrito": "HUACULLANI",
+            "codigo": "210403"
+          },
+          {
+            "distrito": "KELLUYO",
+            "codigo": "210404"
+          },
+          {
+            "distrito": "PISACOMA",
+            "codigo": "210405"
+          },
+          {
+            "distrito": "POMATA",
+            "codigo": "210406"
+          },
+          {
+            "distrito": "ZEPITA",
+            "codigo": "210407"
+          }
+        ]
+      },
+      {
+        "provincia": "EL COLLAO",
+        "distritos": [
+          {
+            "distrito": "ILAVE",
+            "codigo": "210501"
+          },
+          {
+            "distrito": "CAPAZO",
+            "codigo": "210502"
+          },
+          {
+            "distrito": "PILCUYO",
+            "codigo": "210503"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "210504"
+          },
+          {
+            "distrito": "CONDURIRI",
+            "codigo": "210505"
+          }
+        ]
+      },
+      {
+        "provincia": "HUANCANE",
+        "distritos": [
+          {
+            "distrito": "HUANCANE",
+            "codigo": "210601"
+          },
+          {
+            "distrito": "COJATA",
+            "codigo": "210602"
+          },
+          {
+            "distrito": "HUATASANI",
+            "codigo": "210603"
+          },
+          {
+            "distrito": "INCHUPALLA",
+            "codigo": "210604"
+          },
+          {
+            "distrito": "PUSI",
+            "codigo": "210605"
+          },
+          {
+            "distrito": "ROSASPATA",
+            "codigo": "210606"
+          },
+          {
+            "distrito": "TARACO",
+            "codigo": "210607"
+          },
+          {
+            "distrito": "VILQUE CHICO",
+            "codigo": "210608"
+          }
+        ]
+      },
+      {
+        "provincia": "LAMPA",
+        "distritos": [
+          {
+            "distrito": "LAMPA",
+            "codigo": "210701"
+          },
+          {
+            "distrito": "CABANILLA",
+            "codigo": "210702"
+          },
+          {
+            "distrito": "CALAPUJA",
+            "codigo": "210703"
+          },
+          {
+            "distrito": "NICASIO",
+            "codigo": "210704"
+          },
+          {
+            "distrito": "OCUVIRI",
+            "codigo": "210705"
+          },
+          {
+            "distrito": "PALCA",
+            "codigo": "210706"
+          },
+          {
+            "distrito": "PARATIA",
+            "codigo": "210707"
+          },
+          {
+            "distrito": "PUCARA",
+            "codigo": "210708"
+          },
+          {
+            "distrito": "SANTA LUCIA",
+            "codigo": "210709"
+          },
+          {
+            "distrito": "VILAVILA",
+            "codigo": "210710"
+          }
+        ]
+      },
+      {
+        "provincia": "MELGAR",
+        "distritos": [
+          {
+            "distrito": "AYAVIRI",
+            "codigo": "210801"
+          },
+          {
+            "distrito": "ANTAUTA",
+            "codigo": "210802"
+          },
+          {
+            "distrito": "CUPI",
+            "codigo": "210803"
+          },
+          {
+            "distrito": "LLALLI",
+            "codigo": "210804"
+          },
+          {
+            "distrito": "MACARI",
+            "codigo": "210805"
+          },
+          {
+            "distrito": "NUNOA",
+            "codigo": "210806"
+          },
+          {
+            "distrito": "ORURILLO",
+            "codigo": "210807"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "210808"
+          },
+          {
+            "distrito": "UMACHIRI",
+            "codigo": "210809"
+          }
+        ]
+      },
+      {
+        "provincia": "MOHO",
+        "distritos": [
+          {
+            "distrito": "MOHO",
+            "codigo": "210901"
+          },
+          {
+            "distrito": "CONIMA",
+            "codigo": "210902"
+          },
+          {
+            "distrito": "HUAYRAPATA",
+            "codigo": "210903"
+          },
+          {
+            "distrito": "TILALI",
+            "codigo": "210904"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN ANTONIO DE PUTINA",
+        "distritos": [
+          {
+            "distrito": "PUTINA",
+            "codigo": "211001"
+          },
+          {
+            "distrito": "ANANEA",
+            "codigo": "211002"
+          },
+          {
+            "distrito": "PEDRO VILCA APAZA",
+            "codigo": "211003"
+          },
+          {
+            "distrito": "QUILCAPUNCU",
+            "codigo": "211004"
+          },
+          {
+            "distrito": "SINA",
+            "codigo": "211005"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN ROMAN",
+        "distritos": [
+          {
+            "distrito": "JULIACA",
+            "codigo": "211101"
+          },
+          {
+            "distrito": "CABANA",
+            "codigo": "211102"
+          },
+          {
+            "distrito": "CABANILLAS",
+            "codigo": "211103"
+          },
+          {
+            "distrito": "CARACOTO",
+            "codigo": "211104"
+          }
+        ]
+      },
+      {
+        "provincia": "SANDIA",
+        "distritos": [
+          {
+            "distrito": "SANDIA",
+            "codigo": "211201"
+          },
+          {
+            "distrito": "CUYOCUYO",
+            "codigo": "211202"
+          },
+          {
+            "distrito": "LIMBANI",
+            "codigo": "211203"
+          },
+          {
+            "distrito": "PATAMBUCO",
+            "codigo": "211204"
+          },
+          {
+            "distrito": "PHARA",
+            "codigo": "211205"
+          },
+          {
+            "distrito": "QUIACA",
+            "codigo": "211206"
+          },
+          {
+            "distrito": "SAN JUAN DEL ORO",
+            "codigo": "211207"
+          },
+          {
+            "distrito": "YANAHUAYA",
+            "codigo": "211208"
+          },
+          {
+            "distrito": "ALTO INAMBARI",
+            "codigo": "211209"
+          },
+          {
+            "distrito": "SAN PEDRO DE PUTINA PUNCO",
+            "codigo": "211210"
+          }
+        ]
+      },
+      {
+        "provincia": "YUNGUYO",
+        "distritos": [
+          {
+            "distrito": "YUNGUYO",
+            "codigo": "211301"
+          },
+          {
+            "distrito": "ANAPIA",
+            "codigo": "211302"
+          },
+          {
+            "distrito": "COPANI",
+            "codigo": "211303"
+          },
+          {
+            "distrito": "CUTURAPI",
+            "codigo": "211304"
+          },
+          {
+            "distrito": "OLLARAYA",
+            "codigo": "211305"
+          },
+          {
+            "distrito": "TINICACHI",
+            "codigo": "211306"
+          },
+          {
+            "distrito": "UNICACHI",
+            "codigo": "211307"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "SAN MARTIN",
+    "provincias": [
+      {
+        "provincia": "MOYOBAMBA",
+        "distritos": [
+          {
+            "distrito": "MOYOBAMBA",
+            "codigo": "220101"
+          },
+          {
+            "distrito": "CALZADA",
+            "codigo": "220102"
+          },
+          {
+            "distrito": "HABANA",
+            "codigo": "220103"
+          },
+          {
+            "distrito": "JEPELACIO",
+            "codigo": "220104"
+          },
+          {
+            "distrito": "SORITOR",
+            "codigo": "220105"
+          },
+          {
+            "distrito": "YANTALO",
+            "codigo": "220106"
+          }
+        ]
+      },
+      {
+        "provincia": "BELLAVISTA",
+        "distritos": [
+          {
+            "distrito": "BELLAVISTA",
+            "codigo": "220201"
+          },
+          {
+            "distrito": "ALTO BIAVO",
+            "codigo": "220202"
+          },
+          {
+            "distrito": "BAJO BIAVO",
+            "codigo": "220203"
+          },
+          {
+            "distrito": "HUALLAGA",
+            "codigo": "220204"
+          },
+          {
+            "distrito": "SAN PABLO",
+            "codigo": "220205"
+          },
+          {
+            "distrito": "SAN RAFAEL",
+            "codigo": "220206"
+          }
+        ]
+      },
+      {
+        "provincia": "EL DORADO",
+        "distritos": [
+          {
+            "distrito": "SAN JOSE DE SISA",
+            "codigo": "220301"
+          },
+          {
+            "distrito": "AGUA BLANCA",
+            "codigo": "220302"
+          },
+          {
+            "distrito": "SAN MARTIN",
+            "codigo": "220303"
+          },
+          {
+            "distrito": "SANTA ROSA",
+            "codigo": "220304"
+          },
+          {
+            "distrito": "SHATOJA",
+            "codigo": "220305"
+          }
+        ]
+      },
+      {
+        "provincia": "HUALLAGA",
+        "distritos": [
+          {
+            "distrito": "SAPOSOA",
+            "codigo": "220401"
+          },
+          {
+            "distrito": "ALTO SAPOSOA",
+            "codigo": "220402"
+          },
+          {
+            "distrito": "EL ESLABON",
+            "codigo": "220403"
+          },
+          {
+            "distrito": "PISCOYACU",
+            "codigo": "220404"
+          },
+          {
+            "distrito": "SACANCHE",
+            "codigo": "220405"
+          },
+          {
+            "distrito": "TINGO DE SAPOSOA",
+            "codigo": "220406"
+          }
+        ]
+      },
+      {
+        "provincia": "LAMAS",
+        "distritos": [
+          {
+            "distrito": "LAMAS",
+            "codigo": "220501"
+          },
+          {
+            "distrito": "ALONSO DE ALVARADO",
+            "codigo": "220502"
+          },
+          {
+            "distrito": "BARRANQUITA",
+            "codigo": "220503"
+          },
+          {
+            "distrito": "CAYNARACHI",
+            "codigo": "220504"
+          },
+          {
+            "distrito": "CUNUMBUQUI",
+            "codigo": "220505"
+          },
+          {
+            "distrito": "PINTO RECODO",
+            "codigo": "220506"
+          },
+          {
+            "distrito": "RUMISAPA",
+            "codigo": "220507"
+          },
+          {
+            "distrito": "SAN ROQUE DE CUMBAZA",
+            "codigo": "220508"
+          },
+          {
+            "distrito": "SHANAO",
+            "codigo": "220509"
+          },
+          {
+            "distrito": "TABALOSOS",
+            "codigo": "220510"
+          },
+          {
+            "distrito": "ZAPATERO",
+            "codigo": "220511"
+          }
+        ]
+      },
+      {
+        "provincia": "MARISCAL CACERES",
+        "distritos": [
+          {
+            "distrito": "JUANJUI",
+            "codigo": "220601"
+          },
+          {
+            "distrito": "CAMPANILLA",
+            "codigo": "220602"
+          },
+          {
+            "distrito": "HUICUNGO",
+            "codigo": "220603"
+          },
+          {
+            "distrito": "PACHIZA",
+            "codigo": "220604"
+          },
+          {
+            "distrito": "PAJARILLO",
+            "codigo": "220605"
+          }
+        ]
+      },
+      {
+        "provincia": "PICOTA",
+        "distritos": [
+          {
+            "distrito": "PICOTA",
+            "codigo": "220701"
+          },
+          {
+            "distrito": "BUENOS AIRES",
+            "codigo": "220702"
+          },
+          {
+            "distrito": "CASPISAPA",
+            "codigo": "220703"
+          },
+          {
+            "distrito": "PILLUANA",
+            "codigo": "220704"
+          },
+          {
+            "distrito": "PUCACACA",
+            "codigo": "220705"
+          },
+          {
+            "distrito": "SAN CRISTOBAL",
+            "codigo": "220706"
+          },
+          {
+            "distrito": "SAN HILARION",
+            "codigo": "220707"
+          },
+          {
+            "distrito": "SHAMBOYACU",
+            "codigo": "220708"
+          },
+          {
+            "distrito": "TINGO DE PONASA",
+            "codigo": "220709"
+          },
+          {
+            "distrito": "TRES UNIDOS",
+            "codigo": "220710"
+          }
+        ]
+      },
+      {
+        "provincia": "RIOJA",
+        "distritos": [
+          {
+            "distrito": "RIOJA",
+            "codigo": "220801"
+          },
+          {
+            "distrito": "AWAJUN",
+            "codigo": "220802"
+          },
+          {
+            "distrito": "ELIAS SOPLIN VARGAS",
+            "codigo": "220803"
+          },
+          {
+            "distrito": "NUEVA CAJAMARCA",
+            "codigo": "220804"
+          },
+          {
+            "distrito": "PARDO MIGUEL",
+            "codigo": "220805"
+          },
+          {
+            "distrito": "POSIC",
+            "codigo": "220806"
+          },
+          {
+            "distrito": "SAN FERNANDO",
+            "codigo": "220807"
+          },
+          {
+            "distrito": "YORONGOS",
+            "codigo": "220808"
+          },
+          {
+            "distrito": "YURACYACU",
+            "codigo": "220809"
+          }
+        ]
+      },
+      {
+        "provincia": "SAN MARTIN",
+        "distritos": [
+          {
+            "distrito": "TARAPOTO",
+            "codigo": "220901"
+          },
+          {
+            "distrito": "ALBERTO LEVEAU",
+            "codigo": "220902"
+          },
+          {
+            "distrito": "CACATACHI",
+            "codigo": "220903"
+          },
+          {
+            "distrito": "CHAZUTA",
+            "codigo": "220904"
+          },
+          {
+            "distrito": "CHIPURANA",
+            "codigo": "220905"
+          },
+          {
+            "distrito": "EL PORVENIR",
+            "codigo": "220906"
+          },
+          {
+            "distrito": "HUIMBAYOC",
+            "codigo": "220907"
+          },
+          {
+            "distrito": "JUAN GUERRA",
+            "codigo": "220908"
+          },
+          {
+            "distrito": "LA BANDA DE SHILCAYO",
+            "codigo": "220909"
+          },
+          {
+            "distrito": "MORALES",
+            "codigo": "220910"
+          },
+          {
+            "distrito": "PAPAPLAYA",
+            "codigo": "220911"
+          },
+          {
+            "distrito": "SAN ANTONIO",
+            "codigo": "220912"
+          },
+          {
+            "distrito": "SAUCE",
+            "codigo": "220913"
+          },
+          {
+            "distrito": "SHAPAJA",
+            "codigo": "220914"
+          }
+        ]
+      },
+      {
+        "provincia": "TOCACHE",
+        "distritos": [
+          {
+            "distrito": "TOCACHE",
+            "codigo": "221001"
+          },
+          {
+            "distrito": "NUEVO PROGRESO",
+            "codigo": "221002"
+          },
+          {
+            "distrito": "POLVORA",
+            "codigo": "221003"
+          },
+          {
+            "distrito": "SHUNTE",
+            "codigo": "221004"
+          },
+          {
+            "distrito": "UCHIZA",
+            "codigo": "221005"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "TACNA",
+    "provincias": [
+      {
+        "provincia": "TACNA",
+        "distritos": [
+          {
+            "distrito": "TACNA",
+            "codigo": "230101"
+          },
+          {
+            "distrito": "ALTO DE LA ALIANZA",
+            "codigo": "230102"
+          },
+          {
+            "distrito": "CALANA",
+            "codigo": "230103"
+          },
+          {
+            "distrito": "CIUDAD NUEVA",
+            "codigo": "230104"
+          },
+          {
+            "distrito": "INCLAN",
+            "codigo": "230105"
+          },
+          {
+            "distrito": "PACHIA",
+            "codigo": "230106"
+          },
+          {
+            "distrito": "PALCA",
+            "codigo": "230107"
+          },
+          {
+            "distrito": "POCOLLAY",
+            "codigo": "230108"
+          },
+          {
+            "distrito": "SAMA",
+            "codigo": "230109"
+          },
+          {
+            "distrito": "CORONEL GREGORIO ALBARRACIN LANCHIP",
+            "codigo": "230110"
+          }
+        ]
+      },
+      {
+        "provincia": "CANDARAVE",
+        "distritos": [
+          {
+            "distrito": "CANDARAVE",
+            "codigo": "230201"
+          },
+          {
+            "distrito": "CAIRANI",
+            "codigo": "230202"
+          },
+          {
+            "distrito": "CAMILACA",
+            "codigo": "230203"
+          },
+          {
+            "distrito": "CURIBAYA",
+            "codigo": "230204"
+          },
+          {
+            "distrito": "HUANUARA",
+            "codigo": "230205"
+          },
+          {
+            "distrito": "QUILAHUANI",
+            "codigo": "230206"
+          }
+        ]
+      },
+      {
+        "provincia": "JORGE BASADRE",
+        "distritos": [
+          {
+            "distrito": "LOCUMBA",
+            "codigo": "230301"
+          },
+          {
+            "distrito": "ILABAYA",
+            "codigo": "230302"
+          },
+          {
+            "distrito": "ITE",
+            "codigo": "230303"
+          }
+        ]
+      },
+      {
+        "provincia": "TARATA",
+        "distritos": [
+          {
+            "distrito": "TARATA",
+            "codigo": "230401"
+          },
+          {
+            "distrito": "HEROES ALBARRACIN",
+            "codigo": "230402"
+          },
+          {
+            "distrito": "ESTIQUE",
+            "codigo": "230403"
+          },
+          {
+            "distrito": "ESTIQUE",
+            "codigo": "230404"
+          },
+          {
+            "distrito": "SITAJARA",
+            "codigo": "230405"
+          },
+          {
+            "distrito": "SUSAPAYA",
+            "codigo": "230406"
+          },
+          {
+            "distrito": "TARUCACHI",
+            "codigo": "230407"
+          },
+          {
+            "distrito": "TICACO",
+            "codigo": "230408"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "TUMBES",
+    "provincias": [
+      {
+        "provincia": "TUMBES",
+        "distritos": [
+          {
+            "distrito": "TUMBES",
+            "codigo": "240101"
+          },
+          {
+            "distrito": "CORRALES",
+            "codigo": "240102"
+          },
+          {
+            "distrito": "LA CRUZ",
+            "codigo": "240103"
+          },
+          {
+            "distrito": "PAMPAS DE HOSPITAL",
+            "codigo": "240104"
+          },
+          {
+            "distrito": "SAN JACINTO",
+            "codigo": "240105"
+          },
+          {
+            "distrito": "SAN JUAN DE LA VIRGEN",
+            "codigo": "240106"
+          }
+        ]
+      },
+      {
+        "provincia": "CONTRALMIRANTE VILLAR",
+        "distritos": [
+          {
+            "distrito": "ZORRITOS",
+            "codigo": "240201"
+          },
+          {
+            "distrito": "CASITAS",
+            "codigo": "240202"
+          },
+          {
+            "distrito": "CANOAS DE PUNTA SAL",
+            "codigo": "240203"
+          }
+        ]
+      },
+      {
+        "provincia": "ZARUMILLA",
+        "distritos": [
+          {
+            "distrito": "ZARUMILLA",
+            "codigo": "240301"
+          },
+          {
+            "distrito": "AGUAS VERDES",
+            "codigo": "240302"
+          },
+          {
+            "distrito": "MATAPALO",
+            "codigo": "240303"
+          },
+          {
+            "distrito": "PAPAYAL",
+            "codigo": "240304"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "departamento": "UCAYALI",
+    "provincias": [
+      {
+        "provincia": "CORONEL PORTILLO",
+        "distritos": [
+          {
+            "distrito": "CALLERIA",
+            "codigo": "250101"
+          },
+          {
+            "distrito": "CAMPOVERDE",
+            "codigo": "250102"
+          },
+          {
+            "distrito": "IPARIA",
+            "codigo": "250103"
+          },
+          {
+            "distrito": "MASISEA",
+            "codigo": "250104"
+          },
+          {
+            "distrito": "YARINACOCHA",
+            "codigo": "250105"
+          },
+          {
+            "distrito": "NUEVA REQUENA",
+            "codigo": "250106"
+          },
+          {
+            "distrito": "MANANTAY",
+            "codigo": "250107"
+          }
+        ]
+      },
+      {
+        "provincia": "ATALAYA",
+        "distritos": [
+          {
+            "distrito": "RAYMONDI",
+            "codigo": "250201"
+          },
+          {
+            "distrito": "SEPAHUA",
+            "codigo": "250202"
+          },
+          {
+            "distrito": "TAHUANIA",
+            "codigo": "250203"
+          },
+          {
+            "distrito": "YURUA",
+            "codigo": "250204"
+          }
+        ]
+      },
+      {
+        "provincia": "PADRE ABAD",
+        "distritos": [
+          {
+            "distrito": "PADRE ABAD",
+            "codigo": "250301"
+          },
+          {
+            "distrito": "IRAZOLA",
+            "codigo": "250302"
+          },
+          {
+            "distrito": "CURIMANA",
+            "codigo": "250303"
+          }
+        ]
+      },
+      {
+        "provincia": "PURUS",
+        "distritos": [
+          {
+            "distrito": "PURUS",
+            "codigo": "250401"
+          }
+        ]
+      }
+    ]
+  }
+]

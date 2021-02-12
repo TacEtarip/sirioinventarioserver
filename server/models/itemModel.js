@@ -178,7 +178,7 @@ ItemSchema.index({
             tipo: 'text', 
             subTipo: 'text', 
             marca: 'text',
-            multiSearchParams: 'text'
+            description: 'text'
             });
 
 export default ItemSchema;
