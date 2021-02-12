@@ -168,6 +168,7 @@ export const generarComprobante = (req, res, next) => {
         })
         .then(resT => resT.json())
         .then(json => {
+            console.log(json);
             req.sunat = json;
             next();
         })
