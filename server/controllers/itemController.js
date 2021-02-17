@@ -15,6 +15,15 @@ const User = mongoose.model('User', UserSchema);
 
 const IGV = 0.18;
 
+export const filterItemsByRegex = async (req, res) => {
+    try {
+        const testRegex = new RegExp( req.body.value + '+[a-z ]*$', 'i');
+        const result = await Item.find({ name: { $regex: testRegex } }).limit(req.body.limit);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
 
 export const getItemsDestacados = async (req, res) => {
     try {
@@ -149,17 +158,17 @@ export const agregarItemVenta = async (req, res) => {
 
             const newConstNOIGV = (Math.round(((oldSale[0].totalPriceNoIGV - req.body.itemVendido.totalPriceNoIGV) + Number.EPSILON) * 100) / 100) * -1; 
 
-            await Venta.findOneAndUpdate(
+            const ventaAct = await Venta.findOneAndUpdate(
                 {codigo: req.body.codigoVenta, itemsVendidos: {$elemMatch: {codigo: req.body.itemVendido.codigo}}}, 
                 {$set: { 'itemsVendidos.$': req.body.itemVendido }, $inc: { totalPrice: newConst, totalPriceNoIGV: newConstNOIGV }}, 
-                {useFindAndModify: false});
-            return res.json({message: 'Cantidades actualizadas'});
+                {useFindAndModify: false, new: true });
+            return res.json({message: 'Cantidades actualizadas', venta: ventaAct});
         }
-        await Venta.findOneAndUpdate({codigo: req.body.codigoVenta},
+        const ventaActT = await Venta.findOneAndUpdate({codigo: req.body.codigoVenta},
                                      {$push: { itemsVendidos: req.body.itemVendido }, 
                                       $inc: { totalPrice: req.body.itemVendido.totalPrice, totalPriceNoIGV:  req.body.itemVendido.totalPriceNoIGV} }, 
-                                     {useFindAndModify: false});
-        res.json({message: 'Item agregado correctamente'});
+                                     {useFindAndModify: false, new: true});
+        res.json({message: 'Item agregado correctamente', venta: ventaActT });
 
     } catch (error) {
         return res.status(500).json({message: error});
@@ -402,7 +411,7 @@ export const ventaEjecutar = async (req, res, next) => {
 
 export const ventaAnular = async (req, res) => {
     try {
-        await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, {estado: 'anulada'}, {useFindAndModify: true});
+        await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, {estado: 'anulada'}, { useFindAndModify: false });
         await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, { ventaActiva: '' } ,{ useFindAndModify: false });
         res.json({message: 'succes'});
     } catch (error) {

@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import Item from '../lib/Item';
 import tipoSchema from '../models/tipoModel';
 
 const Tipo = mongoose.model('Tipo', tipoSchema);
+
+
+
 
 export const addNewTipo = async (req, res) => {
     try {

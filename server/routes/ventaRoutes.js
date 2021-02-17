@@ -5,7 +5,7 @@ import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta,
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar, 
     ventaAnular, ventaAnularPost, addLinkToPDF} from '../controllers/itemController';
-import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva } from '../controllers/usersController';
+import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, tieneVentaActiva } from '../controllers/usersController';
 
 import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
@@ -37,7 +37,7 @@ routes.get('/obtenerVenta/:ventaCod', normalLoginRequired, getVenta);
  
 routes.post('/ventaSimple', normalLoginRequired, ventaSimpleItemUpdate, generarGuia, generarComprobante, addLinkToPDF);
 
-routes.post('/agregarVenta', normalLoginRequired, generarVentaNueva, agregarVentaUsuario);
+routes.post('/agregarVenta', normalLoginRequired, tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
 
 routes.get('/ventasPendientes', normalLoginRequired, getVentaActiva, getVentaUser);
 

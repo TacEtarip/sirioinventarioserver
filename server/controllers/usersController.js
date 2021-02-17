@@ -360,3 +360,17 @@ export const getVentaActiva = async(req, res, next) => {
         return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
+
+
+export const tieneVentaActiva = async(req, res, next) => {
+    try {
+        const usuario = await User.findOne({ username: req.user.aud.split(' ')[0] });
+        if (usuario.ventaActiva) {
+            return res.status(409).json({ message: 'Ya tiene una venta activa' });
+        }
+        req.ventaCod = usuario.ventaActiva;
+        next();
+    } catch (error) {
+        return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
+    }
+};

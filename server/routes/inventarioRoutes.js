@@ -5,12 +5,14 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad,
         deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
         addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, 
         testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados,
-        convertToFavorite, deConvertToFavorite } from '../controllers/itemController';
+        convertToFavorite, deConvertToFavorite, filterItemsByRegex } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import { upload, uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {normalLoginRequired, login, adminLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
+
+routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 
 routes.get('/getItemsDestacados', getItemsDestacados);
 
