@@ -331,48 +331,54 @@ export const ventaEjecutar = async (req, res, next) => {
         const variaciones = [];
         const itemsVendidosCod = [];
 
+
         for (const item of req.body.venta.itemsVendidos) {
-            itemsVendidosCod.push(item.codigo);
-            variaciones.push({
-                              date: Date.now(), cantidad: item.cantidad, 
-                              tipo: false, comentario: 'venta|' + req.body.venta.codigo, 
-                              costoVar: item.totalPrice,
-                              cantidadSC: item.cantidadSC,
-                            });
+            if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
+                itemsVendidosCod.push(item.codigo);
+                variaciones.push({
+                                  date: Date.now(), cantidad: item.cantidad, 
+                                  tipo: false, comentario: 'venta|' + req.body.venta.codigo, 
+                                  costoVar: item.totalPrice,
+                                  cantidadSC: item.cantidadSC,
+                                });
+            }
+
         }
 
         let index = 0;
 
         for (const item of req.body.venta.itemsVendidos) {
-            for (const csc of item.cantidadSC) {
-                if (csc.cantidadVenta > 0) {
-                    let resultTemp = await Item.findOneAndUpdate({codigo: item.codigo, 
-                        'subConteo.order': {$elemMatch: {name: csc.name, nameSecond: csc.nameSecond}}}, 
-                        {$inc: {'subConteo.order.$.cantidad': -csc.cantidadVenta}}, {useFindAndModify: false, new: true, session});
-                    for (let index = 0; index < resultTemp.subConteo.order.length; index++) {
-                        if (resultTemp.subConteo.order[index].cantidad < 0) {
-                                await session.abortTransaction();
-                                session.endSession();
-                                return res.status(202).json({message: 'La Cantidad Ha Cambiado'});
+            if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
+                for (const csc of item.cantidadSC) {
+                    if (csc.cantidadVenta > 0) {
+                        let resultTemp = await Item.findOneAndUpdate({codigo: item.codigo, 
+                            'subConteo.order': {$elemMatch: {name: csc.name, nameSecond: csc.nameSecond}}}, 
+                            {$inc: {'subConteo.order.$.cantidad': -csc.cantidadVenta}}, {useFindAndModify: false, new: true, session});
+                        for (let index = 0; index < resultTemp.subConteo.order.length; index++) {
+                            if (resultTemp.subConteo.order[index].cantidad < 0) {
+                                    await session.abortTransaction();
+                                    session.endSession();
+                                    return res.status(202).json({message: 'La Cantidad Ha Cambiado'});
+                                }
                             }
-                        }
+                    }
                 }
+                let result = await Item.findOneAndUpdate(
+                    {codigo: item.codigo}, 
+                    {   
+                        $inc:  {cantidad: -item.cantidad},
+                        $push: {variaciones: variaciones[index]},
+    
+                    }, {new: true, useFindAndModify: false, session: session});
+                
+                if (result.cantidad < 0) {
+                    await session.abortTransaction();
+                    session.endSession();
+                    return res.status(202).json({message: 'La Cantidad Ha Cambiado'});
+                }
+    
+                index++;
             }
-            let result = await Item.findOneAndUpdate(
-                {codigo: item.codigo}, 
-                {   
-                    $inc:  {cantidad: -item.cantidad},
-                    $push: {variaciones: variaciones[index]},
-
-                }, {new: true, useFindAndModify: false, session: session});
-            
-            if (result.cantidad < 0) {
-                await session.abortTransaction();
-                session.endSession();
-                return res.status(202).json({message: 'La Cantidad Ha Cambiado'});
-            }
-
-            index++;
         }
 
         const venta = await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, 

@@ -139,9 +139,11 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
 export const getDNI = async (req, res) => {
     try {
         const result = await axios.post('https://api.migo.pe/api/v1/dni', { token: tokenSunat, dni: req.params.dni });
+        console.log(result);
         res.json(result.data);
     }
     catch (error) {
+        console.log(error);
         if (error.response.status === 422) {
             return res.status(422).json({ errorMSG: 'Numero Invalido' });
         } 
