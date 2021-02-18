@@ -24,8 +24,12 @@ export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, m
 const getNowDate = () => {
     const utc = DateTime.local().setZone('UTC-5');
     const lclString = utc.toLocaleString();
-    console.log( 'here' + lclString);
-    return lclString;
+    const arrayDate = lclString.split('/');
+    const tempoPos = arrayDate[0];
+    arrayDate[0] = arrayDate[1];
+    arrayDate[1] = tempoPos;
+    console.log(arrayDate.join('-'));
+    return arrayDate.join('-');
 };
 
 export const generarGuia = (req, res, next) => {
