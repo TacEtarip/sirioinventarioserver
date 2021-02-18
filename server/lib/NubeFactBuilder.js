@@ -29,7 +29,7 @@ export default class NubeFactBuilder {
 
     getNowDate() {
         const utc = DateTime.local().setZone('UTC-5');
-        lclString = utc.toLocaleString();
+        const lclString = utc.toLocaleString();
         const arrayDate = lclString.split('-');
         const tempoPos = arrayDate[0];
         arrayDate[0] = arrayDate[1];
