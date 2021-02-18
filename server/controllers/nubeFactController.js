@@ -178,7 +178,7 @@ export const generarComprobante = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat = json;
-            logger.info(json);
+            console.log(json);
             next();
         })
         .catch(err =>
