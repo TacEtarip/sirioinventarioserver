@@ -71,6 +71,13 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.cliente_email = req.ventResult.cliente_email || '';
     temporalJSON.enviar_automaticamente_a_la_sunat = true;
     temporalJSON.enviar_automaticamente_al_cliente = true;
+    req.ventResult.itemsVendidos.forEach(item => {
+        let newItem = 
+        new Item('NIU', item.codigo, item.name + ' | ' + item.descripcion, item.cantidad, 
+        item.priceNoIGV, item.priceIGV, item.totalPriceNoIGV, 
+        item.totalPrice - item.totalPriceNoIGV, item.totalPrice);
+        temporalJSON.items.push(newItem);
+    });
 
     fetch('https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c', {
         method: 'post',
