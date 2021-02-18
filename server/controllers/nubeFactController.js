@@ -73,7 +73,7 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.enviar_automaticamente_al_cliente = true;
     req.ventResult.itemsVendidos.forEach(item => {
         let newItem = {
-            unidad_de_medida: "NIU",
+            unidad_de_medida: 'NIU',
             codigo: item.codigo,
             descripcion: item.name + ' | ' + item.descripcion,
             cantidad: item.cantidad
