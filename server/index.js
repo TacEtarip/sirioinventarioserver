@@ -61,6 +61,7 @@ app.use('/static', express.static(path.join(__dirname, 'uploads')));
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     log.error(error);
+    logger.info(error);
     return res.json({
       error: {
         message: error.message,

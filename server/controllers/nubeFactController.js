@@ -4,6 +4,8 @@ import config from '../../config/index';
 import fetch from 'node-fetch';
 import jsonGuia from '../resources/guiaNbf.json';
 
+const logger = config[process.env.NODE_ENV].log();
+
 export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, motivo = '') => {
     try {
         const bodyToSend = { operacion: 'generar_anulacion', tipo_de_comprobante: tipo, serie, numero, motivo};
@@ -176,6 +178,7 @@ export const generarComprobante = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat = json;
+            logger.info(json);
             next();
         })
         .catch(err =>
