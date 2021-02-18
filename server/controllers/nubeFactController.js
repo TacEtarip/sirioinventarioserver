@@ -72,10 +72,12 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.enviar_automaticamente_a_la_sunat = true;
     temporalJSON.enviar_automaticamente_al_cliente = true;
     req.ventResult.itemsVendidos.forEach(item => {
-        let newItem = 
-        new Item('NIU', item.codigo, item.name + ' | ' + item.descripcion, item.cantidad, 
-        item.priceNoIGV, item.priceIGV, item.totalPriceNoIGV, 
-        item.totalPrice - item.totalPriceNoIGV, item.totalPrice);
+        let newItem = {
+            unidad_de_medida: "NIU",
+            codigo: item.codigo,
+            descripcion: item.name + ' | ' + item.descripcion,
+            cantidad: item.cantidad
+        };
         temporalJSON.items.push(newItem);
     });
 
@@ -87,6 +89,7 @@ export const generarGuia = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat_guia = json;
+            console.log(json);
             if (json.errors) {
                 console.log('HANDLE');
             }
