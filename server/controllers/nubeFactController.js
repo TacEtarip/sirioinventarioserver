@@ -3,6 +3,7 @@ import NFB from '../lib/NubeFactBuilder';
 import config from '../../config/index';
 import fetch from 'node-fetch';
 import jsonGuia from '../resources/guiaNbf.json';
+import { DateTime } from 'luxon';
 
 const logger = config[process.env.NODE_ENV].log();
 
@@ -21,12 +22,12 @@ export const anularComprobanteSunat = async (tipo = 1, serie = '', numero = 0, m
 };
 
 const getNowDate = () => {
-    const dateNew = new Date();
-    const lclString = dateNew.toLocaleDateString('es-PE');
-    const arrayDate = lclString.split('/');
-    const tempoPos = arrayDate[0];
+    const utc = DateTime.local().setZone('UTC-5');
+    lclString = utc.toFormat().toLocaleString();
+    const arrayDate = lclString.split('-');
     arrayDate[0] = arrayDate[1];
     arrayDate[1] = tempoPos;
+    console.log(arrayDate.join('-'));
     return arrayDate.join('-');
 };
 

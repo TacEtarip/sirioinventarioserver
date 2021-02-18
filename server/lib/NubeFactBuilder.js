@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import NubeFact from './NubeFact';
 /**
  * Builder for NubeFactClass
@@ -27,10 +28,9 @@ export default class NubeFactBuilder {
     }
 
     getNowDate() {
-        const dateNew = new Date();
-        const lclString = dateNew.toLocaleDateString('es-PE');
-        const arrayDate = lclString.split('/');
-        const tempoPos = arrayDate[0];
+        const utc = DateTime.local().setZone('UTC-5');
+        lclString = utc.toFormat().toLocaleString();
+        const arrayDate = lclString.split('-');
         arrayDate[0] = arrayDate[1];
         arrayDate[1] = tempoPos;
         console.log(arrayDate.join('-'));
