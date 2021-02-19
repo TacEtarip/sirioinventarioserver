@@ -1,11 +1,6 @@
 import {Schema} from 'mongoose';
 
-const CantidadOrderSC = new Schema({
-    name: {type: String},
-    nameSecond: {type: String},
-    cantidadDisponible: {type: Number},
-    cantidadVenta: {type: Number},
-}, { _id : false });
+import { CantidadOrderSC } from './communModels';
 
 const OrderSchema = new Schema({
     name: {

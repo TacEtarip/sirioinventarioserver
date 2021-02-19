@@ -141,7 +141,6 @@ export const getVentasActivasParaCard = async (req, res) => {
 
 export const agregarItemVenta = async (req, res) => {
     try {
-        
         const preInfo = await Venta.aggregate([{$match: { codigo: req.body.codigoVenta }}, {$unwind: '$itemsVendidos'}, 
                         {$replaceRoot: { newRoot: "$itemsVendidos" }}, {$match: {codigo: req.body.itemVendido.codigo}}, {$count: 'thisItem'}]);
         

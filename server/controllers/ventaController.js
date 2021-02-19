@@ -6,7 +6,6 @@ import { createExcelReport } from '../lib/createExcelReport';
 
 const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
-
 const Venta = mongoose.model('Venta', ventaModel);
 
 export const getVentaUser = async (req, res) => {
@@ -139,7 +138,6 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
 export const getDNI = async (req, res) => {
     try {
         const result = await axios.post('https://api.migo.pe/api/v1/dni', { token: tokenSunat, dni: req.params.dni });
-        console.log(result);
         res.json(result.data);
     }
     catch (error) {

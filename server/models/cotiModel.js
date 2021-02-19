@@ -1,7 +1,8 @@
-import {Schema} from 'mongoose';
-import { ItemVendidoSchema, DocumentoSchema  } from './communModels';
+import { Schema } from 'mongoose';
 
-const VentaSchema = new Schema ({
+import { DocumentoSchema, ItemVendidoSchema } from './communModels';
+
+export const CotizacionSchema = new Schema ({
 
     codigo: {
         type: String,
@@ -59,40 +60,10 @@ const VentaSchema = new Schema ({
         type: String
     },
 
-    serie: {
-        type: String
-    },
-
-    tipoComprobante: {
-        type: String
-    },
-
-    numero: {
-        type: Number
-    },
-
     cliente_email: {
         type: String
     },
 
-    guia_serie: {
-        type: String
-    },
-
-    guia_numero: {
-        type: String
-    },
-
-    guia: {
-        type: Boolean,
-        default: false
-    },
-
-    guia_link: {
-        type: String
-    }
-
 });
 
-export default VentaSchema;
-
+export default CotizacionSchema;
