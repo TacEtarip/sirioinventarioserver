@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import rif from 'replace-in-file';
 import { promisify } from 'util';
 import { readFile } from 'fs'; 
 import  path from 'path';
