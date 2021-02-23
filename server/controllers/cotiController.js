@@ -181,7 +181,7 @@ export const clonarCoti = async (req, res) => {
 
 export const createExcel = async (req, res) => {
     try {
-        const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo.png'}).promise();
+        const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo-small.png'}).promise();
         const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
         const buffer = 
         await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'Nombre', 'Descripción', 'Cant', 'P/CU', 'Total'], coti, dataImg.Body);
