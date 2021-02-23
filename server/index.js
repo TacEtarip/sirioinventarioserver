@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import inventarioRoutes from './routes/inventarioRoutes';
 import authRoutes from './routes/authRoutes';
 import ventasRoutes from './routes/ventaRoutes';
+import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
 
 import config from '../config/index';
@@ -55,6 +56,7 @@ app.use('/inventario', inventarioRoutes);
 app.use('/auth', authRoutes);
 app.use('/ventas', ventasRoutes);
 app.use('/email', emailrouter);
+app.use('/coti', cotiRoutes);
 
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 

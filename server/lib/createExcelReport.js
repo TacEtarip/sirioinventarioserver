@@ -71,6 +71,7 @@ export const createExcelReport = async (wsName, excelHeader, arrayOfSubHeaders, 
     
         //--VALORES PREDETERMINADOS FOR STYLE--//
         ws.row(2).setHeight(40);
+        ws.row(4).setHeight(20);
         ws.column(1).setWidth(10);
         ws.column(4).setWidth(60);
 
@@ -183,7 +184,6 @@ const createSubHeader = (wb, ws, arrayOfSubHeaders) => {
 
 const createTableCtn = (ws, ventas, startRow, sn, sns) => {
 
-
     // let startRow = 5;
     // let startColumn = 2;
     const current = startRow - 5;
@@ -192,6 +192,7 @@ const createTableCtn = (ws, ventas, startRow, sn, sns) => {
         return 5;
     } 
     else {
+        ws.row(startRow).setHeight(20);
         let style;
         if (startRow % 2 === 0) {
             style = sns;

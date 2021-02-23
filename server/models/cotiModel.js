@@ -52,18 +52,17 @@ export const CotizacionSchema = new Schema ({
         default: 'admin'
     },
 
-    medio_de_pago: {
-        type: String
-    },
-    
-    linkComprobante: {
-        type: String
+    cliente_email: {
+        type: String,
+        trim: true
     },
 
-    cliente_email: {
-        type: String
-    },
+    celular_cliente: {
+        type: String,
+        trim: true
+    }
 
 });
+
 
 export default CotizacionSchema;
