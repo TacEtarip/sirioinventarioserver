@@ -3,9 +3,17 @@ import mongoose from 'mongoose';
 import cotiModel from '../models/cotiModel';
 
 import { createExcelCoti } from '../lib/createExelCoti';
+import config from '../../config/index';
+import aws from 'aws-sdk';
 
 const Cotizacion = mongoose.model('Cotizacion', cotiModel);
 
+const s3 = new aws.S3({
+    accessKeyId: config[process.env.NODE_ENV].awsID,
+    secretAccessKey: config[process.env.NODE_ENV].awsKey,
+    Bucket: config[process.env.NODE_ENV].bucket, 
+    region: 'us-east-1'
+});
 
 export const crearCotizacion = async (req, res) => {
     try {
@@ -173,9 +181,10 @@ export const clonarCoti = async (req, res) => {
 
 export const createExcel = async (req, res) => {
     try {
+        const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo.png'}).promise();
         const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
         const buffer = 
-        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'Nombre', 'Descripción', 'Cant', 'P/CU', 'Total'], coti);
+        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'Nombre', 'Descripción', 'Cant', 'P/CU', 'Total'], coti, dataImg.Body);
         res.writeHead(200, 
             { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'Content-Disposition': `attachment; filename=${coti.codigo}.xlsx` });

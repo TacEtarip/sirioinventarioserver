@@ -2,7 +2,7 @@ import xl from 'excel4node';
 import path from 'path';
 
 
-export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, coti) => {
+export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, coti, dataIMG) => {
 
     try {
         const wb = new xl.Workbook();
@@ -136,7 +136,7 @@ export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, co
         ws.setPrintArea(1, 1, current + 2, 6);
 
         ws.addImage({
-            path: path.resolve(__dirname, '../uploads/images/sirio-logo-small.png'),
+            image: dataIMG,
             type: 'picture',
             position: {
               type: 'absoluteAnchor',
