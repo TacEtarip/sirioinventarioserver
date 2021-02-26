@@ -28,7 +28,6 @@ const getNowDate = () => {
     const tempoPos = arrayDate[0];
     arrayDate[0] = arrayDate[1];
     arrayDate[1] = tempoPos;
-    console.log(arrayDate.join('-'));
     return arrayDate.join('-');
 };
 
@@ -190,7 +189,6 @@ export const generarComprobante = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat = json;
-            console.log(json);
             next();
         })
         .catch(err =>

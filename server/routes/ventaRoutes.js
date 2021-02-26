@@ -25,9 +25,9 @@ routes.get('/dni/:dni', allLoginRequired, getDNI);
 routes.get('/createExcelReport/:dateOne/:dateTwo', normalLoginRequired, createExcel);
 
 
-routes.get('/getEjecutadas/:skip/:limit/:dateOne/:dateTwo', normalLoginRequired, getVentasEjecutadas);
+routes.post('/getEjecutadas', normalLoginRequired, getVentasEjecutadas);
 
-routes.get('/getCantidadVentas/:estado/:dateOne/:dateTwo', normalLoginRequired, getCantidadDeVentasPorEstado);
+routes.post('/getCantidadVentas', normalLoginRequired, getCantidadDeVentasPorEstado);
 
 routes.get('/testTotal', normalLoginRequired, getCantidadTotal);
 
