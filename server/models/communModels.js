@@ -54,6 +54,10 @@ export const ItemVendidoSchema = new Schema({
 
     totalPriceNoIGV: {
         type: Number
+    },
+     
+    unidadDeMedida: {
+        type: String
     }
     
 }, { _id : false });

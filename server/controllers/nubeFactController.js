@@ -70,13 +70,22 @@ export const generarGuia = (req, res, next) => {
     temporalJSON.cliente_email = req.ventResult.cliente_email || '';
     temporalJSON.enviar_automaticamente_a_la_sunat = true;
     temporalJSON.enviar_automaticamente_al_cliente = true;
+
     req.ventResult.itemsVendidos.forEach(item => {
+
         let newItem = {
             unidad_de_medida: 'NIU',
             codigo: item.codigo,
             descripcion: item.name + ' | ' + item.descripcion,
             cantidad: item.cantidad
         };
+        if (item.unidadDeMedida === 'UND') {
+            newItem.unidad_de_medida = 'NIU';
+        } else if(item.unidadDeMedida === 'PAR') {
+            newItem.unidad_de_medida = 'PR';
+        } else if(item.unidadDeMedida === 'CAJA') {
+            newItem.unidad_de_medida = 'BX';
+        }
         temporalJSON.items.push(newItem);
     });
 
@@ -138,6 +147,13 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
             new Item('NIU', item.codigo, item.name + ' | ' + item.descripcion, item.cantidad, 
             item.priceNoIGV, item.priceIGV, item.totalPriceNoIGV, 
             item.totalPrice - item.totalPriceNoIGV, item.totalPrice);
+            if (item.unidadDeMedida === 'UND') {
+                newItem.unidad_de_medida = 'NIU';
+            } else if(item.unidadDeMedida === 'PAR') {
+                newItem.unidad_de_medida = 'PR';
+            } else if(item.unidadDeMedida === 'CAJA') {
+                newItem.unidad_de_medida = 'BX';
+            }
             newBoleta.addItem(newItem.toJSON());
         });
         if (ventResult.guia) {
@@ -163,6 +179,13 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
         new Item('NIU', item.codigo, item.name + ' | ' + item.descripcion, item.cantidad, 
         item.priceNoIGV, item.priceIGV, item.totalPriceNoIGV, 
         item.totalPrice - item.totalPriceNoIGV, item.totalPrice);
+        if (item.unidadDeMedida === 'UND') {
+            newItem.unidad_de_medida = 'NIU';
+        } else if(item.unidadDeMedida === 'PAR') {
+            newItem.unidad_de_medida = 'PR';
+        } else if(item.unidadDeMedida === 'CAJA') {
+            newItem.unidad_de_medida = 'BX';
+        }
         newBoleta.addItem(newItem.toJSON());
     });
     newBoleta.addDireccion(ventResult.documento.direccion);

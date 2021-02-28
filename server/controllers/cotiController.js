@@ -19,14 +19,12 @@ export const crearCotizacion = async (req, res) => {
     try {
         req.body.venta._id = undefined;
         req.body.venta.codigo = undefined;
-
         const newCoti = new Cotizacion(req.body.venta);
         newCoti.codigo = await generarCodigoCoti();
         newCoti.celular_cliente = tranformarTelefono(req.body.venta.celular_cliente);
         const saveResult = await newCoti.save();
         res.json({ message: `Cotización generada con el codigo: ${saveResult.codigo}`, coti: saveResult });
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ errorMSG: error }); 
     }
 };
@@ -184,7 +182,7 @@ export const createExcel = async (req, res) => {
         const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo-small.png'}).promise();
         const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
         const buffer = 
-        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'Nombre', 'Descripción', 'Cant', 'P/CU', 'Total'], coti, dataImg.Body);
+        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'IMAGÉN','UNIDAD DE MEDIDA','NOMBRE', 'DESCRIPCIÓN', 'CANTIDAD', 'P/CU', 'TOTAL'], coti, dataImg.Body, req.body.extra);
         res.writeHead(200, 
             { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'Content-Disposition': `attachment; filename=${coti.codigo}.xlsx` });
