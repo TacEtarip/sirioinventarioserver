@@ -2,7 +2,7 @@ import xl from 'excel4node';
 import path from 'path';
 
 
-export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, coti, dataIMG, extra) => {
+export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, coti, dataIMG, extra, image, bufferArrays = []) => {
 
     try {
         const wb = new xl.Workbook();
@@ -93,7 +93,7 @@ export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, co
     
         const offset = 15;
 
-        const current = createTableCtn(ws, coti.itemsVendidos, offset, styleNormal, styleNormalSecond, offset);
+        const current = createTableCtn(ws, coti.itemsVendidos, offset, styleNormal, styleNormalSecond, offset, image);
 
         createSubHeader(wb, ws, arrayOfSubHeaders, offset - 1);
         createHeader(wb, ws, excelHeader, coti, extra.observaciones);
@@ -213,7 +213,30 @@ export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, co
               x: '1.5mm',
               y: '1.5mm',
             },
-          });
+        });
+        if (image) {
+            bufferArrays.forEach((buff, index) => {
+                ws.addImage({
+                    image: buff.Body,
+                    type: 'picture',
+                    position: {
+                        type: 'twoCellAnchor',
+                        from: {
+                          col: 2,
+                          colOff: "1mm",
+                          row: offset + index,
+                          rowOff: "1mm"
+                        },
+                        to: {
+                          col: 2,
+                          colOff: "35mm",
+                          row: offset + index,
+                          rowOff: "35mm"
+                        }
+                      }
+                });
+            });
+        }
         
         const buffer = await wb.writeToBuffer();
         return buffer;
@@ -535,7 +558,7 @@ const createSubHeader = (wb, ws, arrayOfSubHeaders, at) => {
 
 };
 
-const createTableCtn = (ws, items, startRow, sn, sns, offset) => {
+const createTableCtn = (ws, items, startRow, sn, sns, offset, image) => {
 
 
     // let startRow = 5;
@@ -547,7 +570,11 @@ const createTableCtn = (ws, items, startRow, sn, sns, offset) => {
         return offset;
     } 
     else {
-        ws.row(startRow).setHeight(45);
+        if (image) {
+            ws.row(startRow).setHeight(85);
+        } else {
+            ws.row(startRow).setHeight(35);
+        }
         let style;
         if (startRow % 2 === 0) {
             style = sns;
@@ -591,6 +618,7 @@ const createTableCtn = (ws, items, startRow, sn, sns, offset) => {
         .style(style)
         .style({
             alignment:{
+            horizontal: 'center',
             wrapText:true
             }
             });
@@ -636,7 +664,7 @@ const createTableCtn = (ws, items, startRow, sn, sns, offset) => {
         .formula(`F${startRow} * G${startRow}`)
         .style(style);
 
-        return 1 + createTableCtn(ws, items, startRow + 1, sn, sns, offset);
+        return 1 + createTableCtn(ws, items, startRow + 1, sn, sns, offset, image);
     }
 
 };

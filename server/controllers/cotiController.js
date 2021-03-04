@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cotiModel from '../models/cotiModel';
 
 import { createExcelCoti } from '../lib/createExelCoti';
+import { createDocument } from '../lib/createPDFcoti';
 import config from '../../config/index';
 import aws from 'aws-sdk';
 
@@ -181,15 +182,41 @@ export const createExcel = async (req, res) => {
     try {
         const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo-small.png'}).promise();
         const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
+        const arrayBuffers = [];
+        if (req.body.imagen) {
+            for (let index = 0; index < coti.itemsVendidos.length; index++) {
+                arrayBuffers.push(await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: coti.itemsVendidos[index].photo}).promise());
+            }
+        }
         const buffer = 
-        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'IMAGÉN','UNIDAD DE MEDIDA','NOMBRE', 'DESCRIPCIÓN', 'CANTIDAD', 'P/CU', 'TOTAL'], coti, dataImg.Body, req.body.extra);
+        await createExcelCoti('Cotización', 'Temp Coti', ['Nº', 'IMAGÉN','UNIDAD DE MEDIDA','NOMBRE', 'DESCRIPCIÓN', 'CANTIDAD', 'P/CU', 'TOTAL'], 
+        coti, dataImg.Body, req.body.extra, req.body.imagen, arrayBuffers);
         res.writeHead(200, 
             { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'Content-Disposition': `attachment; filename=${coti.codigo}.xlsx` });
         res.write(buffer, 'binary');
         res.end(null, 'binary');
     } catch (error) {
-        console.log(error);
         return res.status(500).json({message: error});
     }
 };
+
+export const getPDFCotiTest = async (req, res) => {
+    try {
+      const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
+      const dataImg = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: 'sirio-logo-small.png'}).promise();
+      const arrayBuffers = [];
+      if (req.body.imagen) {
+        for (let index = 0; index < coti.itemsVendidos.length; index++) {
+            arrayBuffers.push(await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: coti.itemsVendidos[index].photo}).promise());
+          }
+      }
+      const doc = createDocument(dataImg.Body, coti, req.body.extra, arrayBuffers, req.body.imagen);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+      doc.pipe(res);
+      doc.end();
+    } catch (error) {
+      return res.status(500).json({message: error});
+    }
+  };

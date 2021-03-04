@@ -97,7 +97,6 @@ export const generarGuia = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat_guia = json;
-            console.log(json);
             if (json.errors) {
                 console.log('HANDLE');
             }

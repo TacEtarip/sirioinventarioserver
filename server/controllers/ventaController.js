@@ -115,7 +115,6 @@ export const getVentasEjecutadas = async (req, res) => {
         }
         res.json(result);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ errorMSG: error }); 
     }
 };
@@ -148,7 +147,6 @@ export const getDNI = async (req, res) => {
         res.json(result.data);
     }
     catch (error) {
-        console.log(error);
         if (error.response.status === 422) {
             return res.status(422).json({ errorMSG: 'Numero Invalido' });
         } 

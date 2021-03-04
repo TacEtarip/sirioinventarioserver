@@ -58,6 +58,10 @@ export const ItemVendidoSchema = new Schema({
      
     unidadDeMedida: {
         type: String
+    },
+
+    photo: {
+        type: String
     }
     
 }, { _id : false });

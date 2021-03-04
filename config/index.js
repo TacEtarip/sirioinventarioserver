@@ -18,7 +18,7 @@ const config = {
         jwtGoogleLogin: process.env.JWT_GOOGLE_LOGIN,
         awsID: process.env.AWS_ID,
         awsKey: process.env.AWS_KEY,
-        bucket: process.env.S3_BUCKET_TEST,
+        bucket: process.env.S3_BUCKET,
         sunatToken: process.env.SUNAT_TOKEN,
         googleClientID: process.env.GOOGLE_CLIENT_ID,
         googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
