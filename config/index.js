@@ -30,8 +30,8 @@ const config = {
         nbfToken: process.env.NBF_TOKEN,
         emailFrom: 'loginmanager@siriodinar.com',
         link: 'http://localhost:5000/',
-        link_front: 'http://localhost:4200/',
-        origin: ['http://localhost:4200', 'http://localhost:4201'],
+        link_front: 'http://localhost:4000/',
+        origin: ['http://localhost:4200', 'http://localhost:4000'],
         log: () => getLogger(name, version, 'debug'),
     },
 

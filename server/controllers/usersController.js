@@ -74,6 +74,7 @@ export const registerUserLow = async (req, res, next) => {
         req.savedUSer = savedUSer;
         next();
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
@@ -100,6 +101,7 @@ export const confirmarUsuario = async (req, res) => {
                 config[process.env.NODE_ENV].jwtLogin, 
                 { expiresIn: '120s' });
             await User.findByIdAndUpdate(result._id, {verified: true}, {useFindAndModify: false});
+            console.log(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
             return res.redirect(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
         } 
         return res.status(202).send('<h1>Este usuario ya esta verificado.</h1>');
@@ -181,6 +183,7 @@ export const loginGoogle = async (req, res, next) => {
                 config[process.env.NODE_ENV].jwtLogin, 
                 { expiresIn: '120s' });
         await User.findByIdAndUpdate(result._id, {verified: true}, {useFindAndModify: false});
+        console.log(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
         return res.redirect(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
     } catch (error) {
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});

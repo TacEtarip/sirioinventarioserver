@@ -646,6 +646,7 @@ export const deConvertToFavorite = async (req, res) => {
 
 export const getAllItemSort = async (req, res) => {
     try {
+        console.log('here');
         let tipoOrder = 0;
         if (req.params.tipoSort === 'asc') {
             tipoOrder = 1;

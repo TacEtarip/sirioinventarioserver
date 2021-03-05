@@ -55,6 +55,7 @@ export const sendConfirmationEmail = async (req, res) => {
         });   
         res.json(req.savedUSer);
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({ link: false });
     }
 
