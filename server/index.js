@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
@@ -12,6 +11,7 @@ import authRoutes from './routes/authRoutes';
 import ventasRoutes from './routes/ventaRoutes';
 import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
+import cookieParser from 'cookie-parser';
 
 import config from '../config/index';
 
@@ -24,20 +24,21 @@ const log = config[process.env.NODE_ENV].log();
 
 app.use(helmet());
 app.use(compression());
+app.use(cookieParser());
 
 app.options('*', cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
 app.use(cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 
 app.use((req, res, next) => {
-  if (req.headers && req.headers.authorization && 
-      req.headers.authorization.split(' ')[0] === 'JWT') {
-        const auth = req.headers.authorization;
-      jwt.verify(auth.split(' ')[1], config[process.env.NODE_ENV].jwtKey, 
-      { audience: auth.split(' ')[2] + ' ' + auth.split(' ')[3] },(err, decode) => {
+  console.log(req.cookies);
+  if (req.cookies && req.cookies.jwt_token && req.cookies.usuario_tipo && req.cookies.usuario_user) {
+      const auth = req.headers.authorization;
+      jwt.verify(req.cookies.jwt_token, config[process.env.NODE_ENV].jwtKey, 
+      { audience: req.cookies.usuario_user + ' ' + req.cookies.usuario_tipo },(err, decode) => {
           if ( err ) {
             req.user = undefined;
           } else { 
