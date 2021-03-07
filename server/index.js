@@ -34,11 +34,11 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.use((req, res, next) => {
-  console.log(req.cookies);
-  if (req.cookies && req.cookies.jwt_token && req.cookies.usuario_tipo && req.cookies.usuario_user) {
-      const auth = req.headers.authorization;
-      jwt.verify(req.cookies.jwt_token, config[process.env.NODE_ENV].jwtKey, 
-      { audience: req.cookies.usuario_user + ' ' + req.cookies.usuario_tipo },(err, decode) => {
+  if (req.headers && req.headers.authorization && 
+      req.headers.authorization.split(' ')[0] === 'JWT') {
+        const auth = req.headers.authorization;
+      jwt.verify(auth.split(' ')[1], config[process.env.NODE_ENV].jwtKey, 
+      { audience: auth.split(' ')[2] + ' ' + auth.split(' ')[3] },(err, decode) => {
           if ( err ) {
             req.user = undefined;
           } else { 
