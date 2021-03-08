@@ -2,6 +2,8 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import aws from 'aws-sdk';
 import tinyfy from 'tinify';
+import imagemin from 'imagemin';
+import webp from 'imagemin-webp';
 
 import { createDocumento } from '../lib/documentGenerator';
 import config from '../../config/index';
@@ -47,8 +49,13 @@ export const uploadPDFventa = async (venta) => {
 export const getImage = async (req, res) => {
     try {
       const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.params.imgName}).promise();
-      res.writeHead(200, {'Content-Type': 'image/jpeg'});
-      res.write(data.Body, 'binary');
+      const dataIMGMIN = await imagemin.buffer(data.Body, {
+        plugins: [
+          webp({quality: 70})
+        ]
+      });
+      res.writeHead(200, {'Content-Type': 'image/webp'});
+      res.write(dataIMGMIN, 'binary');
       res.end(null, 'binary');
       // res.end(new Buffer.from(data.Body));
     } catch (error) {

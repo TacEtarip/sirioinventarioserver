@@ -319,7 +319,6 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
@@ -411,7 +410,6 @@ export const ventaEjecutar = async (req, res, next) => {
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
@@ -646,7 +644,6 @@ export const deConvertToFavorite = async (req, res) => {
 
 export const getAllItemSort = async (req, res) => {
     try {
-        console.log('here');
         let tipoOrder = 0;
         if (req.params.tipoSort === 'asc') {
             tipoOrder = 1;

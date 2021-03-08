@@ -11,7 +11,7 @@ import authRoutes from './routes/authRoutes';
 import ventasRoutes from './routes/ventaRoutes';
 import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 
 import config from '../config/index';
 
@@ -24,7 +24,7 @@ const log = config[process.env.NODE_ENV].log();
 
 app.use(helmet());
 app.use(compression());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.options('*', cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
 app.use(cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
