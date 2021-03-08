@@ -34,7 +34,6 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.use((req, res, next) => {
-  console.log(req.cookies);
   if (req.headers && req.headers.authorization && 
       req.headers.authorization.split(' ')[0] === 'JWT') {
         const auth = req.headers.authorization;
