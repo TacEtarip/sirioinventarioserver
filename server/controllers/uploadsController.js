@@ -51,7 +51,7 @@ export const getImage = async (req, res) => {
       const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.params.imgName}).promise();
       const dataIMGMIN = await imagemin.buffer(data.Body, {
         plugins: [
-          webp({quality: 70})
+          webp({quality: 50})
         ]
       });
       res.writeHead(200, {'Content-Type': 'image/webp'});
