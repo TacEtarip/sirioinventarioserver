@@ -66,7 +66,9 @@ export const getImage = async (req, res) => {
   export const deleteImage = async (req, res, next) => {
     try {
       if (req.body.oldPhoto !== 'noPhoto.jpg') {
-      await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.body.oldPhoto}).promise();
+        await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.body.oldPhoto}).promise();
+        const arrayPhoto = req.body.oldPhoto.split('.');
+        await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: `${arrayPhoto[0]}.webp`}).promise();
       }
       next();
     } catch (error) {
@@ -190,19 +192,44 @@ export const fichaUpload = (req, res, next) => {
   next();
 };
 
-export const imageUpload = (req, res, next) => {
-  const file = req.file;
-  if (!file) {
+export const imageUpload = async (req, res, next) => {
+  try {
+    const file = req.file;
+    if (!file) {
       const error = new Error('Please upload a file');
       error.httpStatusCode = 400;
       return next(error);
+    }
+
+    const fileNN = file.key.split('.');
+    const data = await s3.getObject({Bucket: config[process.env.NODE_ENV].bucket, Key: file.key}).promise();
+    const dataIMGMIN = await imagemin.buffer(data.Body, {
+      plugins: [
+        webp({quality: 50})
+      ]
+    });
+
+    await s3.upload({
+      Key: `${fileNN[0]}.webp`,
+      CacheControl: 'max-age=604800',
+      ACL: 'public-read',
+      ContentType: 'image/webp',
+      Body: dataIMGMIN,
+      Bucket: config[process.env.NODE_ENV].bucket
+    }).promise();
+
+
+    req.fileName = file.key;
+    req.uploadInfo = {
+      statusCode: 200,
+      status: 'success',
+      uploadedFile: file
+    };
+    next();
+
+  } catch (error) {
+    return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
   }
   
-  req.fileName = file.key;
-  req.uploadInfo = {
-    statusCode: 200,
-    status: 'success',
-    uploadedFile: file
-  };
-  next();
 };
+

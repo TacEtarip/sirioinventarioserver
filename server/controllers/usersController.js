@@ -3,11 +3,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import gs from 'passport-google-oauth20';
-import util from 'util';
 
 import {UserSchema} from '../models/userModel';
 import config from '../../config/index';
-import { json } from 'body-parser';
 
 const User = mongoose.model('User', UserSchema);
 
@@ -374,3 +372,4 @@ export const tieneVentaActiva = async(req, res, next) => {
         return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
+
