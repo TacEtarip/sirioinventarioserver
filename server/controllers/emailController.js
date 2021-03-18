@@ -37,7 +37,7 @@ export const sendTestEmail = async (req, res) => {
 
 export const sendConfirmationEmail = async (req, res) => {
     try {
-        const html = await readFilePromise(path.resolve(__dirname, '/lib/email.html'), {encoding: 'utf8'});
+        const html = await readFilePromise(path.resolve('server/lib/email.html'), {encoding: 'utf8'});
         /* const html = await rif({
             files: path.resolve(__dirname, '../lib/email.html'),
             from: /foo/g,
