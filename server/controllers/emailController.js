@@ -20,6 +20,7 @@ const mailTransporter = nodemailer.createTransport({
 
 export const sendTestEmail = async (req, res) => {
     try {
+        console.log('jere');
         const html = await readFilePromise(path.resolve(__dirname, '../lib/email.html'), {encoding: 'utf8'});
         const result = await mailTransporter.sendMail({
             from: 'siriodinar-no-replay@siriodinar.com',
@@ -29,7 +30,6 @@ export const sendTestEmail = async (req, res) => {
         });   
         res.json({emailresult: 'send'});
     } catch (error) {
-        console.log(error);
         return res.status(500 || error.status).json({errorMSG: error});
     }
 
@@ -37,7 +37,7 @@ export const sendTestEmail = async (req, res) => {
 
 export const sendConfirmationEmail = async (req, res) => {
     try {
-        const html = await readFilePromise(path.resolve(__dirname, '../lib/email.html'), {encoding: 'utf8'});
+        const html = await readFilePromise(path.resolve(__dirname, '/lib/email.html'), {encoding: 'utf8'});
         /* const html = await rif({
             files: path.resolve(__dirname, '../lib/email.html'),
             from: /foo/g,
@@ -56,6 +56,7 @@ export const sendConfirmationEmail = async (req, res) => {
         });   
         res.json(req.savedUSer);
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({ link: false });
     }
 
