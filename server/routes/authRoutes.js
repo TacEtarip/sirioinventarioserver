@@ -4,7 +4,7 @@ import {
     googleExito, loginGoogle, ps, userExits, emailExits, registerUserLow, 
     isValid, confirmarUsuario, loginUserToken, doTheLogin, googlePreRegistro, 
     getLoginInfoFromToken, getUserInfo, actulizarCelular, agregarDireccion, 
-    agregarDocumento, confirmarContrasena, cambiarContrasena } from '../controllers/usersController';
+    agregarDocumento, confirmarContrasena, cambiarContrasena, registerUserLowGooglePreCheck } from '../controllers/usersController';
 import { sendConfirmationEmail } from '../controllers/emailController';
 
 const routes = new Router();
@@ -43,6 +43,8 @@ routes.post('/isValid', isValid);
 routes.get('/confirmacion/:idUser', confirmarUsuario);
 
 routes.post('/loginfast', loginUserToken, doTheLogin);
+
+routes.post('/loginGoogleRegistro', registerUserLowGooglePreCheck);
 
 routes.post('/getLoginInfoFromToken', getLoginInfoFromToken);
 

@@ -373,3 +373,25 @@ export const tieneVentaActiva = async(req, res, next) => {
     }
 };
 
+
+export const registerUserLowGooglePreCheck = async (req, res, next) => {
+    try {
+        const username = req.body.displayName.toLowerCase();
+        const newUser = new User(req.body);
+        newUser.celular = tranformarTelefono(req.body.celular);
+        newUser.username = username;
+        newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
+        newUser.type = 'low';
+        newUser.nombre = req.body.nombre.toUpperCase();
+        newUser.apellido = req.body.apellido.toUpperCase();
+        newUser.verified = true;
+        const savedUSer = await newUser.save();
+        savedUSer.hashPassword = undefined;
+        return res.json({displayName: savedUSer.displayName, username: savedUSer.username, success: true, message: 'Success', 
+        type: savedUSer.type, 
+        token: jwt.sign({ aud: savedUSer.username + ' ' + savedUSer.type, 
+        _id: savedUSer.id }, config[process.env.NODE_ENV].jwtKey)});
+    } catch (error) {
+        return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
+    }
+};
