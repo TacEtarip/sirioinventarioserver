@@ -23,12 +23,13 @@ export const sendTestEmail = async (req, res) => {
         const html = await readFilePromise(path.resolve(__dirname, '../lib/email.html'), {encoding: 'utf8'});
         const result = await mailTransporter.sendMail({
             from: 'siriodinar-no-replay@siriodinar.com',
-            to: 'hu3rtas@gmail.comdw',
+            to: 'hu3rtas@gmail.com',
             subject: 'Confimar registro de cuenta en Sirio Dinar',
             html
         });   
         res.json({emailresult: 'send'});
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({errorMSG: error});
     }
 
