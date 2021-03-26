@@ -199,7 +199,6 @@ export const generarComprobante = (req, res, next) => {
     if (req.ventResult.documento.type === 'boleta') {
         jsonToSend = generarBoleta(req.ventResult, req.count, req.sunat_guia);
     } else if (req.ventResult.documento.type === 'factura') {
-        console.log(req.count);
         jsonToSend = generarFactura(req.ventResult, req.count, req.sunat_guia);
     } else {
         return res.json({ message: `Succes||${req.ventResult.codigo}`, _sunat: null });
@@ -212,7 +211,6 @@ export const generarComprobante = (req, res, next) => {
         .then(resT => resT.json())
         .then(json => {
             req.sunat = json;
-            console.log(json);
             next();
         })
         .catch(err =>
