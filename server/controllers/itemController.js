@@ -18,7 +18,7 @@ const IGV = 0.18;
 
 export const filterItemsByRegex = async (req, res) => {
     try {
-        const testRegex = new RegExp( req.body.value + '+[a-z0-9._ *$', 'ig');
+        const testRegex = new RegExp( req.body.value + '+[a-z0-9._ ]*$', 'ig');
         const result = await Item.find({ name: { $regex: testRegex } }).limit(req.body.limit);
         res.json(result);
     } catch (error) {
