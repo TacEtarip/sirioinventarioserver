@@ -18,7 +18,7 @@ const IGV = 0.18;
 
 export const filterItemsByRegex = async (req, res) => {
     try {
-        const testRegex = new RegExp( req.body.value + '+[a-zA-Z0-9$%&._\- ]*$', 'ig');
+        const testRegex = new RegExp( req.body.value + '+[a-z0-9._ *$', 'ig');
         const result = await Item.find({ name: { $regex: testRegex } }).limit(req.body.limit);
         res.json(result);
     } catch (error) {
@@ -47,7 +47,7 @@ export const getSimilarItems = async (req, res) => {
 
 export const searchText = async (req, res) => {
     try {
-        const testRegex = new RegExp( req.params.searchTerms + '+[a-zA-Z0-9$%&._\- ]*$', 'ig');
+        const testRegex = new RegExp( req.params.searchTerms + '+[a-z0-9._ ]*$', 'ig');
         const result = await Item.find({ name: { $regex: testRegex } }).limit(15);
         res.json(result);
     } catch (error) {
