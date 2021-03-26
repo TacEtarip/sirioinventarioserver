@@ -48,6 +48,8 @@ export const getSimilarItems = async (req, res) => {
 
 export const searchText = async (req, res) => {
     try {
+        console.log('here');
+        console.log( req.params.searchTerms);
         const searchRegex = new RegExp( req.params.searchTerms + '+[A-Za-z0-9._\-%$·\s]*$', 'ig');
         const result = await Item.find( { nameLowerCase: { $regex: searchRegex } } );
         console.log(result);
