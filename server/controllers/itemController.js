@@ -47,9 +47,9 @@ export const getSimilarItems = async (req, res) => {
 
 export const searchText = async (req, res) => {
     try {
-        const searchRegex = new RegExp('.*' + req.params.searchTerms + '.*', 'gi');
+        const searchRegex = new RegExp('.*' + req.params.searchTerms + '.*');
         console.log(searchRegex);
-        const result = await Item.find( { nameLowerCase: searchRegex } );
+        const result = await Item.find( { nameLowerCase: { $regex: searchRegex, $options: 'gi' } } );
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
