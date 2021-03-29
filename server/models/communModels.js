@@ -36,6 +36,11 @@ export const ItemVendidoSchema = new Schema({
         trim: true,
     },
 
+    priceCosto: {
+        type: Number,
+        default: 0
+    },
+
     cantidad: {
         type: Number,
         required: true,

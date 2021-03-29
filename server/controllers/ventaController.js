@@ -280,3 +280,76 @@ export const obtenerTodasLasVentas = async (req, res) => {
 };
 
 
+export const getInfoToPlotVentasPrecioOverTime = async (req, res) => {
+    try {
+        const result = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $project: {
+                month : { $dateToString: { format: "%Y-%m", date: "$date", timezone: "-05:00" } }, 
+                date: 1,
+                totalPrice: 1,
+                totalPriceNoIGV: 1
+            } },
+            {
+                $group: {
+                    _id: '$month',
+                   value: { $sum: '$totalPrice' }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    value: { $trunc: [ "$value", 0 ] },
+                    name: '$_id'
+                }
+            },
+            { 
+                $sort: { name : 1 } 
+            }
+        ]);
+        const itemsEnVenta = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $project: {
+                month : { $dateToString: { format: "%Y-%m", date: "$date", timezone: "-05:00" } },
+                itemsVendidos: 1 
+            } },
+            { $unwind : "$itemsVendidos" },
+            {
+                $group: {
+                    _id: '$month',
+                    itemsVendidosPorMes: { $push: 
+                        { 
+                            $subtract: [
+                            { $multiply: ['$itemsVendidos.cantidad', '$itemsVendidos.priceIGV'] }, 
+                            { $multiply: ['$itemsVendidos.cantidad', '$itemsVendidos.priceCosto'] }
+                            ] 
+                        } }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    value: { $trunc: [ {$sum: '$itemsVendidosPorMes'}, 0]  },
+                    name: '$_id'
+                }
+            },
+            { 
+                $sort: { name : 1 } 
+            }
+        ]);
+        const multi = [
+            {
+                name: 'Ventas',
+                series: result
+            },
+            {
+                name: 'Ganancias',
+                series: itemsEnVenta
+            }
+        ];
+        return res.json(multi);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+

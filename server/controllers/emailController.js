@@ -20,7 +20,6 @@ const mailTransporter = nodemailer.createTransport({
 
 export const sendTestEmail = async (req, res) => {
     try {
-        console.log('jere');
         const html = await readFilePromise(path.resolve(__dirname, '../lib/email.html'), {encoding: 'utf8'});
         const result = await mailTransporter.sendMail({
             from: 'siriodinar-no-replay@siriodinar.com',

@@ -164,6 +164,11 @@ const ItemSchema = new Schema ({
     multiSearchParams: {
         type: String,
         trim: true,
+    },
+
+    deleted: {
+        type: Boolean,
+        default: false,
     }
 
 });

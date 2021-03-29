@@ -19,7 +19,7 @@ const IGV = 0.18;
 export const filterItemsByRegex = async (req, res) => {
     try {
         const testRegex = new RegExp( req.body.value + '+[a-z0-9._ ]*$', 'ig');
-        const result = await Item.find({ name: { $regex: testRegex } }).limit(req.body.limit);
+        const result = await Item.find({ name: { $regex: testRegex }, deleted: false }).limit(req.body.limit);
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -28,7 +28,7 @@ export const filterItemsByRegex = async (req, res) => {
 
 export const getItemsDestacados = async (req, res) => {
     try {
-        const result = await Item.find({ oferta: { $gt: 0 } });
+        const result = await Item.find({ oferta: { $gt: 0 }, deleted: false });
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
@@ -38,7 +38,7 @@ export const getItemsDestacados = async (req, res) => {
 
 export const getSimilarItems = async (req, res) => {
     try {
-        const result = await Item.find( { tipo: req.params.tipo, codigo: {$ne: req.params.codigo} } ).limit(8);
+        const result = await Item.find( { tipo: req.params.tipo, codigo: {$ne: req.params.codigo}, deleted: false } ).limit(8);
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
@@ -48,7 +48,7 @@ export const getSimilarItems = async (req, res) => {
 export const searchText = async (req, res) => {
     try {
         const testRegex = new RegExp( req.params.searchTerms + '+[a-z0-9._ ]*$', 'ig');
-        const result = await Item.find({ name: { $regex: testRegex } }).limit(15);
+        const result = await Item.find({ name: { $regex: testRegex }, deleted: false }).limit(15);
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
@@ -617,7 +617,7 @@ const generateCode = async (name = '', tipo = '') => {
 
 export const getAllItem = async (req, res) => {
     try {
-        const result = await Item.find({});
+        const result = await Item.find({ deleted: false });
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -659,12 +659,12 @@ export const getAllItemSort = async (req, res) => {
         let filtro = {};
         if (req.params.filtro !== 'all') {
             if (filtroValue.toLowerCase() === 'destacado') {
-                filtro = { oferta: { $gt: 0 } };
+                filtro = { oferta: { $gt: 0 }, deleted: false };
             }
             else if (filtroSelect === 'sub') {
-                filtro = {subTipo: filtroValue};
+                filtro = {subTipo: filtroValue, deleted: false};
             } else if(filtroSelect === 'tipo') {
-                filtro = {tipo: filtroValue};
+                filtro = {tipo: filtroValue, deleted: false};
             }
         }
         
@@ -692,7 +692,7 @@ export const getAllItemSort = async (req, res) => {
 
 export const getAllItemsOfType = async (req, res) => {
     try {
-        const result = await Item.find({tipo: req.params.tipo});
+        const result = await Item.find({tipo: req.params.tipo, deleted: false});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -701,7 +701,7 @@ export const getAllItemsOfType = async (req, res) => {
 
 export const getAllItemsSubTipoName = async (req, res) => {
     try {
-        const result = await Item.find({subTipo: req.params.subTipo});
+        const result = await Item.find({subTipo: req.params.subTipo, deleted: false});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -807,7 +807,7 @@ export const updateItemsTipo = async (req, res) => {
 
 export const deleteItem = async (req, res, next) => {
     try {
-        const result = await Item.findOneAndDelete({codigo: req.params.codigo});
+        const result = await Item.findOneAndUpdate({codigo: req.params.codigo}, { deleted: true }, {new: true, useFindAndModify: false});
         req.photNameToDelete = result.photo;
         next();
     } catch (error) {
@@ -817,7 +817,7 @@ export const deleteItem = async (req, res, next) => {
 
 export const deleteItemsTipo = async (req, res) => {
     try {
-        const result = await Item.deleteMany({tipo: req.tipoName});
+        const result = await Item.updateMany({tipo: req.tipoName}, { deleted: true });
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -827,7 +827,7 @@ export const deleteItemsTipo = async (req, res) => {
 
 export const deleteItemsSubTipo = async (req, res) => {
     try {
-        const result = await Item.deleteMany({subTipo: req.params.subTipoName});
+        const result = await Item.updateMany({subTipo: req.params.subTipoName}, { deleted: true });
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -872,6 +872,17 @@ export const changeFileStatus = async (req, res) => {
     try {
         const result = await Item.findOneAndUpdate({codigo: req.params.codigo}, {ficha: true}, {new: true, useFindAndModify: false});
         res.status(200).json({res: result, uploadInfo: req.uploadInfo});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const actualizarItems = async (req, res) => {
+    try {
+            await Item.updateMany({}, {
+                deleted: false
+            });
+        res.json({done: 'done'});
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
