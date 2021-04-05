@@ -1,16 +1,20 @@
 import {Router} from 'express';
 import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, 
         getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime,
-        eliminarItemScVenta, createExcel, getVentaUser} from '../controllers/ventaController';
+        eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
-    ventaAnular, ventaAnularPost, addLinkToPDF, actualizarItems} from '../controllers/itemController';
-import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, tieneVentaActiva, adminLoginRequired } from '../controllers/usersController';
+    ventaAnular, ventaAnularPost, addLinkToPDF, actualizarItems, filtrarTopFive} from '../controllers/itemController';
+import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, 
+    tieneVentaActiva, adminLoginRequired } from '../controllers/usersController';
 
 import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
 const routes = new Router();
 
+routes.get('/getMejoresClientes', adminLoginRequired, getMejoresClientes);
+
+routes.get('/getItemsGanancias', adminLoginRequired, getGananciasTodoItem, filtrarTopFive);
 
 routes.get('/getInfoToPlotVentasOverTime', adminLoginRequired, getInfoToPlotVentasPrecioOverTime);
 

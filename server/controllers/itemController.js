@@ -471,23 +471,26 @@ const generarCodigoVent = async (tipo) => {
 
 export const cantidadUpdate = async (req, res) => {
     try {
-        let cantidad;
-        let tipo;
-        if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
-            tipo = true;
-        } else {
-            tipo = false;
+
+        const itemOriginal = await Item.findOne({codigo: req.body.codigo});
+
+        if (!req.body.tipo) {
+            const testResult = itemOriginal.cantidad - req.body.cantidad;
+            if (testResult < 0) {
+                throw('Cantidad Invalidad');
+            }
         }
-        cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+
+        cantidad = req.body.cantidad;
 
         const variacion = { date: Date.now(), cantidad: cantidad, 
-                            tipo: tipo, comentario: req.body.comentario, 
-                            costoVar: req.body.costoVar, cantidadSC: [] };
-
+                            tipo: req.body.tipo, 
+                            comentario: req.body.tipo ? 'agregar|' + req.body.comentario : 'quitar|' + req.body.comentario, 
+                            costoVar: req.body.costoVar * cantidad, cantidadSC: [] };
         const result = await Item.findOneAndUpdate(
                                         {codigo: req.body.codigo}, 
                                         {
-                                            cantidad: req.body.cantidadNueva,
+                                            $inc: { cantidad: req.body.tipo ? req.body.cantidad: req.body.cantidad * -1 },
                                             $push: {variaciones: variacion}
                                         }, {new: true, useFindAndModify: false});
 
@@ -500,38 +503,59 @@ export const cantidadUpdate = async (req, res) => {
 export const subCantidadUpdate = async (req, res) => {
     try {
         let cantidad;
-        let tipo;
         const itemOriginal = await Item.findOne({codigo: req.body.codigo});
-        if (req.body.cantidadNueva >= req.body.cantidadAntigua) {
-            tipo = true;
-        } else {
-            tipo = false;
-        }
 
-        cantidad = req.body.cantidadNueva - req.body.cantidadAntigua;
+        cantidad = req.body.cantidad;
 
         const variacion = { date: Date.now(), cantidad: cantidad, 
-                            tipo: tipo, comentario: req.body.comentario, 
-                            costoVar: req.body.costoVar, cantidadSC: [] };
-
+                            tipo: req.body.tipo, 
+                            comentario: req.body.tipo ? 'agregar|' + req.body.comentario : 'quitar|' + req.body.comentario, 
+                            costoVar: req.body.costoVar * cantidad, cantidadSC: [] };
+        const temporalItemArray = [];
         
-        let index = 0;
-        for (const sc of req.body.subConteo.order) {
-            let cantidadOrg = 0;
-            if (itemOriginal.subConteo.order[index]) {
-                cantidadOrg = itemOriginal.subConteo.order[index].cantidad;
+        for (const sc of itemOriginal.subConteo.order) {
+            const indexToMDF = 
+            req.body.subConteo.order.findIndex(v => v.name === sc.name && v.nameSecond === sc.nameSecond);
+            if (indexToMDF !== -1) {
+                temporalItemArray.push(sc);
             }
-            variacion.cantidadSC.push({cantidad: cantidad, name: sc.name, nameSecond: sc.nameSecond, 
-                cantidadDisponible: (cantidadOrg), cantidadVenta: ((cantidadOrg) - sc.cantidad)*-1});
-            index++;
         }
+
+        itemOriginal.subConteo.order = temporalItemArray;
+
+        for (const sc of req.body.subConteo.order) {
+            const indexToMDF = itemOriginal.subConteo.order.findIndex(v => v.name === sc.name && v.nameSecond === sc.nameSecond);
+            const cantidadOrg = indexToMDF > -1 ? itemOriginal.subConteo.order[indexToMDF].cantidad : 0;
+            if (indexToMDF > -1) {
+                if (req.body.tipo) {
+                    itemOriginal.subConteo.order[indexToMDF].cantidad += sc.cantidad;
+                } else {
+                    itemOriginal.subConteo.order[indexToMDF].cantidad -= sc.cantidad;
+                    if (itemOriginal.subConteo.order[indexToMDF].cantidad < 0) {
+                        throw('Cantidad Invalidad');
+                    }
+                }
+            } else {
+                itemOriginal.subConteo.order.push({ cantidad: sc.cantidad, name: sc.name, nameSecond: sc.nameSecond || undefined });
+            }
+            variacion.cantidadSC.push({ name: sc.name, nameSecond: sc.nameSecond, 
+                cantidadDisponible: cantidadOrg, cantidadVenta: sc.cantidad });
+        }
+
+        if (!req.body.tipo) {
+            const testResult = itemOriginal.cantidad - req.body.cantidad;
+            if (testResult < 0) {
+                throw('Cantidad Invalidad');
+            }
+        }
+
 
         const result = 
                     await Item.findOneAndUpdate(
-                                {codigo: req.body.codigo}, 
+                                { codigo: req.body.codigo }, 
                                 {
-                                    subConteo: req.body.subConteo, 
-                                    cantidad: req.body.cantidadNueva,
+                                    subConteo: itemOriginal.subConteo, 
+                                    $inc: { cantidad: req.body.tipo ? req.body.cantidad: req.body.cantidad * -1 },
                                     $push: {variaciones: variacion}
                                 }, {new: true, useFindAndModify: false});
 
@@ -883,6 +907,42 @@ export const actualizarItems = async (req, res) => {
                 deleted: false
             });
         res.json({done: 'done'});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const filtrarTopFive = async (req, res) => {
+    try {
+        const singleToSend = [];
+        const gananciaPorItemFive = req.gananciaPorItem.filter(item => item.name.length > 6).slice(0, 3);
+        // const gananciaPorItemFiveOtherItems = req.gananciaPorItem.filter(item => item.name.length === 6).slice(0, 4);
+        for (let index = 0; index < gananciaPorItemFive.length; index++) {
+            const newName = await Item.findOne({codigo: gananciaPorItemFive[index].name});
+            gananciaPorItemFive[index].name = newName.name;
+            singleToSend.push({
+                name: gananciaPorItemFive[index].name,
+                series: [
+                    {
+                        name: 'Ventas',
+                        value: gananciaPorItemFive[index].totalVenta
+                    },
+                    {
+                        name: 'Ganancias',
+                        value: gananciaPorItemFive[index].value
+                    }
+                ]
+            });
+        }
+        /*
+        console.log(await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            { $project: { _id: 0, codigo: 1, name: 1 } },
+            { $match: { codigo: "CANI46" } }
+        ]));*/
+        res.json(singleToSend);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }

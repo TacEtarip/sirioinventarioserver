@@ -14,6 +14,12 @@ export const ItemVendidoSchema = new Schema({
         trim: true,
     },
 
+    tipo: {
+        type: String,
+        trim: true,
+        default: 'producto'
+    },
+
     name: {
         type: String,
         trim: true,

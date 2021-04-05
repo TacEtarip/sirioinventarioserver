@@ -279,6 +279,86 @@ export const obtenerTodasLasVentas = async (req, res) => {
     }
 };
 
+export const getMejoresClientes = async (req, res) => { 
+    try {
+        const result = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $project: {
+                codigo: '$documento.codigo',
+                name: '$documento.name',
+                _id: 0,
+                totalPrice: 1
+            } },
+            {
+                $group: {
+                    _id: '$name',
+                    value: { $sum: '$totalPrice' }
+                }
+            },
+            { $match: { '_id': {  $ne: null, $exists: true } } },
+            { $match: { '_id': {  $ne: '' } } },
+            { $project: { _id: 0, name: '$_id', value: 1} },
+            { $sort: { value: -1 } },
+            { $limit : 4 },
+        ]);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+/*export const getMejoresClientes = async (req, res) => { 
+    try {
+        const result = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $replaceRoot: { newRoot: "$documento" } },
+            { $group: { _id: {codigo: '$codigo', name: '$name'}, count: { $sum: '$totalPrice' } } },
+            { $match: { '_id.codigo': { 
+                "$exists": true, 
+                "$ne": null 
+            } } },
+            { $match: { '_id.codigo': { $ne: 20601382025  } } },
+            { $sort: { count: -1 } }
+        ]);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};*/
+
+export const getGananciasTodoItem = async (req, res, next) => {
+    try {
+        const result = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            {
+                $group: {
+                    _id: '$codigo',
+                   totalVenta: { $sum: { $multiply: [ "$priceIGV", "$cantidad" ] } },
+                   totalGasto: { $sum: { $multiply: [ "$priceCosto", "$cantidad" ] } }
+                }
+            },
+            {
+                $project: {
+                    name: '$_id',
+                    _id: 0,
+                    totalVenta: 1,
+                    value: { $trunc: [{ $subtract:  [ "$totalVenta", "$totalGasto" ]  }, 0]}
+                }
+            },
+            { 
+                $sort: { value : -1 } 
+            }
+        ]);
+
+        req.gananciaPorItem = result;
+        next();
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 
 export const getInfoToPlotVentasPrecioOverTime = async (req, res) => {
     try {

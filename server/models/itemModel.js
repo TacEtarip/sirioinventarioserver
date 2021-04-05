@@ -16,6 +16,7 @@ const OrderSchema = new Schema({
 
     cantidad: {
         type: Number,
+        min: 0
     }
 
 }, { _id : false });
@@ -45,6 +46,7 @@ const VariacionSchema = new Schema ({
     cantidad: {
         type: Number,
         default: 0,
+        min: 0
     },
     tipo: {
         type: Boolean,
@@ -90,6 +92,7 @@ const ItemSchema = new Schema ({
     cantidad: {
         type: Number,
         default: 0,
+        min: 0
     },
 
     subConteo: {
