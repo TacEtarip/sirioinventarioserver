@@ -78,7 +78,8 @@ export const UserSchema = new Schema({
     },
 
     ventaActiva: {
-        type: String,
+        type: [String],
+        default: []
     }
 });
 

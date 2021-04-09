@@ -1,12 +1,12 @@
 import {Router} from 'express';
-import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, 
+import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser,
         getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime,
         eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
     ventaAnular, ventaAnularPost, addLinkToPDF, actualizarItems, filtrarTopFive} from '../controllers/itemController';
 import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, 
-    tieneVentaActiva, adminLoginRequired } from '../controllers/usersController';
+    tieneVentaActiva, adminLoginRequired, getVentasActivasList } from '../controllers/usersController';
 
 import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
@@ -46,6 +46,10 @@ routes.post('/ventaSimple', normalLoginRequired, ventaSimpleItemUpdate, generarG
 routes.post('/agregarVenta', normalLoginRequired, tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
 
 routes.get('/ventasPendientes', normalLoginRequired, getVentaActiva, getVentaUser);
+
+routes.get('/ventasActivasFull', normalLoginRequired, getVentasListLoggedUser);
+
+routes.get('/ventasActivasList', normalLoginRequired, getVentasActivasList);
 
 routes.post('/agregarItemVenta', normalLoginRequired, agregarItemVenta);
 

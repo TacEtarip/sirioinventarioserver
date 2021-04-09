@@ -17,6 +17,10 @@ export const getVentaUser = async (req, res) => {
     }
 };
 
+
+
+
+
 export const eliminarItemScVenta = async (req, res) => {
     try {
         const preSearch = await Venta.findOne({codigo: req.body.codigo});
@@ -87,6 +91,15 @@ export const getVenta = async (req, res) => {
     }
 };
 
+export const getVentasListLoggedUser = async (req, res) => {
+    try {
+        const result = await Venta.find({estado: 'pendiente', vendedor: req.user.aud.split(' ')[0] });
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error });
+    }
+};
+
  
 export const getVentasActivas = async (req, res) => {
     try {
@@ -110,7 +123,7 @@ export const getVentasEjecutadas = async (req, res) => {
         else {
             result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
-                        date: {$gte: new Date(req.body.dateOne), $lt: new Date(req.body.dateTwo)}})
+                        date: {$gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo)}})
                         .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit));
         }
         res.json(result);
@@ -190,8 +203,10 @@ export const ventaSimple = async (req, res, next) => {
 
 export const createExcel = async (req, res) => {
     try {
-        const ventas = await Venta.find({estado: 'ejecutada', 
-        date: {$gte: new Date(req.params.dateOne), $lt: new Date(req.params.dateTwo)}});
+        const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
+        const ventas = await Venta.find({ estado: { $in: req.body.estado }, 'documento.type': { $in: req.body.tipo },
+        date: { $gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo) }, $or: [{'documento.name': { $regex: searchRegex }}, 
+        {'documento.codigo':  Number(req.body.busqueda) || -1 }], });
         
         const buffer = await createExcelReport('Ventas', 'Reporte De Ventas', ['Fecha', 'Codigo', 'Para', 'Precio No IGV', 'Precio'], ventas);
         res.writeHead(200, 

@@ -142,6 +142,9 @@ export const getVentasActivasParaCard = async (req, res) => {
 
 export const agregarItemVenta = async (req, res) => {
     try {
+
+        req.body.itemVendido.ventaCod = req.body.codigoVenta;
+
         const preInfo = await Venta.aggregate([{$match: { codigo: req.body.codigoVenta }}, {$unwind: '$itemsVendidos'}, 
                         {$replaceRoot: { newRoot: "$itemsVendidos" }}, {$match: {codigo: req.body.itemVendido.codigo}}, {$count: 'thisItem'}]);
         
@@ -179,6 +182,8 @@ export const generarVentaNueva = async (req, res, next) => {
     try {
         const newVenta = new Venta(req.body.venta);
         newVenta.codigo = await generarCodigoVent(newVenta.documento.type);
+        newVenta.itemsVendidos[0].ventaCod = newVenta.codigo;
+        newVenta.vendedor = req.user.aud.split(' ')[0];
         req.saveResult = await newVenta.save();
         next();
        // res.json({message: `Venta generada con el codigo: ${saveResult.codigo}`, venta: newVenta});
@@ -258,7 +263,10 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+
         const codigoVenta = await generarCodigoVent(req.body.venta.documento.type);
+
+        req.body.venta.itemsVendidos[0].ventaCod = codigoVenta;
 
         const lastResort = await Item.findOne({codigo: req.body.venta.itemsVendidos[0].codigo});
 
@@ -299,6 +307,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
 
         const newVenta = new Venta(req.body.venta);
         newVenta.codigo = codigoVenta;
+        newVenta.vendedor = req.user.aud.split(' ')[0];
         req.ventResult = await newVenta.save({session});
 
         if (newVenta.documento.type === 'factura') {
@@ -398,7 +407,7 @@ export const ventaEjecutar = async (req, res, next) => {
         }
 
         await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, 
-        { ventaActiva:  '' }, {useFindAndModify: false});
+        { $pull: { ventaActiva: req.body.venta.codigo } }, {useFindAndModify: false});
 
         await uploadPDFventa(venta);
         await session.commitTransaction();
@@ -418,7 +427,7 @@ export const ventaEjecutar = async (req, res, next) => {
 export const ventaAnular = async (req, res) => {
     try {
         await Venta.findOneAndUpdate({codigo: req.body.venta.codigo}, {estado: 'anulada'}, { useFindAndModify: false });
-        await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, { ventaActiva: '' } ,{ useFindAndModify: false });
+        await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, { $pull: { ventaActiva: req.body.venta.codigo } } ,{ useFindAndModify: false });
         res.json({message: 'succes'});
     } catch (error) {
         return res.status(500).json({errorMSG: error});

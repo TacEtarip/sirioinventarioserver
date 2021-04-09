@@ -341,8 +341,8 @@ export const cambiarContrasena = async (req, res) => {
 
 export const agregarVentaUsuario = async(req, res) => {
     try {
-        const user = await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, 
-        { ventaActiva:  req.saveResult.codigo }, {useFindAndModify: false});
+        await User.findOneAndUpdate({ username: req.user.aud.split(' ')[0] }, 
+        {  $push: { ventaActiva: req.saveResult.codigo } }, {useFindAndModify: false});
         res.json({message: `Venta generada con el codigo: ${req.saveResult.codigo}`, venta:  req.saveResult});
     } catch (error) {
         return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
@@ -359,12 +359,21 @@ export const getVentaActiva = async(req, res, next) => {
     }
 };
 
+export const getVentasActivasList = async (req, res, next) => {
+    try {
+        const usuario = await User.findOne({ username: req.user.aud.split(' ')[0] });
+        res.json(usuario.ventaActiva);
+    } catch (error) {
+        return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
+    }
+};
+
 
 export const tieneVentaActiva = async(req, res, next) => {
     try {
         const usuario = await User.findOne({ username: req.user.aud.split(' ')[0] });
-        if (usuario.ventaActiva) {
-            return res.status(409).json({ message: 'Ya tiene una venta activa' });
+        if (usuario.ventaActiva.lenght > 4) {
+            return res.status(409).json({ message: 'Ya tienes 5 ventas activas.' });
         }
         req.ventaCod = usuario.ventaActiva;
         next();
@@ -372,6 +381,19 @@ export const tieneVentaActiva = async(req, res, next) => {
         return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
+
+export const tieneFiveVentaActiva = async(req, res, next) => {
+    try {
+        const usuario = await User.findOne({ username: req.user.aud.split(' ')[0] });
+        if (usuario.ventaActiva.lenght > 5) {
+            return res.status(409).json({ message: 'Ya tiene 5 ventas activas' });
+        }
+        res.json(usuario.ventaActiva);
+    } catch (error) {
+        return res.status(500).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
+    }
+};
+
 
 
 export const registerUserLowGooglePreCheck = async (req, res, next) => {

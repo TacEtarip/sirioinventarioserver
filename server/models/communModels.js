@@ -73,6 +73,10 @@ export const ItemVendidoSchema = new Schema({
 
     photo: {
         type: String
+    },
+
+    ventaCod: {
+        type: String
     }
     
 }, { _id : false });
