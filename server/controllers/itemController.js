@@ -480,7 +480,6 @@ const generarCodigoVent = async (tipo) => {
 
 export const cantidadUpdate = async (req, res) => {
     try {
-
         const itemOriginal = await Item.findOne({codigo: req.body.codigo});
 
         if (!req.body.tipo) {
@@ -490,7 +489,7 @@ export const cantidadUpdate = async (req, res) => {
             }
         }
 
-        cantidad = req.body.cantidad;
+        const cantidad = req.body.cantidad;
 
         const variacion = { date: Date.now(), cantidad: cantidad, 
                             tipo: req.body.tipo, 
@@ -505,7 +504,6 @@ export const cantidadUpdate = async (req, res) => {
 
         res.json(result);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
