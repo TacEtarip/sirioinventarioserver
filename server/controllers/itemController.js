@@ -505,6 +505,7 @@ export const cantidadUpdate = async (req, res) => {
 
         res.json(result);
     } catch (error) {
+        console.log(error);
         return res.status(500).json({errorMSG: error});
     }
 };
