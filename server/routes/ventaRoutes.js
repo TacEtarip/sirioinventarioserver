@@ -28,7 +28,7 @@ routes.put('/anularVentaPost', normalLoginRequired, ventaAnularPost);
  
 routes.get('/dni/:dni', allLoginRequired, getDNI);
 
-routes.get('/createExcelReport/:dateOne/:dateTwo', normalLoginRequired, createExcel);
+routes.post('/createExcelReport', normalLoginRequired, createExcel);
 
 
 routes.post('/getEjecutadas', normalLoginRequired, getVentasEjecutadas);

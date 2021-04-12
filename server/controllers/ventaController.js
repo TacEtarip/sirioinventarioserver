@@ -118,13 +118,13 @@ export const getVentasEjecutadas = async (req, res) => {
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
             result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
             {'documento.codigo': Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo } })
-                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit));
+                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
         } 
         else {
             result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                         date: {$gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo)}})
-                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit));
+                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
         }
         res.json(result);
     } catch (error) {
