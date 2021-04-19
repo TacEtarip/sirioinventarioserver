@@ -448,3 +448,49 @@ export const getInfoToPlotVentasPrecioOverTime = async (req, res) => {
     }
 };
 
+export const getVentasPorDiaMes = async (req, res) => {
+    try {
+        const dias = getDaysOfMonth(parseInt(req.params.month), parseInt(req.params.year));
+        const ventasPorDia = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $project: { _id: 0, codigo: 1, totalPrice: 1, day: { $dayOfMonth: "$date" }, 
+                gastosVenta:{ $sum: { 
+                    $map: {
+                        input: '$itemsVendidos',
+                        as: 'itemVendido',
+                        in: { $multiply: ['$$itemVendido.cantidad', '$$itemVendido.priceCosto'] }
+                } } },
+                year: { $year: "$date" }, month: { $month: "$date" } } },
+            { $match: { year: parseInt(req.params.year), month: parseInt(req.params.month) } },
+            { $project: { _id: 0, codigo: 1, totalPrice: 1, day: 1, gastosVenta: 1, 
+                gananciasVenta: { $subtract: ['$totalPrice', '$gastosVenta'] } }},
+            { $group: {_id: '$day', ganancias: { $sum: '$gananciasVenta' }, ventas: { $sum: '$totalPrice' }}},
+            { $sort: {_id: 1}}
+        ]);
+        
+        const responseArray = [];
+        let value = 0;
+        let currentIndexVentasDia = 0;
+        for (let index = 0; index < dias; index++) {
+            let vpd = ventasPorDia[currentIndexVentasDia] ? ventasPorDia[currentIndexVentasDia]._id : -1;
+            if (vpd === index + 1) {
+                if (req.params.calcular === 'ganancia') {
+                    value += ventasPorDia[currentIndexVentasDia].ganancias;
+                } else if (req.params.calcular === 'venta') {
+                    value += ventasPorDia[currentIndexVentasDia].ventas;
+                }
+                currentIndexVentasDia++;
+            } else if (vpd === -1) {
+                break;
+            }
+            responseArray.push({ name: index + 1, value: value.toFixed(2) });
+        }
+        res.json(responseArray);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+const getDaysOfMonth = (month, year) => {
+    return new Date(year, month, 0).getDate();
+};

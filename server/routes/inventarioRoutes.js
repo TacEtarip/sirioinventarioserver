@@ -1,16 +1,28 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, 
-        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, 
-        changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, 
-        deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate,
+        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS,
+        changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, optenerGastosGananciasTotales,
+        deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName, optenerVentasPotenciales,
+        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, 
         testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados,
-        convertToFavorite, deConvertToFavorite, filterItemsByRegex } from '../controllers/itemController';
+        convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {normalLoginRequired, login, adminLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
+
+
+
+routes.get('/getGananciasTotalesSNS', getGananciasTotalesSNS);
+
+routes.get('/gananciasInvercionTotal', optenerGastosGananciasTotales);
+
+routes.get('/getPeorMejorItem', getPeorMejorItem);
+
+routes.get('/getVariacionPosnegAll',  optenerVariacionPosneg);
+
+routes.get('/ventasPotenciales', optenerVentasPotenciales);
 
 routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 

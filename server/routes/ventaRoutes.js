@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser,
+import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes,
         getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime,
         eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
@@ -11,6 +11,8 @@ import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActi
 import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
 const routes = new Router();
+
+routes.get('/getVentasPorDiaMes/:month/:year/:calcular', getVentasPorDiaMes);
 
 routes.get('/getMejoresClientes', adminLoginRequired, getMejoresClientes);
 

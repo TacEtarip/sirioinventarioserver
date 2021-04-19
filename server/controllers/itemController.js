@@ -6,6 +6,7 @@ import { UserSchema } from '../models/userModel';
 import { uploadPDFventa } from './uploadsController';
 import { createExcelItemReport } from '../lib/createExcelItemReport';
 import { anularComprobanteSunat } from '../controllers/nubeFactController';
+import { DateTime } from 'luxon';
 
 
 const Item = mongoose.model('Item', itemSchema);
@@ -923,7 +924,9 @@ export const actualizarItems = async (req, res) => {
 export const filtrarTopFive = async (req, res) => {
     try {
         const singleToSend = [];
-        const gananciaPorItemFive = req.gananciaPorItem.filter(item => item.name.length > 6).slice(0, 3);
+        const gananciaPorItemFive = req.gananciaPorItem
+        .filter(item => !(item.name.length === 6 && item.name.split('')[2] === 'N' && item.name.split('')[3] === 'I'))
+        .slice(0, 3);
         // const gananciaPorItemFiveOtherItems = req.gananciaPorItem.filter(item => item.name.length === 6).slice(0, 4);
         for (let index = 0; index < gananciaPorItemFive.length; index++) {
             const newName = await Item.findOne({codigo: gananciaPorItemFive[index].name});
@@ -951,6 +954,167 @@ export const filtrarTopFive = async (req, res) => {
             { $match: { codigo: "CANI46" } }
         ]));*/
         res.json(singleToSend);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+// posVar: { $sum: '$variaciones.costoVar' }
+
+export const optenerVariacionPosneg = async (req, res) => {
+    try {
+        const variacionPositiva = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': true }},
+            { $group: { _id: { codigo: '$codigo', name: '$name' }, posVar: { $sum: '$variaciones.costoVar' } } },
+            { $project: { _id: 0, codigo: '$_id.codigo', name: '$_id.name', posVar: 1 } },
+            { $sort: { name: 1 } },
+            { $group: { _id: null, totalVarPos: { $sum: '$posVar' } } }
+        ]);
+
+        const variacionNegativa = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $group: { _id: { codigo: '$codigo', name: '$name' }, posVar: { $sum: '$variaciones.costoVar' } } },
+            { $project: { _id: 0, codigo: '$_id.codigo', name: '$_id.name', posVar: 1 } },
+            { $sort: { name: 1 } },
+            { $group: { _id: null, totalVarNeg: { $sum: '$posVar' } } }
+        ]);
+
+        res.json({gastosInventario: variacionPositiva[0].totalVarPos, gananciasInventario: variacionNegativa[0].totalVarNeg});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const optenerGastosGananciasTotales = async (req, res) => {
+    try {
+        const variacionPositiva = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': true }},
+            { $group: { _id: { codigo: '$codigo', name: '$name' }, posVar: { $sum: '$variaciones.costoVar' } } },
+            { $project: { _id: 0, codigo: '$_id.codigo', name: '$_id.name', posVar: 1 } },
+            { $sort: { name: 1 } },
+            { $group: { _id: null, totalVarPos: { $sum: '$posVar' } } }
+        ]);
+
+        const gastosItemsFueraTienda = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            { $project: { codigo: 1, codArray: {  $split: [ '$codigo', 'NI' ]  }, totalPrice: 1, codSize: {$strLenCP: "$codigo"},
+            costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] } } },
+            { $match: { codSize: 6 } },
+            { $set: { arrayCodSize: { $size: "$codArray" } } },
+            { $match: { arrayCodSize: 2 } },
+            { $project: { codigo: 1, costoTotalPropio: 1, totalPrice: 1, 
+                primeraParteLen: {$strLenCP: {$arrayElemAt: [ "$codArray", 0 ]}}, 
+                segundaParteLen: {$strLenCP: {$arrayElemAt: [ "$codArray", 0 ]}} 
+            } },
+            { $match: { primeraParteLen: 2, segundaParteLen: 2 } },
+            { $group: { _id: null, costoTotalPropio: { $sum: '$costoTotalPropio' }, ingresoTotal: { $sum: '$totalPrice' } }}
+        ]);
+
+        const variacionNegativa = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $group: { _id: { codigo: '$codigo', name: '$name' }, posVar: { $sum: '$variaciones.costoVar' } } },
+            { $project: { _id: 0, codigo: '$_id.codigo', name: '$_id.name', posVar: 1 } },
+            { $sort: { name: 1 } },
+            { $group: { _id: null, totalVarNeg: { $sum: '$posVar' } } }
+        ]);
+
+        res.json({ 
+            gastoTotalHistorico: variacionPositiva[0].totalVarPos + gastosItemsFueraTienda[0].costoTotalPropio,
+            ingresoTotalHistorico: variacionNegativa[0].totalVarNeg + gastosItemsFueraTienda[0].ingresoTotal
+         });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const optenerVentasPotenciales = async (req, res) => {
+    try {
+        const ventasPosibles = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $project: { _id: 0, cantidad: 1, priceIGV: 1, total: { $multiply: ['$priceIGV', '$cantidad'] } } },
+            { $group: { _id: null, totalPotencial: { $sum: '$total' } } }
+        ]);
+
+        const gastosCalculado = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $project: { _id: 0, cantidad: 1, costoPropio: 1, total: { $multiply: ['$costoPropio', '$cantidad'] } } },
+            { $group: { _id: null, totalPotencial: { $sum: '$total' } } }
+        ]);
+        res.json({ ventasPosibles: ventasPosibles[0].totalPotencial, costoPropioTotalAprox: gastosCalculado[0].totalPotencial,
+            gananciaAprox: ventasPosibles[0].totalPotencial - gastosCalculado[0].totalPotencial });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getPeorMejorItem = async (req, res) => {
+    try {
+        const peorMejor = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $unwind: '$variaciones' },
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1, 
+                costoVarTrue: {$cond: [{$eq: ['$variaciones.tipo', true]}, '$variaciones.costoVar', 0]},
+                costoVarFalse: {$cond: [{$eq: ['$variaciones.tipo', false]}, '$variaciones.costoVar', 0]} } },
+            { $group: { _id: {name: '$name', codigo: '$codigo'}, totalTrue: { $sum: '$costoVarTrue' }, totalFalse: { $sum: '$costoVarFalse' } } },
+            { $project: { _id: 0, name: '$_id.name', codigo: '$_id.codigo', totalTrue: 1, totalFalse: 1, balance: { $subtract: ['$totalFalse', '$totalTrue'] } } },
+            { $sort: { balance: 1 } },
+        ]);
+        res.json({ peor: peorMejor[0], mejor: peorMejor[peorMejor.length - 1] });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getGananciasTotalesSNS = async (req, res) => {
+    try {
+        const gastosItemsFueraTienda = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            { $project: { codigo: 1, codArray: {  $split: [ '$codigo', 'NI' ]  }, totalPrice: 1, codSize: {$strLenCP: "$codigo"},
+            costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] } } },
+            { $match: { codSize: 6 } },
+            { $set: { arrayCodSize: { $size: "$codArray" } } },
+            { $match: { arrayCodSize: 2 } },
+            { $project: { codigo: 1, costoTotalPropio: 1, totalPrice: 1, 
+                primeraParteLen: {$strLenCP: {$arrayElemAt: [ "$codArray", 0 ]}}, 
+                segundaParteLen: {$strLenCP: {$arrayElemAt: [ "$codArray", 1 ]}} 
+            } },
+            { $match: { primeraParteLen: 2, segundaParteLen: 2 } },
+            { $group: { _id: null, costoTotalPropio: { $sum: '$costoTotalPropio' }, ingresoTotal: { $sum: '$totalPrice' } }}
+        ]);
+
+        const gastosItemsDeTiendaTotales = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            { $project: { codigo: 1, totalPrice: 1, costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] } } },
+            { $group: { _id: null, costoTotalPropio: { $sum: '$costoTotalPropio' }, ingresoTotal: { $sum: '$totalPrice' } }}
+        ]);
+
+        res.json({ 
+            gananciaEnVentasFueraTienda: 
+            gastosItemsFueraTienda[0].ingresoTotal - gastosItemsFueraTienda[0].costoTotalPropio,
+            gananciaEnVentas: 
+            gastosItemsDeTiendaTotales[0].ingresoTotal - gastosItemsDeTiendaTotales[0].costoTotalPropio,
+            gananciaEnVentasDeTienda: 
+            (gastosItemsDeTiendaTotales[0].ingresoTotal - gastosItemsFueraTienda[0].ingresoTotal) - 
+            (gastosItemsDeTiendaTotales[0].costoTotalPropio - gastosItemsFueraTienda[0].costoTotalPropio),
+         });
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
