@@ -20,6 +20,16 @@ const Tipochema = new Schema ({
     subTipo: {
         type: [String],
         trim: true,
+    },
+
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+
+    link: {
+        type: String,
+        default: 'noPhoto.jpg'
     }
 
 });

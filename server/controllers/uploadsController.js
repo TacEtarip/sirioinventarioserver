@@ -81,7 +81,7 @@ export const getImage = async (req, res) => {
       if (req.photNameToDelete !== 'noPhoto.jpg') {
         await s3.deleteObject({Bucket: config[process.env.NODE_ENV].bucket, Key: req.photNameToDelete}).promise();
       }
-      res.json({message: 'Succes'});
+      res.json(req.result);
     } catch (error) {
       return res.status(500).json({message: error});
     }
@@ -122,14 +122,14 @@ export const getImage = async (req, res) => {
       }
     }),
     limits: {
-      fileSize: 1000000
+      fileSize: 2000000
     },
     fileFilter(req, file, cb) {
       if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         cb(new Error('Please upload JPG and PNG images only!'));
       }
-      if (file.size > 1000000) {
-        cb(new Error('Please upload JPG and PNG images only!'));
+      if (file.size > 2000000) {
+        cb(new Error('Tamaño Exedido!'));
       }
       cb(undefined, true);
     }

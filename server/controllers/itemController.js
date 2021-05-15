@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import itemSchema from '../models/itemModel';
 import marcaSchema from '../models/marcaModel';
+import tagsSchema from '../models/tagsModel';
 import ventaModel from '../models/ventaModel';
 import { UserSchema } from '../models/userModel';
 import { uploadPDFventa } from './uploadsController';
@@ -13,9 +14,7 @@ const Item = mongoose.model('Item', itemSchema);
 const Marca = mongoose.model('Marca', marcaSchema);
 const Venta = mongoose.model('Venta', ventaModel);
 const User = mongoose.model('User', UserSchema);
-
-const IGV = 0.18;
-
+const Tag = mongoose.model('Tag', tagsSchema);
 
 export const filterItemsByRegex = async (req, res) => {
     try {
@@ -27,10 +26,38 @@ export const filterItemsByRegex = async (req, res) => {
     }
 };
 
+export const filterTagsByRegex = async (req, res) => {
+    try {
+        const testRegex = new RegExp( req.body.value + '+[a-z0-9._ ]*$', 'ig');
+        const result = await Tag.find({ name: { $regex: testRegex }, deleted: false }).limit(req.body.limit);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const getItemsDestacados = async (req, res) => {
     try {
         const result = await Item.find({ oferta: { $gt: 0 }, deleted: false });
         res.json(result);
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
+
+export const getRandomImageOfTipo = async (req, res) => {
+    try {
+        const result = await Item.aggregate([
+            { $match: { tipo: req.params.tipo, deleted: false, subTipo: req.params.subTipo }},
+            { $sample: { size: 4 } },
+            { $project: { photo: 1 } }
+        ]);
+
+
+        if (result.length === 0) {
+            return res.json({ photo: 'noPhoto.x' });
+        }
+        res.json({ photos: result });
     } catch (error) {
         return res.status(500).json({message: error});
     }
@@ -49,7 +76,17 @@ export const getSimilarItems = async (req, res) => {
 export const searchText = async (req, res) => {
     try {
         const testRegex = new RegExp( req.params.searchTerms + '+[a-z0-9._ ]*$', 'ig');
-        const result = await Item.find({ name: { $regex: testRegex }, deleted: false }).limit(15);
+        const result = await Item.find({ name: { $regex: testRegex }, deleted: false }).limit(8);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({message: error});
+    }
+};
+
+export const searchItem = async (req, res) => {
+    try {
+        const testRegex = new RegExp( req.params.searchTerms + '+[a-z0-9._ ]*$', 'ig');
+        const result = await Item.find({ name: { $regex: testRegex }, deleted: false }).limit(6);
         res.json(result);
     } catch (error) {
         return res.status(500).json({message: error});
@@ -574,6 +611,43 @@ export const subCantidadUpdate = async (req, res) => {
     }
 };
 
+export const addTag = async (req, res) => {
+    try {
+        const newMarca = new Tag(req.body);
+        const result = await newMarca.save();
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const deleteTag = async (req, res) => {
+    try {
+        const result = await Tag.updateMany({ name: { $in: req.body } }, {deleted: true});
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getTags = async (req, res) => {
+    try {
+        const result = await Tag.find({ deleted: false });
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const actTagsItem = async (req, res) => {
+    try {
+        const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, {$set: {tags: req.body.tagsList}});
+        console.log(result);
+        return (result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
 
 export const addMarca = async (req, res) => {
     try {
@@ -734,7 +808,7 @@ export const getAllItemsOfType = async (req, res) => {
 
 export const getAllItemsSubTipoName = async (req, res) => {
     try {
-        const result = await Item.find({subTipo: req.params.subTipo, deleted: false});
+        const result = await Item.find({subTipo: req.params.subTipo, tipo: req.params.tipo, deleted: false});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -830,17 +904,17 @@ export const updateItemsSubTipo = async (req, res) => {
 
 export const updateItemsTipo = async (req, res) => {
     try {
-        const result = await Item.updateMany({tipo: req.beforeName}, { tipo: req.body.name}, {new: true, useFindAndModify: false, runValidators: true});
-        res.json(result);
+        const result = await Item.updateMany({tipo: req.beforeName}, { tipo: req.body.tipoName}, {new: true, useFindAndModify: false, runValidators: true});
+        res.json(req.newTipo);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
-
     }
 };
 
 export const deleteItem = async (req, res, next) => {
     try {
         const result = await Item.findOneAndUpdate({codigo: req.params.codigo}, { deleted: true }, {new: true, useFindAndModify: false});
+        req.result = result;
         req.photNameToDelete = result.photo;
         next();
     } catch (error) {
@@ -848,10 +922,23 @@ export const deleteItem = async (req, res, next) => {
     }
 };
 
+export const addTagsAll = async (req, res) => {
+    try {
+        const result = await Item.updateMany({}, {
+            $set: {
+                tags: []
+            }
+        });
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const deleteItemsTipo = async (req, res) => {
     try {
-        const result = await Item.updateMany({tipo: req.tipoName}, { deleted: true });
-        res.json(result);
+        await Item.updateMany({tipo: req.tipoDeleted.name}, { deleted: true });
+        res.json(req.tipoDeleted);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
 
@@ -864,7 +951,6 @@ export const deleteItemsSubTipo = async (req, res) => {
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
-
     }
 };
 
@@ -890,7 +976,7 @@ export const removeOffer = async (req, res) => {
 export const uploadPhotoName = async (req, res) => {
     try {
         const result = await Item.findOneAndUpdate({codigo: req.params.codigo}, {photo: req.fileName}, {new: true, useFindAndModify: false});
-        res.status(200).json({res: result, uploadInfo: req.uploadInfo});
+        res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
@@ -926,7 +1012,15 @@ export const filtrarTopFive = async (req, res) => {
         const singleToSend = [];
         const gananciaPorItemFive = req.gananciaPorItem
         .filter(item => !(item.name.length === 6 && item.name.split('')[2] === 'N' && item.name.split('')[3] === 'I'))
-        .slice(0, 3);
+        .slice(0, 4);
+
+        const indexOddItem = gananciaPorItemFive.findIndex(x => x.name === '3SDKP7');
+        if (indexOddItem !== -1) {
+            gananciaPorItemFive.splice(indexOddItem, 1);
+        } else {
+            gananciaPorItemFive.pop();
+        }
+
         // const gananciaPorItemFiveOtherItems = req.gananciaPorItem.filter(item => item.name.length === 6).slice(0, 4);
         for (let index = 0; index < gananciaPorItemFive.length; index++) {
             const newName = await Item.findOne({codigo: gananciaPorItemFive[index].name});
@@ -1119,3 +1213,62 @@ export const getGananciasTotalesSNS = async (req, res) => {
         return res.status(500).json({errorMSG: error});
     }
 };
+
+export const getItemsMasVendido = async (req, res) => {
+    try {
+        const itemsMasVendidos = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $replaceRoot: { newRoot: "$itemsVendidos" } },
+            { $group: { _id: '$codigo', cantidad: { $sum: 1 } } },
+            { $sort: { cantidad: -1 } },
+        ]);
+        const item = await Item.findOne({codigo: itemsMasVendidos[0]._id});
+        res.json(item);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getClientesConMasCompras = async (req, res) => {
+    try {
+        const mejoresClientes = await Venta.aggregate([
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
+            { $unwind: "$documento" },
+            { $replaceRoot: { newRoot: "$documento" } },
+            { $match: { codigo: { $ne: null } } },
+            { $group: { _id: {codigo: '$codigo', name: '$name'}, cantidad: { $sum: 1 } } },
+            { $sort: { cantidad: -1 } },
+        ]);
+        res.json({ cliente: mejoresClientes[0]._id.name, numero:  mejoresClientes[0].cantidad});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+
+export const deleteCaracteristica = async (req, res) => {
+    try {
+        const result = 
+        await Item.findOneAndUpdate({ codigo: req.body.itemCod }, 
+            { $pull: { caracteristicas: { $in: req.body.deleteArray } } }, {useFindAndModify: false, new: true});
+        console.log(result);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const addCaracteristica = async (req, res) => {
+    try {
+        const result = 
+        await Item.findOneAndUpdate({ codigo: req.body.itemCod }, 
+            { $push: { caracteristicas: req.body.newCaracteristica } }, {useFindAndModify: false, new: true});
+        console.log(result);
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+

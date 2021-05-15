@@ -172,6 +172,16 @@ const ItemSchema = new Schema ({
     deleted: {
         type: Boolean,
         default: false,
+    }, 
+
+    tags: {
+        type: [String],
+        default: []
+    },
+
+    caracteristicas: {
+        type: [String],
+        default: []
     }
 
 });
@@ -181,7 +191,8 @@ ItemSchema.index({
             tipo: 'text', 
             subTipo: 'text', 
             marca: 'text',
-            description: 'text'
+            description: 'text',
+            tags: 'text'
             });
 
 export default ItemSchema;

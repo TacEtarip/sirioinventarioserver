@@ -21,6 +21,10 @@ export const addNewTipo = async (req, res) => {
 
 export const addNewSubTipo = async (req, res) => {
     try {
+        const tipo = await Tipo.findOne({ codigo: req.body.codigo });
+        if (tipo.subTipo.indexOf(req.body.subTipo) > -1) {
+            return res.json(null);
+        }
         await Tipo.updateOne({codigo: req.body.codigo}, {$push: {subTipo: req.body.subTipo}});
         return res.json({message: 'succes'});
     } catch (error) {
@@ -31,7 +35,7 @@ export const addNewSubTipo = async (req, res) => {
 
 export const getAllTipos = async (req, res) => {
     try {
-        const result = await Tipo.find({}).select('name codigo -_id');
+        const result = await Tipo.find({deleted: false});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -50,7 +54,7 @@ export const getSubTipos = async (req, res) => {
 
 export const getTipo = async (req, res) => {
     try {
-        const result = await Tipo.findOne({codigo: req.params.codigo});
+        const result = await Tipo.findOne({name: req.params.codigo});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -71,7 +75,8 @@ export const updateTipo = async (req, res, next) => {
     try {
         const tipo = await Tipo.findOne({codigo: req.body.codigo});
         req.beforeName = tipo.name;
-        await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.name}, {new: true, useFindAndModify: false});
+        const newTipo = await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {name: req.body.tipoName}, {new: true, useFindAndModify: false});
+        req.newTipo = newTipo;
         next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -81,6 +86,9 @@ export const updateTipo = async (req, res, next) => {
 export const updateSubTipo = async (req, res, next) => {
     try {
         const tipo = await Tipo.findOne({codigo: req.body.codigo});
+        if (tipo.subTipo.indexOf(req.body.newSubName) > -1) {
+            return res.json(null);
+        }
         const index = tipo.subTipo.indexOf(req.body.antiguoSubName);
         tipo.subTipo[index] = req.body.newSubName;
         await Tipo.findOneAndUpdate({codigo: req.body.codigo}, {subTipo: tipo.subTipo}, {new: true, useFindAndModify: false});
@@ -102,11 +110,19 @@ export const deleteSubTipo = async (req, res, next) => {
     }
 };
 
+export const uploadPhotoNameCat = async (req, res) => {
+    try {
+        const result = await Tipo.findOneAndUpdate({codigo: req.params.codigo}, {link: req.fileName}, {new: true, useFindAndModify: false});
+        res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 export const deleteTipo = async (req, res, next) => {
     try {
-        const tipo = await Tipo.findOne({codigo: req.params.codigo});
-        await Tipo.findOneAndDelete({codigo: req.params.codigo});
-        req.tipoName = tipo.name;
+        const tipoDeleted = await Tipo.findOneAndUpdate({codigo: req.params.codigo}, { deleted: true }, {new: true, useFindAndModify: false} );
+        req.tipoDeleted = tipoDeleted;
         next();
     } catch (error) {
         return res.status(500).json({errorMSG: error});

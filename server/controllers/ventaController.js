@@ -297,7 +297,7 @@ export const obtenerTodasLasVentas = async (req, res) => {
 export const getMejoresClientes = async (req, res) => { 
     try {
         const result = await Venta.aggregate([
-            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
             { $project: {
                 codigo: '$documento.codigo',
                 name: '$documento.name',
@@ -344,7 +344,7 @@ export const getMejoresClientes = async (req, res) => {
 export const getGananciasTodoItem = async (req, res, next) => {
     try {
         const result = await Venta.aggregate([
-            { $match: { date: { $gte: new Date('2021-02-01') }, estado: 'ejecutada' } },
+            { $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' } },
             { $unwind: "$itemsVendidos" },
             { $replaceRoot: { newRoot: "$itemsVendidos" } },
             {
