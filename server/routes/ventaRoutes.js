@@ -12,13 +12,13 @@ import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '.
 
 const routes = new Router();
 
-routes.get('/getVentasPorDiaMes/:month/:year/:calcular', getVentasPorDiaMes);
+routes.get('/getVentasPorDiaMes/:month/:year/:calcular', normalLoginRequired, getVentasPorDiaMes);
 
-routes.get('/getMejoresClientes', adminLoginRequired, getMejoresClientes);
+routes.get('/getMejoresClientes', normalLoginRequired, getMejoresClientes);
 
-routes.get('/getItemsGanancias', adminLoginRequired, getGananciasTodoItem, filtrarTopFive);
+routes.get('/getItemsGanancias', normalLoginRequired, getGananciasTodoItem, filtrarTopFive);
 
-routes.get('/getInfoToPlotVentasOverTime', adminLoginRequired, getInfoToPlotVentasPrecioOverTime);
+routes.get('/getInfoToPlotVentasOverTime', normalLoginRequired, getInfoToPlotVentasPrecioOverTime);
 
 routes.post('/generarVenta', normalLoginRequired, generarVenta);
 

@@ -29,17 +29,17 @@ routes.post('/addTag', normalLoginRequired, addTag);
 
 routes.get('/getClienteConMasCompras', getClientesConMasCompras);
 
-routes.get('/getItemsMasVendido', getItemsMasVendido);
+routes.get('/getItemsMasVendido', normalLoginRequired, getItemsMasVendido);
 
-routes.get('/getGananciasTotalesSNS', getGananciasTotalesSNS);
+routes.get('/getGananciasTotalesSNS', normalLoginRequired, getGananciasTotalesSNS);
 
-routes.get('/gananciasInvercionTotal', optenerGastosGananciasTotales);
+routes.get('/gananciasInvercionTotal', normalLoginRequired, optenerGastosGananciasTotales);
 
-routes.get('/getPeorMejorItem', getPeorMejorItem);
+routes.get('/getPeorMejorItem', normalLoginRequired, getPeorMejorItem);
 
-routes.get('/getVariacionPosnegAll',  optenerVariacionPosneg);
+routes.get('/getVariacionPosnegAll', normalLoginRequired,  optenerVariacionPosneg);
 
-routes.get('/ventasPotenciales', optenerVentasPotenciales);
+routes.get('/ventasPotenciales', normalLoginRequired, optenerVentasPotenciales);
 
 routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 
@@ -51,9 +51,9 @@ routes.get('/getItemsRelacionados/:tipo/:codigo', getSimilarItems);
 
 routes.get('/getItemsSearch/:searchTerms', searchText);
 
-routes.get('/getItemBalance/:codigo', normalLoginRequired, getItemBalance);
+routes.get('/getItemBalance/:codigo', getItemBalance);
 
-routes.get('/getItemReport/:codigo', normalLoginRequired, getItemReport);
+routes.get('/getItemReport/:codigo', getItemReport);
 
 routes.get('/testFind', testFind);
 
