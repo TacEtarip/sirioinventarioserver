@@ -417,3 +417,11 @@ export const registerUserLowGooglePreCheck = async (req, res, next) => {
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
     }
 };
+
+export const getReToken = async (req, res) => {
+    try {
+        return res.json({ reToken: config[process.env.NODE_ENV].reToken });
+    } catch (error) {
+        return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
+    }
+};

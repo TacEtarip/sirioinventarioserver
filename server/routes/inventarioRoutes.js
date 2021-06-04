@@ -1,19 +1,31 @@
 import {Router} from 'express';
 import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem,
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex,
-        changeFileStatus, deleteItemsTipo, updateItemsTipo, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica,
-        deleteItemsSubTipo, updateItemsSubTipo, getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, getRandomImageOfTipo,
+        changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica,
+         getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems,
+        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, 
         testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
         convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica } from '../controllers/itemController';
-import { addNewTipo, getAllTipos, deleteTipo, updateTipo, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat,
-        updateSubTipo, deleteSubTipo } from '../controllers/tipoController';
+import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, 
+        reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
-import {normalLoginRequired, login, adminLoginRequired} from '../controllers/usersController';
+import {normalLoginRequired, adminLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
 
 // routes.get('/addTagsAll', addTagsAll);
+
+// routes.get('/setOrderNumer', addOrderToItems);
+
+// routes.get('/testFindTipo', testFintTipo);
+
+routes.post('/changeFolder', normalLoginRequired, cambiarItemCarpeta);
+
+routes.post('/reorderItems', normalLoginRequired, reOrderItems);
+
+routes.post('/reorderTipos', normalLoginRequired, reOrderTipo);
+
+routes.post('/reorderSubTipos', normalLoginRequired, reOrderSubTipo);
 
 routes.get('/searchItem/:searchTerms', searchItem);
 
@@ -27,7 +39,7 @@ routes.post('/deteleTags', normalLoginRequired, deleteTag);
 
 routes.post('/addTag', normalLoginRequired, addTag);
 
-routes.get('/getClienteConMasCompras', getClientesConMasCompras);
+routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
 
 routes.get('/getItemsMasVendido', normalLoginRequired, getItemsMasVendido);
 
@@ -51,13 +63,13 @@ routes.get('/getItemsRelacionados/:tipo/:codigo', getSimilarItems);
 
 routes.get('/getItemsSearch/:searchTerms', searchText);
 
-routes.get('/getItemBalance/:codigo', getItemBalance);
+routes.get('/getItemBalance/:codigo', normalLoginRequired, getItemBalance);
 
-routes.get('/getItemReport/:codigo', getItemReport);
+routes.get('/getItemReport/:codigo', normalLoginRequired, getItemReport);
 
-routes.get('/testFind', testFind);
+// routes.get('/testFind', testFind);
 
-routes.post('/addItem', normalLoginRequired, addNewItem);
+routes.post('/addItem', addNewItem);
 
 routes.post('/toFavorite', normalLoginRequired, convertToFavorite);
 
@@ -83,15 +95,15 @@ routes.put('/uploadVariationSimple', normalLoginRequired, cantidadUpdate);
 
 routes.put('/modCant/:tipo', normalLoginRequired, updateCantidad);
 
-routes.put('/updateItem', normalLoginRequired,updateItem);
+routes.put('/updateItem', normalLoginRequired, updateItem);
 
-routes.put('/updateTipo', normalLoginRequired, updateTipo, updateItemsTipo);
+routes.put('/updateTipo', normalLoginRequired, updateTipoTransac);
 
 routes.delete('/deleteItem/:codigo', adminLoginRequired, deleteItem, deleteImageSecond);
 
-routes.delete('/deleteTipo/:codigo', adminLoginRequired, deleteTipo, deleteItemsTipo);
+routes.delete('/deleteTipo/:codigo', adminLoginRequired, deleteTipoTransac);
 
-routes.delete('/deleteSupTipo/:codigo/:subTipoName', adminLoginRequired, deleteSubTipo, deleteItemsSubTipo);
+routes.delete('/deleteSupTipo/:codigo/:subTipoName', adminLoginRequired, deleteSubTipoTransac);
 
 routes.put('/addSubTipo', normalLoginRequired, addNewSubTipo);
 
@@ -111,18 +123,19 @@ routes.delete('/marcas/delete/:deleteString', normalLoginRequired, deleteMarcas)
 
 routes.post('/marcas/add', normalLoginRequired,addMarca);
 
-routes.put('/uptateSupTipos', normalLoginRequired, updateSubTipo, updateItemsSubTipo);
-
+routes.put('/uptateSupTipos', normalLoginRequired, updateSubTipoTransac);
 
 routes.post('/uploads/image/:codigo', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);
 
 routes.post('/uploads/imageCat/:codigo', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameCat);
 
+routes.post('/uploads/imageSubCat/:codigo/:subCat', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameSubCat);
+
 // routes.post('/uploads/ficha/:codigo', uploadPDF.single('pdf'), upload);
 
 routes.post('/uploads/ficha/:codigo', normalLoginRequired, uploadPDF.single('pdf'), fichaUpload, changeFileStatus);
 
-routes.get('/getRandomImageOfTipo/:tipo/:subTipo', getRandomImageOfTipo);
+// routes.get('/getRandomImageOfTipo/:tipo/:subTipo', getRandomImageOfTipo);
 
 routes.get('/image/:imgName', getImage);
 routes.get('/pdf/:pdfName', getPDF);

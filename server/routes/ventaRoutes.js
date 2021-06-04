@@ -8,7 +8,7 @@ import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva,
 import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, 
     tieneVentaActiva, adminLoginRequired, getVentasActivasList } from '../controllers/usersController';
 
-import { testJsonCreation, secondTest, generarComprobante, generarGuia } from '../controllers/nubeFactController';
+import { generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
 const routes = new Router();
 

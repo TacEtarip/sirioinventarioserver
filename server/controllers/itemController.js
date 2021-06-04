@@ -7,7 +7,6 @@ import { UserSchema } from '../models/userModel';
 import { uploadPDFventa } from './uploadsController';
 import { createExcelItemReport } from '../lib/createExcelItemReport';
 import { anularComprobanteSunat } from '../controllers/nubeFactController';
-import { DateTime } from 'luxon';
 
 
 const Item = mongoose.model('Item', itemSchema);
@@ -642,7 +641,6 @@ export const getTags = async (req, res) => {
 export const actTagsItem = async (req, res) => {
     try {
         const result = await Item.findOneAndUpdate({codigo: req.body.codigo}, {$set: {tags: req.body.tagsList}});
-        console.log(result);
         return (result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -724,7 +722,7 @@ const generateCode = async (name = '', tipo = '') => {
 
 export const getAllItem = async (req, res) => {
     try {
-        const result = await Item.find({ deleted: false });
+        const result = await Item.find({ deleted: false }).sort({ orderNumber: 1 });
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -808,7 +806,8 @@ export const getAllItemsOfType = async (req, res) => {
 
 export const getAllItemsSubTipoName = async (req, res) => {
     try {
-        const result = await Item.find({subTipo: req.params.subTipo, tipo: req.params.tipo, deleted: false});
+        const result = await Item.find({subTipo: req.params.subTipo, tipo: req.params.tipo, deleted: false})
+        .sort({orderNumber: 1});
         return res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -1252,7 +1251,6 @@ export const deleteCaracteristica = async (req, res) => {
         const result = 
         await Item.findOneAndUpdate({ codigo: req.body.itemCod }, 
             { $pull: { caracteristicas: { $in: req.body.deleteArray } } }, {useFindAndModify: false, new: true});
-        console.log(result);
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -1264,11 +1262,48 @@ export const addCaracteristica = async (req, res) => {
         const result = 
         await Item.findOneAndUpdate({ codigo: req.body.itemCod }, 
             { $push: { caracteristicas: req.body.newCaracteristica } }, {useFindAndModify: false, new: true});
-        console.log(result);
         res.json(result);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
 };
+
+
+export const addOrderToItems = async (req, res) => {
+    try {
+        const result = 
+        await Item.updateMany({ deleted: false }, 
+            { $set: { orderNumber: 0 } });
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const reOrderItems = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const preBusqueda = 
+        await Item.countDocuments({deleted: false, subTipo: req.body.itemReOrder[0].subTipo, tipo: req.body.itemReOrder[0].tipo});
+        if (preBusqueda !== req.body.itemReOrder.length) {
+            throw ('Variacion Invalida');
+        }
+        for (let index = 0; index < req.body.itemReOrder.length; index++) {
+            await Item.findOneAndUpdate({codigo: req.body.itemReOrder[index].codigo}, { orderNumber: index }, { useFindAndModify: false });
+        }
+        await session.commitTransaction();
+        session.endSession();
+        res.json({message: 'done'});
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+
+
+
 
 

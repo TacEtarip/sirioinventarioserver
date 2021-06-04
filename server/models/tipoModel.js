@@ -22,6 +22,11 @@ const Tipochema = new Schema ({
         trim: true,
     },
 
+    subTipoLink: {
+        type: [String],
+        trim: true,
+    },
+
     deleted: {
         type: Boolean,
         default: false
@@ -30,6 +35,11 @@ const Tipochema = new Schema ({
     link: {
         type: String,
         default: 'noPhoto.jpg'
+    },
+
+    order: {
+        type: Number,
+        default: -1
     }
 
 });

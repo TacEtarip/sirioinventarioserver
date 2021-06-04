@@ -182,6 +182,11 @@ const ItemSchema = new Schema ({
     caracteristicas: {
         type: [String],
         default: []
+    },
+
+    orderNumber: {
+        type: Number,
+        default: -1
     }
 
 });
