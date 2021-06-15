@@ -12,17 +12,17 @@ import { generarComprobante, generarGuia } from '../controllers/nubeFactControll
 
 const routes = new Router();
 
-routes.get('/getGananciaTotalPorItem/:codigoItem', getGananciaTotalPorItem);
+routes.get('/getGananciaTotalPorItem/:codigoItem', normalLoginRequired, getGananciaTotalPorItem);
 
-routes.get('/getItemGananciaIngreso/:codigoItem', getGananciaIngresoPorItem);
+routes.get('/getItemGananciaIngreso/:codigoItem', normalLoginRequired, getGananciaIngresoPorItem);
 
-routes.get('/getVentasPorDiaMes/:month/:year/:calcular', getVentasPorDiaMes);
+routes.get('/getVentasPorDiaMes/:month/:year/:calcular', normalLoginRequired, getVentasPorDiaMes);
 
-routes.get('/getMejoresClientes', getMejoresClientes);
+routes.get('/getMejoresClientes', normalLoginRequired, getMejoresClientes);
 
-routes.get('/getItemsGanancias', getGananciasTodoItem, filtrarTopFive);
+routes.get('/getItemsGanancias', normalLoginRequired, getGananciasTodoItem, filtrarTopFive);
 
-routes.get('/getInfoToPlotVentasOverTime', getInfoToPlotVentasPrecioOverTime);
+routes.get('/getInfoToPlotVentasOverTime', normalLoginRequired, getInfoToPlotVentasPrecioOverTime);
 
 routes.post('/generarVenta', normalLoginRequired, generarVenta);
 

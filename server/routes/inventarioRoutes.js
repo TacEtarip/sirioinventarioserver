@@ -22,19 +22,19 @@ const routes = new Router();
 
 // routes.get('/testAgre', gananciasPosiblesConItemMayor);
 
-routes.get('/getTableInfItem', getTableInfItem);
+routes.get('/getTableInfItem', normalLoginRequired, getTableInfItem);
 
-routes.get('/getTopFiveIngresosGananciasGastos', getTopFiveIngresosGananciasGastos);
+routes.get('/getTopFiveIngresosGananciasGastos', normalLoginRequired, getTopFiveIngresosGananciasGastos);
 
-routes.get('/getItemVentasPorMes/:codigoItem', ventasDeItemPorMesGrafico);
+routes.get('/getItemVentasPorMes/:codigoItem', normalLoginRequired, ventasDeItemPorMesGrafico);
 
-routes.get('/getItemGIC/:codigoItem', getGICofItem);
+routes.get('/getItemGIC/:codigoItem', normalLoginRequired, getGICofItem);
 
-routes.get('/getItemMayorGananciaPosible', gananciasPosiblesConItemMayor);
+routes.get('/getItemMayorGananciaPosible', normalLoginRequired, gananciasPosiblesConItemMayor);
 
-routes.get('/getItemsLowStock', getItemsLowStock);
+routes.get('/getItemsLowStock', normalLoginRequired, getItemsLowStock);
 
-routes.get('/getItemsNoStock', getItemsNoStock);
+routes.get('/getItemsNoStock', normalLoginRequired, getItemsNoStock);
 
 routes.post('/changeFolder', normalLoginRequired, cambiarItemCarpeta);
 
@@ -56,19 +56,19 @@ routes.post('/deteleTags', normalLoginRequired, deleteTag);
 
 routes.post('/addTag', normalLoginRequired, addTag);
 
-routes.get('/getClienteConMasCompras', getClientesConMasCompras);
+routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
 
-routes.get('/getItemsMasVendido',getItemsMasVendido);
+routes.get('/getItemsMasVendido', normalLoginRequired,getItemsMasVendido);
 
-routes.get('/getGananciasTotalesSNS', getGananciasTotalesSNS);
+routes.get('/getGananciasTotalesSNS', normalLoginRequired, getGananciasTotalesSNS);
 
-routes.get('/gananciasInvercionTotal', optenerGastosGananciasTotales);
+routes.get('/gananciasInvercionTotal', normalLoginRequired, optenerGastosGananciasTotales);
 
-routes.get('/getPeorMejorItem', getPeorMejorItem);
+routes.get('/getPeorMejorItem', normalLoginRequired, getPeorMejorItem);
 
-routes.get('/getVariacionPosnegAll',  optenerVariacionPosneg);
+routes.get('/getVariacionPosnegAll', normalLoginRequired,  optenerVariacionPosneg);
 
-routes.get('/ventasPotenciales', optenerVentasPotenciales);
+routes.get('/ventasPotenciales', normalLoginRequired, optenerVentasPotenciales);
 
 routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 
