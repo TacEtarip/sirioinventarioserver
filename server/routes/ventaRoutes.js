@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes,
-        getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime,
+import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes, getGananciaTotalPorItem,
+        getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime, getGananciaIngresoPorItem,
         eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
@@ -12,13 +12,17 @@ import { generarComprobante, generarGuia } from '../controllers/nubeFactControll
 
 const routes = new Router();
 
-routes.get('/getVentasPorDiaMes/:month/:year/:calcular', normalLoginRequired, getVentasPorDiaMes);
+routes.get('/getGananciaTotalPorItem/:codigoItem', getGananciaTotalPorItem);
 
-routes.get('/getMejoresClientes', normalLoginRequired, getMejoresClientes);
+routes.get('/getItemGananciaIngreso/:codigoItem', getGananciaIngresoPorItem);
 
-routes.get('/getItemsGanancias', normalLoginRequired, getGananciasTodoItem, filtrarTopFive);
+routes.get('/getVentasPorDiaMes/:month/:year/:calcular', getVentasPorDiaMes);
 
-routes.get('/getInfoToPlotVentasOverTime', normalLoginRequired, getInfoToPlotVentasPrecioOverTime);
+routes.get('/getMejoresClientes', getMejoresClientes);
+
+routes.get('/getItemsGanancias', getGananciasTodoItem, filtrarTopFive);
+
+routes.get('/getInfoToPlotVentasOverTime', getInfoToPlotVentasPrecioOverTime);
 
 routes.post('/generarVenta', normalLoginRequired, generarVenta);
 

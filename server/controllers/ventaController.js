@@ -116,12 +116,15 @@ export const getVentasEjecutadas = async (req, res) => {
         let result;
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
-            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
-            {'documento.codigo': Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo } })
+            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
+             {'itemsVendidos.codigo': req.body.busqueda },
+            {'documento.codigo': Number(req.body.busqueda) || -1 }], 
+            'documento.type': { $in: req.body.tipo } })
                         .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
         } 
         else {
-            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
+            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
+            {'itemsVendidos.codigo': req.body.busqueda },
             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                         date: {$gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo)}})
                         .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
@@ -340,6 +343,106 @@ export const getMejoresClientes = async (req, res) => {
         return res.status(500).json({errorMSG: error});
     }
 };*/
+
+export const getGananciaTotalPorItem = async (req, res) => {
+    try {
+        
+        const result = await Venta.aggregate([
+            { $match: { estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $match: { 'itemsVendidos.codigo': req.params.codigoItem } },
+            {
+                $group: {
+                    _id: null,
+                   totalVenta: { $sum: { $multiply: [ "$itemsVendidos.priceIGV", "$itemsVendidos.cantidad" ] } },
+                   totalGasto: { $sum: { $multiply: [ "$itemsVendidos.priceCosto", "$itemsVendidos.cantidad" ] } }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    totalVenta: 1,
+                    value: { $subtract: ['$totalVenta', '$totalGasto'] } 
+                }
+            }
+        ]);
+        res.json(result[0] ? result[0] : { value: 0, totalVenta: 0 });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getGananciaIngresoPorItem = async (req, res) => {
+    try {
+        const result = await Venta.aggregate([
+            { $match: { estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $match: { 'itemsVendidos.codigo': req.params.codigoItem } },
+            { $set: { 
+                mesVenta:  { $dateToString: { format: "%Y-%m", date: "$date", timezone: "-05:00" } },
+            } },
+            {
+                $group: {
+                    _id: '$mesVenta',
+                   totalVenta: { $sum: { $multiply: [ "$itemsVendidos.priceIGV", "$itemsVendidos.cantidad" ] } },
+                   totalGasto: { $sum: { $multiply: [ "$itemsVendidos.priceCosto", "$itemsVendidos.cantidad" ] } }
+                }
+            },
+            {
+                $project: {
+                    name: '$_id',
+                    _id: 0,
+                    value: { $trunc: [{ $subtract:  [ "$totalVenta", "$totalGasto" ]  }, 0]}
+                }
+            },
+            {
+                $sort: { name : 1 } 
+            }
+        ]);
+
+        const resultTwo = await Venta.aggregate([
+            { $match: { estado: 'ejecutada' } },
+            { $unwind: "$itemsVendidos" },
+            { $match: { 'itemsVendidos.codigo': req.params.codigoItem } },
+            { $set: { 
+                mesVenta:  { $dateToString: { format: "%Y-%m", date: "$date", timezone: "-05:00" } },
+            } },
+            {
+                $group: {
+                    _id: '$mesVenta',
+                   totalVenta: { $sum: { $multiply: [ "$itemsVendidos.priceIGV", "$itemsVendidos.cantidad" ] } },
+                   totalGasto: { $sum: { $multiply: [ "$itemsVendidos.priceCosto", "$itemsVendidos.cantidad" ] } }
+                }
+            },
+            {
+                $project: {
+                    name: '$_id',
+                    _id: 0,
+                    value: '$totalVenta'
+                }
+            },
+            {
+                $sort: { name : 1 } 
+            }
+        ]);
+
+        
+
+        const multi = [
+            {
+                name: 'Ingresos',
+                series: resultTwo
+            },
+            {
+                name: 'Ganancia',
+                series: result
+            }
+        ];
+        res.json(multi);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
 
 export const getGananciasTodoItem = async (req, res, next) => {
     try {

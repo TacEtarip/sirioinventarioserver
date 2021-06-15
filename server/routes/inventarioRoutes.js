@@ -1,11 +1,12 @@
 import {Router} from 'express';
-import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem,
+import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem, getTableInfItem,
         updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex,
-        changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica,
-         getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, 
+        changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica, getItemsLowStock, getItemsNoStock,
+         getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems, getGICofItem, ventasDeItemPorMesGrafico,
+        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, gananciasPosiblesConItemMayor,
         testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
-        convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica } from '../controllers/itemController';
+        convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
+        getTopFiveIngresosGananciasGastos } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, 
         reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
@@ -18,6 +19,22 @@ const routes = new Router();
 // routes.get('/setOrderNumer', addOrderToItems);
 
 // routes.get('/testFindTipo', testFintTipo);
+
+// routes.get('/testAgre', gananciasPosiblesConItemMayor);
+
+routes.get('/getTableInfItem', getTableInfItem);
+
+routes.get('/getTopFiveIngresosGananciasGastos', getTopFiveIngresosGananciasGastos);
+
+routes.get('/getItemVentasPorMes/:codigoItem', ventasDeItemPorMesGrafico);
+
+routes.get('/getItemGIC/:codigoItem', getGICofItem);
+
+routes.get('/getItemMayorGananciaPosible', gananciasPosiblesConItemMayor);
+
+routes.get('/getItemsLowStock', getItemsLowStock);
+
+routes.get('/getItemsNoStock', getItemsNoStock);
 
 routes.post('/changeFolder', normalLoginRequired, cambiarItemCarpeta);
 
@@ -39,19 +56,19 @@ routes.post('/deteleTags', normalLoginRequired, deleteTag);
 
 routes.post('/addTag', normalLoginRequired, addTag);
 
-routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
+routes.get('/getClienteConMasCompras', getClientesConMasCompras);
 
-routes.get('/getItemsMasVendido', normalLoginRequired, getItemsMasVendido);
+routes.get('/getItemsMasVendido',getItemsMasVendido);
 
-routes.get('/getGananciasTotalesSNS', normalLoginRequired, getGananciasTotalesSNS);
+routes.get('/getGananciasTotalesSNS', getGananciasTotalesSNS);
 
-routes.get('/gananciasInvercionTotal', normalLoginRequired, optenerGastosGananciasTotales);
+routes.get('/gananciasInvercionTotal', optenerGastosGananciasTotales);
 
-routes.get('/getPeorMejorItem', normalLoginRequired, getPeorMejorItem);
+routes.get('/getPeorMejorItem', getPeorMejorItem);
 
-routes.get('/getVariacionPosnegAll', normalLoginRequired,  optenerVariacionPosneg);
+routes.get('/getVariacionPosnegAll',  optenerVariacionPosneg);
 
-routes.get('/ventasPotenciales', normalLoginRequired, optenerVentasPotenciales);
+routes.get('/ventasPotenciales', optenerVentasPotenciales);
 
 routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 

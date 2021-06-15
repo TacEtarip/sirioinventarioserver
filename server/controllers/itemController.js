@@ -1056,6 +1056,19 @@ export const filtrarTopFive = async (req, res) => {
 
 export const optenerVariacionPosneg = async (req, res) => {
     try {
+
+        
+        const variacionNegativaQuitar = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'quitar' }},
+            { $group: { _id: null, totalVarQuitar: { $sum: '$variaciones.costoVar' } } }
+        ]);
+
         const variacionPositiva = await Item.aggregate([
             { $match: { deleted: false }},
             { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
@@ -1078,7 +1091,41 @@ export const optenerVariacionPosneg = async (req, res) => {
             { $group: { _id: null, totalVarNeg: { $sum: '$posVar' } } }
         ]);
 
-        res.json({gastosInventario: variacionPositiva[0].totalVarPos, gananciasInventario: variacionNegativa[0].totalVarNeg});
+        const variacionPosivaAnular = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': true }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'anular' }},
+            { $group: { _id: null, totalVarAnular: { $sum: '$variaciones.costoVar' } } }
+        ]);
+
+        res.json({ gastosInventario: (variacionPositiva[0].totalVarPos - 
+            ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0) + 
+                (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0))), 
+            gananciasInventario: variacionNegativa[0].totalVarNeg - 
+            ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0) + 
+            (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0)) });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const testAgre = async (req, res) => {
+    try {
+        const variacionNegativaQuitar = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'quitar' }},
+            { $group: { _id: null, totalVarQuitar: { $sum: '$variaciones.costoVar' } } }
+        ]);
+        res.json(variacionNegativaQuitar);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
@@ -1086,6 +1133,29 @@ export const optenerVariacionPosneg = async (req, res) => {
 
 export const optenerGastosGananciasTotales = async (req, res) => {
     try {
+
+        const variacionNegativaQuitar = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'quitar' }},
+            { $group: { _id: null, totalVarQuitar: { $sum: '$variaciones.costoVar' } } }
+        ]);
+
+        const variacionPosivaAnular = await Item.aggregate([
+            { $match: { deleted: false }},
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': true }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'anular' }},
+            { $group: { _id: null, totalVarAnular: { $sum: '$variaciones.costoVar' } } }
+        ]);
+
         const variacionPositiva = await Item.aggregate([
             { $match: { deleted: false }},
             { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
@@ -1126,8 +1196,14 @@ export const optenerGastosGananciasTotales = async (req, res) => {
         ]);
 
         res.json({ 
-            gastoTotalHistorico: variacionPositiva[0].totalVarPos + gastosItemsFueraTienda[0].costoTotalPropio,
-            ingresoTotalHistorico: variacionNegativa[0].totalVarNeg + gastosItemsFueraTienda[0].ingresoTotal
+            gastoTotalHistorico: (variacionPositiva[0].totalVarPos - 
+                ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0) + 
+                    (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0))) + 
+            gastosItemsFueraTienda[0].costoTotalPropio,
+            ingresoTotalHistorico: (variacionNegativa[0].totalVarNeg - 
+                ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0) + 
+                    (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0))) + 
+            gastosItemsFueraTienda[0].ingresoTotal
          });
     } catch (error) {
         return res.status(500).json({errorMSG: error});
@@ -1167,6 +1243,22 @@ export const getPeorMejorItem = async (req, res) => {
             { $sort: { balance: 1 } },
         ]);
         res.json({ peor: peorMejor[0], mejor: peorMejor[peorMejor.length - 1] });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const gananciasPosiblesConItemMayor = async (req, res) => {
+    try {
+        const mayorGananciaPosible = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $project: { codigo: 1, name: 1, cantidad: 1, costoPropio: 1, priceIGV: 1, 
+                totalIngreso: { $multiply: [ '$cantidad', '$priceIGV' ] }, 
+                totalCosto: { $multiply: [ '$cantidad', '$costoPropio' ] } } },
+                { $project: { codigo: 1, name: 1, cantidad: 1, costoPropio: 1, priceIGV: 1, 
+                    balance: { $subtract: [ '$totalIngreso', '$totalCosto' ] } } }
+        ]).sort({ balance: -1 }).limit(1);
+        res.json(mayorGananciaPosible[0]);
     } catch (error) {
         return res.status(500).json({errorMSG: error});
     }
@@ -1301,6 +1393,266 @@ export const reOrderItems = async (req, res) => {
         return res.status(500).json({errorMSG: error});
     }
 };
+
+export const getItemsLowStock = async (req, res) => {
+    try {
+        const sinStockItems = await Item.find({ deleted: false, $and: [ { cantidad: { $lt: 5 } }, { cantidad: { $gt: 0 } } ] });
+        res.json(sinStockItems);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+
+export const getItemsNoStock = async (req, res) => {
+    try {
+        const sinStockItems = await Item.find({ deleted: false, cantidad: 0 });
+        res.json(sinStockItems);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getGICofItem = async (req, res) => {
+    try {
+        const cantidadHistorica = await Item.aggregate([
+            { $match: { codigo: req.params.codigoItem } },
+            { $unwind: "$variaciones" },
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarNI: { $cond: [{$eq: ['$firstPartVar', 'new item']}, '$variaciones.cantidad', 0] },
+                cantidadVarQuitar: { $cond: [{$eq: ['$firstPartVar', 'quitar']}, '$variaciones.cantidad', 0] },
+                cantidadVarAgregar: { $cond: [{$eq: ['$firstPartVar', 'agregar']}, '$variaciones.cantidad', 0] },
+                cantidadVarAnular: { $cond: [{$eq: ['$firstPartVar', 'anular']}, '$variaciones.cantidad', 0] },
+                cantidadVarVenta: { $cond: [{$eq: ['$firstPartVar', 'venta']}, '$variaciones.cantidad', 0] },
+            } },
+            { $group: 
+                { _id: null, 
+                totalCantidadNI: { $sum: '$cantidadVarNI' }, 
+                totalCantidadQuitar: { $sum: '$cantidadVarQuitar' }, 
+                totalCantidadAgregar: { $sum: '$cantidadVarAgregar' }, 
+                totalCantidadVenta: { $sum: '$cantidadVarVenta' }, 
+                totalCantidadAnular: { $sum: '$cantidadVarAnular' }, 
+            } },
+        ]);
+
+        const itemGIC = await Item.aggregate([
+            { $match: { codigo: req.params.codigoItem } },
+            { $unwind: "$variaciones" },
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1, 
+                costoVarTrue: {$cond: [{$eq: ['$variaciones.tipo', true]}, '$variaciones.costoVar', 0]},
+                costoVarFalse: {$cond: [{$eq: ['$variaciones.tipo', false]}, '$variaciones.costoVar', 0]} } },
+            { $group: { _id: {name: '$name', codigo: '$codigo'}, totalTrue: { $sum: '$costoVarTrue' }, totalFalse: { $sum: '$costoVarFalse' } } },
+        ]);
+
+        const variacionNegativaQuitar = await Item.aggregate([
+            { $match: { codigo: req.params.codigoItem } },
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': false }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'quitar' }},
+            { $group: { _id: null, totalVarQuitar: { $sum: '$variaciones.costoVar' } } }
+        ]);
+
+        const variacionPosivaAnular = await Item.aggregate([
+            { $match: { codigo: req.params.codigoItem } },
+            { $project: {_id: 0, codigo: 1, name: 1, variaciones: 1 } },
+            { $unwind: '$variaciones' },
+            { $match: { 'variaciones.tipo': true }},
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $project: { variaciones: 1, firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $match: { 'firstPartVar': 'anular' }},
+            { $group: { _id: null, totalVarAnular: { $sum: '$variaciones.costoVar' } } }
+        ]);
+        res.json({ itemVendidos: (cantidadHistorica[0].totalCantidadVenta - cantidadHistorica[0].totalCantidadAnular ), 
+            cantidadHistorica: 
+            (cantidadHistorica[0].totalCantidadNI + cantidadHistorica[0].totalCantidadAgregar) - cantidadHistorica[0].totalCantidadQuitar ,
+            totalCosto: itemGIC[0].totalTrue - 
+            ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0) + 
+                (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0)), 
+            totalIngreso: itemGIC[0].totalFalse - 
+            ((variacionNegativaQuitar[0] ? variacionNegativaQuitar[0].totalVarQuitar : 0 ) + 
+                (variacionPosivaAnular[0] ? variacionPosivaAnular[0].totalVarAnular : 0))
+        });
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const ventasDeItemPorMesGrafico = async (req, res) => {
+    try {
+
+        const result = await Item.aggregate([
+            { $match: { codigo: req.params.codigoItem } },
+            { $unwind: "$variaciones" },
+            { $project: { variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarAnular: { $cond: [{$eq: ['$firstPartVar', 'anular']}, '$variaciones.cantidad', 0] },
+                cantidadVarVenta: { $cond: [{$eq: ['$firstPartVar', 'venta']}, '$variaciones.cantidad', 0] },
+                dateVar:  { $dateToString: { format: "%Y-%m", date: "$variaciones.date", timezone: "-05:00" } },
+            } },
+            {
+                $group: { _id: '$dateVar', valueVenta: { $sum: '$cantidadVarVenta' }, valueAnular: { $sum: '$cantidadVarAnular' } } 
+            }, 
+            {
+                $project: { _id: 0, name: '$_id', value: { $subtract: ['$valueVenta', '$valueAnular'] } } 
+            },
+            { 
+                $sort: { name : 1 } 
+            }
+        ]);
+
+        const single = [
+            {
+                name: 'Cantidad',
+                series: result
+            }
+        ];
+        res.json(single);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getTopFiveIngresosGananciasGastos = async (req, res) => {
+    try {
+        const ingresos = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $unwind: "$variaciones" },
+            { $project: { name: 1, variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarAnular: { $cond: [{$eq: ['$firstPartVar', 'anular']}, '$variaciones.costoVar', 0] },
+                cantidadVarVenta: { $cond: [{$eq: ['$firstPartVar', 'venta']}, '$variaciones.costoVar', 0] },
+            } },
+            {
+                $group: { _id: '$name', valueVenta: { $sum: '$cantidadVarVenta' }, valueAnular: { $sum: '$cantidadVarAnular' } } 
+            }, 
+            {
+                $project: { _id: 0, name: '$_id', value: { $subtract: ['$valueVenta', '$valueAnular'] } } 
+            },
+            { 
+                $sort: { value : -1 } 
+            }
+        ]);
+
+        const ganancias = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $unwind: "$variaciones" },
+            { $project: { name: 1, variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarAgregar: { $cond: [{$eq: ['$firstPartVar', 'agregar']}, '$variaciones.costoVar', 0] },
+                cantidadVarNewItem: { $cond: [{$eq: ['$firstPartVar', 'new item']}, '$variaciones.costoVar', 0] },
+                cantidadVarQuitar: { $cond: [{$eq: ['$firstPartVar', 'quitar']}, '$variaciones.costoVar', 0] },
+                cantidadVarAnular: { $cond: [{$eq: ['$firstPartVar', 'anular']}, '$variaciones.costoVar', 0] },
+                cantidadVarVenta: { $cond: [{$eq: ['$firstPartVar', 'venta']}, '$variaciones.costoVar', 0] },
+            } },
+            {
+                $group: { _id: '$name', valueAgregar: { $sum: '$cantidadVarAgregar' },   valueVenta: { $sum: '$cantidadVarVenta' }, 
+                valueAnular: { $sum: '$cantidadVarAnular' },
+                valueNewItem: { $sum: '$cantidadVarNewItem' },  valueQuitar: { $sum: '$cantidadVarQuitar' } } 
+            },
+            {
+                $project: { _id: 0, valueQuitar: 1,name: '$_id', preValueTwo: { $subtract: ['$valueVenta', '$valueAnular'] },
+                prevalue: { $sum: ['$valueAgregar', '$valueNewItem'] } } 
+            }, 
+            {
+                $project: { _id: 0, name: 1, preValueTwo: 1, preValueT: { $subtract: ['$prevalue', '$valueQuitar'] } } 
+            },
+            {
+                $project: { _id: 0, name: 1, value: { $subtract: ['$preValueTwo', '$preValueT'] } } 
+            },
+            { 
+                $sort: { value : -1 } 
+            }
+        ]);
+
+        const gastos = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $unwind: "$variaciones" },
+            { $project: { name: 1, variaciones: 1, codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarAgregar: { $cond: [{$eq: ['$firstPartVar', 'agregar']}, '$variaciones.costoVar', 0] },
+                cantidadVarNewItem: { $cond: [{$eq: ['$firstPartVar', 'new item']}, '$variaciones.costoVar', 0] },
+                cantidadVarQuitar: { $cond: [{$eq: ['$firstPartVar', 'quitar']}, '$variaciones.costoVar', 0] },
+            } },
+            {
+                $group: { _id: '$name', valueAgregar: { $sum: '$cantidadVarAgregar' },
+                valueNewItem: { $sum: '$cantidadVarNewItem' },  valueQuitar: { $sum: '$cantidadVarQuitar' } } 
+            },
+            {
+                $project: { _id: 0, valueQuitar: 1,name: '$_id',
+                prevalue: { $sum: ['$valueAgregar', '$valueNewItem'] } } 
+            }, 
+            {
+                $project: { _id: 0, name: 1, value: { $subtract: ['$prevalue', '$valueQuitar'] } } 
+            },
+            { 
+                $sort: { value : -1 } 
+            }
+        ]);
+        res.json(gastos);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const getTableInfItem = async (req, res) => {
+    try {
+        const tableInfo = await Item.aggregate([
+            { $match: { deleted: false } },
+            { $unwind: "$variaciones" },
+            { $project: { name: 1, codigo: 1, cantidad: 1, variaciones: 1, priceIGV: 1, costoPropio: 1,
+                codVar: {  $split: [ '$variaciones.comentario', '|' ] } } },
+            { $set: { firstPartVar: {  $arrayElemAt: [ '$codVar', 0 ] } } },
+            { $set: { 
+                cantidadVarAgregar: { $cond: [{$eq: ['$firstPartVar', 'agregar']}, '$variaciones.costoVar', 0] },
+                cantidadVarNewItem: { $cond: [{$eq: ['$firstPartVar', 'new item']}, '$variaciones.costoVar', 0] },
+                cantidadVarQuitar: { $cond: [{$eq: ['$firstPartVar', 'quitar']}, '$variaciones.costoVar', 0] },
+                cantidadVarAnular: { $cond: [{$eq: ['$firstPartVar', 'anular']}, '$variaciones.costoVar', 0] },
+                cantidadVarVenta: { $cond: [{$eq: ['$firstPartVar', 'venta']}, '$variaciones.costoVar', 0] },
+            } },
+            {
+                $group: { _id: {name: '$name', codigo: '$codigo', cantidad: '$cantidad', priceIGV: '$priceIGV', costoPropio: '$costoPropio'}, 
+                valueAgregar: { $sum: '$cantidadVarAgregar' },   valueVenta: { $sum: '$cantidadVarVenta' }, 
+                valueAnular: { $sum: '$cantidadVarAnular' }, 
+                valueNewItem: { $sum: '$cantidadVarNewItem' },  valueQuitar: { $sum: '$cantidadVarQuitar' } } 
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: '$_id.name', codigo: '$_id.codigo', cantidad: '$_id.cantidad', 
+                    priceIGV: '$_id.priceIGV', costoPropio: '$_id.costoPropio',
+                    valueQuitar: 1,
+                    preValueGasto: { $sum: ['$valueAgregar', '$valueNewItem'] },
+                    valueIngreso: { $subtract: ['$valueVenta', '$valueAnular'] }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: 1, codigo: 1, cantidad: 1, 
+                    priceIGV: 1, costoPropio: 1,
+                    valueGasto: { $subtract: ['$preValueGasto', '$valueQuitar'] },
+                    valueIngreso: 1
+                }
+            },
+            { 
+                $sort: { valueIngreso : -1 } 
+            }
+        ]);
+        res.json(tableInfo);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
 
 
 
