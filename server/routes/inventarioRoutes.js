@@ -10,7 +10,7 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getC
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, 
         reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
-import {normalLoginRequired, adminLoginRequired} from '../controllers/usersController';
+import {normalLoginRequired, adminLoginRequired, transaccionalLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
 
@@ -36,25 +36,25 @@ routes.get('/getItemsLowStock', normalLoginRequired, getItemsLowStock);
 
 routes.get('/getItemsNoStock', normalLoginRequired, getItemsNoStock);
 
-routes.post('/changeFolder', normalLoginRequired, cambiarItemCarpeta);
+routes.post('/changeFolder', transaccionalLoginRequired, cambiarItemCarpeta);
 
-routes.post('/reorderItems', normalLoginRequired, reOrderItems);
+routes.post('/reorderItems', transaccionalLoginRequired, reOrderItems);
 
-routes.post('/reorderTipos', normalLoginRequired, reOrderTipo);
+routes.post('/reorderTipos', transaccionalLoginRequired, reOrderTipo);
 
-routes.post('/reorderSubTipos', normalLoginRequired, reOrderSubTipo);
+routes.post('/reorderSubTipos', transaccionalLoginRequired, reOrderSubTipo);
 
 routes.get('/searchItem/:searchTerms', searchItem);
 
-routes.post('/addCaracteristica', normalLoginRequired, addCaracteristica);
+routes.post('/addCaracteristica', transaccionalLoginRequired, addCaracteristica);
 
-routes.post('/deteleCaracteristicas', normalLoginRequired, deleteCaracteristica);
+routes.post('/deteleCaracteristicas', transaccionalLoginRequired, deleteCaracteristica);
 
 routes.get('/getTags', getTags);
 
-routes.post('/deteleTags', normalLoginRequired, deleteTag);
+routes.post('/deteleTags', transaccionalLoginRequired, deleteTag);
 
-routes.post('/addTag', normalLoginRequired, addTag);
+routes.post('/addTag', transaccionalLoginRequired, addTag);
 
 routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
 
@@ -88,9 +88,9 @@ routes.get('/getItemReport/:codigo', normalLoginRequired, getItemReport);
 
 routes.post('/addItem', addNewItem);
 
-routes.post('/toFavorite', normalLoginRequired, convertToFavorite);
+routes.post('/toFavorite', transaccionalLoginRequired, convertToFavorite);
 
-routes.post('/toUnFavorite', normalLoginRequired, deConvertToFavorite);
+routes.post('/toUnFavorite', transaccionalLoginRequired, deConvertToFavorite);
 
 routes.get('/getItems', getAllItem);
 
@@ -104,17 +104,17 @@ routes.get('/getTipo/:codigo', getTipo);
 
 routes.get('/getItemsSubTipo/:tipo/:subTipo', getAllItemsSubTipoName);
 
-routes.put('/uploadVariationSC', normalLoginRequired, subCantidadUpdate);
+routes.put('/uploadVariationSC', transaccionalLoginRequired, subCantidadUpdate);
 
-routes.put('/uploadVariationSimple', normalLoginRequired, cantidadUpdate);
+routes.put('/uploadVariationSimple', transaccionalLoginRequired, cantidadUpdate);
 
 // routes.put('/uploadPhotoName', uploadPhotoName);
 
-routes.put('/modCant/:tipo', normalLoginRequired, updateCantidad);
+routes.put('/modCant/:tipo', transaccionalLoginRequired, updateCantidad);
 
-routes.put('/updateItem', normalLoginRequired, updateItem);
+routes.put('/updateItem', transaccionalLoginRequired, updateItem);
 
-routes.put('/updateTipo', normalLoginRequired, updateTipoTransac);
+routes.put('/updateTipo', transaccionalLoginRequired, updateTipoTransac);
 
 routes.delete('/deleteItem/:codigo', adminLoginRequired, deleteItem, deleteImageSecond);
 
@@ -122,13 +122,13 @@ routes.delete('/deleteTipo/:codigo', adminLoginRequired, deleteTipoTransac);
 
 routes.delete('/deleteSupTipo/:codigo/:subTipoName', adminLoginRequired, deleteSubTipoTransac);
 
-routes.put('/addSubTipo', normalLoginRequired, addNewSubTipo);
+routes.put('/addSubTipo', transaccionalLoginRequired, addNewSubTipo);
 
-routes.put('/offer/add', normalLoginRequired, addOffer);
+routes.put('/offer/add', transaccionalLoginRequired, addOffer);
 
-routes.put('/offer/remove', normalLoginRequired, removeOffer);
+routes.put('/offer/remove', transaccionalLoginRequired, removeOffer);
 
-routes.post('/addTipo', normalLoginRequired, addNewTipo);
+routes.post('/addTipo', transaccionalLoginRequired, addNewTipo);
 
 routes.get('/getTipos', getAllTipos);
 
@@ -136,21 +136,21 @@ routes.get('/getSubTipos/:tipoCod', getSubTipos);
 
 routes.get('/marcas/getAll', getMarcas);
 
-routes.delete('/marcas/delete/:deleteString', normalLoginRequired, deleteMarcas);
+routes.delete('/marcas/delete/:deleteString', transaccionalLoginRequired, deleteMarcas);
 
-routes.post('/marcas/add', normalLoginRequired,addMarca);
+routes.post('/marcas/add', transaccionalLoginRequired,addMarca);
 
-routes.put('/uptateSupTipos', normalLoginRequired, updateSubTipoTransac);
+routes.put('/uptateSupTipos', transaccionalLoginRequired, updateSubTipoTransac);
 
-routes.post('/uploads/image/:codigo', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);
+routes.post('/uploads/image/:codigo', transaccionalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);
 
-routes.post('/uploads/imageCat/:codigo', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameCat);
+routes.post('/uploads/imageCat/:codigo', transaccionalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameCat);
 
-routes.post('/uploads/imageSubCat/:codigo/:subCat', normalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameSubCat);
+routes.post('/uploads/imageSubCat/:codigo/:subCat', transaccionalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameSubCat);
 
 // routes.post('/uploads/ficha/:codigo', uploadPDF.single('pdf'), upload);
 
-routes.post('/uploads/ficha/:codigo', normalLoginRequired, uploadPDF.single('pdf'), fichaUpload, changeFileStatus);
+routes.post('/uploads/ficha/:codigo', transaccionalLoginRequired, uploadPDF.single('pdf'), fichaUpload, changeFileStatus);
 
 // routes.get('/getRandomImageOfTipo/:tipo/:subTipo', getRandomImageOfTipo);
 

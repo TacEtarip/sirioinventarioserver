@@ -1,28 +1,28 @@
 import { Router } from 'express';
 
-import { normalLoginRequired } from '../controllers/usersController';
+import { transaccionalLoginRequired } from '../controllers/usersController';
 
 import { crearCotizacion, getCotis, getCoti, getCotiInfoForCard, 
     agregarItemCoti, eliminarItemCoti, eliminarCoti, createExcel, getPDFCotiTest } from '../controllers/cotiController';
 
 const routes = new Router();
 
-routes.post('/generarCoti', normalLoginRequired, crearCotizacion);
+routes.post('/generarCoti', transaccionalLoginRequired, crearCotizacion);
 
-routes.post('/getPendientes', normalLoginRequired, getCotis);
+routes.post('/getPendientes', transaccionalLoginRequired, getCotis);
 
-routes.get('/obtenerCoti/:cotiCod', normalLoginRequired, getCoti);
+routes.get('/obtenerCoti/:cotiCod', transaccionalLoginRequired, getCoti);
 
-routes.post('/cotiForCard', normalLoginRequired, getCotiInfoForCard);
+routes.post('/cotiForCard', transaccionalLoginRequired, getCotiInfoForCard);
 
-routes.post('/agregarItemCoti', normalLoginRequired, agregarItemCoti);
+routes.post('/agregarItemCoti', transaccionalLoginRequired, agregarItemCoti);
 
-routes.post('/eliminarItemCoti', normalLoginRequired, eliminarItemCoti);
+routes.post('/eliminarItemCoti', transaccionalLoginRequired, eliminarItemCoti);
 
-routes.put('/eliminarCoti', normalLoginRequired, eliminarCoti);
+routes.put('/eliminarCoti', transaccionalLoginRequired, eliminarCoti);
 
-routes.post('/getPdfCoti', normalLoginRequired, getPDFCotiTest);
+routes.post('/getPdfCoti', transaccionalLoginRequired, getPDFCotiTest);
 
-routes.post('/getExcelCoti', normalLoginRequired, createExcel);
+routes.post('/getExcelCoti', transaccionalLoginRequired, createExcel);
 
 export default routes;
