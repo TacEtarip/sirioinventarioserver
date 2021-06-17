@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {generarVenta, getDNI, getRUC, ventaSimple, getVentasActivas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes, getGananciaTotalPorItem,
         getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime, getGananciaIngresoPorItem,
-        eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes} from '../controllers/ventaController';
+        eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes, getVentasEjecutadasTest} from '../controllers/ventaController';
 import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
     agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
     ventaAnular, ventaAnularPost, addLinkToPDF, actualizarItems, filtrarTopFive} from '../controllers/itemController';
@@ -11,6 +11,8 @@ import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActi
 import { generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
 const routes = new Router();
+
+routes.get('/getVentasEjecutadasTest', getVentasEjecutadasTest);
 
 routes.get('/getGananciaTotalPorItem/:codigoItem', normalLoginRequired, getGananciaTotalPorItem);
 
@@ -53,7 +55,7 @@ routes.post('/agregarVenta', transaccionalLoginRequired , tieneVentaActiva, gene
 
 routes.get('/ventasPendientes', transaccionalLoginRequired , getVentaActiva, getVentaUser);
 
-routes.get('/ventasActivasFull', transaccionalLoginRequired , getVentasListLoggedUser);
+routes.get('/ventasActivasFull', normalLoginRequired , getVentasListLoggedUser);
 
 routes.get('/ventasActivasList', transaccionalLoginRequired, getVentasActivasList);
 

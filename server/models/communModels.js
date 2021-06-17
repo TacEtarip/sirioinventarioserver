@@ -90,6 +90,7 @@ export const DocumentoSchema = new Schema({
     name: {
         type: String,
         trim: true,
+        default: ''
     },
 
     codigo: {

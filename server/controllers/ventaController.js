@@ -110,6 +110,19 @@ export const getVentasActivas = async (req, res) => {
     }
 };
 
+export const getVentasEjecutadasTest = async (req, res) => {   
+    
+    try {
+        const searchRegex = new RegExp('', 'gi');
+
+        const result = await Venta.find({ estado: 'ejecutada', 'documento.name': { $regex: searchRegex }})
+        .skip(parseInt(0)).limit(10).sort({ date: -1 });
+        res.json(result);
+    } catch (error) {
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
+
 export const getVentasEjecutadas = async (req, res) => {   
     
     try {
