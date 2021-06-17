@@ -12,7 +12,7 @@ import { generarComprobante, generarGuia } from '../controllers/nubeFactControll
 
 const routes = new Router();
 
-routes.get('/getVentasEjecutadasTest', getVentasEjecutadasTest);
+// , normalLoginRequiredroutes.get('/getVentasEjecutadasTest', getVentasEjecutadasTest);
 
 routes.get('/getGananciaTotalPorItem/:codigoItem', normalLoginRequired, getGananciaTotalPorItem);
 
@@ -53,15 +53,15 @@ routes.post('/ventaSimple', transaccionalLoginRequired , ventaSimpleItemUpdate, 
 
 routes.post('/agregarVenta', transaccionalLoginRequired , tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
 
-routes.get('/ventasPendientes', transaccionalLoginRequired , getVentaActiva, getVentaUser);
+routes.get('/ventasPendientes', normalLoginRequired , getVentaActiva, getVentaUser);
 
 routes.get('/ventasActivasFull', normalLoginRequired , getVentasListLoggedUser);
 
-routes.get('/ventasActivasList', transaccionalLoginRequired, getVentasActivasList);
+routes.get('/ventasActivasList', normalLoginRequired, getVentasActivasList);
 
 routes.post('/agregarItemVenta', transaccionalLoginRequired , agregarItemVenta);
 
-routes.post('/ventasForCard', transaccionalLoginRequired , getVentasActivasParaCard);
+routes.post('/ventasForCard', normalLoginRequired , getVentasActivasParaCard);
 
 routes.post('/ejecutarVenta', transaccionalLoginRequired , ventaEjecutar, generarGuia, generarComprobante, addLinkToPDF);
 
