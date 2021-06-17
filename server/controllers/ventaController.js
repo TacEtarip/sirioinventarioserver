@@ -127,20 +127,23 @@ export const getVentasEjecutadas = async (req, res) => {
     
     try {
         let result;
+        const preOrden = {};
+        preOrden[req.body.orden] = req.body.ordenOrden;
+
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
             result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-             {'itemsVendidos.codigo': req.body.busqueda },
+             {'itemsVendidos.codigo': { $regex: searchRegex } },
             {'documento.codigo': Number(req.body.busqueda) || -1 }], 
             'documento.type': { $in: req.body.tipo } })
-                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
+                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort(preOrden);
         } 
         else {
             result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-            {'itemsVendidos.codigo': req.body.busqueda },
+            {'itemsVendidos.codigo':  { $regex: searchRegex } },
             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                         date: {$gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo)}})
-                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort({ date: -1 });
+                        .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort(preOrden);
         }
         res.json(result);
     } catch (error) {
@@ -153,12 +156,15 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
         let result;
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
-            result = await Venta.aggregate([{$match: { estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
+            result = 
+            await Venta.aggregate([{$match: { estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
+            {'itemsVendidos.codigo':  { $regex: searchRegex } }, 
                                             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo } }}, 
                                             {$count: 'cantidadVentas'}]);
         } 
         else {
-            result = await Venta.aggregate([{$match: {estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }}, 
+            result = await Venta.aggregate([{$match: {estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
+            {'itemsVendidos.codigo':  { $regex: searchRegex } }, 
             {                               'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                                             date: {$gte: new Date(req.body.dateOne), $lt: new Date(req.body.dateTwo)}}}, 
                                             {$count: 'cantidadVentas'}]);
