@@ -221,7 +221,8 @@ export const createExcel = async (req, res) => {
     try {
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
         const ventas = await Venta.find({ estado: { $in: req.body.estado }, 'documento.type': { $in: req.body.tipo },
-        date: { $gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo) }, $or: [{'documento.name': { $regex: searchRegex }}, 
+        date: { $gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo) }, $or: [{'documento.name': { $regex: searchRegex }},
+        {'itemsVendidos.codigo': req.body.busqueda }, 
         {'documento.codigo':  Number(req.body.busqueda) || -1 }], });
         
         const buffer = await createExcelReport('Ventas', 'Reporte De Ventas', ['Fecha', 'Codigo', 'Para', 'Precio No IGV', 'Precio'], ventas);
@@ -457,6 +458,7 @@ export const getGananciaIngresoPorItem = async (req, res) => {
     }
 };
 
+
 export const getGananciasTodoItem = async (req, res, next) => {
     try {
         const result = await Venta.aggregate([
@@ -504,7 +506,7 @@ export const getInfoToPlotVentasPrecioOverTime = async (req, res) => {
             {
                 $group: {
                     _id: '$month',
-                   value: { $sum: '$totalPrice' }
+                   value: { $sum: '$totalPrice' },
                 }
             },
             {
