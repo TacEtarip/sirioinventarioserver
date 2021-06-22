@@ -2,25 +2,13 @@ import mongoose from 'mongoose';
 import tipoSchema from '../models/tipoModel';
 import itemSchema from '../models/itemModel';
 
-import { SitemapStream, streamToPromise } from 'sitemap';
-
-import { Readable } from 'stream';
-
-import { createGzip } from 'zlib';
-
 const Tipo = mongoose.model('Tipo', tipoSchema);
 
 const Item = mongoose.model('Item', itemSchema);
 
 
-export const createSiteMap = async (req, res) => {
-    res.header('Content-Type', 'application/xml');
-    res.header('Content-Encoding', 'gzip');
+export const getSiteMapLinks = async (req, res) => {
     try {
-        
-        const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/' });
-        const pipeline = smStream.pipe(createGzip());
-
         const lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
 
@@ -47,16 +35,11 @@ export const createSiteMap = async (req, res) => {
             priority: 0.5, changefreq: 'daily', lastmod: new Date().toISOString() });
         }
 
-        // Readable.from(['s', '2']).pipe(smStream);
-        const readable = Readable.from(siteMapsArray);
-        readable.pipe(smStream);
-        // smStream.end();
-        pipeline.pipe(res).on('error', (e) => {throw e;});
+        res.json(siteMapsArray);
     } catch (error) {
         return res.status(500).end();
     }
 };
-
 
 export const addNewTipo = async (req, res) => {
     try {
