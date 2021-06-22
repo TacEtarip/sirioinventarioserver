@@ -16,23 +16,23 @@ export const getSiteMapLinks = async (req, res) => {
         const getItems = await Item.find({ deleted: false });
 
         const siteMapsArray = [
-            { url: 'store/main', priority: 1, changefreq: 'monthly', lastmod: lastWeek.toISOString() },
-            { url: 'store/categorias', priority: 0.9, changefreq: 'weekly', lastmod: lastWeek.toISOString() },
+            { url: 'store/main', priority: 1, changefreq: 'monthly' },
+            { url: 'store/categorias', priority: 0.9, changefreq: 'weekly' },
         ];
 
         for (let index = 0; index < getTipos.length; index++) {
             siteMapsArray.push({ url: 'store/categorias/' +  getTipos[index].name, 
-            priority: 0.7, changefreq: 'daily', lastmod: new Date().toISOString() });
+            priority: 0.7, changefreq: 'daily' });
             for (let yndex = 0; yndex < getTipos[index].subTipo.length; yndex++) {
                 siteMapsArray.push(
                     { url: 'store/categorias/' + getTipos[index].name + '/' + getTipos[index].subTipo[yndex], 
-                priority: 0.6, changefreq: 'daily', lastmod: new Date().toISOString()  });
+                priority: 0.6, changefreq: 'daily'  });
             }
         }
 
         for (let index = 0; index < getItems.length; index++) {
             siteMapsArray.push({ url: 'store/categorias/'+  getItems[index].tipo + '/' + getItems[index].subTipo + '/' + getItems[index].codigo, 
-            priority: 0.5, changefreq: 'daily', lastmod: new Date().toISOString() });
+            priority: 0.5, changefreq: 'daily'});
         }
 
         res.json(siteMapsArray);
