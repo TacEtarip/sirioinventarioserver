@@ -2,9 +2,60 @@ import mongoose from 'mongoose';
 import tipoSchema from '../models/tipoModel';
 import itemSchema from '../models/itemModel';
 
+import { SitemapStream, streamToPromise } from 'sitemap';
+
+import { Readable } from 'stream';
+
+import { createGzip } from 'zlib';
+
 const Tipo = mongoose.model('Tipo', tipoSchema);
 
 const Item = mongoose.model('Item', itemSchema);
+
+
+export const createSiteMap = async (req, res) => {
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+    try {
+        
+        const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/' });
+        const pipeline = smStream.pipe(createGzip());
+
+        const lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+
+        const getTipos = await Tipo.find({ deleted: false });
+        const getItems = await Item.find({ deleted: false });
+
+        const siteMapsArray = [
+            { url: 'store/main', priority: 1, changefreq: 'monthly', lastmod: lastWeek.toISOString() },
+            { url: 'store/categorias', priority: 0.9, changefreq: 'weekly', lastmod: lastWeek.toISOString() },
+        ];
+
+        for (let index = 0; index < getTipos.length; index++) {
+            siteMapsArray.push({ url: getTipos[index].name, 
+            priority: 0.7, changefreq: 'daily', lastmod: new Date().toISOString() });
+            for (let yndex = 0; yndex < getTipos[index].subTipo.length; yndex++) {
+                siteMapsArray.push(
+                    { url: getTipos[index].name + '/' + getTipos[index].subTipo[yndex], 
+                priority: 0.6, changefreq: 'daily', lastmod: new Date().toISOString()  });
+            }
+        }
+
+        for (let index = 0; index < getItems.length; index++) {
+            siteMapsArray.push({ url: getItems[index].tipo + '/' + getItems[index].subTipo + '/' + getItems[index].codigo, 
+            priority: 0.5, changefreq: 'daily', lastmod: new Date().toISOString() });
+        }
+
+        // Readable.from(['s', '2']).pipe(smStream);
+        const readable = Readable.from(siteMapsArray);
+        readable.pipe(smStream);
+        // smStream.end();
+        pipeline.pipe(res).on('error', (e) => {throw e;});
+    } catch (error) {
+        return res.status(500).end();
+    }
+};
 
 
 export const addNewTipo = async (req, res) => {

@@ -8,7 +8,7 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getC
         convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
         getTopFiveIngresosGananciasGastos } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, 
-        reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
+        reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac, createSiteMap } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import {normalLoginRequired, adminLoginRequired, transaccionalLoginRequired} from '../controllers/usersController';
 
@@ -21,6 +21,8 @@ const routes = new Router();
 // routes.get('/testFindTipo', testFintTipo);
 
 // routes.get('/testAgre', gananciasPosiblesConItemMayor);
+
+routes.get('/getSiteMap', createSiteMap);
 
 routes.get('/getTableInfItem', normalLoginRequired, getTableInfItem);
 
