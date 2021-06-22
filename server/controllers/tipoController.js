@@ -21,17 +21,17 @@ export const getSiteMapLinks = async (req, res) => {
         ];
 
         for (let index = 0; index < getTipos.length; index++) {
-            siteMapsArray.push({ url: getTipos[index].name, 
+            siteMapsArray.push({ url: 'store/categorias/' +  getTipos[index].name, 
             priority: 0.7, changefreq: 'daily', lastmod: new Date().toISOString() });
             for (let yndex = 0; yndex < getTipos[index].subTipo.length; yndex++) {
                 siteMapsArray.push(
-                    { url: getTipos[index].name + '/' + getTipos[index].subTipo[yndex], 
+                    { url: 'store/categorias/' + getTipos[index].name + '/' + getTipos[index].subTipo[yndex], 
                 priority: 0.6, changefreq: 'daily', lastmod: new Date().toISOString()  });
             }
         }
 
         for (let index = 0; index < getItems.length; index++) {
-            siteMapsArray.push({ url: getItems[index].tipo + '/' + getItems[index].subTipo + '/' + getItems[index].codigo, 
+            siteMapsArray.push({ url: 'store/categorias/'+  getItems[index].tipo + '/' + getItems[index].subTipo + '/' + getItems[index].codigo, 
             priority: 0.5, changefreq: 'daily', lastmod: new Date().toISOString() });
         }
 
