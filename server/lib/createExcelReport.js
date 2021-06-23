@@ -79,7 +79,7 @@ export const createExcelReport = async (wsName, excelHeader, arrayOfSubHeaders, 
         createSubHeader(wb, ws, arrayOfSubHeaders);
         const current = createTableCtn(ws, arrayVentas, 5, styleNormal, styleNormalSecond);
 
-        ws.cell(current, 5).string(`Total`).style(styleNormal)
+        ws.cell(current, 6).string(`Total`).style(styleNormal)
         .style(
             { 
             font: { size: 14, bold: true, color: 'white' }, fill: {
@@ -87,7 +87,7 @@ export const createExcelReport = async (wsName, excelHeader, arrayOfSubHeaders, 
             patternType: 'solid',
             fgColor: '#e87200',
         } });
-        ws.cell(current, 6).formula(`SUBTOTAL(9,F5:F${current-1})`).style(styleNormal).style(
+        ws.cell(current, 7).formula(`SUBTOTAL(9,F5:F${current-1})`).style(styleNormal).style(
             { 
             font: { size: 14, bold: true, color: 'black' }, fill: {
             type: 'pattern',
@@ -126,7 +126,7 @@ const createHeader = (wb, ws, excelHeader) => {
         }
     });
 
-    ws.cell(2, 2, 2, 6, true)
+    ws.cell(2, 2, 2, 7, true)
     .string(excelHeader)
     .style(styleHeader);
 
@@ -177,7 +177,7 @@ const createSubHeader = (wb, ws, arrayOfSubHeaders) => {
 
     ws.row(4).filter({
         firstColumn: 2,
-        lastColumn: 6,
+        lastColumn: 7,
       });
 
 };
@@ -225,10 +225,14 @@ const createTableCtn = (ws, ventas, startRow, sn, sns) => {
         .style(style);
 
         ws.cell(startRow, 5)
-        .number(ventas[current].totalPriceNoIGV)
+        .string(ventas[current].vendedor)
         .style(style);
 
         ws.cell(startRow, 6)
+        .number(ventas[current].totalPriceNoIGV)
+        .style(style);
+
+        ws.cell(startRow, 7)
         .number(ventas[current].totalPrice)
         .style(style);
 

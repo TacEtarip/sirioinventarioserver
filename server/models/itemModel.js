@@ -62,6 +62,10 @@ const VariacionSchema = new Schema ({
     cantidadSC: {
         type: [CantidadOrderSC],
         default: []
+    },
+    usuario: {
+        type: String,
+        default: 'desconocido'
     }
 }, { _id : false });
 

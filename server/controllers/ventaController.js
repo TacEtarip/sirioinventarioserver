@@ -131,16 +131,25 @@ export const getVentasEjecutadas = async (req, res) => {
         preOrden[req.body.orden] = req.body.ordenOrden;
 
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
+
+        const searchRegexII = new RegExp(req.body.busquedaItemCodigo || '', 'gi');
+
+        const searchRegexIII = new RegExp(req.body.busquedaUsername || '', 'gi');
+
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
-            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-             {'itemsVendidos.codigo': { $regex: searchRegex } },
+            result = await Venta.find({estado: { $in: req.body.estado }, 
+                'itemsVendidos.codigo': { $regex: searchRegexII },
+                vendedor:  { $regex: searchRegexIII },
+                $or: [{'documento.name': { $regex: searchRegex }},
             {'documento.codigo': Number(req.body.busqueda) || -1 }], 
             'documento.type': { $in: req.body.tipo } })
                         .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort(preOrden);
         } 
         else {
-            result = await Venta.find({estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-            {'itemsVendidos.codigo':  { $regex: searchRegex } },
+            result = await Venta.find({estado: { $in: req.body.estado }, 
+                'itemsVendidos.codigo':  { $regex: searchRegexII }, 
+                vendedor:  { $regex: searchRegexIII },
+                $or: [{'documento.name': { $regex: searchRegex }},
             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                         date: {$gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo)}})
                         .skip(parseInt(req.body.skip)).limit(parseInt(req.body.limit)).sort(preOrden);
@@ -155,16 +164,25 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
     try {
         let result;
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
+
+        const searchRegexII = new RegExp(req.body.busquedaItemCodigo || '', 'gi');
+
+        const searchRegexIII = new RegExp(req.body.busquedaUsername || '', 'gi');
+
         if (req.body.dateOne === 'noone' || req.body.dateTwo === 'noone') {
             result = 
-            await Venta.aggregate([{$match: { estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-            {'itemsVendidos.codigo':  { $regex: searchRegex } }, 
+            await Venta.aggregate([{$match: { estado: { $in: req.body.estado },
+                'itemsVendidos.codigo':  { $regex: searchRegexII }, 
+                vendedor:  { $regex: searchRegexIII }, 
+                $or: [{'documento.name': { $regex: searchRegex }},
                                             {'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo } }}, 
                                             {$count: 'cantidadVentas'}]);
         } 
         else {
-            result = await Venta.aggregate([{$match: {estado: { $in: req.body.estado }, $or: [{'documento.name': { $regex: searchRegex }},
-            {'itemsVendidos.codigo':  { $regex: searchRegex } }, 
+            result = await Venta.aggregate([{$match: {estado: { $in: req.body.estado },
+                'itemsVendidos.codigo':  { $regex: searchRegexII }, 
+                vendedor:  { $regex: searchRegexIII }, 
+                $or: [{'documento.name': { $regex: searchRegex }},
             {                               'documento.codigo':  Number(req.body.busqueda) || -1 }], 'documento.type': { $in: req.body.tipo },
                                             date: {$gte: new Date(req.body.dateOne), $lt: new Date(req.body.dateTwo)}}}, 
                                             {$count: 'cantidadVentas'}]);
@@ -226,12 +244,18 @@ export const ventaSimple = async (req, res, next) => {
 export const createExcel = async (req, res) => {
     try {
         const searchRegex = new RegExp(req.body.busqueda || '', 'gi');
+
+        const searchRegexII = new RegExp(req.body.busquedaItemCodigo || '', 'gi');
+
+        const searchRegexIII = new RegExp(req.body.busquedaUsername || '', 'gi');
+
         const ventas = await Venta.find({ estado: { $in: req.body.estado }, 'documento.type': { $in: req.body.tipo },
+        'itemsVendidos.codigo': { $regex: searchRegexII },
+        vendedor:  { $regex: searchRegexIII },
         date: { $gte: new Date(req.body.dateOne), $lte: new Date(req.body.dateTwo) }, $or: [{'documento.name': { $regex: searchRegex }},
-        {'itemsVendidos.codigo': req.body.busqueda }, 
         {'documento.codigo':  Number(req.body.busqueda) || -1 }], });
         
-        const buffer = await createExcelReport('Ventas', 'Reporte De Ventas', ['Fecha', 'Codigo', 'Para', 'Precio No IGV', 'Precio'], ventas);
+        const buffer = await createExcelReport('Ventas', 'Reporte De Ventas', ['Fecha', 'Codigo', 'Para', 'Vendido Por', 'Precio No IGV', 'Precio'], ventas);
         res.writeHead(200, 
             { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'Content-Disposition': 'attachment; filename=reporte.xlsx' });

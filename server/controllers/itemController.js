@@ -242,7 +242,7 @@ export const ventaAnularPost = async (req, res) => {
             variaciones.push({
                               date: Date.now(), cantidad: item.cantidad, 
                               tipo: true, comentario: 'anular|' + req.body.codigo, 
-                              costoVar: item.totalPrice,
+                              costoVar: item.totalPrice, usuario: req.user.aud.split(' ')[0],
                               cantidadSC: item.cantidadSC,
                             });
         }
@@ -308,7 +308,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
         const lastResort = await Item.findOne({codigo: req.body.venta.itemsVendidos[0].codigo});
 
         const variacion = { date: Date.now(), cantidad: req.body.venta.itemsVendidos[0].cantidad, 
-            tipo: false, comentario: 'venta|' + codigoVenta, 
+            tipo: false, comentario: 'venta|' + codigoVenta, usuario: req.user.aud.split(' ')[0],
             costoVar: req.body.venta.totalPrice, cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC };
         
         if (req.body.venta.itemsVendidos[0].cantidadSC.length !== 0) {
@@ -384,7 +384,7 @@ export const ventaEjecutar = async (req, res, next) => {
                 variaciones.push({
                                   date: Date.now(), cantidad: item.cantidad, 
                                   tipo: false, comentario: 'venta|' + req.body.venta.codigo, 
-                                  costoVar: item.totalPrice,
+                                  costoVar: item.totalPrice, usuario: req.user.aud.split(' ')[0],
                                   cantidadSC: item.cantidadSC,
                                 });
             }
