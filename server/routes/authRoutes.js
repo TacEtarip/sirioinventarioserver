@@ -5,10 +5,11 @@ import {
     isValid, confirmarUsuario, loginUserToken, doTheLogin, googlePreRegistro, 
     getLoginInfoFromToken, getUserInfo, actulizarCelular, agregarDireccion, 
     agregarDocumento, confirmarContrasena, cambiarContrasena, registerUserLowGooglePreCheck } from '../controllers/usersController';
-import { sendConfirmationEmail } from '../controllers/emailController';
+import { sendConfirmationEmail, sendTestEmail } from '../controllers/emailController';
 
 const routes = new Router();
 
+routes.get('/testEmail', sendTestEmail);
 
 routes.use(ps.initialize());
 

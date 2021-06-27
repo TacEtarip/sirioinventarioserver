@@ -70,6 +70,7 @@ export const registerUserLow = async (req, res, next) => {
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
         req.savedUSer = savedUSer;
+        console.log(req.body);
         next();
     } catch (error) {
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
@@ -173,10 +174,10 @@ export const googlePreRegistro = async (req, res, next) => {
 
 export const loginGoogle = async (req, res, next) => {
     try {
-        const result = await User.findOne({ email: req.user._json.email });
+        const result = await User.findOneAndUpdate({ email: req.user._json.email }, { verified: true }, {new: true, useFindAndModify: false});
         const token = jwt
         .sign({_id: result._id}, 
-                config[process.env.NODE_ENV].jwtLogin, 
+                config[process.env.NODE_ENV].jwtLogin,
                 { expiresIn: '120s' });
         await User.findByIdAndUpdate(result._id, {verified: true}, {useFindAndModify: false});
         return res.redirect(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
@@ -239,6 +240,7 @@ export const register = async (req, res) => {
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
+        console.log(req.body);
         return res.json(savedUSer);
     } catch (error) {
         return res.status(error.status || 400).send({
@@ -250,6 +252,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const result = await User.findOne({ username: req.body.username.toLowerCase() });
+        console.log(result);
         if (!result) {
             return res.status(400).json({username: req.body.username, success:false ,message: 'Authenticacion failed. No user found!', token: null});
         }

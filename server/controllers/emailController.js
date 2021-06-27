@@ -29,6 +29,7 @@ export const sendTestEmail = async (req, res) => {
         });   
         res.json({emailresult: 'send'});
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({errorMSG: error});
     }
 
@@ -42,6 +43,7 @@ export const sendConfirmationEmail = async (req, res) => {
             from: /foo/g,
             to: '<a style="width: 100%; font-size: 20px; text-align: center; margin-top: 0.67em" href="www.google.com" target="_blank">Click</a>',
         });*/
+        console.log(req.savedUSer);
         req.savedUSer.hashPassword = undefined;
         const link = `${configEnv.link}auth/confirmacion/${req.savedUSer._id}`;
         const htmlReplaced = html.replace('#replaceWithLink', 
@@ -55,6 +57,7 @@ export const sendConfirmationEmail = async (req, res) => {
         });   
         res.json(req.savedUSer);
     } catch (error) {
+        console.log(error);
         return res.status(500 || error.status).json({ link: false });
     }
 
