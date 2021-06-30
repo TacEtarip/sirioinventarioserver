@@ -18,7 +18,15 @@ export const getVentaUser = async (req, res) => {
 };
 
 
-
+export const getLastTenVentas = async (req, res) => {
+    try {
+        const searchRegex = new RegExp(req.params.vendedor, 'i');
+        const ventas = await Venta.find({vendedor: searchRegex}).sort({ date: -1 }).limit(20);
+        res.json(ventas);
+    } catch (error) { 
+        return res.status(500).json({ errorMSG: error }); 
+    }
+};
 
 
 export const eliminarItemScVenta = async (req, res) => {

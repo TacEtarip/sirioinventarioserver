@@ -6,11 +6,11 @@ import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getC
         addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, gananciasPosiblesConItemMayor,
         testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
         convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
-        getTopFiveIngresosGananciasGastos } from '../controllers/itemController';
+        getTopFiveIngresosGananciasGastos, addItemReview } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, getSiteMapLinks,
         reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac, createSiteMap } from '../controllers/tipoController';
 import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
-import {normalLoginRequired, adminLoginRequired, transaccionalLoginRequired} from '../controllers/usersController';
+import {normalLoginRequired, adminLoginRequired, transaccionalLoginRequired, allLoginRequired} from '../controllers/usersController';
 
 const routes = new Router();
 
@@ -21,6 +21,8 @@ const routes = new Router();
 // routes.get('/testFindTipo', testFintTipo);
 
 // routes.get('/testAgre', gananciasPosiblesConItemMayor);
+
+routes.post('/addItemReview', allLoginRequired, addItemReview);
 
 routes.get('/getSiteMap', getSiteMapLinks);
 

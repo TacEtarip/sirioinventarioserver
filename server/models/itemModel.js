@@ -2,6 +2,24 @@ import {Schema} from 'mongoose';
 
 import { CantidadOrderSC } from './communModels';
 
+const RatingSchema = new Schema({
+    user: {
+        type: String,
+        trim: true,
+    },
+
+    rating: {
+        type: Number,
+        default: 0
+    },
+
+    date: {
+        type: Date,
+        default: Date.now
+    }
+
+}, { _id : false });
+
 const OrderSchema = new Schema({
     name: {
         type: String,
@@ -191,6 +209,11 @@ const ItemSchema = new Schema ({
     orderNumber: {
         type: Number,
         default: -1
+    },
+
+    reviews: {
+        type: [RatingSchema],
+        default: []
     }
 
 });

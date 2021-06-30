@@ -23,7 +23,7 @@ export const sendTestEmail = async (req, res) => {
         const html = await readFilePromise(path.resolve(__dirname, '../lib/email.html'), {encoding: 'utf8'});
         const result = await mailTransporter.sendMail({
             from: 'siriodinar-no-replay@siriodinar.com',
-            to: 'hu3rtas@gmail.com',
+            to: 'hu3rtas@outlook.com',
             subject: 'Confimar registro de cuenta en Sirio Dinar',
             html
         });   
@@ -43,11 +43,10 @@ export const sendConfirmationEmail = async (req, res) => {
             from: /foo/g,
             to: '<a style="width: 100%; font-size: 20px; text-align: center; margin-top: 0.67em" href="www.google.com" target="_blank">Click</a>',
         });*/
-        console.log(req.savedUSer);
         req.savedUSer.hashPassword = undefined;
         const link = `${configEnv.link}auth/confirmacion/${req.savedUSer._id}`;
-        const htmlReplaced = html.replace('#replaceWithLink', 
-        `<a style="width: 100%; font-size: 20px; text-align: center; margin-top: 0.67em" href="${link}" target="_blank">${link}</a>`);
+        const htmlReplaced = html.replace('#replaceWithLink',
+        `<a style="width: 400px; font-size: 20px; text-align: center; margin-top: 0.67em" href="${link}" target="_blank">${link}</a>`);
 
         await mailTransporter.sendMail({
             from: 'siriodinar-no-replay@siriodinar.com',
@@ -57,7 +56,6 @@ export const sendConfirmationEmail = async (req, res) => {
         });   
         res.json(req.savedUSer);
     } catch (error) {
-        console.log(error);
         return res.status(500 || error.status).json({ link: false });
     }
 

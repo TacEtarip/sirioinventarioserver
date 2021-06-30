@@ -70,7 +70,6 @@ export const registerUserLow = async (req, res, next) => {
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
         req.savedUSer = savedUSer;
-        console.log(req.body);
         next();
     } catch (error) {
         return res.status(500 || error.status).json({message: 'Ocurrio un error inesperado. Intentelo denuevo'});
@@ -95,8 +94,8 @@ export const confirmarUsuario = async (req, res) => {
         const result = await User.findById(req.params.idUser);
         if (result.verified === false) {
             const token = jwt
-            .sign({_id: result._id}, 
-                config[process.env.NODE_ENV].jwtLogin, 
+            .sign({_id: result._id},
+                config[process.env.NODE_ENV].jwtLogin,
                 { expiresIn: '120s' });
             await User.findByIdAndUpdate(result._id, {verified: true}, {useFindAndModify: false});
             return res.redirect(`${config[process.env.NODE_ENV].link_front}login/auto/${token}`);
@@ -240,7 +239,6 @@ export const register = async (req, res) => {
         newUser.hashPassword = await bcrypt.hash(req.body.password, 10);
         const savedUSer = await newUser.save();
         savedUSer.hashPassword = undefined;
-        console.log(req.body);
         return res.json(savedUSer);
     } catch (error) {
         return res.status(error.status || 400).send({
@@ -252,7 +250,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const result = await User.findOne({ username: req.body.username.toLowerCase() });
-        console.log(result);
         if (!result) {
             return res.status(400).json({username: req.body.username, success:false ,message: 'Authenticacion failed. No user found!', token: null});
         }

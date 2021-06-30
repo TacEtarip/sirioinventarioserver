@@ -9,7 +9,7 @@ const VentaSchema = new Schema ({
         trim: true,
         unique: true
     },
-    
+
     totalPrice: {
         type: Number,
         trim: true,

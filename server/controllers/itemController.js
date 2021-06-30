@@ -1653,9 +1653,49 @@ export const getTableInfItem = async (req, res) => {
     }
 };
 
+export const setItemReview = async (req, res) => {
+    try {
+        await Item.updateMany({},
+            {$set : {reviews: []}},
+            { upsert: false });
+        res.json({done: 'done'});
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
+
+export const addItemReview = async (req, res) => {
+    try {
 
 
+        const aCompradoElItem = await Item.aggregate([
+            {$match: {codigo: req.body.codigo}},
+            {$unwind: '$variaciones'},
+            {$match: {'variaciones.usuario': req.user.aud.split(' ')[0]}},
+            { $limit : 4 },
+        ]);
 
+        if (aCompradoElItem.length === 0) {
+            return res.status(403).json({message: 'No has comprado el item.'});
+        }
 
-
-
+        const dateNow = new Date();
+        const userReviewExist = await Item.findOne({ codigo: req.body.codigo });
+        let reviewE = false;
+        if (userReviewExist.reviews.length > 0) {
+            reviewE = userReviewExist.reviews.some(x => x.user === req.user.aud.split(' ')[0]);
+        }
+        if (reviewE) {
+            const result = await Item.findOneAndUpdate({ codigo: req.body.codigo, 'reviews.user': req.user.aud.split(' ')[0] },
+                { $set: { 'reviews.$.date': dateNow.toISOString(), 'reviews.$.rating': req.body.rating } },
+                { new: true, useFindAndModify: false });
+            return res.json(result);
+        }
+        const result = await Item.findOneAndUpdate({ codigo: req.body.codigo,  },
+            { $push: { reviews: { user: req.user.aud.split(' ')[0], rating: req.body.rating, date: dateNow.toISOString() } } },
+            { new: true, useFindAndModify: false });
+        return res.json(result);
+    } catch (error) {
+        return res.status(500).json({errorMSG: error});
+    }
+};
