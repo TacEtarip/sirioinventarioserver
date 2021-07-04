@@ -26,30 +26,32 @@ app.use(helmet());
 app.use(compression());
 app.use(cookieParser());
 
-app.options('*', cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
-app.use(cors({credentials: true, origin: config[process.env.NODE_ENV].origin }));
+app.options('*', cors({ credentials: true, origin: config[process.env.NODE_ENV].origin }));
+app.use(cors({ credentials: true, origin: config[process.env.NODE_ENV].origin }));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 app.use((req, res, next) => {
-  if (req.headers && req.headers.authorization && 
+	if (req.headers && req.headers.authorization &&
       req.headers.authorization.split(' ')[0] === 'JWT') {
-        const auth = req.headers.authorization;
-      jwt.verify(auth.split(' ')[1], config[process.env.NODE_ENV].jwtKey, 
-      { audience: auth.split(' ')[2] + ' ' + auth.split(' ')[3] },(err, decode) => {
-          if ( err ) {
-            req.user = undefined;
-          } else { 
-            req.user = decode; 
-          }
-          next(); 
-      });
-  } else {
-      req.user = undefined;
-      next();
-  }
+		const auth = req.headers.authorization;
+		jwt.verify(auth.split(' ')[1], config[process.env.NODE_ENV].jwtKey,
+			{ audience: auth.split(' ')[2] + ' ' + auth.split(' ')[3] }, (err, decode) => {
+				if (err) {
+					req.user = undefined;
+				}
+				else {
+					req.user = decode;
+				}
+				next();
+			});
+	}
+	else {
+		req.user = undefined;
+		next();
+	}
 });
 
 
@@ -62,14 +64,14 @@ app.use('/coti', cotiRoutes);
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    log.error(error);
-    log.info(error);
-    return res.json({
-      error: {
-        message: error.message,
-      },
-    });
-  });
+	res.status(error.status || 500);
+	log.error(error);
+	log.info(error);
+	return res.json({
+		error: {
+			message: error.message,
+		},
+	});
+});
 
 export default app;

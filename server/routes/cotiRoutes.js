@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 import { transaccionalLoginRequired } from '../controllers/usersController';
 
-import { crearCotizacion, getCotis, getCoti, getCotiInfoForCard, 
-    agregarItemCoti, eliminarItemCoti, eliminarCoti, createExcel, getPDFCotiTest } from '../controllers/cotiController';
+import { crearCotizacion, getCotis, getCoti, getCotiInfoForCard,
+	agregarItemCoti, eliminarItemCoti, eliminarCoti, createExcel, getPDFCotiTest } from '../controllers/cotiController';
 
 const routes = new Router();
 

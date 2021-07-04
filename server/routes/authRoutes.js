@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import { 
-    allLoginRequired, register, login, callBackGoogle, 
-    googleExito, loginGoogle, ps, userExits, emailExits, registerUserLow, 
-    isValid, confirmarUsuario, loginUserToken, doTheLogin, googlePreRegistro, 
-    getLoginInfoFromToken, getUserInfo, actulizarCelular, agregarDireccion, 
-    agregarDocumento, confirmarContrasena, cambiarContrasena, registerUserLowGooglePreCheck } from '../controllers/usersController';
+import {
+	allLoginRequired, register, login, loginGoogle, ps, userExits, emailExits, registerUserLow,
+	isValid, confirmarUsuario, loginUserToken, doTheLogin, googlePreRegistro,
+	getLoginInfoFromToken, getUserInfo, actulizarCelular, agregarDireccion,
+	agregarDocumento, confirmarContrasena, cambiarContrasena, registerUserLowGooglePreCheck } from '../controllers/usersController';
 import { sendConfirmationEmail, sendTestEmail } from '../controllers/emailController';
 
 const routes = new Router();
@@ -29,7 +28,7 @@ routes.post('/register', register);
 
 routes.get('/google/callback', ps.authenticate('google', { failureRedirect: '/failed', session: false }), googlePreRegistro, loginGoogle);
 
-routes.get('/google', ps.authenticate('google', { scope: ['profile', 'email'], session: false}));
+routes.get('/google', ps.authenticate('google', { scope: ['profile', 'email'], session: false }));
 
 routes.post('/login', login);
 

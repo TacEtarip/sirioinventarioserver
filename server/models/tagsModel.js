@@ -1,16 +1,16 @@
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 
 const TagsSchema = new Schema ({
-    name:{
-        type: String,
-        required: true,
-        unique: true
-    },
+	name:{
+		type: String,
+		required: true,
+		unique: true,
+	},
 
-    deleted: {
-        type: Boolean,
-        default: false
-    }
+	deleted: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 export default TagsSchema;

@@ -4,63 +4,63 @@ import { DocumentoSchema, ItemVendidoSchema } from './communModels';
 
 export const CotizacionSchema = new Schema ({
 
-    codigo: {
-        type: String,
-        required: true, 
-        trim: true,
-        unique: true
-    },
-    
-    totalPrice: {
-        type: Number,
-        trim: true,
-        required: true,
-    },
+	codigo: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+	},
 
-    totalPriceNoIGV: {
-        type: Number,
-        trim: true,
-        required: true,
-    },
+	totalPrice: {
+		type: Number,
+		trim: true,
+		required: true,
+	},
 
-    estado: {
-        type: String,
-        trim: true,
-        required: true,
-    },
+	totalPriceNoIGV: {
+		type: Number,
+		trim: true,
+		required: true,
+	},
 
-    documento: {
-        type: DocumentoSchema,
-    },
+	estado: {
+		type: String,
+		trim: true,
+		required: true,
+	},
 
-    itemsVendidos: {
-        type: [ItemVendidoSchema],
-        required: true
-    },
+	documento: {
+		type: DocumentoSchema,
+	},
 
-    date:{
-        type: Date,
-        default: Date.now
-    },
+	itemsVendidos: {
+		type: [ItemVendidoSchema],
+		required: true,
+	},
 
-    vendedor: {
-        type: String,
-    },
+	date:{
+		type: Date,
+		default: Date.now,
+	},
 
-    tipoVendedor: {
-        type: String,
-        default: 'admin'
-    },
+	vendedor: {
+		type: String,
+	},
 
-    cliente_email: {
-        type: String,
-        trim: true
-    },
+	tipoVendedor: {
+		type: String,
+		default: 'admin',
+	},
 
-    celular_cliente: {
-        type: String,
-        trim: true
-    }
+	cliente_email: {
+		type: String,
+		trim: true,
+	},
+
+	celular_cliente: {
+		type: String,
+		trim: true,
+	},
 
 });
 

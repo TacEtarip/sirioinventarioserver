@@ -1,231 +1,236 @@
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 
 import { CantidadOrderSC } from './communModels';
 
 const RatingSchema = new Schema({
-    user: {
-        type: String,
-        trim: true,
-    },
+	user: {
+		type: String,
+		trim: true,
+	},
 
-    rating: {
-        type: Number,
-        default: 0
-    },
+	rating: {
+		type: Number,
+		default: 0,
+	},
 
-    date: {
-        type: Date,
-        default: Date.now
-    }
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 
 }, { _id : false });
 
 const OrderSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: true
-    },
+	name: {
+		type: String,
+		trim: true,
+		required: true,
+	},
 
-    nameSecond: {
-        type: String,
-        trim: true,
-    },
+	nameSecond: {
+		type: String,
+		trim: true,
+	},
 
-    cantidad: {
-        type: Number,
-        min: 0
-    }
+	cantidad: {
+		type: Number,
+		min: 0,
+	},
 
 }, { _id : false });
 
 const SubCantidadSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: true
-    },
+	name: {
+		type: String,
+		trim: true,
+		required: true,
+	},
 
-    nameSecond: {
-        type: String,
-        trim: true,
-    },
+	nameSecond: {
+		type: String,
+		trim: true,
+	},
 
-    order: {
-        type: [OrderSchema]
-    }
+	order: {
+		type: [OrderSchema],
+	},
 }, { _id : false });
 
 const VariacionSchema = new Schema ({
-    date:{
-        type: Date,
-        default: Date.now
-    },
-    cantidad: {
-        type: Number,
-        default: 0,
-        min: 0
-    },
-    tipo: {
-        type: Boolean,
-        default: false
-    },
-    comentario: {
-        type: String,
-        trim: true,
-    },
-    costoVar: {
-        type: Number,
-    },
-    cantidadSC: {
-        type: [CantidadOrderSC],
-        default: []
-    },
-    usuario: {
-        type: String,
-        default: 'desconocido'
-    }
+	date:{
+		type: Date,
+		default: Date.now,
+	},
+	cantidad: {
+		type: Number,
+		default: 0,
+		min: 0,
+	},
+	tipo: {
+		type: Boolean,
+		default: false,
+	},
+	comentario: {
+		type: String,
+		trim: true,
+	},
+	costoVar: {
+		type: Number,
+	},
+	cantidadSC: {
+		type: [CantidadOrderSC],
+		default: [],
+	},
+	usuario: {
+		type: String,
+		default: 'desconocido',
+	},
 }, { _id : false });
 
 
 const ItemSchema = new Schema ({
-    name:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
-    
-    nameLowerCase: {
-        type: String,
-        trim: true,
-        lowercase: true
-    },
+	name:{
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+	},
 
-    priceIGV: {
-        type: Number,
-        required: true,
-    },
+	nameLowerCase: {
+		type: String,
+		trim: true,
+		lowercase: true,
+	},
 
-    priceNoIGV: {
-        type: Number
-    },
+	priceIGV: {
+		type: Number,
+		required: true,
+	},
 
-    cantidad: {
-        type: Number,
-        default: 0,
-        min: 0
-    },
+	priceNoIGV: {
+		type: Number,
+	},
 
-    subConteo: {
-        type: SubCantidadSchema
-    },
-    
-    variaciones: {
-        type: [VariacionSchema]
-    },
+	cantidad: {
+		type: Number,
+		default: 0,
+		min: 0,
+	},
 
-    codigo: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
+	subConteo: {
+		type: SubCantidadSchema,
+	},
 
-    tipo: {
-        type: String,
-        required: true,
-        trim: true,
-    },
+	variaciones: {
+		type: [VariacionSchema],
+	},
 
-    subTipo: {
-        type: String,
-        default: 'noone',
-        trim: true,
-    },
+	codigo: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+	},
 
-    unidadDeMedida:{
-        type: String,
-        default: 'UND',
-        trim: true
-    },
+	tipo: {
+		type: String,
+		required: true,
+		trim: true,
+	},
 
-    oferta:{
-        type: Number,
-        default: 0,
-    },
+	subTipo: {
+		type: String,
+		default: 'noone',
+		trim: true,
+	},
 
-    date:{
-        type: Date,
-        default: Date.now
+	unidadDeMedida:{
+		type: String,
+		default: 'UND',
+		trim: true,
+	},
 
-    },
+	oferta:{
+		type: Number,
+		default: 0,
+	},
 
-    description:{
-        type: String,
-        trim: true,
-    },
+	date:{
+		type: Date,
+		default: Date.now,
 
-    photo: {
-        type: String,
-        trim: true,
-        default: 'noPhoto.jpg',
-    },
+	},
 
-    ficha: {
-        type: Boolean,
-        default: false
-    },
+	description:{
+		type: String,
+		trim: true,
+	},
 
-    marca: {
-        type: String,
-        default: 'noone'
-    },
+	photo: {
+		type: String,
+		trim: true,
+		default: 'noPhoto.jpg',
+	},
 
-    costoPropio: {
-        type: Number
-    },
+	ficha: {
+		type: Boolean,
+		default: false,
+	},
 
-    multiSearchParams: {
-        type: String,
-        trim: true,
-    },
+	marca: {
+		type: String,
+		default: 'noone',
+	},
 
-    deleted: {
-        type: Boolean,
-        default: false,
-    }, 
+	costoPropio: {
+		type: Number,
+	},
 
-    tags: {
-        type: [String],
-        default: []
-    },
+	multiSearchParams: {
+		type: String,
+		trim: true,
+	},
 
-    caracteristicas: {
-        type: [String],
-        default: []
-    },
+	deleted: {
+		type: Boolean,
+		default: false,
+	},
 
-    orderNumber: {
-        type: Number,
-        default: -1
-    },
+	tags: {
+		type: [String],
+		default: [],
+	},
 
-    reviews: {
-        type: [RatingSchema],
-        default: []
-    }
+	caracteristicas: {
+		type: [String],
+		default: [],
+	},
+
+	orderNumber: {
+		type: Number,
+		default: -1,
+	},
+
+	reviews: {
+		type: [RatingSchema],
+		default: [],
+	},
+
+	googleCategory: {
+		type: String,
+		default: '2047',
+	},
 
 });
 
 ItemSchema.index({
-            nameLowerCase: 'text', 
-            tipo: 'text', 
-            subTipo: 'text', 
-            marca: 'text',
-            description: 'text',
-            tags: 'text'
-            });
+	nameLowerCase: 'text',
+	tipo: 'text',
+	subTipo: 'text',
+	marca: 'text',
+	description: 'text',
+	tags: 'text',
+});
 
 export default ItemSchema;
 

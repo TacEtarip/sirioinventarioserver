@@ -1,12 +1,13 @@
-import {Router} from 'express';
-import {generarVenta, getDNI, getRUC, getLastTenVentas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes, getGananciaTotalPorItem,
-        getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime, getGananciaIngresoPorItem,
-        eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes, getVentasEjecutadasTest} from '../controllers/ventaController';
-import {ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva, 
-    agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
-    ventaAnular, ventaAnularPost, addLinkToPDF, actualizarItems, filtrarTopFive, setItemReview} from '../controllers/itemController';
-import {allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva, 
-    tieneVentaActiva, adminLoginRequired, getVentasActivasList, transaccionalLoginRequired } from '../controllers/usersController';
+import { Router } from 'express';
+import { generarVenta, getDNI, getRUC, getLastTenVentas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes, getGananciaTotalPorItem,
+	getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime, getGananciaIngresoPorItem,
+	eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes } from '../controllers/ventaController';
+import { ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva,
+	agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
+	ventaAnular, ventaAnularPost, addLinkToPDF, filtrarTopFive } from '../controllers/itemController';
+
+import { allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva,
+	tieneVentaActiva, getVentasActivasList, transaccionalLoginRequired } from '../controllers/usersController';
 
 import { generarComprobante, generarGuia } from '../controllers/nubeFactController';
 
@@ -29,45 +30,44 @@ routes.get('/getItemsGanancias', normalLoginRequired, getGananciasTodoItem, filt
 
 routes.get('/getInfoToPlotVentasOverTime', normalLoginRequired, getInfoToPlotVentasPrecioOverTime);
 
-routes.post('/generarVenta', transaccionalLoginRequired , generarVenta);
+routes.post('/generarVenta', transaccionalLoginRequired, generarVenta);
 
-routes.put('/eliminarItemVenta', transaccionalLoginRequired , eliminarItemVenta);
+routes.put('/eliminarItemVenta', transaccionalLoginRequired, eliminarItemVenta);
 
-routes.put('/eliminarItemSCVenta', transaccionalLoginRequired , eliminarItemScVenta);
+routes.put('/eliminarItemSCVenta', transaccionalLoginRequired, eliminarItemScVenta);
 
-routes.put('/anularVentaPost', transaccionalLoginRequired , ventaAnularPost);
- 
+routes.put('/anularVentaPost', transaccionalLoginRequired, ventaAnularPost);
+
 routes.get('/dni/:dni', allLoginRequired, getDNI);
 
 routes.post('/createExcelReport', normalLoginRequired, createExcel);
 
-
 routes.post('/getEjecutadas', normalLoginRequired, getVentasEjecutadas);
 
-routes.post('/getCantidadVentas', normalLoginRequired , getCantidadDeVentasPorEstado);
+routes.post('/getCantidadVentas', normalLoginRequired, getCantidadDeVentasPorEstado);
 
-routes.get('/testTotal', normalLoginRequired , getCantidadTotal);
+routes.get('/testTotal', normalLoginRequired, getCantidadTotal);
 
 routes.get('/ruc/:ruc', allLoginRequired, getRUC);
 
-routes.get('/obtenerVenta/:ventaCod', normalLoginRequired , getVenta);
- 
-routes.post('/ventaSimple', transaccionalLoginRequired , ventaSimpleItemUpdate, generarGuia, generarComprobante, addLinkToPDF);
+routes.get('/obtenerVenta/:ventaCod', normalLoginRequired, getVenta);
 
-routes.post('/agregarVenta', transaccionalLoginRequired , tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
+routes.post('/ventaSimple', transaccionalLoginRequired, ventaSimpleItemUpdate, generarGuia, generarComprobante, addLinkToPDF);
 
-routes.get('/ventasPendientes', normalLoginRequired , getVentaActiva, getVentaUser);
+routes.post('/agregarVenta', transaccionalLoginRequired, tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
 
-routes.get('/ventasActivasFull', normalLoginRequired , getVentasListLoggedUser);
+routes.get('/ventasPendientes', normalLoginRequired, getVentaActiva, getVentaUser);
+
+routes.get('/ventasActivasFull', normalLoginRequired, getVentasListLoggedUser);
 
 routes.get('/ventasActivasList', normalLoginRequired, getVentasActivasList);
 
-routes.post('/agregarItemVenta', transaccionalLoginRequired , agregarItemVenta);
+routes.post('/agregarItemVenta', transaccionalLoginRequired, agregarItemVenta);
 
-routes.post('/ventasForCard', normalLoginRequired , getVentasActivasParaCard);
+routes.post('/ventasForCard', normalLoginRequired, getVentasActivasParaCard);
 
-routes.post('/ejecutarVenta', transaccionalLoginRequired , ventaEjecutar, generarGuia, generarComprobante, addLinkToPDF);
+routes.post('/ejecutarVenta', transaccionalLoginRequired, ventaEjecutar, generarGuia, generarComprobante, addLinkToPDF);
 
 routes.put('/anularVenta', transaccionalLoginRequired, ventaAnular);
 
-export default routes; 
+export default routes;

@@ -1,16 +1,16 @@
-import {Router} from 'express';
-import {addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem, getTableInfItem,
-        updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex,
-        changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica, getItemsLowStock, getItemsNoStock,
-         getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems, getGICofItem, ventasDeItemPorMesGrafico,
-        addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, gananciasPosiblesConItemMayor,
-        testFind, getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
-        convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
-        getTopFiveIngresosGananciasGastos, addItemReview } from '../controllers/itemController';
+import { Router } from 'express';
+import { addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem, getTableInfItem,
+	updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex,
+	changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica, getItemsLowStock, getItemsNoStock,
+	getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems, getGICofItem, ventasDeItemPorMesGrafico,
+	addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, gananciasPosiblesConItemMayor,
+	getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
+	convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
+	getTopFiveIngresosGananciasGastos, addItemReview } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, getSiteMapLinks,
-        reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac, createSiteMap } from '../controllers/tipoController';
-import {  uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
-import {normalLoginRequired, adminLoginRequired, transaccionalLoginRequired, allLoginRequired} from '../controllers/usersController';
+	reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
+import { uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
+import { normalLoginRequired, adminLoginRequired, transaccionalLoginRequired, allLoginRequired } from '../controllers/usersController';
 
 const routes = new Router();
 
@@ -21,6 +21,8 @@ const routes = new Router();
 // routes.get('/testFindTipo', testFintTipo);
 
 // routes.get('/testAgre', gananciasPosiblesConItemMayor);
+
+// routes.get('/addGoogleCategoria', addCategoryToALL);
 
 routes.post('/addItemReview', allLoginRequired, addItemReview);
 
@@ -62,7 +64,7 @@ routes.post('/addTag', transaccionalLoginRequired, addTag);
 
 routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
 
-routes.get('/getItemsMasVendido', normalLoginRequired,getItemsMasVendido);
+routes.get('/getItemsMasVendido', normalLoginRequired, getItemsMasVendido);
 
 routes.get('/getGananciasTotalesSNS', normalLoginRequired, getGananciasTotalesSNS);
 
@@ -70,7 +72,7 @@ routes.get('/gananciasInvercionTotal', normalLoginRequired, optenerGastosGananci
 
 routes.get('/getPeorMejorItem', normalLoginRequired, getPeorMejorItem);
 
-routes.get('/getVariacionPosnegAll', normalLoginRequired,  optenerVariacionPosneg);
+routes.get('/getVariacionPosnegAll', normalLoginRequired, optenerVariacionPosneg);
 
 routes.get('/ventasPotenciales', normalLoginRequired, optenerVentasPotenciales);
 
@@ -142,7 +144,7 @@ routes.get('/marcas/getAll', getMarcas);
 
 routes.delete('/marcas/delete/:deleteString', transaccionalLoginRequired, deleteMarcas);
 
-routes.post('/marcas/add', transaccionalLoginRequired,addMarca);
+routes.post('/marcas/add', transaccionalLoginRequired, addMarca);
 
 routes.put('/uptateSupTipos', transaccionalLoginRequired, updateSubTipoTransac);
 
@@ -159,7 +161,7 @@ routes.post('/uploads/ficha/:codigo', transaccionalLoginRequired, uploadPDF.sing
 // routes.get('/getRandomImageOfTipo/:tipo/:subTipo', getRandomImageOfTipo);
 
 routes.get('/image/:imgName', getImage);
+
 routes.get('/pdf/:pdfName', getPDF);
 
-  
-export default routes; 
+export default routes;
