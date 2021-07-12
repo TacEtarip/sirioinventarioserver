@@ -141,7 +141,7 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 
 	const codigoDoc =
 	ventResult.documento.codigo.toString().length === 7 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
-	console.log(codigoDOC);
+	console.log(codigoDoc);
 	const newBoleta =
         new NFB(2, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
