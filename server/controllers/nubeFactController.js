@@ -44,7 +44,9 @@ export const generarGuia = (req, res, next) => {
 	else if (req.ventResult.documento.type === 'boleta') {
 		temporalJSON.cliente_tipo_de_documento = 1;
 	}
-	temporalJSON.cliente_numero_de_documento = req.ventResult.documento.codigo;
+	const codigoDoc =
+	req.ventResult.documento.codigo.length === 7 ? '0' + req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
+	temporalJSON.cliente_numero_de_documento = codigoDoc;
 	temporalJSON.cliente_denominacion = req.ventResult.documento.name;
 	temporalJSON.cliente_direccion = req.ventResult.documento.direccion || '';
 	temporalJSON.fecha_de_emision = getNowDate();
@@ -136,8 +138,10 @@ const formatearMetodoPago = (ventResult) => {
 
 const generarBoleta = (ventResult, countF, sunat_guia) => {
 
+	const codigoDoc =
+	req.ventResult.documento.codigo.length === 7 ? '0' + req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
 	const newBoleta =
-        new NFB(2, 1 + countF, ventResult.documento.codigo, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
+        new NFB(2, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
 		ventResult.totalPrice - ventResult.totalPriceNoIGV,
 		ventResult.totalPrice);
@@ -169,8 +173,12 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 };
 
 const generarFactura = (ventResult, countF, sunat_guia) => {
+
+	const codigoDoc =
+	req.ventResult.documento.codigo.length === 7 ? '0' + req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
+
 	const newBoleta =
-        new NFB(1, 1 + countF, ventResult.documento.codigo, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
+        new NFB(1, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 
 	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
 		ventResult.totalPrice - ventResult.totalPriceNoIGV,

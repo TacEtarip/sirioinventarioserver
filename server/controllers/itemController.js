@@ -1790,3 +1790,13 @@ export const addCategoryToALL = async (req, res) => {
 		return res.status(500).json({ errorMSG: error });
 	}
 };
+
+export const addItemToCarrito = async (req, res) => {
+	try {
+		const result = await Item.updateMany({}, { $set: { googleCategory: '2047' } });
+		return res.json(result);
+	}
+	catch (error) {
+		return res.status(500).json({ errorMSG: error });
+	}
+};

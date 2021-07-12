@@ -81,6 +81,11 @@ export const UserSchema = new Schema({
 		type: [String],
 		default: [],
 	},
+
+	carrito: {
+		type: String,
+		default: 'not',
+	},
 });
 
 UserSchema.methods.comparePassword = async (password, hashPassword) => {
