@@ -45,7 +45,7 @@ export const generarGuia = (req, res, next) => {
 		temporalJSON.cliente_tipo_de_documento = 1;
 	}
 	const codigoDoc =
-	(req.ventResult.documento.toString().length === 7 || req.ventResult.documento.toString().length === 10) ? '0' +
+	(req.ventResult.documento.codigo.toString().length === 7 || req.ventResult.documento.codigo.toString().length === 10) ? '0' +
 	req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
 	temporalJSON.cliente_numero_de_documento = codigoDoc;
 	temporalJSON.cliente_denominacion = req.ventResult.documento.name;
@@ -141,7 +141,7 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 
 	const codigoDoc =
 	ventResult.documento.codigo.toString().length === 7 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
-	console.log(codigoDoc);
+
 	const newBoleta =
         new NFB(2, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
@@ -177,7 +177,7 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 const generarFactura = (ventResult, countF, sunat_guia) => {
 
 	const codigoDoc =
-	ventResult.documento.toString().length === 10 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
+	ventResult.documento.codigo.toString().length === 10 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
 
 	const newBoleta =
         new NFB(1, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
