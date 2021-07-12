@@ -139,7 +139,7 @@ const formatearMetodoPago = (ventResult) => {
 const generarBoleta = (ventResult, countF, sunat_guia) => {
 
 	const codigoDoc =
-	req.ventResult.documento.codigo.length === 7 ? '0' + req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
+	ventResult.documento.codigo.length === 7 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
 	const newBoleta =
         new NFB(2, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
@@ -175,7 +175,7 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 const generarFactura = (ventResult, countF, sunat_guia) => {
 
 	const codigoDoc =
-	req.ventResult.documento.codigo.length === 7 ? '0' + req.ventResult.documento.codigo.toString() : req.ventResult.documento.codigo;
+	ventResult.documento.codigo.length === 7 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
 
 	const newBoleta =
         new NFB(1, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
