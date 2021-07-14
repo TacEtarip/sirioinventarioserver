@@ -8,7 +8,7 @@ import { sendConfirmationEmail, sendTestEmail } from '../controllers/emailContro
 
 const routes = new Router();
 
-routes.get('/testEmail', sendTestEmail);
+// routes.get('/testEmail', sendTestEmail);
 
 routes.use(ps.initialize());
 

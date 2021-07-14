@@ -218,6 +218,15 @@ export const adminLoginRequired = (req, res, next) => {
 	}
 };
 
+export const lowLoginRequired = (req, res, next) => {
+	if(req.user && req.user.aud.split(' ')[1] === 'low') {
+		next();
+	}
+	else{
+		return res.status(401).json({ message: 'Usuario No Autorizado' });
+	}
+};
+
 export const normalLoginRequired = (req, res, next) => {
 	if(req.user && (req.user.aud.split(' ')[1] === 'vent' || req.user.aud.split(' ')[1] === 'admin' || req.user.aud.split(' ')[1] === 'contador')) {
 		next();

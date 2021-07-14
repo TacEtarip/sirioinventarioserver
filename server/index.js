@@ -11,6 +11,8 @@ import authRoutes from './routes/authRoutes';
 import ventasRoutes from './routes/ventaRoutes';
 import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
+import carritoRoutes from './routes/carritoRoutes';
+
 import cookieParser from 'cookie-parser';
 
 import config from '../config/index';
@@ -56,6 +58,7 @@ app.use((req, res, next) => {
 
 
 app.use('/inventario', inventarioRoutes);
+app.use('/carrito', carritoRoutes);
 app.use('/auth', authRoutes);
 app.use('/ventas', ventasRoutes);
 app.use('/email', emailrouter);
