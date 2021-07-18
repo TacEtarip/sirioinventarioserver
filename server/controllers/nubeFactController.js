@@ -139,8 +139,16 @@ const formatearMetodoPago = (ventResult) => {
 
 const generarBoleta = (ventResult, countF, sunat_guia) => {
 
+	let zeroOffset = '';
+
+	if (ventResult.documento.codigo.toString().length < 8) {
+		for (let index = 0; index < (8 - ventResult.documento.codigo.toString().length); index++) {
+			zeroOffset += '0';
+		}
+	}
+
 	const codigoDoc =
-	ventResult.documento.codigo.toString().length === 7 ? '0' + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
+	ventResult.documento.codigo.toString().length < 8 ? zeroOffset + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
 
 	const newBoleta =
         new NFB(2, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));

@@ -7,7 +7,7 @@ import { ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva,
 	ventaAnular, ventaAnularPost, addLinkToPDF, filtrarTopFive } from '../controllers/itemController';
 
 import { allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva,
-	tieneVentaActiva, getVentasActivasList, transaccionalLoginRequired } from '../controllers/usersController';
+	tieneVentaActiva, getVentasActivasList, transaccionalLoginRequired, lowLoginRequired } from '../controllers/usersController';
 
 import { generarComprobante, generarGuia } from '../controllers/nubeFactController';
 

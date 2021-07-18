@@ -509,9 +509,20 @@ export const addLinkToPDF = async (req, res) => {
 	}
 };
 
+export const codigoTest = async (req, res) => {
+	try {
+		const count = await Venta.countDocuments({ tipoVendedor:  { $in: ['admin', 'vent'] } }) + 1;
+		const countTwo = await Venta.countDocuments({ }) + 1;
+		res.json({ c: count, ct: countTwo });
+	}
+	catch (error) {
+		return res.status(500).json({ errorMSG: error });
+	}
+};
+
 const generarCodigoVent = async (tipo) => {
 	try {
-		const count = await Venta.countDocuments({}) + 1;
+		const count = await Venta.countDocuments({ }) + 1;
 		let preCod = 'SD01-000000';
 		switch (tipo) {
 		case 'factura':

@@ -92,6 +92,11 @@ const VentaSchema = new Schema ({
 		type: String,
 	},
 
+	carrito_venta: {
+		type: Boolean,
+		default: false,
+	},
+
 });
 
 export default VentaSchema;
