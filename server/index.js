@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 			{ audience: auth.split(' ')[2] + ' ' + auth.split(' ')[3] }, (err, decode) => {
 				if (err) {
 					req.user = undefined;
+					return res.status(401).json({ message: 'Usuario No Autorizado' });
 				}
 				else {
 					req.user = decode;

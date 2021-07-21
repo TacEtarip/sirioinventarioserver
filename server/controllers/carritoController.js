@@ -311,7 +311,6 @@ export const getCarrito = async (req, res) => {
 			{ $replaceRoot: { newRoot: '$itemsVendidos' } },
 			{ $unwind: { path: '$cantidadSC', preserveNullAndEmptyArrays: true } },
 		]);
-		console.log(carrito);
 		res.json(carrito);
 	}
 	catch (error) {
