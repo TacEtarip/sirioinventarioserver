@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendTestEmail, sendConfirmationEmail } from '../controllers/emailController';
+import { sendTestEmail } from '../controllers/emailController';
 
 const emailrouter = express.Router();
 

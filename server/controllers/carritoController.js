@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import itemSchema from '../models/itemModel';
-import ventaModel from '../models/ventaModel';
 import { UserSchema } from '../models/userModel';
+import ventaModel from '../models/ventaModel';
 
 
 const Item = mongoose.model('Item', itemSchema);

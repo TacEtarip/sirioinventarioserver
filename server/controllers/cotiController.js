@@ -1,11 +1,10 @@
+import aws from 'aws-sdk';
 import mongoose from 'mongoose';
-
-import cotiModel from '../models/cotiModel';
-
+import config from '../../config/index';
 import { createExcelCoti } from '../lib/createExelCoti';
 import { createDocument } from '../lib/createPDFcoti';
-import config from '../../config/index';
-import aws from 'aws-sdk';
+import cotiModel from '../models/cotiModel';
+
 
 const Cotizacion = mongoose.model('Cotizacion', cotiModel);
 

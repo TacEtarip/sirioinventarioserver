@@ -1,10 +1,8 @@
 import { Router } from 'express';
+import { sendConfirmationEmail } from '../controllers/emailController';
 import {
-	allLoginRequired, register, login, loginGoogle, ps, userExits, emailExits, registerUserLow,
-	isValid, confirmarUsuario, loginUserToken, doTheLogin, googlePreRegistro,
-	getLoginInfoFromToken, getUserInfo, actulizarCelular, agregarDireccion,
-	agregarDocumento, confirmarContrasena, cambiarContrasena, registerUserLowGooglePreCheck } from '../controllers/usersController';
-import { sendConfirmationEmail, sendTestEmail } from '../controllers/emailController';
+	actulizarCelular, agregarDireccion,
+	agregarDocumento, allLoginRequired, cambiarContrasena, confirmarContrasena, confirmarUsuario, doTheLogin, emailExits, getLoginInfoFromToken, getUserInfo, googlePreRegistro, isValid, login, loginGoogle, loginUserToken, ps, register, registerUserLow, registerUserLowGooglePreCheck, userExits } from '../controllers/usersController';
 
 const routes = new Router();
 

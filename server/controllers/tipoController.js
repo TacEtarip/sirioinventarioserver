@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import tipoSchema from '../models/tipoModel';
 import itemSchema from '../models/itemModel';
+import tipoSchema from '../models/tipoModel';
 
 const Tipo = mongoose.model('Tipo', tipoSchema);
 

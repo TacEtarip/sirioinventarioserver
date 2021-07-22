@@ -1,9 +1,9 @@
+import { DateTime } from 'luxon';
+import fetch from 'node-fetch';
+import config from '../../config/index';
 import Item from '../lib/Item';
 import NFB from '../lib/NubeFactBuilder';
-import config from '../../config/index';
-import fetch from 'node-fetch';
 import jsonGuia from '../resources/guiaNbf.json';
-import { DateTime } from 'luxon';
 
 const logger = config[process.env.NODE_ENV].log();
 

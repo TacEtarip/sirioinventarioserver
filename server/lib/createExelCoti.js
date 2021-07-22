@@ -1,5 +1,4 @@
 import xl from 'excel4node';
-import path from 'path';
 
 
 export const createExcelCoti = async (wsName, excelHeader, arrayOfSubHeaders, coti, dataIMG, extra, image, bufferArrays = []) => {

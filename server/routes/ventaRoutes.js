@@ -1,15 +1,13 @@
 import { Router } from 'express';
-import { generarVenta, getDNI, getRUC, getLastTenVentas, getVenta, getVentasListLoggedUser, getVentasPorDiaMes, getGananciaTotalPorItem,
-	getCantidadDeVentasPorEstado, getVentasEjecutadas, eliminarItemVenta, getInfoToPlotVentasPrecioOverTime, getGananciaIngresoPorItem,
-	eliminarItemScVenta, createExcel, getVentaUser, getGananciasTodoItem, getMejoresClientes } from '../controllers/ventaController';
-import { ventaSimpleItemUpdate, getCantidadTotal, generarVentaNueva,
-	agregarItemVenta, getVentasActivasParaCard, ventaEjecutar,
-	ventaAnular, ventaAnularPost, addLinkToPDF, filtrarTopFive } from '../controllers/itemController';
-
-import { allLoginRequired, normalLoginRequired, agregarVentaUsuario, getVentaActiva,
-	tieneVentaActiva, getVentasActivasList, transaccionalLoginRequired, lowLoginRequired } from '../controllers/usersController';
-
+import { addLinkToPDF, agregarItemVenta, filtrarTopFive, generarVentaNueva, getCantidadTotal, getVentasActivasParaCard,
+	ventaAnular, ventaAnularPost, ventaEjecutar, ventaSimpleItemUpdate } from '../controllers/itemController';
 import { generarComprobante, generarGuia } from '../controllers/nubeFactController';
+import { agregarVentaUsuario, allLoginRequired, getVentaActiva, getVentasActivasList, normalLoginRequired, tieneVentaActiva,
+	transaccionalLoginRequired } from '../controllers/usersController';
+import { createExcel, eliminarItemScVenta, eliminarItemVenta, generarVenta, getCantidadDeVentasPorEstado, getDNI,
+	getGananciaIngresoPorItem, getGananciasTodoItem, getGananciaTotalPorItem, getInfoToPlotVentasPrecioOverTime, getLastTenVentas,
+	getMejoresClientes, getRUC, getVenta, getVentasEjecutadas, getVentasListLoggedUser, getVentasPorDiaMes, getVentaUser } from '../controllers/ventaController';
+
 
 const routes = new Router();
 

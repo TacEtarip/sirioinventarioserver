@@ -1,8 +1,7 @@
 import { Router } from 'express';
-
+import { addItemToCarrito, getCarrito } from '../controllers/carritoController';
 import { lowLoginRequired } from '../controllers/usersController';
 
-import { addItemToCarrito, getCarrito } from '../controllers/carritoController';
 
 const routes = new Router();
 

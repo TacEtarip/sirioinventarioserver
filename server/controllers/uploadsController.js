@@ -1,12 +1,11 @@
-import multer from 'multer';
-import multerS3 from 'multer-s3';
 import aws from 'aws-sdk';
-import tinyfy from 'tinify';
 import imagemin from 'imagemin';
 import webp from 'imagemin-webp';
-
-import { createDocumento } from '../lib/documentGenerator';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
+import tinyfy from 'tinify';
 import config from '../../config/index';
+import { createDocumento } from '../lib/documentGenerator';
 
 
 /* aws.config.update({

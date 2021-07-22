@@ -2,10 +2,10 @@ require('dotenv').config();
 
 import http from 'http';
 import throng from 'throng';
+import config from '../config/index';
+import app from '../server/index.js';
 import connectDB from '../server/lib/mongoConnection';
 
-import app from '../server/index.js';
-import config from '../config/index';
 
 const server = http.createServer(app);
 

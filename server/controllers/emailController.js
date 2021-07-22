@@ -1,9 +1,9 @@
-import nodemailer from 'nodemailer';
-import { promisify } from 'util';
 import { readFile } from 'fs';
+import nodemailer from 'nodemailer';
 import path from 'path';
-
+import { promisify } from 'util';
 import config from '../../config/index';
+
 
 const configEnv = config[process.env.NODE_ENV];
 const readFilePromise = promisify(readFile);

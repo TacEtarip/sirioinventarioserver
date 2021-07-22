@@ -1,21 +1,18 @@
-import path from 'path';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import compression from 'compression';
-import cors from 'cors';
-import tinyfy from 'tinify';
 import jwt from 'jsonwebtoken';
-
-import inventarioRoutes from './routes/inventarioRoutes';
+import path from 'path';
+import tinyfy from 'tinify';
+import config from '../config/index';
 import authRoutes from './routes/authRoutes';
-import ventasRoutes from './routes/ventaRoutes';
+import carritoRoutes from './routes/carritoRoutes';
 import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
-import carritoRoutes from './routes/carritoRoutes';
-
-import cookieParser from 'cookie-parser';
-
-import config from '../config/index';
+import inventarioRoutes from './routes/inventarioRoutes';
+import ventasRoutes from './routes/ventaRoutes';
 
 
 tinyfy.key = config[process.env.NODE_ENV].tinyKey;

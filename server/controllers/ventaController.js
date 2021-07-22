@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
-import ventaModel from '../models/ventaModel';
 import axios from 'axios';
+import mongoose from 'mongoose';
 import config from '../../config/index';
 import { createExcelReport } from '../lib/createExcelReport';
+import ventaModel from '../models/ventaModel';
 
 const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
