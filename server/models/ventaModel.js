@@ -97,6 +97,11 @@ const VentaSchema = new Schema ({
 		default: false,
 	},
 
+	estado_carrito_comprando: {
+		type: Boolean,
+		default: false,
+	},
+
 });
 
 export default VentaSchema;
