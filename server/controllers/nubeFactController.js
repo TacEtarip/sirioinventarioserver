@@ -184,49 +184,58 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
 
 const generarFactura = (ventResult, countF, sunat_guia) => {
 
-	let zeroOffset = '';
+	console.log(ventResult);
+	console.log(countF);
+	console.log(sunat_guia);
+	try {
+		let zeroOffset = '';
 
-	if (ventResult.documento.codigo.toString().length < 11) {
-		for (let index = 0; index < (11 - ventResult.documento.codigo.toString().length); index++) {
-			zeroOffset += '0';
+		if (ventResult.documento.codigo.toString().length < 11) {
+			for (let index = 0; index < (11 - ventResult.documento.codigo.toString().length); index++) {
+				zeroOffset += '0';
+			}
 		}
-	}
 
-	const codigoDoc =
+		const codigoDoc =
 	ventResult.documento.codigo.toString().length < 11 ? zeroOffset + ventResult.documento.codigo.toString() : ventResult.documento.codigo;
 
-	const newBoleta =
+		const newBoleta =
         new NFB(1, 1 + countF, codigoDoc, ventResult.documento.name, ventResult.codigo, formatearMetodoPago(ventResult));
 
-	newBoleta.addPrecios(ventResult.totalPriceNoIGV,
-		ventResult.totalPrice - ventResult.totalPriceNoIGV,
-		ventResult.totalPrice);
+		newBoleta.addPrecios(ventResult.totalPriceNoIGV,
+			ventResult.totalPrice - ventResult.totalPriceNoIGV,
+			ventResult.totalPrice);
 
-	if (ventResult.cliente_email) {
-		newBoleta.addEmail(ventResult.cliente_email);
-	}
+		if (ventResult.cliente_email) {
+			newBoleta.addEmail(ventResult.cliente_email);
+		}
 
-	ventResult.itemsVendidos.forEach(item => {
-		const newItem =
+		ventResult.itemsVendidos.forEach(item => {
+			const newItem =
         new Item('NIU', item.codigo, item.name + ' | ' + item.descripcion, item.cantidad,
         	item.priceNoIGV, item.priceIGV, item.totalPriceNoIGV,
         	item.totalPrice - item.totalPriceNoIGV, item.totalPrice);
-		if (item.unidadDeMedida === 'UND') {
-			newItem.unidad_de_medida = 'NIU';
+			if (item.unidadDeMedida === 'UND') {
+				newItem.unidad_de_medida = 'NIU';
+			}
+			else if(item.unidadDeMedida === 'PAR') {
+				newItem.unidad_de_medida = 'PR';
+			}
+			else if(item.unidadDeMedida === 'CAJA') {
+				newItem.unidad_de_medida = 'BX';
+			}
+			newBoleta.addItem(newItem.toJSON());
+		});
+		newBoleta.addDireccion(ventResult.documento.direccion);
+		if (ventResult.guia) {
+			newBoleta.addGuide({ guia_tipo: 1, guia_serie_numero: sunat_guia.serie.toString() + '-' + sunat_guia.numero });
 		}
-		else if(item.unidadDeMedida === 'PAR') {
-			newItem.unidad_de_medida = 'PR';
-		}
-		else if(item.unidadDeMedida === 'CAJA') {
-			newItem.unidad_de_medida = 'BX';
-		}
-		newBoleta.addItem(newItem.toJSON());
-	});
-	newBoleta.addDireccion(ventResult.documento.direccion);
-	if (ventResult.guia) {
-		newBoleta.addGuide({ guia_tipo: 1, guia_serie_numero: sunat_guia.serie.toString() + '-' + sunat_guia.numero });
+		return newBoleta.build().toJSON();
 	}
-	return newBoleta.build().toJSON();
+	catch (error) {
+		console.log(error);
+	}
+
 };
 
 export const generarComprobante = (req, res, next) => {
@@ -235,6 +244,7 @@ export const generarComprobante = (req, res, next) => {
 		jsonToSend = generarBoleta(req.ventResult, req.count, req.sunat_guia);
 	}
 	else if (req.ventResult.documento.type === 'factura') {
+		console.log('generando factura');
 		jsonToSend = generarFactura(req.ventResult, req.count, req.sunat_guia);
 	}
 	else {
