@@ -250,8 +250,10 @@ export const generarComprobante = (req, res, next) => {
 			req.sunat = json;
 			next();
 		})
-		.catch(err =>
-			res.status(err.status || 500).json({ message: `Succes||${req.ventResult.codigo}`, _sunat: null }));
+		.catch(err => {
+			console.log(err);
+			res.status(err.status || 500).json({ message: `Succes||${req.ventResult.codigo}`, _sunat: null });
+		});
 };
 
 export const secondTest = async (req, res) => {
