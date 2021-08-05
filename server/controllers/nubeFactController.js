@@ -251,6 +251,7 @@ export const generarComprobante = (req, res, next) => {
 			next();
 		})
 		.catch(err => {
+			console.log('here');
 			console.log(err);
 			res.status(err.status || 500).json({ message: `Succes||${req.ventResult.codigo}`, _sunat: null });
 		});

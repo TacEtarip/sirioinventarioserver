@@ -505,6 +505,7 @@ export const addLinkToPDF = async (req, res) => {
 		res.json({ item: result, message: `Succes||${req.ventResult.codigo}`, _sunat: req.sunat });
 	}
 	catch (error) {
+		console.log(error);
 		return res.status(500).json({ errorMSG: error });
 	}
 };
