@@ -9,7 +9,7 @@ const Venta = mongoose.model('Venta', ventaModel);
 const User = mongoose.model('User', UserSchema);
 
 const tipoDeAlertasGlobal = [{ cod: 0, mensaje: 'Item Eliminado' },
-{ cod: 1, mensaje: 'Cambio de precio' }, { cod: 2, mensaje: 'Cantidad agotada' }];
+	{ cod: 1, mensaje: 'Cambio de precio' }, { cod: 2, mensaje: 'Cantidad agotada' }];
 
 export const addItemToCarrito = async (req, res) => {
 	const session = await mongoose.startSession();
@@ -423,7 +423,6 @@ export const getCarrito = async (req, res) => {
 	catch (error) {
 		await session.abortTransaction();
 		session.endSession();
-		console.log(error);
 		return res.status(500).json({ errorMSG: error });
 	}
 };
@@ -464,7 +463,6 @@ export const removeProductoDeCarrito = async (req, res) => {
 
 	}
 	catch (error) {
-		console.log(error);
 		return res.status(500).json({ errorMSG: error });
 	}
 };
@@ -531,44 +529,56 @@ export const aptoParaVenta = async (req, res) => {
 		});
 
 		const itemsEnVenta = await Item.aggregate([
-			{ $match: { codigo: { $in: arraySearch } } },
+			{ $match: { codigo: { $in: searchArray } } },
 			{ $sort: { codigo: -1 } },
 		]);
 
+		const alertasLista = comprobarCarritoApto([], itemsEnVenta, req.body.carrito);
+
+		res.json(alertasLista);
 	}
 	catch (error) {
 		return res.status(500).json({ errorMSG: error });
 	}
 };
 
-const comprobarCarritoApto = (alerts = [], itemsEnVenta = [], carrito = [], index = 0, lastItemCod = '') => {
+const comprobarCarritoApto = (alerts = [], itemsEnVenta = [], carrito = [], index = 0, indexOfItems = 0) => {
 
-
-	if (itemsEnVenta[index].deleted) {
+	if (itemsEnVenta[indexOfItems].deleted) {
 		alerts.push({ ...tipoDeAlertasGlobal[0],
 			item_cod: itemsEnVenta[indexOfItems].codigo,
 			item_name: itemsEnVenta[indexOfItems].name });
 	}
 
-	if (itemsEnVenta[index].priceIGV !== carrito[index].priceIGV) {
+	if (itemsEnVenta[indexOfItems].priceIGV !== carrito[index].priceIGV) {
 		alerts.push({ ...tipoDeAlertasGlobal[1],
 			item_cod: itemsEnVenta[indexOfItems].codigo,
 			item_name: itemsEnVenta[indexOfItems].name });
 	}
 
 	if (carrito[index].cantidadSC) {
-		const itemSC = itemsEnVenta[index].subConteo.order
+		const itemSC = itemsEnVenta[indexOfItems].subConteo.order
 			.find(xi => xi.name === carrito[index].cantidadSC.name &&
 			xi.nameSecond === carrito[index].cantidadSC.nameSecond);
 		if ((itemSC.cantidad - carrito[index].cantidadSC.cantidad) < 0) {
 			alerts.push({ ...tipoDeAlertasGlobal[2],
 				item_cod: itemsEnVenta[indexOfItems].codigo,
-				item_name: itemsEnVenta[indexOfItems].name });
+				item_name: itemsEnVenta[indexOfItems].name + ' | ' +
+				 itemSC.carrito[index].cantidadSC.name + ' ' + itemSC.carrito[index].cantidadSC.nameSecond });
 		}
 	}
-	else if ((iitemsEnVenta[index].cantidad - carrito[index].cantidad) < 0) {
+	else if ((itemsEnVenta[indexOfItems].cantidad - carrito[index].cantidad) < 0) {
 		alerts.push({ ...tipoDeAlertasGlobal[2],
 			item_cod: itemsEnVenta[indexOfItems].codigo,
 			item_name: itemsEnVenta[indexOfItems].name });
 	}
+
+	if (carrito[index].codigo !== (carrito[index + 1] ? carrito[index + 1].codigo : 'xxxxx')) {
+		indexOfItems++;
+	}
+	if ((index + 1) === carrito.length) {
+		return alerts;
+	}
+	index++;
+	return comprobarCarritoApto(alerts, itemsEnVenta, carrito, index, indexOfItems);
 };

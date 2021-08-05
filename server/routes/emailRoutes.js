@@ -1,8 +1,10 @@
 import express from 'express';
-import { sendTestEmail } from '../controllers/emailController';
+import { sendTestEmail, sendMensajeEmail } from '../controllers/emailController';
 
 const emailrouter = express.Router();
 
-emailrouter.get('/testSend', sendTestEmail);
+// emailrouter.get('/testSend', sendTestEmail);
+
+emailrouter.post('/enviarMensaje', sendMensajeEmail);
 
 export default emailrouter;

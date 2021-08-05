@@ -304,6 +304,17 @@ export const getUserInfo = async (req, res) => {
 	}
 };
 
+export const getOwnUser = async (req, res) => {
+	try {
+		const result = await User.findOne({ username: req.user.aud.split(' ')[0] });
+		result.hashPassword = undefined;
+		res.json(result);
+	}
+	catch (error) {
+		return res.status(500).json({ message: 'Ocurrio un error inesperado. Intentelo denuevo' });
+	}
+};
+
 export const actulizarCelular = async (req, res) => {
 	try {
 		const result =

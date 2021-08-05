@@ -2,7 +2,10 @@ import { Router } from 'express';
 import { sendConfirmationEmail } from '../controllers/emailController';
 import {
 	actulizarCelular, agregarDireccion,
-	agregarDocumento, allLoginRequired, cambiarContrasena, confirmarContrasena, confirmarUsuario, doTheLogin, emailExits, getLoginInfoFromToken, getUserInfo, googlePreRegistro, isValid, login, loginGoogle, loginUserToken, ps, register, registerUserLow, registerUserLowGooglePreCheck, userExits } from '../controllers/usersController';
+	agregarDocumento, allLoginRequired, cambiarContrasena, confirmarContrasena,
+	confirmarUsuario, doTheLogin, emailExits, getLoginInfoFromToken, getOwnUser, getUserInfo,
+	googlePreRegistro, isValid, login, loginGoogle, loginUserToken, ps, register, registerUserLow,
+	registerUserLowGooglePreCheck, userExits } from '../controllers/usersController';
 
 const routes = new Router();
 
@@ -47,5 +50,7 @@ routes.post('/loginGoogleRegistro', registerUserLowGooglePreCheck);
 routes.post('/getLoginInfoFromToken', getLoginInfoFromToken);
 
 routes.get('/getUserInfo/:username', allLoginRequired, getUserInfo);
+
+routes.get('/getOwnUser', allLoginRequired, getOwnUser);
 
 export default routes;

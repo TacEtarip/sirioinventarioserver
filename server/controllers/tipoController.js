@@ -17,6 +17,13 @@ export const getSiteMapLinks = async (req, res) => {
 
 		const siteMapsArray = [
 			{ url: 'store/main', priority: 1, changefreq: 'monthly' },
+			{ url: 'servicio-al-cliente/contactanos', priority: 0.8, changefreq: 'monthly' },
+			{ url: 'carrito', priority: 0.7, changefreq: 'monthly' },
+			{ url: 'servicio-al-cliente/terminos-y-condiciones', priority: 0.3, changefreq: 'monthly' },
+			{ url: 'servicio-al-cliente/politica-de-privacidad', priority: 0.3, changefreq: 'monthly' },
+			{ url: 'servicio-al-cliente/politica-de-devolucion', priority: 0.3, changefreq: 'monthly' },
+			{ url: 'servicio-al-cliente/politica-de-envio', priority: 0.3, changefreq: 'monthly' },
+
 			{ url: '/', priority: 1, changefreq: 'monthly' },
 			{ url: 'store/categorias', priority: 0.9, changefreq: 'weekly' },
 		];

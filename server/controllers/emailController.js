@@ -30,10 +30,32 @@ export const sendTestEmail = async (req, res) => {
 		res.json({ emailresult: 'send' });
 	}
 	catch (error) {
-		console.log(error);
 		return res.status(500 || error.status).json({ errorMSG: error });
 	}
 
+};
+
+export const sendMensajeEmail = async (req, res) => {
+	try {
+		const html = await readFilePromise(path.resolve('server/lib/emailContacto.html'), { encoding: 'utf8' });
+		const htmlReplaced = html.replace('#replaceWithLinkOne',
+			`Mensaje de ${req.body.nombre} ${req.body.apellido}, su correo es: ${req.body.email}`);
+
+		const htmlReplacedSecondPhase = htmlReplaced.replace('#replaceWithLinkTwo',
+			req.body.mensaje);
+
+		await mailTransporter.sendMail({
+			from: 'siriodinar-no-replay@siriodinar.com',
+			to: configEnv.BUSER,
+			subject: 'Mensaje Contacto',
+			html: htmlReplacedSecondPhase,
+		});
+
+		res.json({ enviado: true });
+	}
+	catch (error) {
+		return res.status(500 || error.status).json({ errorMSG: error });
+	}
 };
 
 export const sendConfirmationEmail = async (req, res) => {
