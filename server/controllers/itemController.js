@@ -248,6 +248,14 @@ export const ventaAnularPost = async (req, res) => {
 	const session = await mongoose.startSession();
 	session.startTransaction();
 	try {
+
+		const ventaAct = await Venta.findOne({ codigo: req.body.codigo });
+
+		if (ventaAct.estado === 'anuladaPost') {
+			await session.abortTransaction();
+			session.endSession();
+			return res.status(409).json({ errorMSG: 'Ya anulada' });
+		}
 		const variaciones = [];
 		const itemsVendidosCod = [];
 
@@ -301,7 +309,7 @@ export const ventaAnularPost = async (req, res) => {
 		await session.commitTransaction();
 		session.endSession();
 
-		res.json({ message: `succes||${venta.codigo}` });
+		return res.json({ message: `succes||${venta.codigo}` });
 
 	}
 	catch (error) {
@@ -394,6 +402,13 @@ export const ventaEjecutar = async (req, res, next) => {
 		const variaciones = [];
 		const itemsVendidosCod = [];
 
+		const ventaPre = await Venta.findOne({ codigo: req.body.venta.codigo });
+
+		if (ventaPre.estado === 'ejecutada') {
+			await session.abortTransaction();
+			session.endSession();
+			return res.status(409).json({ errorMSG: 'La venta ya ha sido ejecutada.' });
+		}
 
 		for (const item of req.body.venta.itemsVendidos) {
 			if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
