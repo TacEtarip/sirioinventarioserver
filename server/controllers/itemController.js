@@ -458,10 +458,9 @@ export const ventaEjecutar = async (req, res, next) => {
 			}
 		}
 
-		console.log(req.body);
 
 		const venta = await Venta.findOneAndUpdate({ codigo: req.body.venta.codigo },
-			{ estado: 'ejecutada', documento: req.body.documento },
+			{ estado: 'ejecutada', documento: req.body.venta.documento },
 			{ useFindAndModify: false, new: true, session });
 
 		req.ventResult = venta;
@@ -490,7 +489,6 @@ export const ventaEjecutar = async (req, res, next) => {
 
 	}
 	catch (error) {
-		console.log(error);
 		await session.abortTransaction();
 		session.endSession();
 		return res.status(500).json({ errorMSG: error });
@@ -522,7 +520,6 @@ export const addLinkToPDF = async (req, res) => {
 		res.json({ item: result, message: `Succes||${req.ventResult.codigo}`, _sunat: req.sunat });
 	}
 	catch (error) {
-		console.log(error);
 		return res.status(500).json({ errorMSG: error });
 	}
 };
