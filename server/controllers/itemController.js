@@ -410,22 +410,21 @@ export const ventaEjecutar = async (req, res, next) => {
 			return res.status(409).json({ errorMSG: 'La venta ya ha sido ejecutada.' });
 		}
 
-		for (const item of req.body.venta.itemsVendidos) {
+		for (const item of ventaPre.itemsVendidos) {
 			if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
 				itemsVendidosCod.push(item.codigo);
 				variaciones.push({
 					date: Date.now(), cantidad: item.cantidad,
-					tipo: false, comentario: 'venta|' + req.body.venta.codigo,
+					tipo: false, comentario: 'venta|' + ventaPre.codigo,
 					costoVar: item.totalPrice, usuario: req.user.aud.split(' ')[0],
 					cantidadSC: item.cantidadSC,
 				});
 			}
-
 		}
 
 		let index = 0;
 
-		for (const item of req.body.venta.itemsVendidos) {
+		for (const item of ventaPre.itemsVendidos) {
 			if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
 				for (const csc of item.cantidadSC) {
 					if (csc.cantidadVenta > 0) {
@@ -460,7 +459,7 @@ export const ventaEjecutar = async (req, res, next) => {
 		}
 
 		const venta = await Venta.findOneAndUpdate({ codigo: req.body.venta.codigo },
-			req.body.venta,
+			{ estado: 'ejecutada' },
 			{ useFindAndModify: false, new: true, session });
 
 		req.ventResult = venta;
