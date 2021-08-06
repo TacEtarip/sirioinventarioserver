@@ -73,16 +73,17 @@ export const eliminarItemScVenta = async (req, res) => {
 export const eliminarItemVenta = async (req, res) => {
 	try {
 		const preSearch = await Venta.findOne({ codigo: req.body.codigo });
+		const indexEx = preSearch.itemsVendidos.findIndex(x => x.codigo === req.body.itemCodigo);
+		if (indexEx === -1) {
+			return res.status(409).json({ errorMSG: 'El item ya a sido eliminado' });
+		}
 		const newTotalPrice = (Math.round(((preSearch.totalPrice - req.body.totalItemPrice) + Number.EPSILON) * 100) / 100);
 		const newTotalPriceNoIGV = getNoIGV_Price(newTotalPrice);
 		const result = await Venta.findOneAndUpdate({ codigo: req.body.codigo },
 			{ $pull: { itemsVendidos: { codigo: req.body.itemCodigo } },
 				$set: { totalPrice: newTotalPrice, totalPriceNoIGV: newTotalPriceNoIGV } },
 			{ new: true, useFindAndModify: false });
-
-
-		res.json(result);
-
+		return res.json(result);
 	}
 	catch (error) {
 		return res.status(500).json({ errorMSG: error });
