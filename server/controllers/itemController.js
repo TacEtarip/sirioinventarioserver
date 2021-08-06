@@ -458,6 +458,8 @@ export const ventaEjecutar = async (req, res, next) => {
 			}
 		}
 
+		console.log(req.body);
+
 		const venta = await Venta.findOneAndUpdate({ codigo: req.body.venta.codigo },
 			{ estado: 'ejecutada', documento: req.body.documento },
 			{ useFindAndModify: false, new: true, session });
@@ -488,6 +490,7 @@ export const ventaEjecutar = async (req, res, next) => {
 
 	}
 	catch (error) {
+		console.log(error);
 		await session.abortTransaction();
 		session.endSession();
 		return res.status(500).json({ errorMSG: error });
