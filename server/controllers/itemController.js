@@ -460,7 +460,8 @@ export const ventaEjecutar = async (req, res, next) => {
 
 
 		const venta = await Venta.findOneAndUpdate({ codigo: req.body.venta.codigo },
-			{ estado: 'ejecutada', documento: req.body.venta.documento },
+			{ estado: 'ejecutada', documento: req.body.venta.documento, guia: req.body.venta.guia,
+				cliente_email: req.body.venta.cliente_email, medio_de_pago: req.body.venta.medio_de_pago },
 			{ useFindAndModify: false, new: true, session });
 
 		req.ventResult = venta;
