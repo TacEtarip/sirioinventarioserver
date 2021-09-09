@@ -12,19 +12,71 @@ import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPho
 import { uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import { normalLoginRequired, adminLoginRequired, transaccionalLoginRequired, allLoginRequired } from '../controllers/usersController';
 
+
 const routes = new Router();
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: object
+ *       required:
+ *         - name
+ *         - author
+ *       properties:
+ *         codigo:
+ *           type: string
+ *           description: Codigo del producto, es auto generado.
+ *         name:
+ *           type: string
+ *           description: Nombre del producto
+ *         author:
+ *           type: string
+ *           description: The book author
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *	   Producto:
+ *       type: object
+ *       required:
+ *         - name
+ *         - priceIGV
+ * 		   - tipo
+ *       properties:
+ *         codigo:
+ *           type: string
+ *           description: Codigo del producto, es auto generado.
+ *         name:
+ *           type: string
+ *           description: Nombre del producto
+ *         nameLowerCase:
+ *           type: string
+ *           description: Nombre en minusculas
+ *         priceIGV:
+ *           type: number
+ *           description: Precio del producto con IGV (0.18)
+ *         priceNoIGV:
+ *           type: number
+ *           description: Precio del producto sin IGV
+ *         cantidad:
+ *           type: number
+ *           description: Cantidad de items disponibles del producto
+ */
+
+
+/**
+  * @swagger
+  * tags:
+  *   name: Inventario
+  *   description: API de los procesos relacionados con el inventario.
+*/
+
+
 routes.get('/testCodeCount', codigoTest);
-
-// routes.get('/addTagsAll', addTagsAll);
-
-// routes.get('/setOrderNumer', addOrderToItems);
-
-// routes.get('/testFindTipo', testFintTipo);
-
-// routes.get('/testAgre', gananciasPosiblesConItemMayor);
-
-// routes.get('/addGoogleCategoria', addCategoryToALL);
 
 routes.post('/addItemReview', allLoginRequired, addItemReview);
 
@@ -115,8 +167,6 @@ routes.get('/getItemsSubTipo/:tipo/:subTipo', getAllItemsSubTipoName);
 routes.put('/uploadVariationSC', transaccionalLoginRequired, subCantidadUpdate);
 
 routes.put('/uploadVariationSimple', transaccionalLoginRequired, cantidadUpdate);
-
-// routes.put('/uploadPhotoName', uploadPhotoName);
 
 routes.put('/modCant/:tipo', transaccionalLoginRequired, updateCantidad);
 

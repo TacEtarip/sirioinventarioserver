@@ -13,11 +13,37 @@ import cotiRoutes from './routes/cotiRoutes';
 import emailrouter from './routes/emailRoutes';
 import inventarioRoutes from './routes/inventarioRoutes';
 import ventasRoutes from './routes/ventaRoutes';
-
+import swaggerUI from 'swagger-ui-express';
+import swaggerDoc from './documentation/swaggerDocument.json';
+// import swaggerJsDoc from 'swagger-jsdoc';
 
 tinyfy.key = config[process.env.NODE_ENV].tinyKey;
 
+/* const swaggerOptions = {
+	definition: {
+		openapi: '3.0.0',
+		info: {
+			title: 'Sirio Dinar Inventario API',
+			version: config[process.env.NODE_ENV].version,
+			description: 'Rest API para el uso del inventari de la empresa Sirio Dinar. ' +
+			'Front End: https://inventario.siriodinar.com/',
+		},
+		servers: [
+			{
+				url: 'https://inventario-sirio-dinar.herokuapp.com',
+			},
+			{
+				url: 'http://localhost:5000',
+			},
+		],
+	},
+	apis: [path.resolve(__dirname, './routes/*.js')],
+};*/
+
+// const specs = swaggerJsDoc(swaggerOptions);
+
 const app = express();
+
 
 const log = config[process.env.NODE_ENV].log();
 
@@ -54,13 +80,14 @@ app.use((req, res, next) => {
 	}
 });
 
-
 app.use('/inventario', inventarioRoutes);
 app.use('/carrito', carritoRoutes);
 app.use('/auth', authRoutes);
 app.use('/ventas', ventasRoutes);
 app.use('/email', emailrouter);
 app.use('/coti', cotiRoutes);
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 

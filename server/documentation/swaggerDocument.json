@@ -1,0 +1,19 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+        "license": {
+            "name": "MIT",
+            "url": "/LICENSE"
+        },
+        "title":"Sirio Dinar Inventario API",
+        "version":"1.0",
+        "description": "Rest API para el uso del inventari de la empresa Sirio Dinar. Front End: https://inventario.siriodinar.com/"
+    },
+    "servers": [
+        {"url":"https://inventario-sirio-dinar.herokuapp.com"},
+        {"url":"http://localhost:5000"}
+    ],
+    "paths": {
+    }
+}
+
