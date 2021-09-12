@@ -17,6 +17,10 @@ Este proyecto back-end esta actuamente utilizando Node 12.
 * Heroku
 * Swagger
 
+## Proyectos Relacionados
+
+* [Front-END (angular)](https://github.com/TacEtarip/sirioFront "Front End Para Inventario")
+
 ## Comandos
 
 * `build`
