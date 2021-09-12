@@ -17,4 +17,10 @@ Este proyecto back-end esta actuamente utilizando Node 12.
 * Heroku
 * Swagger
 
+## Comandos
+
+* `build`
+* `start`
+* `dev:start`
+
 `PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L CONTACTO EN: hu3rtas@outlook.com`
