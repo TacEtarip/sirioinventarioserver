@@ -1,4 +1,4 @@
-# Aplicación Web De Inventario Sirio Dinar
+# Back-end para el inventario de Sirio Dinar
 
 Este proyecto back-end esta actuamente utilizando Node 12.
 
