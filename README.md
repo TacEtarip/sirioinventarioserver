@@ -1,9 +1,20 @@
-# sirioinventarioserver
+# Aplicación Web De Inventario Sirio Dinar
 
-Servidor Del Inventario De Sirio Dinar
+Este proyecto back-end esta actuamente utilizando Node 12.
 
-Versión actual: 1.7.0 - 13/07/2021
+## Documentación
 
-`DOCUMENTACIÓN EN CONSTRUCCIÓN`
+[Back End (nodejs)](https://inventario-sirio-dinar.herokuapp.com/api-docs/ "Documentación")
+
+## Tecnologias Usadas
+
+* Node 12
+* Express
+* MongoDB
+* Google Auth
+* AWS S3
+* WebPack
+* Heroku
+* Swagger
 
 `PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L CONTACTO EN: hu3rtas@outlook.com`
