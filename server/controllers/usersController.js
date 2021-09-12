@@ -352,7 +352,7 @@ export const agregarDocumento = async (req, res) => {
 		const result =
         await User.findOneAndUpdate(
         	{ _id: req.body.id },
-        	{ documento: req.body.documento, tipoPersona: req.body.dirTwo },
+        	{ documento: req.body.documento, tipoPersona: req.body.tipoPersona },
         	{ useFindAndModify: false, new: true,
         	});
 		result.hashPassword = undefined;

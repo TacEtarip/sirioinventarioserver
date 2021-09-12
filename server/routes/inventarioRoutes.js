@@ -1,100 +1,98 @@
 import { Router } from 'express';
-import { addNewItem, getAllItemsOfType, getAllItem, getItem, updateCantidad, getClientesConMasCompras, searchItem, getTableInfItem,
-	updateItem, deleteItem, addOffer, removeOffer, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex,
-	changeFileStatus, getAllItemSort, optenerGastosGananciasTotales, addCaracteristica, getItemsLowStock, getItemsNoStock,
+import { addNewItem, getAllItemsOfType, getAllItem, getClientesConMasCompras, getTableInfItem,
+	updateItem, deleteItem, uploadPhotoName, getGananciasTotalesSNS, filterTagsByRegex, getItem,
+	changeFileStatus, optenerGastosGananciasTotales, addCaracteristica, getItemsLowStock, getItemsNoStock,
 	getAllItemsSubTipoName, optenerVentasPotenciales, getItemsMasVendido, reOrderItems, getGICofItem, ventasDeItemPorMesGrafico,
 	addMarca, deleteMarcas, getMarcas, subCantidadUpdate, cantidadUpdate, getPeorMejorItem, gananciasPosiblesConItemMayor,
 	getItemReport, getItemBalance, searchText, getSimilarItems, getItemsDestacados, getTags, deleteTag, addTag,
 	convertToFavorite, deConvertToFavorite, filterItemsByRegex, optenerVariacionPosneg, deleteCaracteristica,
-	getTopFiveIngresosGananciasGastos, addItemReview, codigoTest } from '../controllers/itemController';
+	addItemReview } from '../controllers/itemController';
 import { addNewTipo, getAllTipos, addNewSubTipo, getTipo, getSubTipos, uploadPhotoNameCat, uploadPhotoNameSubCat, cambiarItemCarpeta, getSiteMapLinks,
 	reOrderTipo, reOrderSubTipo, deleteSubTipoTransac, updateSubTipoTransac, updateTipoTransac, deleteTipoTransac } from '../controllers/tipoController';
-import { uploadImage, uploadPDF, fichaUpload, imageUpload, getImage, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
+import { uploadImage, uploadPDF, fichaUpload, imageUpload, getPDF, deleteImage, deleteImageSecond } from '../controllers/uploadsController';
 import { normalLoginRequired, adminLoginRequired, transaccionalLoginRequired, allLoginRequired } from '../controllers/usersController';
-
 
 const routes = new Router();
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     Book:
- *       type: object
- *       required:
- *         - name
- *         - author
- *       properties:
- *         codigo:
- *           type: string
- *           description: Codigo del producto, es auto generado.
- *         name:
- *           type: string
- *           description: Nombre del producto
- *         author:
- *           type: string
- *           description: The book author
- */
+// !removed routes.get('/searchItem/:searchTerms', searchItem);
 
-/**
- * @swagger
- * components:
- *   schemas:
- *	   Producto:
- *       type: object
- *       required:
- *         - name
- *         - priceIGV
- * 		   - tipo
- *       properties:
- *         codigo:
- *           type: string
- *           description: Codigo del producto, es auto generado.
- *         name:
- *           type: string
- *           description: Nombre del producto
- *         nameLowerCase:
- *           type: string
- *           description: Nombre en minusculas
- *         priceIGV:
- *           type: number
- *           description: Precio del producto con IGV (0.18)
- *         priceNoIGV:
- *           type: number
- *           description: Precio del producto sin IGV
- *         cantidad:
- *           type: number
- *           description: Cantidad de items disponibles del producto
- */
+// !removed routes.get('/getTopFiveIngresosGananciasGastos', normalLoginRequired, getTopFiveIngresosGananciasGastos);
 
+// !removed routes.get('/getAllItemsSort/:subORtipo/:filtro/:tipoBusqueda/:tipoSort/:limit', getAllItemSort);
 
-/**
-  * @swagger
-  * tags:
-  *   name: Inventario
-  *   description: API de los procesos relacionados con el inventario.
-*/
+// *** GETs INVENTARIO
 
+routes.get('/getTipos', getAllTipos);
 
-routes.get('/testCodeCount', codigoTest);
+routes.get('/getTipo/:codigo', getTipo);
 
-routes.post('/addItemReview', allLoginRequired, addItemReview);
+routes.get('/getSubTipos/:tipoCod', getSubTipos);
+
+routes.get('/getItem/:tipo/:codigo', getItem);
+
+routes.get('/getItems', getAllItem);
+
+routes.get('/getItemsDestacados', getItemsDestacados);
+
+routes.get('/getItemsByType/:tipo', getAllItemsOfType);
+
+routes.get('/getItemsSubTipo/:tipo/:subTipo', getAllItemsSubTipoName);
+
+routes.get('/getItemsRelacionados/:tipo/:codigo', getSimilarItems);
+
+routes.get('/getItemsSearch/:searchTerms', searchText);
+
+routes.get('/pdf/:pdfName', getPDF);
+
+routes.get('/getTags', getTags);
+
+routes.get('/marcas/getAll', getMarcas);
 
 routes.get('/getSiteMap', getSiteMapLinks);
 
-routes.get('/getTableInfItem', normalLoginRequired, getTableInfItem);
+// *** POST Inventario
 
-routes.get('/getTopFiveIngresosGananciasGastos', normalLoginRequired, getTopFiveIngresosGananciasGastos);
+routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
 
-routes.get('/getItemVentasPorMes/:codigoItem', normalLoginRequired, ventasDeItemPorMesGrafico);
+routes.post('/getListOfTagsFilteredByRegex', filterTagsByRegex);
 
-routes.get('/getItemGIC/:codigoItem', normalLoginRequired, getGICofItem);
+routes.post('/addTipo', transaccionalLoginRequired, addNewTipo);
 
-routes.get('/getItemMayorGananciaPosible', normalLoginRequired, gananciasPosiblesConItemMayor);
+routes.put('/updateTipo', transaccionalLoginRequired, updateTipoTransac);
 
-routes.get('/getItemsLowStock', normalLoginRequired, getItemsLowStock);
+routes.put('/addSubTipo', transaccionalLoginRequired, addNewSubTipo);
 
-routes.get('/getItemsNoStock', normalLoginRequired, getItemsNoStock);
+routes.put('/uptateSupTipos', transaccionalLoginRequired, updateSubTipoTransac);
+
+routes.post('/addItem', normalLoginRequired, addNewItem);
+
+routes.put('/updateItem', transaccionalLoginRequired, updateItem);
+
+// !removed routes.put('/modCant/:tipo', transaccionalLoginRequired, updateCantidad);
+
+routes.post('/addItemReview', allLoginRequired, addItemReview);
+
+routes.post('/addCaracteristica', transaccionalLoginRequired, addCaracteristica);
+
+routes.post('/deteleCaracteristicas', transaccionalLoginRequired, deleteCaracteristica);
+
+routes.post('/addTag', transaccionalLoginRequired, addTag);
+
+routes.post('/deteleTags', transaccionalLoginRequired, deleteTag);
+
+routes.post('/toFavorite', transaccionalLoginRequired, convertToFavorite);
+
+routes.post('/toUnFavorite', transaccionalLoginRequired, deConvertToFavorite);
+
+routes.put('/uploadVariationSC', transaccionalLoginRequired, subCantidadUpdate);
+
+routes.put('/uploadVariationSimple', transaccionalLoginRequired, cantidadUpdate);
+
+// !removed routes.put('/offer/remove', transaccionalLoginRequired, removeOffer);
+
+// !removed routes.put('/offer/add', transaccionalLoginRequired, addOffer);
+
+routes.post('/marcas/add', transaccionalLoginRequired, addMarca);
 
 routes.post('/changeFolder', transaccionalLoginRequired, cambiarItemCarpeta);
 
@@ -104,17 +102,21 @@ routes.post('/reorderTipos', transaccionalLoginRequired, reOrderTipo);
 
 routes.post('/reorderSubTipos', transaccionalLoginRequired, reOrderSubTipo);
 
-routes.get('/searchItem/:searchTerms', searchItem);
+routes.delete('/deleteItem/:codigo', adminLoginRequired, deleteItem, deleteImageSecond);
 
-routes.post('/addCaracteristica', transaccionalLoginRequired, addCaracteristica);
+routes.delete('/deleteTipo/:codigo', adminLoginRequired, deleteTipoTransac);
 
-routes.post('/deteleCaracteristicas', transaccionalLoginRequired, deleteCaracteristica);
+routes.delete('/deleteSupTipo/:codigo/:subTipoName', adminLoginRequired, deleteSubTipoTransac);
 
-routes.get('/getTags', getTags);
+routes.delete('/marcas/delete/:deleteString', transaccionalLoginRequired, deleteMarcas);
 
-routes.post('/deteleTags', transaccionalLoginRequired, deleteTag);
+// *** GETs Reportes
 
-routes.post('/addTag', transaccionalLoginRequired, addTag);
+routes.get('/getItemMayorGananciaPosible', normalLoginRequired, gananciasPosiblesConItemMayor);
+
+routes.get('/getItemsLowStock', normalLoginRequired, getItemsLowStock);
+
+routes.get('/getItemsNoStock', normalLoginRequired, getItemsNoStock);
 
 routes.get('/getClienteConMasCompras', normalLoginRequired, getClientesConMasCompras);
 
@@ -130,75 +132,17 @@ routes.get('/getVariacionPosnegAll', normalLoginRequired, optenerVariacionPosneg
 
 routes.get('/ventasPotenciales', normalLoginRequired, optenerVentasPotenciales);
 
-routes.post('/getListOfItemsFilteredByRegex', filterItemsByRegex);
-
-routes.post('/getListOfTagsFilteredByRegex', filterTagsByRegex);
-
-routes.get('/getItemsDestacados', getItemsDestacados);
-
-routes.get('/getItemsRelacionados/:tipo/:codigo', getSimilarItems);
-
-routes.get('/getItemsSearch/:searchTerms', searchText);
-
 routes.get('/getItemBalance/:codigo', normalLoginRequired, getItemBalance);
 
 routes.get('/getItemReport/:codigo', normalLoginRequired, getItemReport);
 
-// routes.get('/testFind', testFind);
+routes.get('/getTableInfItem', normalLoginRequired, getTableInfItem);
 
-routes.post('/addItem', addNewItem);
+routes.get('/getItemVentasPorMes/:codigoItem', normalLoginRequired, ventasDeItemPorMesGrafico);
 
-routes.post('/toFavorite', transaccionalLoginRequired, convertToFavorite);
+routes.get('/getItemGIC/:codigoItem', normalLoginRequired, getGICofItem);
 
-routes.post('/toUnFavorite', transaccionalLoginRequired, deConvertToFavorite);
-
-routes.get('/getItems', getAllItem);
-
-routes.get('/getItemsByType/:tipo', getAllItemsOfType);
-
-routes.get('/getItem/:tipo/:codigo', getItem);
-
-routes.get('/getAllItemsSort/:subORtipo/:filtro/:tipoBusqueda/:tipoSort/:limit', getAllItemSort);
-
-routes.get('/getTipo/:codigo', getTipo);
-
-routes.get('/getItemsSubTipo/:tipo/:subTipo', getAllItemsSubTipoName);
-
-routes.put('/uploadVariationSC', transaccionalLoginRequired, subCantidadUpdate);
-
-routes.put('/uploadVariationSimple', transaccionalLoginRequired, cantidadUpdate);
-
-routes.put('/modCant/:tipo', transaccionalLoginRequired, updateCantidad);
-
-routes.put('/updateItem', transaccionalLoginRequired, updateItem);
-
-routes.put('/updateTipo', transaccionalLoginRequired, updateTipoTransac);
-
-routes.delete('/deleteItem/:codigo', adminLoginRequired, deleteItem, deleteImageSecond);
-
-routes.delete('/deleteTipo/:codigo', adminLoginRequired, deleteTipoTransac);
-
-routes.delete('/deleteSupTipo/:codigo/:subTipoName', adminLoginRequired, deleteSubTipoTransac);
-
-routes.put('/addSubTipo', transaccionalLoginRequired, addNewSubTipo);
-
-routes.put('/offer/add', transaccionalLoginRequired, addOffer);
-
-routes.put('/offer/remove', transaccionalLoginRequired, removeOffer);
-
-routes.post('/addTipo', transaccionalLoginRequired, addNewTipo);
-
-routes.get('/getTipos', getAllTipos);
-
-routes.get('/getSubTipos/:tipoCod', getSubTipos);
-
-routes.get('/marcas/getAll', getMarcas);
-
-routes.delete('/marcas/delete/:deleteString', transaccionalLoginRequired, deleteMarcas);
-
-routes.post('/marcas/add', transaccionalLoginRequired, addMarca);
-
-routes.put('/uptateSupTipos', transaccionalLoginRequired, updateSubTipoTransac);
+// *** POST UPLOADS
 
 routes.post('/uploads/image/:codigo', transaccionalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoName);
 
@@ -206,14 +150,6 @@ routes.post('/uploads/imageCat/:codigo', transaccionalLoginRequired, uploadImage
 
 routes.post('/uploads/imageSubCat/:codigo/:subCat', transaccionalLoginRequired, uploadImage.single('img'), imageUpload, deleteImage, uploadPhotoNameSubCat);
 
-// routes.post('/uploads/ficha/:codigo', uploadPDF.single('pdf'), upload);
-
 routes.post('/uploads/ficha/:codigo', transaccionalLoginRequired, uploadPDF.single('pdf'), fichaUpload, changeFileStatus);
-
-// routes.get('/getRandomImageOfTipo/:tipo/:subTipo', getRandomImageOfTipo);
-
-routes.get('/image/:imgName', getImage);
-
-routes.get('/pdf/:pdfName', getPDF);
 
 export default routes;

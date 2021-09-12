@@ -61,11 +61,6 @@ export const sendMensajeEmail = async (req, res) => {
 export const sendConfirmationEmail = async (req, res) => {
 	try {
 		const html = await readFilePromise(path.resolve('server/lib/email.html'), { encoding: 'utf8' });
-		/* const html = await rif({
-            files: path.resolve(__dirname, '../lib/email.html'),
-            from: /foo/g,
-            to: '<a style="width: 100%; font-size: 20px; text-align: center; margin-top: 0.67em" href="www.google.com" target="_blank">Click</a>',
-        });*/
 		req.savedUSer.hashPassword = undefined;
 		const link = `${configEnv.link}auth/confirmacion/${req.savedUSer._id}`;
 		const htmlReplaced = html.replace('#replaceWithLink',

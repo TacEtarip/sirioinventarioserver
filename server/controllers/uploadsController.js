@@ -103,16 +103,6 @@ export const getPDF = async (req, res) => {
 };
 
 
-/* const storagePDF = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './server/uploads/files');
-    },
-    filename: (req, file, cb) => {
-      cb(null,  'ficha-' + req.params.codigo + '.' + 'pdf');
-    }
-  });*/
-
-
 export const uploadImage = multer({
 	storage: multerS3({
 		s3: s3,

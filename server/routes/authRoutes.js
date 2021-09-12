@@ -19,8 +19,6 @@ routes.post('/confirmarContr', allLoginRequired, confirmarContrasena);
 
 routes.put('/actCelular', allLoginRequired, actulizarCelular);
 
-routes.put('/actCelular', allLoginRequired, actulizarCelular);
-
 routes.post('/agregarDireccion', allLoginRequired, agregarDireccion);
 
 routes.post('/agregarDocumento', allLoginRequired, agregarDocumento);

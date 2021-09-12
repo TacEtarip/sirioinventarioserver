@@ -3,7 +3,12 @@
     "info": {
         "license": {
             "name": "MIT",
-            "url": "/LICENSE"
+            "url": "https://github.com/TacEtarip/sirioinventarioserver/blob/master/LICENSE"
+        },
+        "contact": {
+            "email": "hu3rtas@outlook.com",
+            "name": "Luis Huertas",
+            "url": "https://github.com/TacEtarip/sirioinventarioserver"
         },
         "title":"Sirio Dinar Inventario API",
         "version":"1.0",
@@ -13,7 +18,3879 @@
         {"url":"https://inventario-sirio-dinar.herokuapp.com"},
         {"url":"http://localhost:5000"}
     ],
+    "tags": [
+        {
+            "name": "tipos",
+            "description": "Manejar los tipos de items."
+        },
+        {
+            "name": "items",
+            "description": "Manejar los items"
+        },
+        {
+            "name": "ventas",
+            "description": "Manejar las ventas"
+        },
+        {
+            "name": "reportes",
+            "description": "Reportes sobre inventario."
+        },
+        {
+            "name": "organizar",
+            "description": "Organizar la presentación de los tipos, sub-tipo e items."
+        },
+        {
+            "name": "utilidades",
+            "description": "Utilidades para el inventario."
+        },
+        {
+            "name": "auth",
+            "description": "Manejar la autenticación y usuarios."
+        }
+    ],
+    "components": {
+        "responses": {
+            "500":{
+                "description": "Ocurrio un error en el servidor",
+                "content": {
+                    "aplication/json":{
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errorMSG": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Error-401": {
+                "description": "No exite un token de autorización valido"
+            },
+            "Succes": {
+                "description": "Exito al procesar request"
+            }
+        },
+        "securitySchemes": {
+            "JWT TOKEN TRANSACCIONAL": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT #token #usuario #tipo"
+            },
+            "JWT TOKEN ADMIN": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT #token #usuario #tipo"
+            },
+            "JWT TOKEN ALL": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT #token #usuario #tipo"
+            }
+        },
+        "schemas": {
+            "error401": {
+                "description": "NO AUTORIZADO",
+                "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+            }
+            },
+            "tipo": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del tipo"
+                    },
+                
+                    "date":{
+                        "type": "string",
+                        "description": "Fecha de creación del tipo",
+                        "readOnly": true
+                    },
+                
+                    "codigo": {
+                        "type": "string",
+                        "description": "Codigo del tipo"
+                    },
+                
+                    "subTipo": {
+                        "type": "array",
+                        "description": "Listado de sub-tipos",
+                        "items": {
+                            "type": "string",
+                            "description": "Nombre del sub-tipo"
+                        }
+                    },
+                
+                    "subTipoLink": {
+                        "type": "array",
+                        "description": "Listado las imagenes de los sub-tipos",
+                        "items": {
+                            "type": "string",
+                            "description": "URL de imagén del sub-tipo"
+                        }
+                    },
+                
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                
+                    "link": {
+                        "type": "string",
+                        "description": "URL de imagén del tipo"
+                    },
+                
+                    "order": {
+                        "type": "number",
+                        "default": -1,
+                        "description": "Orden en que se muestra el tipo"
+                    }
+                },
+                "example": {
+                    "subTipo": ["Respiradores 3M", "Filtros 3M", "Respiradores Master", "Mascarillas", "Respiradores Astara", "Retenedores para filtros"],
+                    "name": "Pro. Respiratoria",
+                    "date": "2021-01-14T20:04:04.125+00:00",
+                    "codigo": "1610645929520",
+                    "deleted": false,
+                    "link": "img-1610645929520-1621997665489.png",
+                    "subTipoLink": ["IMG-1622763250845.png", "img-1622747657121.png", "IMG-1622763288076.png", "IMG-1622763339734.png", "IMG-1631032975632.jpg", "IMG-1630012297019.jpg"],
+                    "order": 1
+                }
+            },
+            "review": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                    "user": {
+                        "type": "string",
+                        "description": "Username de quien realizo la review"
+                    },
+                    "rating": {
+                        "type": "number",
+                        "description": "Rating del item de 1 a 5"
+                    },
+                
+                    "date": {
+                        "type": "string",
+                        "description": "Fecha de publicación de la review"
+                    }
+                }
+            },
+            "cantidadSC": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la sub cantidad"
+                    },
+                    "nameSecond": {
+                        "type": "string",
+                        "description": "Segundo nombre de la sub cantidad"
+                    },
+                    "cantidadDisponible": {
+                        "type": "number",
+                        "description": "Cantidad disponible al momento de la variación"
+                    },
+                    "cantidadVenta": {
+                        "type": "number",
+                        "description": "Cantidad"
+                    }
+                }
+            },
+            "order": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre especifico de la sub cantidad"
+                    },
+                    "nameSecond": {
+                        "type": "string",
+                        "description": "Segundo especifico nombre de la sub cantidad"
+                    },
+                    "cantidad": {
+                        "type": "number",
+                        "description": "Cantidad del subconteo"
+                    }
+                }
+            },
+            "subConteo": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la sub cantidad"
+                    },
+                    "nameSecond": {
+                        "type": "string",
+                        "description": "Segundo nombre de la sub cantidad"
+                    },
+                    "order": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/order"
+                        }
+                    }
+                }
+            },
+            "variacion": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "Fecha de la variación ISO STRING",
+                        "readOnly": true
+                    },
+                    "tipo": {
+                        "type": "boolean",
+                        "description": "Variación positiva o negativa"
+                    },
+                    "comentario": {
+                        "type": "string",
+                        "description": "Comentario sobre la variación"
+                    },
+                    "costoVar": {
+                        "type": "number",
+                        "description": "Costo de la variación"
+                    },
+                    "cantidad": {
+                        "type": "number",
+                        "description": "Cantidad de variación"
+                    },
+                    "cantidadSC": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/cantidadSC"
+                        }
+                    },
+                    "usuario": {
+                        "type": "string",
+                        "description": "Nombre del usuario que realizo la variación"
+                    }
+                }
+            },
+            "item": {
+                "type": "object",
+                "required": ["name", "priceIGV", "tipo"],
+                "properties": {
+                    "codigo": {
+                        "type": "string",
+                        "description": "Codigo del producto, es auto generado."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del producto"
+                    },
+                    "nameLowerCase": {
+                        "type": "string",
+                        "description": "Nombre en minusculas"
+                    },
+                    "priceIGV": {
+                        "type": "number",
+                        "description": " Precio del producto sin IGV"
+                    },
+                    "cantidad": {
+                        "type": "number",
+                        "description": "Cantidad de items disponibles del producto"
+                    },
+                    "subConteo": {
+                        "$ref": "#/components/schemas/subConteo"
+                    },
+                    "variaciones": {
+                        "type": "array",
+                        "items" : {
+                            "$ref": "#/components/schemas/variacion"
+                        }
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "description": "Tipo al que pertenece el producto"
+                    },
+                    "subTipo": {
+                        "type": "string",
+                        "description": "Sub tipo al que pertenece el producto"
+                    },
+                    "unidadDeMedida": {
+                        "type": "string",
+                        "description": "Unidad de medida del item"
+                    },
+                    "oferta": {
+                        "type": "number",
+                        "description": "Oferta del item"
+                    },
+                    "date":{
+                        "type": "string",
+                        "description": "Fecha de creación del item ISO STRING",
+                        "readOnly": true
+                    },
+                
+                    "description":{
+                        "type": "string",
+                        "description": "Descripción del producto"
+                    },
+                
+                    "photo": {
+                        "type": "string",
+                        "description": "URL de la foto de este item"
+
+                    },
+                
+                    "ficha": {
+                        "type": "boolean",
+                        "description": "Tiene una ficha este producto?"
+
+                    },
+                
+                    "marca": {
+                        "type": "string",
+                        "description": "Marca del item"
+
+                    },
+                
+                    "costoPropio": {
+                        "type": "number",
+                        "description": "Costo de compra de item"
+                    },
+                
+                    "multiSearchParams": {
+                        "type": "string",
+                        "description": "Parametros por los cuales puede ser buscado este item",
+                        "deprecated": true
+                    },
+                
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "Este item existe?"
+                    },
+                
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "Tags del item"
+                        }
+                    },
+                
+                    "caracteristicas": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "Caracteristicas del item"
+                        }
+                    },
+                
+                    "orderNumber": {
+                        "type": "number",
+                        "description": "En que POS se muestra el nuemro"
+                    },
+                
+                    "reviews": {
+                        "type": "array",
+                        "items" : {
+                            "$ref": "#/components/schemas/review"
+                        }
+                    },
+                
+                    "googleCategory": {
+                        "type": "string",
+                        "description": "Categoria del item segun google",
+                        "default": "2047"
+                    }
+                },
+                "example": {
+                        "cantidad": 425,
+                        "subTipo": "LENTES SPIDER",
+                        "unidadDeMedida": "UND",
+                        "oferta": 0,
+                        "photo": "img-14SDLP4-1610836257167.jpeg",
+                        "ficha": false,
+                        "marca": "CLUTE",
+                        "deleted": false,
+                        "tags": [],
+                        "caracteristicas": [
+                          "Lente de policarbonato de alta transparencia.",
+                          "Proteccion de 99.9% de la radiacion UV.",
+                          "Tratamiento anti-empañante que reduce la obstrucción de la visibilidad en ambientes húmedos y cambios bruscos de temperatura.",
+                          "Tratamiento anti-rayadura que prolonga la vida útil del policarbonato."
+                        ],
+                        "orderNumber": -2,
+                        "googleCategory": "2047",
+                        "_id": "600368bd53a848001fc98ea4",
+                        "name": "Lentes Alpine",
+                        "priceIGV": 35,
+                        "description": "Alipme",
+                        "costoPropio": 27,
+                        "tipo": "Protec. Visual",
+                        "variaciones": [
+                          {
+                            "cantidad": 432,
+                            "tipo": true,
+                            "usuario": "desconocido",
+                            "date": "2021-01-16T22:29:17.386Z",
+                            "comentario": "new item",
+                            "costoVar": 10800,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 1,
+                            "tipo": false,
+                            "usuario": "desconocido",
+                            "date": "2021-02-17T22:49:35.594Z",
+                            "comentario": "venta|SD01-000333",
+                            "costoVar": 35,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 1,
+                            "tipo": true,
+                            "usuario": "desconocido",
+                            "date": "2021-02-17T23:01:24.220Z",
+                            "comentario": "anular|SD01-000333",
+                            "costoVar": 35,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 2,
+                            "tipo": false,
+                            "usuario": "desconocido",
+                            "date": "2021-06-08T22:44:08.841Z",
+                            "comentario": "quitar|Actualización",
+                            "costoVar": 54,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 1,
+                            "tipo": false,
+                            "usuario": "desconocido",
+                            "date": "2021-06-21T20:14:08.578Z",
+                            "comentario": "venta|SD01-001013",
+                            "costoVar": 35,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 1,
+                            "tipo": false,
+                            "usuario": "admin",
+                            "date": "2021-07-15T15:26:49.169Z",
+                            "comentario": "venta|SD01-001157",
+                            "costoVar": 25,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 2,
+                            "tipo": false,
+                            "usuario": "desconocido",
+                            "date": "2021-07-30T22:07:45.576Z",
+                            "comentario": "quitar|Actualización",
+                            "costoVar": 54,
+                            "cantidadSC": []
+                          },
+                          {
+                            "cantidad": 1,
+                            "tipo": false,
+                            "usuario": "admin",
+                            "date": "2021-08-27T22:15:32.180Z",
+                            "comentario": "venta|SD01-001438",
+                            "costoVar": 35,
+                            "cantidadSC": []
+                          }
+                        ],
+                        "date": "2021-01-16T22:29:17.383Z",
+                        "priceNoIGV": 29.66,
+                        "codigo": "14SDLP4",
+                        "nameLowerCase": "lentes alpine",
+                        "__v": 0,
+                        "reviews": []
+                      }
+            },
+            "marca": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la marca"
+                    },
+                    "codigo": {
+                        "type": "string",
+                        "description": "Codigo de la marca"
+                    },
+                    "ruc": {
+                        "type": "string"
+                    }
+                }
+            },
+            "tag": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del tag"
+                    },
+                    "deleted": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "user": {
+                "required": ["username", "email", "created_date"],
+                "type": "object",
+                "properties": {
+                    "username":{
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "created_date": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "dirOne": {
+                        "type": "string"
+                    },
+                    "dirTwo": {
+                        "type": "string"
+                    },
+                    "reference": {
+                        "type": "string"
+                    },
+                    "ciudad": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellido": {
+                        "type": "string"
+                    },
+                    "nomape": {
+                        "type": "string"
+                    },
+                    "googleCod": {
+                        "type": "string"
+                    },
+                    "documento": {
+                        "type": "string"
+                    },
+                    "tipoPersona": {
+                        "type": "string"
+                    },
+                    "verified": {
+                        "type": "boolean"
+                    },
+                    "celular": {
+                        "type": "string"
+                    },
+                    "ventaActiva": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                
+                    "carrito": {
+                        "type": "string"
+                    }
+                }
+            },
+            "login": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "authToken": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "document": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                
+                    "name": {
+                        "type": "string"
+                    },
+                
+                    "codigo": {
+                        "type": "number"
+                    },
+                
+                    "direccion": {
+                        "type": "string"
+                    }
+                }
+            },
+            "itemvendido": {
+                "type": "object",
+                "properties": {
+                    "codigo": {
+                        "type": "string"
+                    },
+                
+                    "tipo": {
+                        "type": "string"
+                    },
+                
+                    "name": {
+                        "type": "string"
+                    },
+                
+                    "descripcion": {
+                        "type": "string"
+                    },
+                
+                    "priceIGV": {
+                        "type": "number"
+                    },
+                
+                    "priceNoIGV": {
+                        "type": "number"
+                    },
+                
+                    "priceCosto": {
+                        "type": "number"
+                    },
+                
+                    "cantidad": {
+                        "type": "number"
+                    },
+                
+                    "cantidadSC": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/cantidadSC"
+                        }
+                    },
+                
+                    "totalPrice": {
+                        "type": "number"
+                    },
+                
+                    "totalPriceNoIGV": {
+                        "type": "number"
+                    },
+                
+                    "unidadDeMedida": {
+                        "type": "string"
+                    },
+                
+                    "photo": {
+                        "type": "string"
+                    },
+                
+                    "ventaCod": {
+                        "type": "string"
+                    }
+                }
+            },
+            "venta": {
+                "type": "object",
+                "properties": {
+                    "codigo": {
+                        "type": "string"
+                    },
+                
+                    "totalPrice": {
+                        "type": "number"
+                    },
+                
+                    "totalPriceNoIGV": {
+                        "type": "number"
+                    },
+                
+                    "estado": {
+                        "type": "string"
+                    },
+                
+                    "documento": {
+                        "$ref": "#/components/schemas/document"
+                    },
+                
+                    "itemsVendidos": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/itemvendido"
+                        }
+                    },
+                
+                    "date":{
+                        "type": "string"
+                    },
+                
+                    "vendedor": {
+                        "type": "string"
+                    },
+                
+                    "tipoVendedor": {
+                        "type": "string"
+                    },
+                
+                    "medio_de_pago": {
+                        "type": "string"
+                    },
+                
+                    "linkComprobante": {
+                        "type": "string"
+                    },
+                
+                    "serie": {
+                        "type": "string"
+                    },
+                
+                    "tipoComprobante": {
+                        "type": "string"
+                    },
+                
+                    "numero": {
+                        "type": "number"
+                    },
+                
+                    "cliente_email": {
+                        "type": "string"
+                    },
+                
+                    "guia_serie": {
+                        "type": "string"
+                    },
+                
+                    "guia_numero": {
+                        "type": "string"
+                    },
+                
+                    "guia": {
+                        "type": "boolean"
+                    },
+                
+                    "guia_link": {
+                        "type": "string"
+                    },
+                
+                    "carrito_venta": {
+                        "type": "boolean"
+                    },
+                
+                    "estado_carrito_comprando": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    },
     "paths": {
+        "/inventario/getTipos": {
+            "get": {
+                "tags": ["tipos"],
+                "summary": "Optener todos los tipos",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/tipo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getTipo/{nameTipo}": {
+            "get": {
+                "tags": ["tipos"],
+                "summary": "Obtener un tipo en especifico",
+                "parameters": [{
+                    "name": "nameTipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del tipo que deseamos"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/addTipo": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Agregar tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/tipo"
+                            },
+                            "example": {
+                                "name": "Nuevo Tipo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/updateTipo": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Actualizar tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string",
+                                        "description": "Codigo del tipo"
+                                    },
+                                    "tipoName": {
+                                        "type": "string",
+                                        "description": "Nuevo nombre del tipo"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "codigo": "123123",
+                                "tipoName": "Tipo Editado"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/deleteTipo/{codigo}": {
+            "delete": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123456",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del tipo que deseamos eliminar"
+                    }
+                }],
+                "tags": ["tipos"],
+                "summary": "Elimina el tipo y todos los sub-tipos e items dentro del él.",
+                "responses": {
+                    "200": {
+                        "description": "Ok, Tipo eliminado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getSubTipos/{nameTipo}": {
+            "get": {
+                "tags": ["tipos"],
+                "summary": "Optener todos los sub-tipos",
+                "parameters": [{
+                    "name": "nameTipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del tipo que deseamos"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "properties": {
+                                        "subTipo": {
+                                            "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                        }
+                                    },
+                                    "example": {
+                                        "subTipo": [
+                                            "Respiradores 3M",
+                                            "Filtros 3M"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/addSubTipo": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Agregar sub-tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string",
+                                        "description": "Codigo del tipo"
+                                    },
+                                    "subTipo": {
+                                        "type": "string",
+                                        "description": "Nombre del sub-tipo"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "codigo": "123123",
+                                "subTipo": "SubTipo Nuevo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                       "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uptateSupTipos": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Editar sub-tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string",
+                                        "description": "Codigo del tipo"
+                                    },
+                                    "newSubName": {
+                                        "type": "string",
+                                        "description": "Nuevo nombre del sub-tipo"
+                                    },
+                                    "antiguoSubName": {
+                                        "type": "string",
+                                        "description": "Antiguo nombre del sub-tipo"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "codigo": "123123",
+                                "newSubName": "SubTipo Nuevo",
+                                "antiguoSubName": "SubTipo Antiguo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/deleteSupTipo/{codigo}/{subTipoName}": {
+            "delete": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123456",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del tipo del sub-tipo que deseamos eliminar"
+                    }
+                },
+                {
+                    "name": "subTipoName",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del sub-tipo que se desea eliminar."
+                    }
+                }],
+                "tags": ["tipos"],
+                "summary": "Elimina el sub-tipo y todos los items dentro del él.",
+                "responses": {
+                    "200": {
+                        "description": "Ok, sub-tipo eliminado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItem/cod/{codigo}": {
+            "get": {
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item"
+                    }
+                }],
+                "summary": "Obtener un item",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItems": {
+            "get": {
+                "tags": ["items"],
+                "deprecated": true,
+                "summary": "Optener todos los items. No usar.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsDestacados": {
+            "get": {
+                "tags": ["items"],
+                "summary": "Obtener los items destacados",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsByType/{nameTipo}": {
+            "get": {
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "nameTipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del tipo que deseamos"
+                    }
+                }],
+                "summary": "Obtener los items de un tipo",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsSubTipo/{nameTipo}/{subTipo}": {
+            "get": {
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "nameTipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del tipo que deseamos"
+                    }
+                },
+                {
+                    "name": "subTipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Respiradores Master",
+                    "schema": {
+                        "type": "string",
+                        "description": "Nombre del sub-tipo que deseamos"
+                    }
+                }],
+                "summary": "Obtener los items de un sub-tipo",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsRelacionados/{tipo}/{codigo}": {
+            "get": {
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "tipo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Pro. Respiratoria",
+                    "schema": {
+                        "type": "string",
+                        "description": "Tipo del que buscar"
+                    }
+                },
+                {
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item del que queremos sacar items relacionados."
+                    }
+                }],
+                "summary": "Obtener los items realacionados, NOT COMPLETE",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsSearch/{searchTerms}": {
+            "get": {
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "searchTerms",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Cualquier texto",
+                    "schema": {
+                        "type": "string",
+                        "description": "Terminos que se desean buscar"
+                    }
+                }],
+                "summary": "Obtener los items segun regex",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/addItem": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Agregar item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/item"
+                            },
+                            "example": {
+                                    "cantidad": 425,
+                                    "subTipo": "LENTES SPIDER",
+                                    "unidadDeMedida": "UND",
+                                    "marca": "CLUTE",
+                                    "deleted": false,
+                                    "googleCategory": "2047",
+                                    "name": "Lentes Alpine TEST",
+                                    "priceIGV": 35,
+                                    "description": "Alipme",
+                                    "costoPropio": 27,
+                                    "tipo": "Protec. Visual",
+                                    "priceNoIGV": 29.66
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/updateItem": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Actualizar item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/item"
+                            },
+                            "example": {
+                                    "codigo": "1SDRP4",
+                                    "cantidad": 425,
+                                    "unidadDeMedida": "UND",
+                                    "marca": "CLUTE",
+                                    "name": "Lentes Alpine TEST",
+                                    "priceIGV": 35,
+                                    "description": "Alipme",
+                                    "costoPropio": 27,
+                                    "tags": ["Clute"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uploadVariationSC": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Actualizar item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string"
+                                    },
+                                    "cantidad": {
+                                        "type": "number"
+                                    },
+                                    "comentario": {
+                                        "type": "string"
+                                    },
+                                    "tipo": {
+                                        "type": "boolean"
+                                    },
+                                    "subConteo": {
+                                        "$ref": "#/components/schemas/subConteo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uploadVariationSimple": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Actualizar item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string"
+                                    },
+                                    "cantidad": {
+                                        "type": "number"
+                                    },
+                                    "comentario": {
+                                        "type": "string"
+                                    },
+                                    "tipo": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/addItemReview": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Agrega una review al item.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/item"
+                            },
+                            "example": {
+                                    "codigo": "1SDRP4",
+                                    "rating": 5
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Numero no valido",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "properties": {
+                                        "errorMSG": {
+                                            "description": "Mensaje de error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/addCaracteristica": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Agrega una caracteristica",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemCod": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                    "itemCod": "1SDRP4"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/deteleCaracteristicas": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Eliminar caracteristica de item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "itemCod": {
+                                        "type": "string"
+                                    },
+                                    "deleteArray": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/toFavorite": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Agregar item a favoritos o destacados",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/item"
+                            },
+                            "example": {
+                                    "codigo": "1SDRP4"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/toUnFavorite": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Quitar item de favoritos o destacados",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/item"
+                            },
+                            "example": {
+                                    "codigo": "1SDRP4"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/deleteItem/{codigo}": {
+            "delete": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item que deseamos eliminar"
+                    }
+                }],
+                "summary": "Eliminar item",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uploads/image/{codigo}": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["items"],
+                "summary": "Agregar o modificar imagen de item",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "img": {
+                                        "type": "string",
+                                        "description": "File Type"
+                                    },
+                                    "oldPhoto": {
+                                        "type": "string",
+                                        "description": "URL de la imagén antigua."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item que queremos modificar la imagén"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uploads/imageCat/{codigo}": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Agregar o modificar imagen de tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "img": {
+                                        "type": "string",
+                                        "description": "File Type"
+                                    },
+                                    "oldPhoto": {
+                                        "type": "string",
+                                        "description": "URL de la imagén antigua."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del tipo que queremos modificar la imagén"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tipo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/uploads/imageSubCat/{codigo}/{subCat}": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["tipos"],
+                "summary": "Agregar o modificar imagen de sub-tipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "img": {
+                                        "type": "string",
+                                        "description": "File Type"
+                                    },
+                                    "oldPhoto": {
+                                        "type": "string",
+                                        "description": "URL de la imagén antigua."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "1SDRP4",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del tipo del sub-tipo que queremos modificar la imagén"
+                    }
+                },
+                {
+                    "name": "subCat",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "Un Sub Tipo",
+                    "schema": {
+                        "type": "string",
+                        "description": "Sub-tipo del que queremos modificar la imagén"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "newPhoto": {
+                                            "type": "string",
+                                            "description": "Link de la nueva foto"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/changeFolder": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["organizar"],
+                "summary": "Modificar a que tipo/sub-tipo un item pertenece.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["codigo"],
+                                "properties": {
+                                    "codigo": {
+                                        "type": "string",
+                                        "description": "Codigo del item"
+                                    },
+                                    "newTipo": {
+                                        "type": "string",
+                                        "description": "Nombre del nuevo tipo."
+                                    },
+                                    "newSubTipo": {
+                                        "type": "string",
+                                        "description": "Nombre del nuevo sub tipo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/item"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/reorderItems": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["organizar"],
+                "summary": "Ordenar items.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["codigo"],
+                                "properties": {
+                                    "itemReOrder": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/item"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/reorderTipos": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["organizar"],
+                "summary": "Ordenar tipos.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["codigo"],
+                                "properties": {
+                                    "tiposReOrder": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/tipo"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/reorderSubTipos": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["organizar"],
+                "summary": "Ordenar sub-tipos.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["codigo"],
+                                "properties": {
+                                    "tipoCodigo": {
+                                        "type": "string",
+                                        "description": "Codigo del tipo al que pertenecen los sub-tipos"
+                                    },
+                                    "linksList": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "subTipoList": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemMayorGananciaPosible": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener item con la mayor ganancia posible.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Nombre del item"
+                                        },
+                                        "balance": {
+                                            "type": "number",
+                                            "description": "Balance del item en soles (S/)"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsLowStock": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener items con poca cantidad.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsNoStock": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener items agotados.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getClienteConMasCompras": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener clientes que más han comprado.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cliente": {
+                                            "type": "string",
+                                            "description": "Nombre del cliente"
+                                        },
+                                        "numero": {
+                                            "type": "number",
+                                            "description": "Cantidad de compras"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsMasVendido": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener item más vendido.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/item"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getGananciasTotalesSNS": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener ganancias por ventas.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "type": "object",
+                                   "properties": {
+                                       "gananciaEnVentasFueraTienda": {
+                                           "type": "number",
+                                           "description": "Ganancias por items no registrados en el inventario."
+                                       },
+                                       "gananciaEnVentas": {
+                                            "type": "number",
+                                            "description": "Ganancias por ventas totales."
+                                       },
+                                       "gananciaEnVentasDeTienda": {
+                                           "type": "number",
+                                           "description": "Ganancias por items registardos en el inventario."
+                                       }
+                                   }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/gananciasInvercionTotal": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener ganancias y gastos totales.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "type": "object",
+                                   "properties": {
+                                       "gastoTotalHistorico": {
+                                           "type": "number",
+                                           "description": "Total de gastos registrados."
+                                       },
+                                       "ingresoTotalHistorico": {
+                                            "type": "number",
+                                            "description": "Total de ganancias registradas."
+                                       }
+                                   }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getPeorMejorItem": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener los items con el mejor y peor rendimiento.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "type": "object",
+                                   "properties": {
+                                       "peor": {
+                                           "type": "object",
+                                           "description": "Peor item.",
+                                           "properties": {
+                                               "name": {
+                                                   "type": "string"
+                                               },
+                                               "balance": {
+                                                   "type": "number"
+                                               }
+                                           }
+                                       },
+                                       "mejor": {
+                                            "type": "object",
+                                            "description": "Mejor item.",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "balance": {
+                                                    "type": "number"
+                                                }
+                                            }
+                                       }
+                                   }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventario/ventasPotenciales": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Optener ventas potenciales.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "type": "object",
+                                   "properties": {
+                                    "ventasPosibles": {
+                                            "type": "number",
+                                            "description": "Ventas potenciales de los items"
+                                    },
+                                    "costoPropioTotalAprox": {
+                                        "type": "number",
+                                        "description": "Cuanto han costado todos los items"
+                                    },
+                                    "gananciaAprox": {
+                                        "type": "number",
+                                        "description": "Ganancias aproximadas"
+                                   }
+                                   }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getTableInfItem": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener JSON con información necesaria para realizar un reporte por cada item.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "type": "array",
+                                   "items": {
+                                       "type": "object",
+                                       "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "codigo": {
+                                            "type": "string"
+                                        },
+                                        "cantidad": {
+                                            "type": "number"
+                                        },
+                                        "priceIGV": {
+                                            "type": "number"
+                                        },
+                                        "costoPropio": {
+                                            "type": "number"
+                                        },
+                                        "valueIngreso": {
+                                            "type": "number"
+                                        },
+                                        "valueGasto": {
+                                            "type": "number"
+                                        }
+                                       }
+                                   }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemBalance/{codigo}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123dDF",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item"
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener balance de un item.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "message": {
+                                          "type": "number",
+                                          "description": "Balance del item"
+                                      }
+                                  }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemReport/{codigo}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123dDF",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item"
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener un excel con el reporte de variaciones del item.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemVentasPorMes/{codigo}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123dDF",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item"
+                    }
+                }],
+                "tags": ["reportes"],
+                "externalDocs": {
+                    "url": "https://swimlane.gitbook.io/ngx-charts/"
+                },
+                "summary": "Obtener ventas por mes para ser graficadas usando ngx-charts.",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemGIC/{codigo}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigo",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "123dDF",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item"
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener ganancias, ingresos y costos de item.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "itemVendidos": {
+                                            "type": "number"
+                                        },
+                                        "cantidadHistorica": {
+                                            "type": "number"
+                                        },
+                                        "totalCosto": {
+                                            "type": "number"
+                                        },
+                                        "totalIngreso": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/marcas/getAll": {
+            "get": {
+                "tags": ["utilidades"],
+                "summary": "Obtener todas las marcas.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/marca"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/marcas/add": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["utilidades"],
+                "summary": "Agregar una marca.",
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/marca"
+                            },
+                            "example": {
+                                "nombre": "Marca X"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/marca"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/marcas/delete/{deleteString}": {
+            "delete": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["utilidades"],
+                "summary": "Eliminar un listado de marcas.",
+                "parameters": [{
+                    "name": "deleteString",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "marca marsa marxa marza",
+                    "schema": {
+                        "type": "string",
+                        "description": "String de marcas a elminar separados por un espacio en blanco"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                       "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getTags": {
+            "get": {
+                "tags": ["utilidades"],
+                "summary": "Obtener todas los tags.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/tag"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getListOfTagsFilteredByRegex": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["utilidades"],
+                "summary": "Obtener todas los tags.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "Regex para buscar"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/tag"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/addTag": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["utilidades"],
+                "summary": "Agregar un tag.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/tag"
+                            },
+                            "example": {
+                                "name": "TAGX"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/tag"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/deteleTags": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["utilidades"],
+                "summary": "Eliminar tags.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "type": "array",
+                               "items": {
+                                    "type": "string"
+                               }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Realizar login.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                              "$ref": "#/components/schemas/login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/authToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/google": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Te redirije a el sistema de autorizacion de login de google.",
+                "externalDocs": {
+                    "url": "https://cloud.google.com/nodejs/getting-started/authenticate-users?hl=es"
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redirijiendo"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/google/callback": {
+            "get": {
+                "tags": ["auth"],
+                "summary": "Callback a donde te redirije google. Detectara si ir a la pagina de registro o iniciar sesión.",
+                "externalDocs": {
+                    "url": "https://cloud.google.com/nodejs/getting-started/authenticate-users?hl=es"
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redirijiendo."
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/google/loginfast": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Usando un token se realiza el inicio de sesión.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "loginToken":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/authToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/google/getLoginInfoFromToken": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Usando un token adquiera la información de usuario dada por google.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "loginToken":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean",
+                                    "properties": {
+                                        "given_name": {
+                                            "type": "string"
+                                        },
+                                        "family_name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "sub": {
+                                            "type": "string",
+                                            "description": "Codigo de google"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/google/registerlow": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Registra a un usuario, ademas envia un email de confirmación.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/cambiarContrasena": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "tags": ["auth"],
+                "summary": "Cambiar contraseña de usuario",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID del usuario"
+                                    },
+                                    "passwordOld":{
+                                        "type": "string",
+                                        "description": "Contraseña antigua"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/actCelular": {
+            "post": {
+                "tags": ["auth"],
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "summary": "Cambiar celular de usuario",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID del usuario"
+                                    },
+                                    "celular":{
+                                        "type": "string",
+                                        "description": "Contraseña antigua"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/agregarDireccion": {
+            "post": {
+                "tags": ["auth"],
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "summary": "Agregar o cambiar dirección de usuario.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID del usuario"
+                                    },
+                                    "dirOne":{
+                                        "type": "string"
+                                    },
+                                    "dirTwo":{
+                                        "type": "string"
+                                    },
+                                    "reference":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/agregarDocumento": {
+            "post": {
+                "tags": ["auth"],
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "summary": "Agregar o cambiar documento de usuario.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID del usuario"
+                                    },
+                                    "documento":{
+                                        "type": "string"
+                                    },
+                                    "tipoPersona":{
+                                        "type": "string",
+                                        "enum": ["dni", "ruc"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/getUserInfo/{username}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "parameters": [{
+                    "name": "username",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "DWEWQX123D2D",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del usario"
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener usuario.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/getOwnUser": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "tags": ["reportes"],
+                "summary": "Obtener usuario propio.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/auth/userEx": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN ALL":[]
+                }],
+                "parameters": [{
+                    "name": "username",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "DWEWQX123D2D",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del usario"
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Buscar si el usuario existe.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/ventaSimple": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Realiza una venta con solo 1 item.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venta": {
+                                        "$ref": "#/components/schemas/venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "venta": {
+                                            "$ref": "#/components/schemas/venta"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "_sunat": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/agregarVenta": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Crear una nueva venta con 1 item.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venta": {
+                                        "$ref": "#/components/schemas/venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "venta": {
+                                            "$ref": "#/components/schemas/venta"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/agregarItemVenta": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Agregar un item a una venta.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codigoVenta": {
+                                        "type": "string"
+                                    },
+                                    "itemVendido": {
+                                        "$ref": "#/components/schemas/itemvendido"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "venta": {
+                                            "$ref": "#/components/schemas/venta"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/ejecutarVenta": {
+            "post": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Ejecutar venta.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venta": {
+                                        "$ref": "#/components/schemas/venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "venta": {
+                                            "$ref": "#/components/schemas/venta"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "_sunat": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/anularVentaPost": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Anular venta post ejecución.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/venta"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/anularVenta": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Anular venta.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "venta": {
+                                        "$ref": "#/components/schemas/venta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/eliminarItemVenta": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Eliminar item de venta.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/venta"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/venta"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/eliminarItemSCVenta": {
+            "put": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Eliminar item de venta cuando el item tiene un sub-conteo.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/venta"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/venta"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/getVentasActivasList": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Obetener listado de las ventas activas del usuario.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/ventasActivasFull": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "tags": ["ventas"],
+                "summary": "Obetener listado detallado de las ventas activas del usuario.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/venta"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/obtenerVenta/{ventaCod}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "ventaCod",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "SD222",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo de la venta."
+                    }
+                }],
+                "tags": ["ventas"],
+                "summary": "Obetener venta.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/venta"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/ventas/getGananciaTotalPorItem/{codigoItem}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigoItem",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "SD222",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item."
+                    }
+                }],
+                "tags": ["reportes"],
+                "summary": "Obetener ganancia total por item.",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "value": {
+                                            "type": "number"
+                                        },
+                                        "totalVenta": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemGananciaIngreso/{codigoItem}": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigoItem",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "SD222",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item."
+                    }
+                }],
+                "tags": ["reportes"],
+                "externalDocs": {
+                    "url": "https://swimlane.gitbook.io/ngx-charts/"
+                },
+                "summary": "Obtener ventas por mes para ser graficadas usando ngx-charts.",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        },
+        "/inventario/getItemsGanancias": {
+            "get": {
+                "security": [{
+                    "JWT TOKEN TRANSACCIONAL":[]
+                }],
+                "parameters": [{
+                    "name": "codigoItem",
+                    "in": "path",
+                    "required": true,
+                    "allowEmptyValue": false,
+                    "example": "SD222",
+                    "schema": {
+                        "type": "string",
+                        "description": "Codigo del item."
+                    }
+                }],
+                "tags": ["reportes"],
+                "externalDocs": {
+                    "url": "https://swimlane.gitbook.io/ngx-charts/"
+                },
+                "summary": "Obtener ventas por mes para ser graficadas usando ngx-charts.",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Succes"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Error-401"
+                    }
+                }
+            }
+        }
     }
 }
 

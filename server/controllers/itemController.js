@@ -518,7 +518,7 @@ export const addLinkToPDF = async (req, res) => {
         	{ linkComprobante: req.sunat.enlace_del_pdf, numero: req.sunat.numero, guia_link: req.sunat_guia.enlace_del_pdf,
         		serie: req.sunat.serie, tipoComprobante: req.sunat.tipo_de_comprobante },
         	{ new: true, useFindAndModify: false });
-		res.json({ item: result, message: `Succes||${req.ventResult.codigo}`, _sunat: req.sunat });
+		res.json({ venta: result, message: `Succes||${req.ventResult.codigo}`, _sunat: req.sunat });
 	}
 	catch (error) {
 		return res.status(500).json({ errorMSG: error });
@@ -641,7 +641,7 @@ export const subCantidadUpdate = async (req, res) => {
 		if (!req.body.tipo) {
 			const testResult = itemOriginal.cantidad - req.body.cantidad;
 			if (testResult < 0) {
-				throw('Cantidad Invalidad');
+				return res.status(400).json({ errorMSG: 'Cantidad Invalidad' });
 			}
 		}
 
@@ -1774,6 +1774,10 @@ export const setItemReview = async (req, res) => {
 export const addItemReview = async (req, res) => {
 	try {
 
+
+		if (!(req.body.rating <= 5 && req.body.rating >= 1)) {
+			return res.status(400).json({ errorMSG: 'Rating no valido' });
+		}
 
 		const aCompradoElItem = await Item.aggregate([
 			{ $match: { codigo: req.body.codigo } },

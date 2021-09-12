@@ -28,7 +28,7 @@ routes.get('/getItemsGanancias', normalLoginRequired, getGananciasTodoItem, filt
 
 routes.get('/getInfoToPlotVentasOverTime', normalLoginRequired, getInfoToPlotVentasPrecioOverTime);
 
-routes.post('/generarVenta', transaccionalLoginRequired, generarVenta);
+// !removed routes.post('/generarVenta', transaccionalLoginRequired, generarVenta);
 
 routes.put('/eliminarItemVenta', transaccionalLoginRequired, eliminarItemVenta);
 
@@ -54,7 +54,7 @@ routes.post('/ventaSimple', transaccionalLoginRequired, ventaSimpleItemUpdate, g
 
 routes.post('/agregarVenta', transaccionalLoginRequired, tieneVentaActiva, generarVentaNueva, agregarVentaUsuario);
 
-routes.get('/ventasPendientes', normalLoginRequired, getVentaActiva, getVentaUser);
+// ! removed routes.get('/ventasPendientes', normalLoginRequired, getVentaActiva, getVentaUser);
 
 routes.get('/ventasActivasFull', normalLoginRequired, getVentasListLoggedUser);
 

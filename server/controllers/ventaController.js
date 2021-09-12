@@ -219,7 +219,6 @@ export const getDNI = async (req, res) => {
 		res.json(result.data);
 	}
 	catch (error) {
-		console.log(error);
 		if (error.response.status === 422) {
 			return res.status(422).json({ errorMSG: 'Numero Invalido' });
 		}
