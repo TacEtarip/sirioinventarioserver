@@ -92,6 +92,10 @@ app.use('/coti', cotiRoutes);
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
+app.get('/', (req, res) => {
+	return res.redirect('/api-docs');
+});
+
 app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 app.use((error, req, res, next) => {
