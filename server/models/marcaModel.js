@@ -1,23 +1,21 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
-const MarcaSchema = new Schema ({
-	name:{
-		type: String,
-		required: true,
-		unique: true,
-	},
+const MarcaSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
-	codigo:{
-		type: String,
-		required: true,
-		unique: true,
-	},
+  codigo: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
-	ruc: {
-		type: Number,
-	},
-
+  ruc: {
+    type: Number,
+  },
 });
 
 export default MarcaSchema;
-

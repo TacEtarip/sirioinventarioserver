@@ -1,68 +1,65 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
-import { DocumentoSchema, ItemVendidoSchema } from './communModels';
+import { DocumentoSchema, ItemVendidoSchema } from "./communModels";
 
-export const CotizacionSchema = new Schema ({
+export const CotizacionSchema = new Schema({
+  codigo: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
 
-	codigo: {
-		type: String,
-		required: true,
-		trim: true,
-		unique: true,
-	},
+  totalPrice: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
 
-	totalPrice: {
-		type: Number,
-		trim: true,
-		required: true,
-	},
+  totalPriceNoIGV: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
 
-	totalPriceNoIGV: {
-		type: Number,
-		trim: true,
-		required: true,
-	},
+  estado: {
+    type: String,
+    trim: true,
+    required: true,
+  },
 
-	estado: {
-		type: String,
-		trim: true,
-		required: true,
-	},
+  documento: {
+    type: DocumentoSchema,
+  },
 
-	documento: {
-		type: DocumentoSchema,
-	},
+  itemsVendidos: {
+    type: [ItemVendidoSchema],
+    required: true,
+  },
 
-	itemsVendidos: {
-		type: [ItemVendidoSchema],
-		required: true,
-	},
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 
-	date:{
-		type: Date,
-		default: Date.now,
-	},
+  vendedor: {
+    type: String,
+  },
 
-	vendedor: {
-		type: String,
-	},
+  tipoVendedor: {
+    type: String,
+    default: "admin",
+  },
 
-	tipoVendedor: {
-		type: String,
-		default: 'admin',
-	},
+  cliente_email: {
+    type: String,
+    trim: true,
+  },
 
-	cliente_email: {
-		type: String,
-		trim: true,
-	},
-
-	celular_cliente: {
-		type: String,
-		trim: true,
-	},
-
+  celular_cliente: {
+    type: String,
+    trim: true,
+  },
 });
-
 
 export default CotizacionSchema;

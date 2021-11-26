@@ -8,23 +8,23 @@ Este proyecto back-end esta actuamente utilizando Node 12.
 
 ## Tecnologias Usadas
 
-* Node 12
-* Express
-* MongoDB
-* Google Auth
-* AWS S3
-* WebPack
-* Heroku
-* Swagger
+- Node 12
+- Express
+- MongoDB
+- Google Auth
+- AWS S3
+- WebPack
+- Heroku
+- Swagger
 
 ## Proyectos Relacionados
 
-* [Front-END (angular)](https://github.com/TacEtarip/sirioFront "Front End Para Inventario")
+- [Front-END (angular)](https://github.com/TacEtarip/sirioFront "Front End Para Inventario")
 
 ## Comandos
 
-* `build`
-* `start`
-* `dev:start`
+- `build`
+- `start`
+- `dev:start`
 
 `PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L CONTACTO EN: hu3rtas@outlook.com`

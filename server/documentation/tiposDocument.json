@@ -1,68 +1,82 @@
 {
-    "schemas": {
-        "tipo": {
-            "type": "object",
-            "required": ["name"],
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Nombre del tipo"
-                },
-            
-                "date":{
-                    "type": "string",
-                    "description": "Fecha de creación del tipo",
-                    "readOnly": true
-                },
-            
-                "codigo": {
-                    "type": "string",
-                    "description": "Codigo del tipo"
-                },
-            
-                "subTipo": {
-                    "type": "array",
-                    "description": "Listado de sub-tipos",
-                    "items": {
-                        "type": "string",
-                        "description": "Nombre del sub-tipo"
-                    }
-                },
-            
-                "subTipoLink": {
-                    "type": "array",
-                    "description": "Listado las imagenes de los sub-tipos",
-                    "items": {
-                        "type": "string",
-                        "description": "URL de imagén del sub-tipo"
-                    }
-                },
-            
-                "deleted": {
-                    "type": "boolean"
-                },
-            
-                "link": {
-                    "type": "string",
-                    "description": "URL de imagén del tipo"
-                },
-            
-                "order": {
-                    "type": "number",
-                    "default": -1,
-                    "description": "Orden en que se muestra el tipo"
-                }
-            },
-            "example": {
-                "subTipo": ["Respiradores 3M", "Filtros 3M", "Respiradores Master", "Mascarillas", "Respiradores Astara", "Retenedores para filtros"],
-                "name": "Pro. Respiratoria",
-                "date": "2021-01-14T20:04:04.125+00:00",
-                "codigo": "1610645929520",
-                "deleted": false,
-                "link": "img-1610645929520-1621997665489.png",
-                "subTipoLink": ["IMG-1622763250845.png", "img-1622747657121.png", "IMG-1622763288076.png", "IMG-1622763339734.png", "IMG-1631032975632.jpg", "IMG-1630012297019.jpg"],
-                "order": 1
-            }
+  "schemas": {
+    "tipo": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nombre del tipo"
+        },
+
+        "date": {
+          "type": "string",
+          "description": "Fecha de creación del tipo",
+          "readOnly": true
+        },
+
+        "codigo": {
+          "type": "string",
+          "description": "Codigo del tipo"
+        },
+
+        "subTipo": {
+          "type": "array",
+          "description": "Listado de sub-tipos",
+          "items": {
+            "type": "string",
+            "description": "Nombre del sub-tipo"
+          }
+        },
+
+        "subTipoLink": {
+          "type": "array",
+          "description": "Listado las imagenes de los sub-tipos",
+          "items": {
+            "type": "string",
+            "description": "URL de imagén del sub-tipo"
+          }
+        },
+
+        "deleted": {
+          "type": "boolean"
+        },
+
+        "link": {
+          "type": "string",
+          "description": "URL de imagén del tipo"
+        },
+
+        "order": {
+          "type": "number",
+          "default": -1,
+          "description": "Orden en que se muestra el tipo"
         }
+      },
+      "example": {
+        "subTipo": [
+          "Respiradores 3M",
+          "Filtros 3M",
+          "Respiradores Master",
+          "Mascarillas",
+          "Respiradores Astara",
+          "Retenedores para filtros"
+        ],
+        "name": "Pro. Respiratoria",
+        "date": "2021-01-14T20:04:04.125+00:00",
+        "codigo": "1610645929520",
+        "deleted": false,
+        "link": "img-1610645929520-1621997665489.png",
+        "subTipoLink": [
+          "IMG-1622763250845.png",
+          "img-1622747657121.png",
+          "IMG-1622763288076.png",
+          "IMG-1622763339734.png",
+          "IMG-1631032975632.jpg",
+          "IMG-1630012297019.jpg"
+        ],
+        "order": 1
+      }
     }
+  }
 }

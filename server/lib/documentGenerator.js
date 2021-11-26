@@ -1,205 +1,195 @@
-import PDFDocument from 'pdfkit';
-
+import PDFDocument from "pdfkit";
 
 export const createDocumento = (invoice, imageB) => {
-	const doc = new PDFDocument({ size: 'A4', margin: 50 });
-	// const writeStream = fs.createWriteStream(path.resolve(__dirname, './test3.pdf'));
+  const doc = new PDFDocument({ size: "A4", margin: 50 });
+  // const writeStream = fs.createWriteStream(path.resolve(__dirname, './test3.pdf'));
 
-	generateHeader(doc, imageB);
-	generateCustomerInformation(doc, invoice);
-	generateInvoiceTable(doc, invoice);
-	generateFooter(doc);
+  generateHeader(doc, imageB);
+  generateCustomerInformation(doc, invoice);
+  generateInvoiceTable(doc, invoice);
+  generateFooter(doc);
 
-	return doc;
-	// doc.end();
+  return doc;
+  // doc.end();
 };
 
-
 const generateHeader = (doc, imageB) => {
-	doc
-		.image(imageB, 50, 30, { width: 70 })
-		.fillColor('#444444')
-		.fontSize(20)
-		.fontSize(10)
-		.text('Sirio Dinar | RUC: 20605746587', 200, 50, { align: 'right' })
-		.text('Jr. Felipe Pardo Y Aliaga 213, Trujillo.', 200, 65, { align: 'right' })
-		.text('+51 977-426-349', 200, 80, { align: 'right' })
-		.moveDown();
+  doc
+    .image(imageB, 50, 30, { width: 70 })
+    .fillColor("#444444")
+    .fontSize(20)
+    .fontSize(10)
+    .text("Sirio Dinar | RUC: 20605746587", 200, 50, { align: "right" })
+    .text("Jr. Felipe Pardo Y Aliaga 213, Trujillo.", 200, 65, {
+      align: "right",
+    })
+    .text("+51 977-426-349", 200, 80, { align: "right" })
+    .moveDown();
 };
 
 const generateCustomerInformation = (doc, invoice) => {
-	doc
-		.fillColor('#444444')
-		.fontSize(20)
-		.text('Comprobante', 50, 160);
+  doc.fillColor("#444444").fontSize(20).text("Comprobante", 50, 160);
 
-	generateHr(doc, 185);
+  generateHr(doc, 185);
 
-	const customerInformationTop = 200;
+  const customerInformationTop = 200;
 
-	doc
-		.fontSize(10)
-		.text('Codigo:', 50, customerInformationTop)
-		.font('Helvetica-Bold')
-		.text(invoice.codigo, 150, customerInformationTop)
-		.font('Helvetica')
-		.text('Fecha de emisión:', 50, customerInformationTop + 40)
-		.text(formatDate(new Date()), 150, customerInformationTop + 40)
+  doc
+    .fontSize(10)
+    .text("Codigo:", 50, customerInformationTop)
+    .font("Helvetica-Bold")
+    .text(invoice.codigo, 150, customerInformationTop)
+    .font("Helvetica")
+    .text("Fecha de emisión:", 50, customerInformationTop + 40)
+    .text(formatDate(new Date()), 150, customerInformationTop + 40)
 
-		.font('Helvetica-Bold')
-		.text(invoice.documento.name, 300, customerInformationTop)
-		.font('Helvetica')
-		.text(invoice.documento.codigo, 300, customerInformationTop + 40)
-		.moveDown();
+    .font("Helvetica-Bold")
+    .text(invoice.documento.name, 300, customerInformationTop)
+    .font("Helvetica")
+    .text(invoice.documento.codigo, 300, customerInformationTop + 40)
+    .moveDown();
 
-	generateHr(doc, 260);
+  generateHr(doc, 260);
 };
 
 const generateHr = (doc, y) => {
-	doc
-		.strokeColor('#aaaaaa')
-		.lineWidth(1)
-		.moveTo(50, y)
-		.lineTo(550, y)
-		.stroke();
+  doc.strokeColor("#aaaaaa").lineWidth(1).moveTo(50, y).lineTo(550, y).stroke();
 };
 
 const formatCurrency = (cents) => {
-	return 'S/' + (cents).toFixed(2);
+  return "S/" + cents.toFixed(2);
 };
 
 const formatDate = (date) => {
-	const day = date.getDate();
-	const month = date.getMonth() + 1;
-	const year = date.getFullYear();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-	return year + '/' + month + '/' + day;
+  return year + "/" + month + "/" + day;
 };
 
 const generateInvoiceTable = (doc, invoice) => {
-	let i;
-	let invoiceTableTop = 307;
-	doc
-		.fontSize(8)
-		.font('Helvetica-Bold');
-	generateTableRow(
-		doc,
-		invoiceTableTop,
-		'Cod',
-		'Nombre',
-		'Descripcion',
-		'Precio',
-		'Cantidad',
-		'Total',
-	);
+  let i;
+  let invoiceTableTop = 307;
+  doc.fontSize(8).font("Helvetica-Bold");
+  generateTableRow(
+    doc,
+    invoiceTableTop,
+    "Cod",
+    "Nombre",
+    "Descripcion",
+    "Precio",
+    "Cantidad",
+    "Total"
+  );
 
-	invoiceTableTop = 300;
+  invoiceTableTop = 300;
 
-	generateHr(doc, invoiceTableTop + 25);
-	doc.font('Helvetica');
+  generateHr(doc, invoiceTableTop + 25);
+  doc.font("Helvetica");
 
+  for (i = 0; i < invoice.itemsVendidos.length; i++) {
+    const item = invoice.itemsVendidos[i];
 
-	for (i = 0; i < invoice.itemsVendidos.length; i++) {
-		const item = invoice.itemsVendidos[i];
+    let scString = item.descripcion;
 
-		let scString = item.descripcion;
+    if (item.cantidadSC.length > 0) {
+      scString = scString + "\n" + "Cantidades: ";
+    }
 
-		if (item.cantidadSC.length > 0) {
-			scString = scString + '\n' + 'Cantidades: ';
-		}
+    for (let y = 0; y < item.cantidadSC.length; y++) {
+      if (item.cantidadSC[y].cantidadVenta > 0) {
+        scString =
+          scString +
+          item.cantidadSC[y].name +
+          " - " +
+          item.cantidadSC[y].nameSecond +
+          ": " +
+          item.cantidadSC[y].cantidadVenta +
+          ", ";
+      }
+    }
 
-		for (let y = 0; y < item.cantidadSC.length; y++) {
-			if (item.cantidadSC[y].cantidadVenta > 0) {
-				scString = scString + item.cantidadSC[y].name + ' - ' + item.cantidadSC[y].nameSecond + ': ' + item.cantidadSC[y].cantidadVenta + ', ';
-			}
-		}
+    if (item.cantidadSC.length > 0) {
+      scString = scString.slice(0, -2) + ".";
+    }
 
+    const position = invoiceTableTop + (i * 2 + 1) * 30;
+    generateTableRow(
+      doc,
+      position,
+      item.codigo,
+      item.name,
+      scString,
+      formatCurrency(item.priceNoIGV),
+      item.cantidad,
+      formatCurrency(item.totalPriceNoIGV)
+    );
 
-		if (item.cantidadSC.length > 0) {
-			scString = scString.slice(0, -2) + '.';
-		}
+    generateHr(doc, position + 55);
+  }
 
-		const position = invoiceTableTop + ((i * 2) + 1) * 30;
-		generateTableRow(
-			doc,
-			position,
-			item.codigo,
-			item.name,
-			scString,
-			formatCurrency(item.priceNoIGV),
-			item.cantidad,
-			formatCurrency(item.totalPriceNoIGV),
-		);
+  const subtotalPosition = invoiceTableTop + (i * 2 + 1) * 31;
+  generateTableRow(
+    doc,
+    subtotalPosition,
+    "",
+    "",
+    "",
+    "",
+    "Subtotal",
+    formatCurrency(invoice.totalPriceNoIGV)
+  );
 
-		generateHr(doc, position + 55);
-	}
+  const paidToDatePosition = subtotalPosition + 15;
+  generateTableRow(
+    doc,
+    paidToDatePosition,
+    "",
+    "",
+    "",
+    "",
+    "IGV 18%",
+    formatCurrency(invoice.totalPrice - invoice.totalPriceNoIGV)
+  );
 
-	const subtotalPosition = invoiceTableTop + ((i * 2) + 1) * 31;
-	generateTableRow(
-		doc,
-		subtotalPosition,
-		'',
-		'',
-		'',
-		'',
-		'Subtotal',
-		formatCurrency(invoice.totalPriceNoIGV),
-	);
-
-	const paidToDatePosition = subtotalPosition + 15;
-	generateTableRow(
-		doc,
-		paidToDatePosition,
-		'',
-		'',
-		'',
-		'',
-		'IGV 18%',
-		formatCurrency(invoice.totalPrice - invoice.totalPriceNoIGV),
-	);
-
-	const duePosition = paidToDatePosition + 15;
-	doc.font('Helvetica-Bold');
-	generateTableRow(
-		doc,
-		duePosition,
-		'',
-		'',
-		'',
-		'',
-		'Total',
-		formatCurrency(invoice.totalPrice),
-	);
-	doc.font('Helvetica');
+  const duePosition = paidToDatePosition + 15;
+  doc.font("Helvetica-Bold");
+  generateTableRow(
+    doc,
+    duePosition,
+    "",
+    "",
+    "",
+    "",
+    "Total",
+    formatCurrency(invoice.totalPrice)
+  );
+  doc.font("Helvetica");
 };
 
 const generateFooter = (doc) => {
-	doc
-		.fontSize(10)
-		.text(
-			'siriodinar.com',
-			50,
-			780,
-			{ align: 'center', width: 500 },
-		);
+  doc
+    .fontSize(10)
+    .text("siriodinar.com", 50, 780, { align: "center", width: 500 });
 };
 
 const generateTableRow = (
-	doc,
-	y,
-	item,
-	description,
-	superDescr,
-	unitCost,
-	quantity,
-	lineTotal,
+  doc,
+  y,
+  item,
+  description,
+  superDescr,
+  unitCost,
+  quantity,
+  lineTotal
 ) => {
-	doc
-		.fontSize(8)
-		.text(item, 50, y, { width: 40 })
-		.text(description, 100, y, { width: 100 })
-		.text(superDescr, 210, y, { width: 180 })
-		.text(unitCost, 400, y, { width: 35, align: 'right' })
-		.text(quantity, 460, y, { width: 35, align: 'right' })
-		.text(lineTotal, 0, y, { align: 'right' });
+  doc
+    .fontSize(8)
+    .text(item, 50, y, { width: 40 })
+    .text(description, 100, y, { width: 100 })
+    .text(superDescr, 210, y, { width: 180 })
+    .text(unitCost, 400, y, { width: 35, align: "right" })
+    .text(quantity, 460, y, { width: 35, align: "right" })
+    .text(lineTotal, 0, y, { align: "right" });
 };

@@ -1,108 +1,105 @@
-import { Schema } from 'mongoose';
-import { ItemVendidoSchema, DocumentoSchema } from './communModels';
+import { Schema } from "mongoose";
+import { ItemVendidoSchema, DocumentoSchema } from "./communModels";
 
-const VentaSchema = new Schema ({
+const VentaSchema = new Schema({
+  codigo: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
 
-	codigo: {
-		type: String,
-		required: true,
-		trim: true,
-		unique: true,
-	},
+  totalPrice: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
 
-	totalPrice: {
-		type: Number,
-		trim: true,
-		required: true,
-	},
+  totalPriceNoIGV: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
 
-	totalPriceNoIGV: {
-		type: Number,
-		trim: true,
-		required: true,
-	},
+  estado: {
+    type: String,
+    trim: true,
+    required: true,
+  },
 
-	estado: {
-		type: String,
-		trim: true,
-		required: true,
-	},
+  documento: {
+    type: DocumentoSchema,
+  },
 
-	documento: {
-		type: DocumentoSchema,
-	},
+  itemsVendidos: {
+    type: [ItemVendidoSchema],
+    required: true,
+  },
 
-	itemsVendidos: {
-		type: [ItemVendidoSchema],
-		required: true,
-	},
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 
-	date:{
-		type: Date,
-		default: Date.now,
-	},
+  vendedor: {
+    type: String,
+  },
 
-	vendedor: {
-		type: String,
-	},
+  tipoVendedor: {
+    type: String,
+    default: "admin",
+  },
 
-	tipoVendedor: {
-		type: String,
-		default: 'admin',
-	},
+  medio_de_pago: {
+    type: String,
+  },
 
-	medio_de_pago: {
-		type: String,
-	},
+  linkComprobante: {
+    type: String,
+  },
 
-	linkComprobante: {
-		type: String,
-	},
+  serie: {
+    type: String,
+  },
 
-	serie: {
-		type: String,
-	},
+  tipoComprobante: {
+    type: String,
+  },
 
-	tipoComprobante: {
-		type: String,
-	},
+  numero: {
+    type: Number,
+  },
 
-	numero: {
-		type: Number,
-	},
+  cliente_email: {
+    type: String,
+  },
 
-	cliente_email: {
-		type: String,
-	},
+  guia_serie: {
+    type: String,
+  },
 
-	guia_serie: {
-		type: String,
-	},
+  guia_numero: {
+    type: String,
+  },
 
-	guia_numero: {
-		type: String,
-	},
+  guia: {
+    type: Boolean,
+    default: false,
+  },
 
-	guia: {
-		type: Boolean,
-		default: false,
-	},
+  guia_link: {
+    type: String,
+  },
 
-	guia_link: {
-		type: String,
-	},
+  carrito_venta: {
+    type: Boolean,
+    default: false,
+  },
 
-	carrito_venta: {
-		type: Boolean,
-		default: false,
-	},
-
-	estado_carrito_comprando: {
-		type: Boolean,
-		default: false,
-	},
-
+  estado_carrito_comprando: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default VentaSchema;
-
