@@ -1,8 +1,8 @@
-require("dotenv").config();
+require('dotenv').config();
 
-import bunyan from "bunyan";
+import bunyan from 'bunyan';
 
-import pjs from "../package.json";
+import pjs from '../package.json';
 
 const { name, version } = pjs;
 
@@ -30,12 +30,12 @@ const config = {
     BPASS: process.env.PASSWORD_SENDIBLUE,
     nbfToken: process.env.NBF_TOKEN,
     reToken: process.env.RE_TOKEN,
-    emailFrom: "loginmanager@siriodinar.com",
+    emailFrom: 'loginmanager@siriodinar.com',
     version,
-    link: "http://localhost:5000/",
-    link_front: "http://localhost:4000/",
-    origin: ["http://localhost:4200", "http://localhost:4000"],
-    log: () => getLogger(name, version, "debug"),
+    link: 'http://localhost:5000/',
+    link_front: 'http://localhost:4000/',
+    origin: ['http://localhost:4200', 'http://localhost:4000'],
+    log: () => getLogger(name, version, 'debug'),
   },
 
   production: {
@@ -59,14 +59,14 @@ const config = {
     nbfToken: process.env.NBF_TOKEN,
     reToken: process.env.RE_TOKEN,
     version,
-    emailFrom: "loginmanager@siriodinar.com",
-    link: "https://inventario-sirio-dinar.herokuapp.com/",
-    link_front: "https://inventario.siriodinar.com/",
+    emailFrom: 'loginmanager@siriodinar.com',
+    link: 'https://inventario-sirio-dinar.herokuapp.com/',
+    link_front: 'https://inventario.siriodinar.com/',
     origin: [
-      "https://inventario.siriodinar.com",
-      "https://sirio-inventario-front.herokuapp.com",
+      'https://inventario.siriodinar.com',
+      'https://sirio-inventario-front.herokuapp.com',
     ],
-    log: () => getLogger(name, version, "debug"),
+    log: () => getLogger(name, version, 'debug'),
   },
 };
 
