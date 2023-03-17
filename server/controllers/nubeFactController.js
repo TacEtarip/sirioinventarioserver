@@ -296,6 +296,8 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
 export const generarComprobante = (req, res, next) => {
   let jsonToSend = {};
 
+  logger.info('generando comprobante')
+
   logger.info(req.ventResult.documento);
 
   if (req.ventResult.documento.type === 'boleta') {
