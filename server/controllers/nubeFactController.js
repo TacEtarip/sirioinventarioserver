@@ -298,6 +298,8 @@ export const generarComprobante = (req, res, next) => {
 
   logger.info(req.ventResult.documento);
 
+  console.log('xxcomprobante', req.count);
+
   if (req.ventResult.documento.type === 'boleta') {
     jsonToSend = generarBoleta(req.ventResult, req.count, req.sunat_guia);
   } else if (req.ventResult.documento.type === 'factura') {
