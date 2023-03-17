@@ -472,7 +472,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
           $natural: -1,
         })
         .limit(1);
-      console.log(ultimaVentaBoleta);
+      console.log('ultimaBoleta', ultimaVentaBoleta);
       req.count = ultimaVentaBoleta.nubeCountNumber || 0;
     }
 
@@ -608,7 +608,7 @@ export const ventaEjecutar = async (req, res, next) => {
           $natural: -1,
         })
         .limit(1);
-      console.log(ultimaVentaBoleta);
+      console.log('ultimaBoleta', ultimaVentaBoleta);
       req.count = ultimaVentaBoleta.numero || 0;
     }
 
