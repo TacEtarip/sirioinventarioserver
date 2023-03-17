@@ -675,6 +675,7 @@ export const addLinkToPDF = async (req, res) => {
       _sunat: req.sunat,
     });
   } catch (error) {
+    console.log('showerr', error);
     return res.status(500).json({ errorMSG: error });
   }
 };
