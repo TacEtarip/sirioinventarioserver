@@ -453,7 +453,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
     req.ventResult = await newVenta.save({ session });
 
     if (newVenta.documento.type === 'factura') {
-      const ultimaVentaFactura = await Venta.find({
+      const ultimaVentaFactura = await Venta.findOne({
         tipoComprobante: { $eq: 1 },
         numero: { $ne: null },
       })
@@ -464,7 +464,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
       console.log(ultimaVentaFactura);
       req.count = ultimaVentaFactura.nubeCountNumber || 0;
     } else if (newVenta.documento.type === 'boleta') {
-      const ultimaVentaBoleta = await Venta.find({
+      const ultimaVentaBoleta = await Venta.findOne({
         tipoComprobante: { $eq: 2 },
         numero: { $ne: null },
       })
@@ -589,7 +589,7 @@ export const ventaEjecutar = async (req, res, next) => {
     req.ventResult = venta;
 
     if (venta.documento.type === 'factura') {
-      const ultimaVentaFactura = await Venta.find({
+      const ultimaVentaFactura = await Venta.findOne({
         tipoComprobante: { $eq: 1 },
         numero: { $ne: null },
       })
@@ -600,7 +600,7 @@ export const ventaEjecutar = async (req, res, next) => {
       console.log(ultimaVentaFactura);
       req.count = ultimaVentaFactura.numero || 0;
     } else if (venta.documento.type === 'boleta') {
-      const ultimaVentaBoleta = await Venta.find({
+      const ultimaVentaBoleta = await Venta.findOne({
         tipoComprobante: { $eq: 2 },
         numero: { $ne: null },
       })
