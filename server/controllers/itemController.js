@@ -588,7 +588,7 @@ export const ventaEjecutar = async (req, res, next) => {
 
     req.ventResult = venta;
 
-    if (newVenta.documento.type === 'factura') {
+    if (venta.documento.type === 'factura') {
       const ultimaVentaFactura = await Venta.find({
         tipoComprobante: { $eq: 1 },
         numero: { $ne: null },
@@ -599,7 +599,7 @@ export const ventaEjecutar = async (req, res, next) => {
         .limit(1);
       console.log(ultimaVentaFactura);
       req.count = ultimaVentaFactura.numero || 0;
-    } else if (newVenta.documento.type === 'boleta') {
+    } else if (venta.documento.type === 'boleta') {
       const ultimaVentaBoleta = await Venta.find({
         tipoComprobante: { $eq: 2 },
         numero: { $ne: null },
