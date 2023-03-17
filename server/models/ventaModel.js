@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
-import { ItemVendidoSchema, DocumentoSchema } from "./communModels";
+import { Schema } from 'mongoose';
+import { DocumentoSchema, ItemVendidoSchema } from './communModels';
 
 const VentaSchema = new Schema({
   codigo: {
@@ -47,7 +47,7 @@ const VentaSchema = new Schema({
 
   tipoVendedor: {
     type: String,
-    default: "admin",
+    default: 'admin',
   },
 
   medio_de_pago: {

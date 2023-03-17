@@ -1,22 +1,22 @@
-import mongoose from "mongoose";
-import { anularComprobanteSunat } from "../controllers/nubeFactController";
-import { createExcelItemReport } from "../lib/createExcelItemReport";
-import itemSchema from "../models/itemModel";
-import marcaSchema from "../models/marcaModel";
-import tagsSchema from "../models/tagsModel";
-import { UserSchema } from "../models/userModel";
-import ventaModel from "../models/ventaModel";
-import { uploadPDFventa } from "./uploadsController";
+import mongoose from 'mongoose';
+import { anularComprobanteSunat } from '../controllers/nubeFactController';
+import { createExcelItemReport } from '../lib/createExcelItemReport';
+import itemSchema from '../models/itemModel';
+import marcaSchema from '../models/marcaModel';
+import tagsSchema from '../models/tagsModel';
+import { UserSchema } from '../models/userModel';
+import ventaModel from '../models/ventaModel';
+import { uploadPDFventa } from './uploadsController';
 
-const Item = mongoose.model("Item", itemSchema);
-const Marca = mongoose.model("Marca", marcaSchema);
-const Venta = mongoose.model("Venta", ventaModel);
-const User = mongoose.model("User", UserSchema);
-const Tag = mongoose.model("Tag", tagsSchema);
+const Item = mongoose.model('Item', itemSchema);
+const Marca = mongoose.model('Marca', marcaSchema);
+const Venta = mongoose.model('Venta', ventaModel);
+const User = mongoose.model('User', UserSchema);
+const Tag = mongoose.model('Tag', tagsSchema);
 
 export const filterItemsByRegex = async (req, res) => {
   try {
-    const testRegex = new RegExp(req.body.value + "+[a-z0-9._ ]*$", "ig");
+    const testRegex = new RegExp(req.body.value + '+[a-z0-9._ ]*$', 'ig');
     const result = await Item.find({
       name: { $regex: testRegex },
       deleted: false,
@@ -29,7 +29,7 @@ export const filterItemsByRegex = async (req, res) => {
 
 export const filterTagsByRegex = async (req, res) => {
   try {
-    const testRegex = new RegExp(req.body.value + "+[a-z0-9._ ]*$", "ig");
+    const testRegex = new RegExp(req.body.value + '+[a-z0-9._ ]*$', 'ig');
     const result = await Tag.find({
       name: { $regex: testRegex },
       deleted: false,
@@ -64,7 +64,7 @@ export const getRandomImageOfTipo = async (req, res) => {
     ]);
 
     if (result.length === 0) {
-      return res.json({ photo: "noPhoto.x" });
+      return res.json({ photo: 'noPhoto.x' });
     }
     res.json({ photos: result });
   } catch (error) {
@@ -88,8 +88,8 @@ export const getSimilarItems = async (req, res) => {
 export const searchText = async (req, res) => {
   try {
     const testRegex = new RegExp(
-      req.params.searchTerms + "+[a-z0-9._ ]*$",
-      "ig"
+      req.params.searchTerms + '+[a-z0-9._ ]*$',
+      'ig'
     );
     const result = await Item.find({
       name: { $regex: testRegex },
@@ -104,8 +104,8 @@ export const searchText = async (req, res) => {
 export const searchItem = async (req, res) => {
   try {
     const testRegex = new RegExp(
-      req.params.searchTerms + "+[a-z0-9._ ]*$",
-      "ig"
+      req.params.searchTerms + '+[a-z0-9._ ]*$',
+      'ig'
     );
     const result = await Item.find({
       name: { $regex: testRegex },
@@ -150,12 +150,12 @@ export const getItemReport = async (req, res) => {
     const item = await Item.findOne({ codigo: req.params.codigo });
     const buffer = await createExcelItemReport(item);
     res.writeHead(200, {
-      "Content-Type":
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "Content-Disposition": `attachment; filename=reporteItem-${item.codigo}.xlsx`,
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename=reporteItem-${item.codigo}.xlsx`,
     });
-    res.write(buffer, "binary");
-    res.end(null, "binary");
+    res.write(buffer, 'binary');
+    res.end(null, 'binary');
   } catch (error) {
     return res.status(500).json({ message: error });
   }
@@ -178,7 +178,7 @@ export const testFind = async (req, res) => {
     /*
         const result = await Item.findOneAndUpdate({codigo: '0SDTT2', 'subConteo.order': {$elemMatch: {name: 'L', nameSecond: 'Rojo'}}}, {$set: {'subConteo.order.$.cantidad': 134}}, {new: true, useFindAndModify: true});
         console.log(result.subConteo);*/
-    const result = await Item.find({ codigo: { $in: ["0SDTT2", "2SDeT3"] } });
+    const result = await Item.find({ codigo: { $in: ['0SDTT2', '2SDeT3'] } });
     res.json(result);
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
@@ -189,9 +189,9 @@ export const getVentasActivasParaCard = async (req, res) => {
   try {
     const result = await Venta.aggregate([
       { $match: { codigo: req.body.codVenta } },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
-      { $unwind: { path: "$cantidadSC", preserveNullAndEmptyArrays: true } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
+      { $unwind: { path: '$cantidadSC', preserveNullAndEmptyArrays: true } },
     ]);
     res.json(result);
   } catch (error) {
@@ -205,18 +205,18 @@ export const agregarItemVenta = async (req, res) => {
 
     const preInfo = await Venta.aggregate([
       { $match: { codigo: req.body.codigoVenta } },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
       { $match: { codigo: req.body.itemVendido.codigo } },
-      { $count: "thisItem" },
+      { $count: 'thisItem' },
     ]);
 
     if (preInfo.length !== 0) {
       // const oldSale = await Venta.findOne({codigo: req.body.codigoVenta, itemsVendidos: {$elemMatch: {codigo: req.body.itemVendido.codigo}}});
       const oldSale = await Venta.aggregate([
         { $match: { codigo: req.body.codigoVenta } },
-        { $unwind: "$itemsVendidos" },
-        { $replaceRoot: { newRoot: "$itemsVendidos" } },
+        { $unwind: '$itemsVendidos' },
+        { $replaceRoot: { newRoot: '$itemsVendidos' } },
         { $match: { codigo: req.body.itemVendido.codigo } },
       ]);
 
@@ -248,12 +248,12 @@ export const agregarItemVenta = async (req, res) => {
           },
         },
         {
-          $set: { "itemsVendidos.$": req.body.itemVendido },
+          $set: { 'itemsVendidos.$': req.body.itemVendido },
           $inc: { totalPrice: newConst, totalPriceNoIGV: newConstNOIGV },
         },
         { useFindAndModify: false, new: true }
       );
-      return res.json({ message: "Cantidades actualizadas", venta: ventaAct });
+      return res.json({ message: 'Cantidades actualizadas', venta: ventaAct });
     }
     const ventaActT = await Venta.findOneAndUpdate(
       { codigo: req.body.codigoVenta },
@@ -266,7 +266,7 @@ export const agregarItemVenta = async (req, res) => {
       },
       { useFindAndModify: false, new: true }
     );
-    res.json({ message: "Item agregado correctamente", venta: ventaActT });
+    res.json({ message: 'Item agregado correctamente', venta: ventaActT });
   } catch (error) {
     return res.status(500).json({ message: error });
   }
@@ -277,7 +277,7 @@ export const generarVentaNueva = async (req, res, next) => {
     const newVenta = new Venta(req.body.venta);
     newVenta.codigo = await generarCodigoVent(newVenta.documento.type);
     newVenta.itemsVendidos[0].ventaCod = newVenta.codigo;
-    newVenta.vendedor = req.user.aud.split(" ")[0];
+    newVenta.vendedor = req.user.aud.split(' ')[0];
     req.saveResult = await newVenta.save();
     next();
   } catch (error) {
@@ -291,10 +291,10 @@ export const ventaAnularPost = async (req, res) => {
   try {
     const ventaAct = await Venta.findOne({ codigo: req.body.codigo });
 
-    if (ventaAct.estado === "anuladaPost") {
+    if (ventaAct.estado === 'anuladaPost') {
       await session.abortTransaction();
       session.endSession();
-      return res.status(409).json({ errorMSG: "Ya anulada" });
+      return res.status(409).json({ errorMSG: 'Ya anulada' });
     }
     const variaciones = [];
     const itemsVendidosCod = [];
@@ -305,9 +305,9 @@ export const ventaAnularPost = async (req, res) => {
         date: Date.now(),
         cantidad: item.cantidad,
         tipo: true,
-        comentario: "anular|" + req.body.codigo,
+        comentario: 'anular|' + req.body.codigo,
         costoVar: item.totalPrice,
-        usuario: req.user.aud.split(" ")[0],
+        usuario: req.user.aud.split(' ')[0],
         cantidadSC: item.cantidadSC,
       });
     }
@@ -320,11 +320,11 @@ export const ventaAnularPost = async (req, res) => {
           await Item.findOneAndUpdate(
             {
               codigo: item.codigo,
-              "subConteo.order": {
+              'subConteo.order': {
                 $elemMatch: { name: csc.name, nameSecond: csc.nameSecond },
               },
             },
-            { $inc: { "subConteo.order.$.cantidad": csc.cantidadVenta } },
+            { $inc: { 'subConteo.order.$.cantidad': csc.cantidadVenta } },
             { useFindAndModify: false, new: true, session }
           );
         }
@@ -341,29 +341,29 @@ export const ventaAnularPost = async (req, res) => {
       index++;
     }
 
-    let documentoAnulado = "";
+    let documentoAnulado = '';
 
-    if (req.body.documento.type !== "noone") {
-      if (req.body.documento.type === "factura") {
+    if (req.body.documento.type !== 'noone') {
+      if (req.body.documento.type === 'factura') {
         documentoAnulado = await anularComprobanteSunat(
           1,
           req.body.serie,
           req.body.numero,
-          "Anulación de venta"
+          'Anulación de venta'
         );
       }
-      if (req.body.documento.type === "boleta") {
+      if (req.body.documento.type === 'boleta') {
         documentoAnulado = await anularComprobanteSunat(
           2,
           req.body.serie,
           req.body.numero,
-          "Anulación de venta"
+          'Anulación de venta'
         );
       }
     }
     const venta = await Venta.findOneAndUpdate(
       { codigo: req.body.codigo },
-      { estado: "anuladaPost", linkComprobante: documentoAnulado },
+      { estado: 'anuladaPost', linkComprobante: documentoAnulado },
       { useFindAndModify: false, new: true, session }
     );
 
@@ -394,8 +394,8 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
       date: Date.now(),
       cantidad: req.body.venta.itemsVendidos[0].cantidad,
       tipo: false,
-      comentario: "venta|" + codigoVenta,
-      usuario: req.user.aud.split(" ")[0],
+      comentario: 'venta|' + codigoVenta,
+      usuario: req.user.aud.split(' ')[0],
       costoVar: req.body.venta.totalPrice,
       cantidadSC: req.body.venta.itemsVendidos[0].cantidadSC,
     };
@@ -406,11 +406,11 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
           const resultTemp = await Item.findOneAndUpdate(
             {
               codigo: req.body.venta.itemsVendidos[0].codigo,
-              "subConteo.order": {
+              'subConteo.order': {
                 $elemMatch: { name: csc.name, nameSecond: csc.nameSecond },
               },
             },
-            { $inc: { "subConteo.order.$.cantidad": -csc.cantidadVenta } },
+            { $inc: { 'subConteo.order.$.cantidad': -csc.cantidadVenta } },
             { useFindAndModify: false, new: true, session }
           );
           for (
@@ -423,7 +423,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
               session.endSession();
               return res
                 .status(202)
-                .json({ message: "La Cantidad Ha Cambiado", item: lastResort });
+                .json({ message: 'La Cantidad Ha Cambiado', item: lastResort });
             }
           }
         }
@@ -444,18 +444,36 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
       session.endSession();
       return res
         .status(202)
-        .json({ message: "La Cantidad Ha Cambiado", item: lastResort });
+        .json({ message: 'La Cantidad Ha Cambiado', item: lastResort });
     }
 
     const newVenta = new Venta(req.body.venta);
     newVenta.codigo = codigoVenta;
-    newVenta.vendedor = req.user.aud.split(" ")[0];
+    newVenta.vendedor = req.user.aud.split(' ')[0];
     req.ventResult = await newVenta.save({ session });
 
-    if (newVenta.documento.type === "factura") {
-      req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 1 } });
-    } else if (newVenta.documento.type === "boleta") {
-      req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 2 } });
+    if (newVenta.documento.type === 'factura') {
+      const ultimaVentaFactura = await Venta.find({
+        tipoComprobante: { $eq: 1 },
+        numero: { $ne: null },
+      })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1);
+      console.log(ultimaVentaFactura);
+      req.count = ultimaVentaFactura.nubeCountNumber || 0;
+    } else if (newVenta.documento.type === 'boleta') {
+      const ultimaVentaBoleta = await Venta.find({
+        tipoComprobante: { $eq: 2 },
+        numero: { $ne: null },
+      })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1);
+      console.log(ultimaVentaBoleta);
+      req.count = ultimaVentaBoleta.nubeCountNumber || 0;
     }
 
     if (req.body.venta.guia) {
@@ -483,24 +501,24 @@ export const ventaEjecutar = async (req, res, next) => {
 
     const ventaPre = await Venta.findOne({ codigo: req.body.venta.codigo });
 
-    if (ventaPre.estado === "ejecutada") {
+    if (ventaPre.estado === 'ejecutada') {
       await session.abortTransaction();
       session.endSession();
       return res
         .status(409)
-        .json({ errorMSG: "La venta ya ha sido ejecutada." });
+        .json({ errorMSG: 'La venta ya ha sido ejecutada.' });
     }
 
     for (const item of ventaPre.itemsVendidos) {
-      if (item.codigo.charAt(2) !== "N" && item.codigo.charAt(3) !== "I") {
+      if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
         itemsVendidosCod.push(item.codigo);
         variaciones.push({
           date: Date.now(),
           cantidad: item.cantidad,
           tipo: false,
-          comentario: "venta|" + ventaPre.codigo,
+          comentario: 'venta|' + ventaPre.codigo,
           costoVar: item.totalPrice,
-          usuario: req.user.aud.split(" ")[0],
+          usuario: req.user.aud.split(' ')[0],
           cantidadSC: item.cantidadSC,
         });
       }
@@ -509,17 +527,17 @@ export const ventaEjecutar = async (req, res, next) => {
     let index = 0;
 
     for (const item of ventaPre.itemsVendidos) {
-      if (item.codigo.charAt(2) !== "N" && item.codigo.charAt(3) !== "I") {
+      if (item.codigo.charAt(2) !== 'N' && item.codigo.charAt(3) !== 'I') {
         for (const csc of item.cantidadSC) {
           if (csc.cantidadVenta > 0) {
             const resultTemp = await Item.findOneAndUpdate(
               {
                 codigo: item.codigo,
-                "subConteo.order": {
+                'subConteo.order': {
                   $elemMatch: { name: csc.name, nameSecond: csc.nameSecond },
                 },
               },
-              { $inc: { "subConteo.order.$.cantidad": -csc.cantidadVenta } },
+              { $inc: { 'subConteo.order.$.cantidad': -csc.cantidadVenta } },
               { useFindAndModify: false, new: true, session }
             );
             for (
@@ -532,7 +550,7 @@ export const ventaEjecutar = async (req, res, next) => {
                 session.endSession();
                 return res
                   .status(202)
-                  .json({ message: "La Cantidad Ha Cambiado" });
+                  .json({ message: 'La Cantidad Ha Cambiado' });
               }
             }
           }
@@ -549,7 +567,7 @@ export const ventaEjecutar = async (req, res, next) => {
         if (result.cantidad < 0) {
           await session.abortTransaction();
           session.endSession();
-          return res.status(202).json({ message: "La Cantidad Ha Cambiado" });
+          return res.status(202).json({ message: 'La Cantidad Ha Cambiado' });
         }
 
         index++;
@@ -559,7 +577,7 @@ export const ventaEjecutar = async (req, res, next) => {
     const venta = await Venta.findOneAndUpdate(
       { codigo: req.body.venta.codigo },
       {
-        estado: "ejecutada",
+        estado: 'ejecutada',
         documento: req.body.venta.documento,
         guia: req.body.venta.guia,
         cliente_email: req.body.venta.cliente_email,
@@ -570,10 +588,28 @@ export const ventaEjecutar = async (req, res, next) => {
 
     req.ventResult = venta;
 
-    if (venta.documento.type === "factura") {
-      req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 1 } });
-    } else if (venta.documento.type === "boleta") {
-      req.count = await Venta.countDocuments({ tipoComprobante: { $eq: 2 } });
+    if (newVenta.documento.type === 'factura') {
+      const ultimaVentaFactura = await Venta.find({
+        tipoComprobante: { $eq: 1 },
+        numero: { $ne: null },
+      })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1);
+      console.log(ultimaVentaFactura);
+      req.count = ultimaVentaFactura.numero || 0;
+    } else if (newVenta.documento.type === 'boleta') {
+      const ultimaVentaBoleta = await Venta.find({
+        tipoComprobante: { $eq: 2 },
+        numero: { $ne: null },
+      })
+        .sort({
+          $natural: -1,
+        })
+        .limit(1);
+      console.log(ultimaVentaBoleta);
+      req.count = ultimaVentaBoleta.numero || 0;
     }
 
     if (req.body.venta.guia) {
@@ -581,7 +617,7 @@ export const ventaEjecutar = async (req, res, next) => {
     }
 
     await User.findOneAndUpdate(
-      { username: req.user.aud.split(" ")[0] },
+      { username: req.user.aud.split(' ')[0] },
       { $pull: { ventaActiva: req.body.venta.codigo } },
       { useFindAndModify: false }
     );
@@ -603,15 +639,15 @@ export const ventaAnular = async (req, res) => {
   try {
     await Venta.findOneAndUpdate(
       { codigo: req.body.venta.codigo },
-      { estado: "anulada" },
+      { estado: 'anulada' },
       { useFindAndModify: false }
     );
     await User.findOneAndUpdate(
-      { username: req.user.aud.split(" ")[0] },
+      { username: req.user.aud.split(' ')[0] },
       { $pull: { ventaActiva: req.body.venta.codigo } },
       { useFindAndModify: false }
     );
-    res.json({ message: "succes" });
+    res.json({ message: 'succes' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }
@@ -620,7 +656,7 @@ export const ventaAnular = async (req, res) => {
 export const addLinkToPDF = async (req, res) => {
   try {
     if (!req.sunat_guia) {
-      req.sunat_guia = "";
+      req.sunat_guia = '';
     }
     const result = await Venta.findByIdAndUpdate(
       req.ventResult._id,
@@ -635,7 +671,7 @@ export const addLinkToPDF = async (req, res) => {
     );
     res.json({
       venta: result,
-      message: `Succes||${req.ventResult.codigo}`,
+      message: `Success||${req.ventResult.codigo}`,
       _sunat: req.sunat,
     });
   } catch (error) {
@@ -647,7 +683,7 @@ export const codigoTest = async (req, res) => {
   try {
     const count =
       (await Venta.countDocuments({
-        tipoVendedor: { $in: ["admin", "vent"] },
+        tipoVendedor: { $in: ['admin', 'vent'] },
       })) + 1;
     const countTwo = (await Venta.countDocuments({})) + 1;
     res.json({ c: count, ct: countTwo });
@@ -659,13 +695,13 @@ export const codigoTest = async (req, res) => {
 const generarCodigoVent = async (tipo) => {
   try {
     const count = (await Venta.countDocuments({})) + 1;
-    let preCod = "SD01-000000";
+    let preCod = 'SD01-000000';
     switch (tipo) {
-      case "factura":
-        preCod = "E002-000000";
+      case 'factura':
+        preCod = 'E002-000000';
         break;
-      case "boleta":
-        preCod = "EB02-000000";
+      case 'boleta':
+        preCod = 'EB02-000000';
         break;
       default:
         break;
@@ -688,7 +724,7 @@ export const cantidadUpdate = async (req, res) => {
     if (!req.body.tipo) {
       const testResult = itemOriginal.cantidad - req.body.cantidad;
       if (testResult < 0) {
-        throw "Cantidad Invalidad";
+        throw 'Cantidad Invalidad';
       }
     }
 
@@ -699,8 +735,8 @@ export const cantidadUpdate = async (req, res) => {
       cantidad: cantidad,
       tipo: req.body.tipo,
       comentario: req.body.tipo
-        ? "agregar|" + req.body.comentario
-        : "quitar|" + req.body.comentario,
+        ? 'agregar|' + req.body.comentario
+        : 'quitar|' + req.body.comentario,
       costoVar: req.body.costoVar * cantidad,
       cantidadSC: [],
     };
@@ -733,8 +769,8 @@ export const subCantidadUpdate = async (req, res) => {
       cantidad: cantidad,
       tipo: req.body.tipo,
       comentario: req.body.tipo
-        ? "agregar|" + req.body.comentario
-        : "quitar|" + req.body.comentario,
+        ? 'agregar|' + req.body.comentario
+        : 'quitar|' + req.body.comentario,
       costoVar: req.body.costoVar * cantidad,
       cantidadSC: [],
     };
@@ -763,7 +799,7 @@ export const subCantidadUpdate = async (req, res) => {
         } else {
           itemOriginal.subConteo.order[indexToMDF].cantidad -= sc.cantidad;
           if (itemOriginal.subConteo.order[indexToMDF].cantidad < 0) {
-            throw "Cantidad Invalidad";
+            throw 'Cantidad Invalidad';
           }
         }
       } else {
@@ -784,7 +820,7 @@ export const subCantidadUpdate = async (req, res) => {
     if (!req.body.tipo) {
       const testResult = itemOriginal.cantidad - req.body.cantidad;
       if (testResult < 0) {
-        return res.status(400).json({ errorMSG: "Cantidad Invalidad" });
+        return res.status(400).json({ errorMSG: 'Cantidad Invalidad' });
       }
     }
 
@@ -863,8 +899,8 @@ export const addMarca = async (req, res) => {
 export const getCantidadTotal = async (req, res) => {
   try {
     const result = await Item.aggregate([
-      { $match: { codigo: "4SDtT4" } },
-      { $project: { cantidadTotal: { $sum: "$subConteo.order.cantidad" } } },
+      { $match: { codigo: '4SDtT4' } },
+      { $project: { cantidadTotal: { $sum: '$subConteo.order.cantidad' } } },
     ]);
     res.json(result);
   } catch (error) {
@@ -874,9 +910,9 @@ export const getCantidadTotal = async (req, res) => {
 
 export const deleteMarcas = async (req, res) => {
   try {
-    const deleteArray = req.params.deleteString.split("_");
+    const deleteArray = req.params.deleteString.split('_');
     await Marca.deleteMany({ name: { $in: deleteArray } });
-    res.json({ message: "succes" });
+    res.json({ message: 'succes' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }
@@ -899,7 +935,7 @@ export const addNewItem = async (req, res) => {
       date: Date.now(),
       cantidad: newItem.cantidad,
       tipo: true,
-      comentario: "new item",
+      comentario: 'new item',
       costoVar:
         Math.round(
           (newItem.costoPropio * newItem.cantidad + Number.EPSILON) * 100
@@ -924,12 +960,12 @@ export const addNewItem = async (req, res) => {
   }
 };
 
-const generateCode = async (name = "", tipo = "") => {
+const generateCode = async (name = '', tipo = '') => {
   try {
     const countOfItems = await Item.countDocuments({});
     return (
       countOfItems.toString() +
-      "SD" +
+      'SD' +
       name.charAt(0) +
       tipo.charAt(0) +
       Math.floor(Math.random() * 10).toString()
@@ -977,9 +1013,9 @@ export const deConvertToFavorite = async (req, res) => {
 export const getAllItemSort = async (req, res) => {
   try {
     let tipoOrder = 0;
-    if (req.params.tipoSort === "asc") {
+    if (req.params.tipoSort === 'asc') {
       tipoOrder = 1;
-    } else if (req.params.tipoSort === "dsc") {
+    } else if (req.params.tipoSort === 'dsc') {
       tipoOrder = -1;
     }
     const filtroSelect = req.params.subORtipo;
@@ -988,12 +1024,12 @@ export const getAllItemSort = async (req, res) => {
     const limit = parseInt(req.params.limit);
     const skip = limit - 12;
     let filtro = {};
-    if (req.params.filtro !== "all") {
-      if (filtroValue.toLowerCase() === "destacado") {
+    if (req.params.filtro !== 'all') {
+      if (filtroValue.toLowerCase() === 'destacado') {
         filtro = { oferta: { $gt: 0 }, deleted: false };
-      } else if (filtroSelect === "sub") {
+      } else if (filtroSelect === 'sub') {
         filtro = { subTipo: filtroValue, deleted: false };
-      } else if (filtroSelect === "tipo") {
+      } else if (filtroSelect === 'tipo') {
         filtro = { tipo: filtroValue, deleted: false };
       }
     }
@@ -1001,23 +1037,23 @@ export const getAllItemSort = async (req, res) => {
     let result;
 
     switch (tipoBusqueda) {
-      case "date":
+      case 'date':
         result = await Item.find(filtro)
-          .collation({ locale: "en", strength: 2 })
+          .collation({ locale: 'en', strength: 2 })
           .sort({ date: tipoOrder * -1 })
           .skip(skip)
           .limit(limit);
         break;
-      case "name":
+      case 'name':
         result = await Item.find(filtro)
-          .collation({ locale: "en", strength: 2 })
+          .collation({ locale: 'en', strength: 2 })
           .sort({ name: tipoOrder })
           .skip(skip)
           .limit(limit);
         break;
-      case "priceIGV":
+      case 'priceIGV':
         result = await Item.find(filtro)
-          .collation({ locale: "en", strength: 2 })
+          .collation({ locale: 'en', strength: 2 })
           .sort({ priceIGV: tipoOrder })
           .skip(skip)
           .limit(limit);
@@ -1058,20 +1094,20 @@ export const getItem = async (req, res) => {
   let result = {};
   try {
     switch (req.params.tipo) {
-      case "cod":
+      case 'cod':
         result = await Item.findOne({ codigo: req.params.codigo });
         break;
 
-      case "name":
+      case 'name':
         result = await Item.find({ name: req.body.name });
         break;
 
-      case "tipo":
+      case 'tipo':
         result = await Item.find({ tipo: req.body.tipo });
         break;
 
       default:
-        result = { message: "Not A Type Of Search" };
+        result = { message: 'Not A Type Of Search' };
         break;
     }
     // const result = await Item.find({});
@@ -1086,7 +1122,7 @@ export const updateCantidad = async (req, res) => {
     let result = {};
     let cantidadOrg = 0;
     let cantidadNuev = 0;
-    if (req.params.tipo === "redu") {
+    if (req.params.tipo === 'redu') {
       result = await Item.findOne({ codigo: req.body.codigo });
       cantidadOrg = result.cantidad;
       if (cantidadOrg >= req.body.cantidad) {
@@ -1099,9 +1135,9 @@ export const updateCantidad = async (req, res) => {
       } else {
         return res
           .status(409)
-          .json({ message: "No Hay Los Suficientes Items En Stock" });
+          .json({ message: 'No Hay Los Suficientes Items En Stock' });
       }
-    } else if (req.params.tipo === "aume") {
+    } else if (req.params.tipo === 'aume') {
       result = await Item.findOne({ codigo: req.body.codigo });
       cantidadOrg = result.cantidad;
       if (cantidadOrg >= req.body.cantidadRedu) {
@@ -1113,7 +1149,7 @@ export const updateCantidad = async (req, res) => {
         );
       }
     } else {
-      return res.json({ message: "Not An opc" });
+      return res.json({ message: 'Not An opc' });
     }
     return res.json(result);
   } catch (error) {
@@ -1281,7 +1317,7 @@ export const actualizarItems = async (req, res) => {
         deleted: false,
       }
     );
-    res.json({ done: "done" });
+    res.json({ done: 'done' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }
@@ -1295,14 +1331,14 @@ export const filtrarTopFive = async (req, res) => {
         (item) =>
           !(
             item.name.length === 6 &&
-            item.name.split("")[2] === "N" &&
-            item.name.split("")[3] === "I"
+            item.name.split('')[2] === 'N' &&
+            item.name.split('')[3] === 'I'
           )
       )
       .slice(0, 4);
 
     const indexOddItem = gananciaPorItemFive.findIndex(
-      (x) => x.name === "3SDKP7"
+      (x) => x.name === '3SDKP7'
     );
     if (indexOddItem !== -1) {
       gananciaPorItemFive.splice(indexOddItem, 1);
@@ -1320,11 +1356,11 @@ export const filtrarTopFive = async (req, res) => {
         name: gananciaPorItemFive[index].name,
         series: [
           {
-            name: "Ventas",
+            name: 'Ventas',
             value: gananciaPorItemFive[index].totalVenta,
           },
           {
-            name: "Ganancias",
+            name: 'Ganancias',
             value: gananciaPorItemFive[index].value,
           },
         ],
@@ -1351,25 +1387,25 @@ export const optenerVariacionPosneg = async (req, res) => {
     const variacionNegativaQuitar = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "quitar" } },
+      { $match: { firstPartVar: 'quitar' } },
       {
         $group: {
           _id: null,
-          totalVarQuitar: { $sum: "$variaciones.costoVar" },
+          totalVarQuitar: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -1377,71 +1413,71 @@ export const optenerVariacionPosneg = async (req, res) => {
     const variacionPositiva = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": true } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': true } },
       {
         $group: {
-          _id: { codigo: "$codigo", name: "$name" },
-          posVar: { $sum: "$variaciones.costoVar" },
+          _id: { codigo: '$codigo', name: '$name' },
+          posVar: { $sum: '$variaciones.costoVar' },
         },
       },
       {
         $project: {
           _id: 0,
-          codigo: "$_id.codigo",
-          name: "$_id.name",
+          codigo: '$_id.codigo',
+          name: '$_id.name',
           posVar: 1,
         },
       },
       { $sort: { name: 1 } },
-      { $group: { _id: null, totalVarPos: { $sum: "$posVar" } } },
+      { $group: { _id: null, totalVarPos: { $sum: '$posVar' } } },
     ]);
 
     const variacionNegativa = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $group: {
-          _id: { codigo: "$codigo", name: "$name" },
-          posVar: { $sum: "$variaciones.costoVar" },
+          _id: { codigo: '$codigo', name: '$name' },
+          posVar: { $sum: '$variaciones.costoVar' },
         },
       },
       {
         $project: {
           _id: 0,
-          codigo: "$_id.codigo",
-          name: "$_id.name",
+          codigo: '$_id.codigo',
+          name: '$_id.name',
           posVar: 1,
         },
       },
       { $sort: { name: 1 } },
-      { $group: { _id: null, totalVarNeg: { $sum: "$posVar" } } },
+      { $group: { _id: null, totalVarNeg: { $sum: '$posVar' } } },
     ]);
 
     const variacionPosivaAnular = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": true } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': true } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "anular" } },
+      { $match: { firstPartVar: 'anular' } },
       {
         $group: {
           _id: null,
-          totalVarAnular: { $sum: "$variaciones.costoVar" },
+          totalVarAnular: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -1474,25 +1510,25 @@ export const testAgre = async (req, res) => {
     const variacionNegativaQuitar = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "quitar" } },
+      { $match: { firstPartVar: 'quitar' } },
       {
         $group: {
           _id: null,
-          totalVarQuitar: { $sum: "$variaciones.costoVar" },
+          totalVarQuitar: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -1507,25 +1543,25 @@ export const optenerGastosGananciasTotales = async (req, res) => {
     const variacionNegativaQuitar = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "quitar" } },
+      { $match: { firstPartVar: 'quitar' } },
       {
         $group: {
           _id: null,
-          totalVarQuitar: { $sum: "$variaciones.costoVar" },
+          totalVarQuitar: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -1533,25 +1569,25 @@ export const optenerGastosGananciasTotales = async (req, res) => {
     const variacionPosivaAnular = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": true } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': true } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "anular" } },
+      { $match: { firstPartVar: 'anular' } },
       {
         $group: {
           _id: null,
-          totalVarAnular: { $sum: "$variaciones.costoVar" },
+          totalVarAnular: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -1559,59 +1595,59 @@ export const optenerGastosGananciasTotales = async (req, res) => {
     const variacionPositiva = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": true } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': true } },
       {
         $group: {
-          _id: { codigo: "$codigo", name: "$name" },
-          posVar: { $sum: "$variaciones.costoVar" },
+          _id: { codigo: '$codigo', name: '$name' },
+          posVar: { $sum: '$variaciones.costoVar' },
         },
       },
       {
         $project: {
           _id: 0,
-          codigo: "$_id.codigo",
-          name: "$_id.name",
+          codigo: '$_id.codigo',
+          name: '$_id.name',
           posVar: 1,
         },
       },
       { $sort: { name: 1 } },
-      { $group: { _id: null, totalVarPos: { $sum: "$posVar" } } },
+      { $group: { _id: null, totalVarPos: { $sum: '$posVar' } } },
     ]);
 
     const gastosItemsFueraTienda = await Venta.aggregate([
       {
-        $match: { date: { $gte: new Date("2021-01-01") }, estado: "ejecutada" },
+        $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' },
       },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
       {
         $project: {
           codigo: 1,
-          codArray: { $split: ["$codigo", "NI"] },
+          codArray: { $split: ['$codigo', 'NI'] },
           totalPrice: 1,
-          codSize: { $strLenCP: "$codigo" },
-          costoTotalPropio: { $multiply: ["$priceCosto", "$cantidad"] },
+          codSize: { $strLenCP: '$codigo' },
+          costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] },
         },
       },
       { $match: { codSize: 6 } },
-      { $set: { arrayCodSize: { $size: "$codArray" } } },
+      { $set: { arrayCodSize: { $size: '$codArray' } } },
       { $match: { arrayCodSize: 2 } },
       {
         $project: {
           codigo: 1,
           costoTotalPropio: 1,
           totalPrice: 1,
-          primeraParteLen: { $strLenCP: { $arrayElemAt: ["$codArray", 0] } },
-          segundaParteLen: { $strLenCP: { $arrayElemAt: ["$codArray", 0] } },
+          primeraParteLen: { $strLenCP: { $arrayElemAt: ['$codArray', 0] } },
+          segundaParteLen: { $strLenCP: { $arrayElemAt: ['$codArray', 0] } },
         },
       },
       { $match: { primeraParteLen: 2, segundaParteLen: 2 } },
       {
         $group: {
           _id: null,
-          costoTotalPropio: { $sum: "$costoTotalPropio" },
-          ingresoTotal: { $sum: "$totalPrice" },
+          costoTotalPropio: { $sum: '$costoTotalPropio' },
+          ingresoTotal: { $sum: '$totalPrice' },
         },
       },
     ]);
@@ -1619,24 +1655,24 @@ export const optenerGastosGananciasTotales = async (req, res) => {
     const variacionNegativa = await Item.aggregate([
       { $match: { deleted: false } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $group: {
-          _id: { codigo: "$codigo", name: "$name" },
-          posVar: { $sum: "$variaciones.costoVar" },
+          _id: { codigo: '$codigo', name: '$name' },
+          posVar: { $sum: '$variaciones.costoVar' },
         },
       },
       {
         $project: {
           _id: 0,
-          codigo: "$_id.codigo",
-          name: "$_id.name",
+          codigo: '$_id.codigo',
+          name: '$_id.name',
           posVar: 1,
         },
       },
       { $sort: { name: 1 } },
-      { $group: { _id: null, totalVarNeg: { $sum: "$posVar" } } },
+      { $group: { _id: null, totalVarNeg: { $sum: '$posVar' } } },
     ]);
 
     res.json({
@@ -1673,10 +1709,10 @@ export const optenerVentasPotenciales = async (req, res) => {
           _id: 0,
           cantidad: 1,
           priceIGV: 1,
-          total: { $multiply: ["$priceIGV", "$cantidad"] },
+          total: { $multiply: ['$priceIGV', '$cantidad'] },
         },
       },
-      { $group: { _id: null, totalPotencial: { $sum: "$total" } } },
+      { $group: { _id: null, totalPotencial: { $sum: '$total' } } },
     ]);
 
     const gastosCalculado = await Item.aggregate([
@@ -1686,10 +1722,10 @@ export const optenerVentasPotenciales = async (req, res) => {
           _id: 0,
           cantidad: 1,
           costoPropio: 1,
-          total: { $multiply: ["$costoPropio", "$cantidad"] },
+          total: { $multiply: ['$costoPropio', '$cantidad'] },
         },
       },
-      { $group: { _id: null, totalPotencial: { $sum: "$total" } } },
+      { $group: { _id: null, totalPotencial: { $sum: '$total' } } },
     ]);
     res.json({
       ventasPosibles: ventasPosibles[0].totalPotencial,
@@ -1706,7 +1742,7 @@ export const getPeorMejorItem = async (req, res) => {
   try {
     const peorMejor = await Item.aggregate([
       { $match: { deleted: false } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           _id: 0,
@@ -1715,15 +1751,15 @@ export const getPeorMejorItem = async (req, res) => {
           variaciones: 1,
           costoVarTrue: {
             $cond: [
-              { $eq: ["$variaciones.tipo", true] },
-              "$variaciones.costoVar",
+              { $eq: ['$variaciones.tipo', true] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           costoVarFalse: {
             $cond: [
-              { $eq: ["$variaciones.tipo", false] },
-              "$variaciones.costoVar",
+              { $eq: ['$variaciones.tipo', false] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -1731,19 +1767,19 @@ export const getPeorMejorItem = async (req, res) => {
       },
       {
         $group: {
-          _id: { name: "$name", codigo: "$codigo" },
-          totalTrue: { $sum: "$costoVarTrue" },
-          totalFalse: { $sum: "$costoVarFalse" },
+          _id: { name: '$name', codigo: '$codigo' },
+          totalTrue: { $sum: '$costoVarTrue' },
+          totalFalse: { $sum: '$costoVarFalse' },
         },
       },
       {
         $project: {
           _id: 0,
-          name: "$_id.name",
-          codigo: "$_id.codigo",
+          name: '$_id.name',
+          codigo: '$_id.codigo',
           totalTrue: 1,
           totalFalse: 1,
-          balance: { $subtract: ["$totalFalse", "$totalTrue"] },
+          balance: { $subtract: ['$totalFalse', '$totalTrue'] },
         },
       },
       { $sort: { balance: 1 } },
@@ -1765,8 +1801,8 @@ export const gananciasPosiblesConItemMayor = async (req, res) => {
           cantidad: 1,
           costoPropio: 1,
           priceIGV: 1,
-          totalIngreso: { $multiply: ["$cantidad", "$priceIGV"] },
-          totalCosto: { $multiply: ["$cantidad", "$costoPropio"] },
+          totalIngreso: { $multiply: ['$cantidad', '$priceIGV'] },
+          totalCosto: { $multiply: ['$cantidad', '$costoPropio'] },
         },
       },
       {
@@ -1776,7 +1812,7 @@ export const gananciasPosiblesConItemMayor = async (req, res) => {
           cantidad: 1,
           costoPropio: 1,
           priceIGV: 1,
-          balance: { $subtract: ["$totalIngreso", "$totalCosto"] },
+          balance: { $subtract: ['$totalIngreso', '$totalCosto'] },
         },
       },
     ])
@@ -1792,59 +1828,59 @@ export const getGananciasTotalesSNS = async (req, res) => {
   try {
     const gastosItemsFueraTienda = await Venta.aggregate([
       {
-        $match: { date: { $gte: new Date("2021-01-01") }, estado: "ejecutada" },
+        $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' },
       },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
       {
         $project: {
           codigo: 1,
-          codArray: { $split: ["$codigo", "NI"] },
+          codArray: { $split: ['$codigo', 'NI'] },
           totalPrice: 1,
-          codSize: { $strLenCP: "$codigo" },
-          costoTotalPropio: { $multiply: ["$priceCosto", "$cantidad"] },
+          codSize: { $strLenCP: '$codigo' },
+          costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] },
         },
       },
       { $match: { codSize: 6 } },
-      { $set: { arrayCodSize: { $size: "$codArray" } } },
+      { $set: { arrayCodSize: { $size: '$codArray' } } },
       { $match: { arrayCodSize: 2 } },
       {
         $project: {
           codigo: 1,
           costoTotalPropio: 1,
           totalPrice: 1,
-          primeraParteLen: { $strLenCP: { $arrayElemAt: ["$codArray", 0] } },
-          segundaParteLen: { $strLenCP: { $arrayElemAt: ["$codArray", 1] } },
+          primeraParteLen: { $strLenCP: { $arrayElemAt: ['$codArray', 0] } },
+          segundaParteLen: { $strLenCP: { $arrayElemAt: ['$codArray', 1] } },
         },
       },
       { $match: { primeraParteLen: 2, segundaParteLen: 2 } },
       {
         $group: {
           _id: null,
-          costoTotalPropio: { $sum: "$costoTotalPropio" },
-          ingresoTotal: { $sum: "$totalPrice" },
+          costoTotalPropio: { $sum: '$costoTotalPropio' },
+          ingresoTotal: { $sum: '$totalPrice' },
         },
       },
     ]);
 
     const gastosItemsDeTiendaTotales = await Venta.aggregate([
       {
-        $match: { date: { $gte: new Date("2021-01-01") }, estado: "ejecutada" },
+        $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' },
       },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
       {
         $project: {
           codigo: 1,
           totalPrice: 1,
-          costoTotalPropio: { $multiply: ["$priceCosto", "$cantidad"] },
+          costoTotalPropio: { $multiply: ['$priceCosto', '$cantidad'] },
         },
       },
       {
         $group: {
           _id: null,
-          costoTotalPropio: { $sum: "$costoTotalPropio" },
-          ingresoTotal: { $sum: "$totalPrice" },
+          costoTotalPropio: { $sum: '$costoTotalPropio' },
+          ingresoTotal: { $sum: '$totalPrice' },
         },
       },
     ]);
@@ -1871,11 +1907,11 @@ export const getItemsMasVendido = async (req, res) => {
   try {
     const itemsMasVendidos = await Venta.aggregate([
       {
-        $match: { date: { $gte: new Date("2021-01-01") }, estado: "ejecutada" },
+        $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' },
       },
-      { $unwind: "$itemsVendidos" },
-      { $replaceRoot: { newRoot: "$itemsVendidos" } },
-      { $group: { _id: "$codigo", cantidad: { $sum: 1 } } },
+      { $unwind: '$itemsVendidos' },
+      { $replaceRoot: { newRoot: '$itemsVendidos' } },
+      { $group: { _id: '$codigo', cantidad: { $sum: 1 } } },
       { $sort: { cantidad: -1 } },
     ]);
     const item = await Item.findOne({ codigo: itemsMasVendidos[0]._id });
@@ -1889,14 +1925,14 @@ export const getClientesConMasCompras = async (req, res) => {
   try {
     const mejoresClientes = await Venta.aggregate([
       {
-        $match: { date: { $gte: new Date("2021-01-01") }, estado: "ejecutada" },
+        $match: { date: { $gte: new Date('2021-01-01') }, estado: 'ejecutada' },
       },
-      { $unwind: "$documento" },
-      { $replaceRoot: { newRoot: "$documento" } },
+      { $unwind: '$documento' },
+      { $replaceRoot: { newRoot: '$documento' } },
       { $match: { codigo: { $ne: null } } },
       {
         $group: {
-          _id: { codigo: "$codigo", name: "$name" },
+          _id: { codigo: '$codigo', name: '$name' },
           cantidad: { $sum: 1 },
         },
       },
@@ -1959,7 +1995,7 @@ export const reOrderItems = async (req, res) => {
       tipo: req.body.itemReOrder[0].tipo,
     });
     if (preBusqueda !== req.body.itemReOrder.length) {
-      throw "Variacion Invalida";
+      throw 'Variacion Invalida';
     }
     for (let index = 0; index < req.body.itemReOrder.length; index++) {
       await Item.findOneAndUpdate(
@@ -1970,7 +2006,7 @@ export const reOrderItems = async (req, res) => {
     }
     await session.commitTransaction();
     session.endSession();
-    res.json({ message: "done" });
+    res.json({ message: 'done' });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -2003,48 +2039,48 @@ export const getGICofItem = async (req, res) => {
   try {
     const cantidadHistorica = await Item.aggregate([
       { $match: { codigo: req.params.codigoItem } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarNI: {
             $cond: [
-              { $eq: ["$firstPartVar", "new item"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'new item'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           cantidadVarQuitar: {
             $cond: [
-              { $eq: ["$firstPartVar", "quitar"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'quitar'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           cantidadVarAgregar: {
             $cond: [
-              { $eq: ["$firstPartVar", "agregar"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'agregar'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           cantidadVarAnular: {
             $cond: [
-              { $eq: ["$firstPartVar", "anular"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'anular'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           cantidadVarVenta: {
             $cond: [
-              { $eq: ["$firstPartVar", "venta"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'venta'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
@@ -2053,18 +2089,18 @@ export const getGICofItem = async (req, res) => {
       {
         $group: {
           _id: null,
-          totalCantidadNI: { $sum: "$cantidadVarNI" },
-          totalCantidadQuitar: { $sum: "$cantidadVarQuitar" },
-          totalCantidadAgregar: { $sum: "$cantidadVarAgregar" },
-          totalCantidadVenta: { $sum: "$cantidadVarVenta" },
-          totalCantidadAnular: { $sum: "$cantidadVarAnular" },
+          totalCantidadNI: { $sum: '$cantidadVarNI' },
+          totalCantidadQuitar: { $sum: '$cantidadVarQuitar' },
+          totalCantidadAgregar: { $sum: '$cantidadVarAgregar' },
+          totalCantidadVenta: { $sum: '$cantidadVarVenta' },
+          totalCantidadAnular: { $sum: '$cantidadVarAnular' },
         },
       },
     ]);
 
     const itemGIC = await Item.aggregate([
       { $match: { codigo: req.params.codigoItem } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           _id: 0,
@@ -2073,15 +2109,15 @@ export const getGICofItem = async (req, res) => {
           variaciones: 1,
           costoVarTrue: {
             $cond: [
-              { $eq: ["$variaciones.tipo", true] },
-              "$variaciones.costoVar",
+              { $eq: ['$variaciones.tipo', true] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           costoVarFalse: {
             $cond: [
-              { $eq: ["$variaciones.tipo", false] },
-              "$variaciones.costoVar",
+              { $eq: ['$variaciones.tipo', false] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -2089,9 +2125,9 @@ export const getGICofItem = async (req, res) => {
       },
       {
         $group: {
-          _id: { name: "$name", codigo: "$codigo" },
-          totalTrue: { $sum: "$costoVarTrue" },
-          totalFalse: { $sum: "$costoVarFalse" },
+          _id: { name: '$name', codigo: '$codigo' },
+          totalTrue: { $sum: '$costoVarTrue' },
+          totalFalse: { $sum: '$costoVarFalse' },
         },
       },
     ]);
@@ -2099,25 +2135,25 @@ export const getGICofItem = async (req, res) => {
     const variacionNegativaQuitar = await Item.aggregate([
       { $match: { codigo: req.params.codigoItem } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": false } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': false } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "quitar" } },
+      { $match: { firstPartVar: 'quitar' } },
       {
         $group: {
           _id: null,
-          totalVarQuitar: { $sum: "$variaciones.costoVar" },
+          totalVarQuitar: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -2125,25 +2161,25 @@ export const getGICofItem = async (req, res) => {
     const variacionPosivaAnular = await Item.aggregate([
       { $match: { codigo: req.params.codigoItem } },
       { $project: { _id: 0, codigo: 1, name: 1, variaciones: 1 } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.tipo": true } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.tipo': true } },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
       {
         $project: {
           variaciones: 1,
-          firstPartVar: { $arrayElemAt: ["$codVar", 0] },
+          firstPartVar: { $arrayElemAt: ['$codVar', 0] },
         },
       },
-      { $match: { firstPartVar: "anular" } },
+      { $match: { firstPartVar: 'anular' } },
       {
         $group: {
           _id: null,
-          totalVarAnular: { $sum: "$variaciones.costoVar" },
+          totalVarAnular: { $sum: '$variaciones.costoVar' },
         },
       },
     ]);
@@ -2181,51 +2217,51 @@ export const ventasDeItemPorMesGrafico = async (req, res) => {
   try {
     const result = await Item.aggregate([
       { $match: { codigo: req.params.codigoItem } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarAnular: {
             $cond: [
-              { $eq: ["$firstPartVar", "anular"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'anular'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           cantidadVarVenta: {
             $cond: [
-              { $eq: ["$firstPartVar", "venta"] },
-              "$variaciones.cantidad",
+              { $eq: ['$firstPartVar', 'venta'] },
+              '$variaciones.cantidad',
               0,
             ],
           },
           dateVar: {
             $dateToString: {
-              format: "%Y-%m",
-              date: "$variaciones.date",
-              timezone: "-05:00",
+              format: '%Y-%m',
+              date: '$variaciones.date',
+              timezone: '-05:00',
             },
           },
         },
       },
       {
         $group: {
-          _id: "$dateVar",
-          valueVenta: { $sum: "$cantidadVarVenta" },
-          valueAnular: { $sum: "$cantidadVarAnular" },
+          _id: '$dateVar',
+          valueVenta: { $sum: '$cantidadVarVenta' },
+          valueAnular: { $sum: '$cantidadVarAnular' },
         },
       },
       {
         $project: {
           _id: 0,
-          name: "$_id",
-          value: { $subtract: ["$valueVenta", "$valueAnular"] },
+          name: '$_id',
+          value: { $subtract: ['$valueVenta', '$valueAnular'] },
         },
       },
       {
@@ -2235,7 +2271,7 @@ export const ventasDeItemPorMesGrafico = async (req, res) => {
 
     const single = [
       {
-        name: "Cantidad",
+        name: 'Cantidad',
         series: result,
       },
     ];
@@ -2249,28 +2285,28 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
   try {
     const ingresos = await Item.aggregate([
       { $match: { deleted: false } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           name: 1,
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarAnular: {
             $cond: [
-              { $eq: ["$firstPartVar", "anular"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'anular'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarVenta: {
             $cond: [
-              { $eq: ["$firstPartVar", "venta"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'venta'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -2278,16 +2314,16 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
       },
       {
         $group: {
-          _id: "$name",
-          valueVenta: { $sum: "$cantidadVarVenta" },
-          valueAnular: { $sum: "$cantidadVarAnular" },
+          _id: '$name',
+          valueVenta: { $sum: '$cantidadVarVenta' },
+          valueAnular: { $sum: '$cantidadVarAnular' },
         },
       },
       {
         $project: {
           _id: 0,
-          name: "$_id",
-          value: { $subtract: ["$valueVenta", "$valueAnular"] },
+          name: '$_id',
+          value: { $subtract: ['$valueVenta', '$valueAnular'] },
         },
       },
       {
@@ -2297,49 +2333,49 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
 
     const ganancias = await Item.aggregate([
       { $match: { deleted: false } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           name: 1,
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarAgregar: {
             $cond: [
-              { $eq: ["$firstPartVar", "agregar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'agregar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarNewItem: {
             $cond: [
-              { $eq: ["$firstPartVar", "new item"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'new item'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarQuitar: {
             $cond: [
-              { $eq: ["$firstPartVar", "quitar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'quitar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarAnular: {
             $cond: [
-              { $eq: ["$firstPartVar", "anular"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'anular'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarVenta: {
             $cond: [
-              { $eq: ["$firstPartVar", "venta"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'venta'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -2347,21 +2383,21 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
       },
       {
         $group: {
-          _id: "$name",
-          valueAgregar: { $sum: "$cantidadVarAgregar" },
-          valueVenta: { $sum: "$cantidadVarVenta" },
-          valueAnular: { $sum: "$cantidadVarAnular" },
-          valueNewItem: { $sum: "$cantidadVarNewItem" },
-          valueQuitar: { $sum: "$cantidadVarQuitar" },
+          _id: '$name',
+          valueAgregar: { $sum: '$cantidadVarAgregar' },
+          valueVenta: { $sum: '$cantidadVarVenta' },
+          valueAnular: { $sum: '$cantidadVarAnular' },
+          valueNewItem: { $sum: '$cantidadVarNewItem' },
+          valueQuitar: { $sum: '$cantidadVarQuitar' },
         },
       },
       {
         $project: {
           _id: 0,
           valueQuitar: 1,
-          name: "$_id",
-          preValueTwo: { $subtract: ["$valueVenta", "$valueAnular"] },
-          prevalue: { $sum: ["$valueAgregar", "$valueNewItem"] },
+          name: '$_id',
+          preValueTwo: { $subtract: ['$valueVenta', '$valueAnular'] },
+          prevalue: { $sum: ['$valueAgregar', '$valueNewItem'] },
         },
       },
       {
@@ -2369,14 +2405,14 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
           _id: 0,
           name: 1,
           preValueTwo: 1,
-          preValueT: { $subtract: ["$prevalue", "$valueQuitar"] },
+          preValueT: { $subtract: ['$prevalue', '$valueQuitar'] },
         },
       },
       {
         $project: {
           _id: 0,
           name: 1,
-          value: { $subtract: ["$preValueTwo", "$preValueT"] },
+          value: { $subtract: ['$preValueTwo', '$preValueT'] },
         },
       },
       {
@@ -2386,35 +2422,35 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
 
     const gastos = await Item.aggregate([
       { $match: { deleted: false } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           name: 1,
           variaciones: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarAgregar: {
             $cond: [
-              { $eq: ["$firstPartVar", "agregar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'agregar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarNewItem: {
             $cond: [
-              { $eq: ["$firstPartVar", "new item"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'new item'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarQuitar: {
             $cond: [
-              { $eq: ["$firstPartVar", "quitar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'quitar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -2422,25 +2458,25 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
       },
       {
         $group: {
-          _id: "$name",
-          valueAgregar: { $sum: "$cantidadVarAgregar" },
-          valueNewItem: { $sum: "$cantidadVarNewItem" },
-          valueQuitar: { $sum: "$cantidadVarQuitar" },
+          _id: '$name',
+          valueAgregar: { $sum: '$cantidadVarAgregar' },
+          valueNewItem: { $sum: '$cantidadVarNewItem' },
+          valueQuitar: { $sum: '$cantidadVarQuitar' },
         },
       },
       {
         $project: {
           _id: 0,
           valueQuitar: 1,
-          name: "$_id",
-          prevalue: { $sum: ["$valueAgregar", "$valueNewItem"] },
+          name: '$_id',
+          prevalue: { $sum: ['$valueAgregar', '$valueNewItem'] },
         },
       },
       {
         $project: {
           _id: 0,
           name: 1,
-          value: { $subtract: ["$prevalue", "$valueQuitar"] },
+          value: { $subtract: ['$prevalue', '$valueQuitar'] },
         },
       },
       {
@@ -2457,7 +2493,7 @@ export const getTableInfItem = async (req, res) => {
   try {
     const tableInfo = await Item.aggregate([
       { $match: { deleted: false } },
-      { $unwind: "$variaciones" },
+      { $unwind: '$variaciones' },
       {
         $project: {
           name: 1,
@@ -2466,44 +2502,44 @@ export const getTableInfItem = async (req, res) => {
           variaciones: 1,
           priceIGV: 1,
           costoPropio: 1,
-          codVar: { $split: ["$variaciones.comentario", "|"] },
+          codVar: { $split: ['$variaciones.comentario', '|'] },
         },
       },
-      { $set: { firstPartVar: { $arrayElemAt: ["$codVar", 0] } } },
+      { $set: { firstPartVar: { $arrayElemAt: ['$codVar', 0] } } },
       {
         $set: {
           cantidadVarAgregar: {
             $cond: [
-              { $eq: ["$firstPartVar", "agregar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'agregar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarNewItem: {
             $cond: [
-              { $eq: ["$firstPartVar", "new item"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'new item'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarQuitar: {
             $cond: [
-              { $eq: ["$firstPartVar", "quitar"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'quitar'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarAnular: {
             $cond: [
-              { $eq: ["$firstPartVar", "anular"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'anular'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
           cantidadVarVenta: {
             $cond: [
-              { $eq: ["$firstPartVar", "venta"] },
-              "$variaciones.costoVar",
+              { $eq: ['$firstPartVar', 'venta'] },
+              '$variaciones.costoVar',
               0,
             ],
           },
@@ -2512,30 +2548,30 @@ export const getTableInfItem = async (req, res) => {
       {
         $group: {
           _id: {
-            name: "$name",
-            codigo: "$codigo",
-            cantidad: "$cantidad",
-            priceIGV: "$priceIGV",
-            costoPropio: "$costoPropio",
+            name: '$name',
+            codigo: '$codigo',
+            cantidad: '$cantidad',
+            priceIGV: '$priceIGV',
+            costoPropio: '$costoPropio',
           },
-          valueAgregar: { $sum: "$cantidadVarAgregar" },
-          valueVenta: { $sum: "$cantidadVarVenta" },
-          valueAnular: { $sum: "$cantidadVarAnular" },
-          valueNewItem: { $sum: "$cantidadVarNewItem" },
-          valueQuitar: { $sum: "$cantidadVarQuitar" },
+          valueAgregar: { $sum: '$cantidadVarAgregar' },
+          valueVenta: { $sum: '$cantidadVarVenta' },
+          valueAnular: { $sum: '$cantidadVarAnular' },
+          valueNewItem: { $sum: '$cantidadVarNewItem' },
+          valueQuitar: { $sum: '$cantidadVarQuitar' },
         },
       },
       {
         $project: {
           _id: 0,
-          name: "$_id.name",
-          codigo: "$_id.codigo",
-          cantidad: "$_id.cantidad",
-          priceIGV: "$_id.priceIGV",
-          costoPropio: "$_id.costoPropio",
+          name: '$_id.name',
+          codigo: '$_id.codigo',
+          cantidad: '$_id.cantidad',
+          priceIGV: '$_id.priceIGV',
+          costoPropio: '$_id.costoPropio',
           valueQuitar: 1,
-          preValueGasto: { $sum: ["$valueAgregar", "$valueNewItem"] },
-          valueIngreso: { $subtract: ["$valueVenta", "$valueAnular"] },
+          preValueGasto: { $sum: ['$valueAgregar', '$valueNewItem'] },
+          valueIngreso: { $subtract: ['$valueVenta', '$valueAnular'] },
         },
       },
       {
@@ -2546,7 +2582,7 @@ export const getTableInfItem = async (req, res) => {
           cantidad: 1,
           priceIGV: 1,
           costoPropio: 1,
-          valueGasto: { $subtract: ["$preValueGasto", "$valueQuitar"] },
+          valueGasto: { $subtract: ['$preValueGasto', '$valueQuitar'] },
           valueIngreso: 1,
         },
       },
@@ -2563,7 +2599,7 @@ export const getTableInfItem = async (req, res) => {
 export const setItemReview = async (req, res) => {
   try {
     await Item.updateMany({}, { $set: { reviews: [] } }, { upsert: false });
-    res.json({ done: "done" });
+    res.json({ done: 'done' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }
@@ -2572,18 +2608,18 @@ export const setItemReview = async (req, res) => {
 export const addItemReview = async (req, res) => {
   try {
     if (!(req.body.rating <= 5 && req.body.rating >= 1)) {
-      return res.status(400).json({ errorMSG: "Rating no valido" });
+      return res.status(400).json({ errorMSG: 'Rating no valido' });
     }
 
     const aCompradoElItem = await Item.aggregate([
       { $match: { codigo: req.body.codigo } },
-      { $unwind: "$variaciones" },
-      { $match: { "variaciones.usuario": req.user.aud.split(" ")[0] } },
+      { $unwind: '$variaciones' },
+      { $match: { 'variaciones.usuario': req.user.aud.split(' ')[0] } },
       { $limit: 4 },
     ]);
 
     if (aCompradoElItem.length === 0) {
-      return res.status(403).json({ message: "No has comprado el item." });
+      return res.status(403).json({ message: 'No has comprado el item.' });
     }
 
     const dateNow = new Date();
@@ -2591,16 +2627,16 @@ export const addItemReview = async (req, res) => {
     let reviewE = false;
     if (userReviewExist.reviews.length > 0) {
       reviewE = userReviewExist.reviews.some(
-        (x) => x.user === req.user.aud.split(" ")[0]
+        (x) => x.user === req.user.aud.split(' ')[0]
       );
     }
     if (reviewE) {
       const result = await Item.findOneAndUpdate(
-        { codigo: req.body.codigo, "reviews.user": req.user.aud.split(" ")[0] },
+        { codigo: req.body.codigo, 'reviews.user': req.user.aud.split(' ')[0] },
         {
           $set: {
-            "reviews.$.date": dateNow.toISOString(),
-            "reviews.$.rating": req.body.rating,
+            'reviews.$.date': dateNow.toISOString(),
+            'reviews.$.rating': req.body.rating,
           },
         },
         { new: true, useFindAndModify: false }
@@ -2612,7 +2648,7 @@ export const addItemReview = async (req, res) => {
       {
         $push: {
           reviews: {
-            user: req.user.aud.split(" ")[0],
+            user: req.user.aud.split(' ')[0],
             rating: req.body.rating,
             date: dateNow.toISOString(),
           },
@@ -2630,7 +2666,7 @@ export const addCategoryToALL = async (req, res) => {
   try {
     const result = await Item.updateMany(
       {},
-      { $set: { googleCategory: "2047" } }
+      { $set: { googleCategory: '2047' } }
     );
     return res.json(result);
   } catch (error) {
