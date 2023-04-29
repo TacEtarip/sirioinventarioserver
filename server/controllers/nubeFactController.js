@@ -243,6 +243,8 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
       ? zeroOffset + ventResult.documento.codigo.toString()
       : ventResult.documento.codigo;
 
+  console.log(countF);
+
   const newBoleta = new NFB(
     1,
     1 + countF,
