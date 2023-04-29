@@ -316,6 +316,7 @@ export const generarComprobante = (req, res, next) => {
   logger.info(jsonToSend);
 
   const fetchWithRetry = (retryCount = 0, jsonToSend = {}) => {
+    console.log('countretry', retryCount);
     fetch(
       process.env.NUBE_FACT_API_URL ||
         "https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c",
@@ -331,6 +332,7 @@ export const generarComprobante = (req, res, next) => {
       .then((resT) => resT.json())
       .then((json) => {
         logger.info(json);
+        console.log('jsoncode', json.code);
         if ((json.code === 23 ||json.code === '23') && retryCount < 3) {
           // Let's retry 3 times at max
           jsonToSend.numero = json.numero + 1;
