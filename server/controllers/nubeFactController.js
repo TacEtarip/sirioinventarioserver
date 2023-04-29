@@ -331,9 +331,7 @@ export const generarComprobante = (req, res, next) => {
     )
       .then((resT) => resT.json())
       .then((json) => {
-        logger.info(json);
-        console.log('jsoncode', json.code);
-        if ((json.code === 23 ||json.code === '23') && retryCount < 3) {
+        if ((json.codigo === 23 ||json.codigo === '23') && retryCount < 3) {
           // Let's retry 3 times at max
           jsonToSend.numero = json.numero + 1;
           return fetchWithRetry(retryCount + 1, jsonToSend);
