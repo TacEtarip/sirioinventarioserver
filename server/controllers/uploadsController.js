@@ -1,55 +1,41 @@
-import aws from "aws-sdk";
-import imagemin from "imagemin";
-import webp from "imagemin-webp";
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
+// import imagemin from "imagemin";
+// import imageminWebp from "imagemin-webp";
 import multer from "multer";
 import multerS3 from "multer-s3";
 import tinyfy from "tinify";
 import config from "../../config/index";
 import { createDocumento } from "../lib/documentGenerator";
 
-/* aws.config.update({
-  secretAccessKey: config.develoment.awsKey,
-  accessKeyId: config.develoment.awsID,
-  region: 'us-east-1',
-});*/
-
-const s3 = new aws.S3({
-  accessKeyId: config[process.env.NODE_ENV].awsID,
-  secretAccessKey: config[process.env.NODE_ENV].awsKey,
-  Bucket: config[process.env.NODE_ENV].bucket,
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: config[process.env.NODE_ENV].awsID,
+    secretAccessKey: config[process.env.NODE_ENV].awsKey,
+  },
   region: "us-east-1",
 });
 
-// s3.config.region = 'us-east-1';
-
-/* const storageImages = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './server/uploads/images');
-    },
-    filename: (req, file, cb) => {
-      const extension = file.originalname.split('.')[1];
-      cb(null, file.fieldname + '-' + req.params.codigo + '.' + extension);
-    }
-  });*/
-
 export const uploadPDFventa = async (venta) => {
   try {
-    const data = await s3
-      .getObject({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: "sirio-logo.png",
-      })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: "sirio-logo.png",
+    });
+    const data = await s3.send(command);
     const doc = createDocumento(venta, data.Body);
     doc.end();
-    await s3
-      .upload({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: `${venta.codigo}.pdf`,
-        Body: doc,
-        ContentType: "application/pdf",
-      })
-      .promise();
+    const uploadCommand = new PutObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: `${venta.codigo}.pdf`,
+      Body: doc,
+      ContentType: "application/pdf",
+    });
+    await s3.send(uploadCommand);
   } catch (error) {
     config[process.env.NODE_ENV].log().error(error);
     return error;
@@ -58,19 +44,19 @@ export const uploadPDFventa = async (venta) => {
 
 export const getImage = async (req, res) => {
   try {
-    const data = await s3
-      .getObject({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: req.params.imgName,
-      })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: req.params.imgName,
+    });
+    const data = await s3.send(command);
+    const imagemin = (await import("imagemin")).default;
+    const imageminWebp = (await import("imagemin-webp")).default;
     const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [webp({ quality: 50 })],
+      plugins: [imageminWebp({ quality: 50 })],
     });
     res.writeHead(200, { "Content-Type": "image/webp" });
     res.write(dataIMGMIN, "binary");
     res.end(null, "binary");
-    // res.end(new Buffer.from(data.Body));
   } catch (error) {
     return res.status(500).json({ message: error });
   }
@@ -79,19 +65,17 @@ export const getImage = async (req, res) => {
 export const deleteImage = async (req, res, next) => {
   try {
     if (req.body.oldPhoto !== "noPhoto.jpg") {
-      await s3
-        .deleteObject({
-          Bucket: config[process.env.NODE_ENV].bucket,
-          Key: req.body.oldPhoto,
-        })
-        .promise();
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: config[process.env.NODE_ENV].bucket,
+        Key: req.body.oldPhoto,
+      });
+      await s3.send(deleteCommand);
       const arrayPhoto = req.body.oldPhoto.split(".");
-      await s3
-        .deleteObject({
-          Bucket: config[process.env.NODE_ENV].bucket,
-          Key: `${arrayPhoto[0]}.webp`,
-        })
-        .promise();
+      const deleteCommandSecond = new DeleteObjectCommand({
+        Bucket: config[process.env.NODE_ENV].bucket,
+        Key: `${arrayPhoto[0]}.webp`,
+      });
+      await s3.send(deleteCommandSecond);
     }
     next();
   } catch (error) {
@@ -102,12 +86,11 @@ export const deleteImage = async (req, res, next) => {
 export const deleteImageSecond = async (req, res, next) => {
   try {
     if (req.photNameToDelete !== "noPhoto.jpg") {
-      await s3
-        .deleteObject({
-          Bucket: config[process.env.NODE_ENV].bucket,
-          Key: req.photNameToDelete,
-        })
-        .promise();
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: config[process.env.NODE_ENV].bucket,
+        Key: req.photNameToDelete,
+      });
+      await s3.send(deleteCommand);
     }
     res.json(req.result);
   } catch (error) {
@@ -117,12 +100,11 @@ export const deleteImageSecond = async (req, res, next) => {
 
 export const getPDF = async (req, res) => {
   try {
-    const data = await s3
-      .getObject({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: req.params.pdfName,
-      })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: req.params.pdfName,
+    });
+    const data = await s3.send(command);
     res.writeHead(200, { "Content-Type": "aplication/pdf" });
     res.write(data.Body, "binary");
     res.end(null, "binary");
@@ -136,7 +118,7 @@ export const uploadImage = multer({
     s3: s3,
     bucket: config[process.env.NODE_ENV].bucket,
     metadata: (req, file, cb) => {
-      cb(null, Object.assign({}, req.body));
+      cb(null, { ...req.body });
     },
     key: (req, file, cb) => {
       const extension = file.originalname.split(".")[1];
@@ -168,7 +150,7 @@ export const uploadImageSubCat = multer({
     s3: s3,
     bucket: config[process.env.NODE_ENV].bucket,
     metadata: (req, file, cb) => {
-      cb(null, Object.assign({}, req.body));
+      cb(null, { ...req.body });
     },
     key: (req, file, cb) => {
       const extension = file.originalname.split(".")[1];
@@ -198,7 +180,7 @@ export const uploadPDF = multer({
     s3: s3,
     bucket: config[process.env.NODE_ENV].bucket,
     metadata: (req, file, cb) => {
-      cb(null, Object.assign({}, req.body));
+      cb(null, { ...req.body });
     },
     key: (req, file, cb) => {
       cb(null, "ficha-" + req.params.codigo + "." + "pdf");
@@ -260,23 +242,27 @@ export const imageUpload = async (req, res, next) => {
     }
 
     const fileNN = file.key.split(".");
-    const data = await s3
-      .getObject({ Bucket: config[process.env.NODE_ENV].bucket, Key: file.key })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: file.key,
+    });
+    const data = await s3.send(command);
+    const imagemin = (await import("imagemin")).default;
+    const imageminWebp = (await import("imagemin-webp")).default;
     const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [webp({ quality: 50 })],
+      plugins: [imageminWebp({ quality: 50 })],
     });
 
-    await s3
-      .upload({
-        Key: `${fileNN[0]}.webp`,
-        CacheControl: "max-age=604800",
-        ACL: "public-read",
-        ContentType: "image/webp",
-        Body: dataIMGMIN,
-        Bucket: config[process.env.NODE_ENV].bucket,
-      })
-      .promise();
+    const uploadCommand = new PutObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: `${fileNN[0]}.webp`,
+      Body: dataIMGMIN,
+      ACL: "public-read",
+      CacheControl: "max-age=604800",
+      ContentType: "image/webp",
+    });
+
+    await s3.send(uploadCommand);
 
     req.fileName = file.key;
     req.uploadInfo = {
@@ -301,24 +287,29 @@ export const imageUploadSC = async (req, res) => {
       return next(error);
     }
 
-    const fileNN = file.key.split(".");
-    const data = await s3
-      .getObject({ Bucket: config[process.env.NODE_ENV].bucket, Key: file.key })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: file.key,
+    });
+    const data = await s3.send(command);
+
+    const imagemin = (await import("imagemin")).default;
+    const imageminWebp = (await import("imagemin-webp")).default;
+
     const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [webp({ quality: 50 })],
+      plugins: [imageminWebp({ quality: 50 })],
     });
 
-    await s3
-      .upload({
-        Key: `STI_${req.params.codigo}_${req.params.subCat}.webp`,
-        CacheControl: "max-age=604800",
-        ACL: "public-read",
-        ContentType: "image/webp",
-        Body: dataIMGMIN,
-        Bucket: config[process.env.NODE_ENV].bucket,
-      })
-      .promise();
+    const uploadCommand = new PutObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: `STI_${req.params.codigo}_${req.params.subCat}.webp`,
+      Body: dataIMGMIN,
+      ACL: "public-read",
+      CacheControl: "max-age=604800",
+      ContentType: "image/webp",
+    });
+
+    await s3.send(uploadCommand);
 
     req.fileName = file.key;
     req.uploadInfo = {

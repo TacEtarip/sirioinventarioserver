@@ -341,26 +341,22 @@ export const login = async (req, res) => {
       username: req.body.username.toLowerCase(),
     });
     if (!result) {
-      return res
-        .status(400)
-        .json({
-          username: req.body.username,
-          success: false,
-          message: "Authenticacion failed. No user found!",
-          token: null,
-        });
+      return res.status(400).json({
+        username: req.body.username,
+        success: false,
+        message: "Authenticacion failed. No user found!",
+        token: null,
+      });
     }
     if (
       !(await result.comparePassword(req.body.password, result.hashPassword))
     ) {
-      return res
-        .status(400)
-        .json({
-          username: req.body.username,
-          success: false,
-          message: "Authenticacion failed. Incorrect Password!",
-          token: null,
-        });
+      return res.status(400).json({
+        username: req.body.username,
+        success: false,
+        message: "Authenticacion failed. Incorrect Password!",
+        token: null,
+      });
     } else {
       return res.json({
         displayName: result.displayName,

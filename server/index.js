@@ -16,7 +16,6 @@ import ventasRoutes from "./routes/ventaRoutes";
 import swaggerUI from "swagger-ui-express";
 import swaggerDoc from "./documentation/swaggerDocument.json";
 import morgan from "morgan";
-// import swaggerJsDoc from 'swagger-jsdoc';
 
 tinyfy.key = config[process.env.NODE_ENV].tinyKey;
 
@@ -24,7 +23,7 @@ const app = express();
 
 const log = config[process.env.NODE_ENV].log();
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
 app.use(cookieParser());
 

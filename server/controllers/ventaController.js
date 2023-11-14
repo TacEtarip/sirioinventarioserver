@@ -310,7 +310,7 @@ export const ventaSimple = async (req, res, next) => {
   try {
     const newVenta = new Venta(req.body.venta);
     newVenta.codigo = await generarCodigo();
-    const result = await newVenta.save();
+    await newVenta.save();
     res.json({ item: req.newItem, message: "Succes" });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });

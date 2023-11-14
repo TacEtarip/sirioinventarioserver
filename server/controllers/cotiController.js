@@ -1,4 +1,7 @@
-import aws from "aws-sdk";
+import {
+  GetObjectCommand,
+  S3Client
+} from "@aws-sdk/client-s3";
 import mongoose from "mongoose";
 import config from "../../config/index";
 import { createExcelCoti } from "../lib/createExelCoti";
@@ -7,10 +10,11 @@ import cotiModel from "../models/cotiModel";
 
 const Cotizacion = mongoose.model("Cotizacion", cotiModel);
 
-const s3 = new aws.S3({
-  accessKeyId: config[process.env.NODE_ENV].awsID,
-  secretAccessKey: config[process.env.NODE_ENV].awsKey,
-  Bucket: config[process.env.NODE_ENV].bucket,
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: config[process.env.NODE_ENV].awsID,
+    secretAccessKey: config[process.env.NODE_ENV].awsKey,
+  },
   region: "us-east-1",
 });
 
@@ -121,7 +125,6 @@ export const agregarItemCoti = async (req, res) => {
     ]);
 
     if (preInfo.length !== 0) {
-      // const oldSale = await Venta.findOne({codigo: req.body.codigoVenta, itemsVendidos: {$elemMatch: {codigo: req.body.itemVendido.codigo}}});
       const oldSale = await Cotizacion.aggregate([
         { $match: { codigo: req.body.codigoCoti } },
         { $unwind: "$itemsVendidos" },
@@ -229,24 +232,22 @@ export const clonarCoti = async (req, res) => {
 
 export const createExcel = async (req, res) => {
   try {
-    const dataImg = await s3
-      .getObject({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: "sirio-logo-small.png",
-      })
-      .promise();
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: "sirio-logo-small.png",
+    });
+    const dataImg = await s3.send(command);
+
     const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
     const arrayBuffers = [];
     if (req.body.imagen) {
-      for (let index = 0; index < coti.itemsVendidos.length; index++) {
-        arrayBuffers.push(
-          await s3
-            .getObject({
-              Bucket: config[process.env.NODE_ENV].bucket,
-              Key: coti.itemsVendidos[index].photo,
-            })
-            .promise()
-        );
+      for (const element of coti.itemsVendidos) {
+        const commandSecond = new GetObjectCommand({
+          Bucket: config[process.env.NODE_ENV].bucket,
+          Key: element.photo,
+        });
+        const data = await s3.send(commandSecond);
+        arrayBuffers.push(data);
       }
     }
     const buffer = await createExcelCoti(
@@ -283,23 +284,22 @@ export const createExcel = async (req, res) => {
 export const getPDFCotiTest = async (req, res) => {
   try {
     const coti = await Cotizacion.findOne({ codigo: req.body.codigo });
-    const dataImg = await s3
-      .getObject({
-        Bucket: config[process.env.NODE_ENV].bucket,
-        Key: "sirio-logo-small.png",
-      })
-      .promise();
+
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: "sirio-logo-small.png",
+    });
+    const dataImg = await s3.send(command);
+
     const arrayBuffers = [];
     if (req.body.imagen) {
-      for (let index = 0; index < coti.itemsVendidos.length; index++) {
-        arrayBuffers.push(
-          await s3
-            .getObject({
-              Bucket: config[process.env.NODE_ENV].bucket,
-              Key: coti.itemsVendidos[index].photo,
-            })
-            .promise()
-        );
+      for (const element of coti.itemsVendidos) {
+        const commandSecond = new GetObjectCommand({
+          Bucket: config[process.env.NODE_ENV].bucket,
+          Key: element.photo,
+        });
+        const data = await s3.send(commandSecond);
+        arrayBuffers.push(data);
       }
     }
     const doc = createDocument(

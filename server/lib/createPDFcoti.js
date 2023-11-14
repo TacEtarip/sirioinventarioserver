@@ -1,16 +1,5 @@
-import PdfPrinter from "pdfmake";
-import path from "path";
-import config from "../../config/index";
-import aws from "aws-sdk";
 import { DateTime } from "luxon";
-
-const s3 = new aws.S3({
-  accessKeyId: config[process.env.NODE_ENV].awsID,
-  secretAccessKey: config[process.env.NODE_ENV].awsKey,
-  Bucket: config[process.env.NODE_ENV].bucket,
-  region: "us-east-1",
-});
-// playground requires you to assign document definition to a variable called dd
+import PdfPrinter from "pdfmake";
 
 const fonts = {
   Courier: {
