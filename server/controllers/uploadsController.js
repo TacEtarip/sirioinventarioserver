@@ -4,13 +4,12 @@ import {
   PutObjectCommand,
   DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
-// import imagemin from "imagemin";
-// import imageminWebp from "imagemin-webp";
 import multer from "multer";
 import multerS3 from "multer-s3";
 import tinyfy from "tinify";
 import config from "../../config/index";
 import { createDocumento } from "../lib/documentGenerator";
+const sharp = require("sharp");
 
 const s3 = new S3Client({
   credentials: {
@@ -48,14 +47,25 @@ export const getImage = async (req, res) => {
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: req.params.imgName,
     });
-    const data = await s3.send(command);
-    const imagemin = (await import("imagemin")).default;
-    const imageminWebp = (await import("imagemin-webp")).default;
-    const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [imageminWebp({ quality: 50 })],
+
+    const streamToBuffer = (stream) =>
+    new Promise((resolve, reject) => {
+      const chunks = [];
+      stream.on("data", (chunk) => chunks.push(chunk));
+      stream.on("error", reject);
+      stream.on("end", () => resolve(Buffer.concat(chunks)));
     });
+
+    const data = await s3.send(command);
+
+    const bufferedImage = await streamToBuffer(data.Body);
+
+    const sharpedImage = await sharp(bufferedImage)
+      .webp({ quality: 50 })
+      .toBuffer();
+
     res.writeHead(200, { "Content-Type": "image/webp" });
-    res.write(dataIMGMIN, "binary");
+    res.write(sharpedImage, "binary");
     res.end(null, "binary");
   } catch (error) {
     return res.status(500).json({ message: error });
@@ -130,10 +140,10 @@ export const uploadImage = multer({
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      cb(new Error("Please upload JPG and PNG images only!"));
+      cb(new Error("Por favor suba imágenes JPG y PNG!"));
     }
     if (file.size > 2000000) {
-      cb(new Error("Tamaño Exedido!"));
+      cb(new Error("Tamaño Excedido!"));
     }
     cb(undefined, true);
   },
@@ -166,10 +176,10 @@ export const uploadImageSubCat = multer({
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      cb(new Error("Please upload JPG and PNG images only!"));
+      cb(new Error("Por favor suba imágenes JPG y PNG!"));
     }
     if (file.size > 2000000) {
-      cb(new Error("Tamaño Exedido!"));
+      cb(new Error("Tamaño Excedido!"));
     }
     cb(undefined, true);
   },
@@ -191,7 +201,7 @@ export const uploadPDF = multer({
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(pdf)$/)) {
-      cb(new Error("Please upload PDF only!"));
+      cb(new Error("Por favor suba un archivo PDF!"));
     }
     cb(undefined, true);
   },
@@ -246,17 +256,27 @@ export const imageUpload = async (req, res, next) => {
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: file.key,
     });
+
+    const streamToBuffer = (stream) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("error", reject);
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+      });
+
     const data = await s3.send(command);
-    const imagemin = (await import("imagemin")).default;
-    const imageminWebp = (await import("imagemin-webp")).default;
-    const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [imageminWebp({ quality: 50 })],
-    });
+
+    const bufferedImage = await streamToBuffer(data.Body);
+
+    const sharpedImage = await sharp(bufferedImage)
+      .webp({ quality: 50 })
+      .toBuffer();
 
     const uploadCommand = new PutObjectCommand({
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: `${fileNN[0]}.webp`,
-      Body: dataIMGMIN,
+      Body: sharpedImage,
       ACL: "public-read",
       CacheControl: "max-age=604800",
       ContentType: "image/webp",
@@ -274,7 +294,7 @@ export const imageUpload = async (req, res, next) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Ocurrio un error inesperado. Intentelo denuevo" });
+      .json({ message: "Ocurrió un error inesperado. Inténtelo de nuevo" });
   }
 };
 
@@ -291,19 +311,27 @@ export const imageUploadSC = async (req, res) => {
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: file.key,
     });
+
+    const streamToBuffer = (stream) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("error", reject);
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+      });
+
     const data = await s3.send(command);
 
-    const imagemin = (await import("imagemin")).default;
-    const imageminWebp = (await import("imagemin-webp")).default;
+    const bufferedImage = await streamToBuffer(data.Body);
 
-    const dataIMGMIN = await imagemin.buffer(data.Body, {
-      plugins: [imageminWebp({ quality: 50 })],
-    });
+    const sharpedImage = await sharp(bufferedImage)
+      .webp({ quality: 50 })
+      .toBuffer();
 
     const uploadCommand = new PutObjectCommand({
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: `STI_${req.params.codigo}_${req.params.subCat}.webp`,
-      Body: dataIMGMIN,
+      Body: sharpedImage,
       ACL: "public-read",
       CacheControl: "max-age=604800",
       ContentType: "image/webp",
@@ -322,6 +350,6 @@ export const imageUploadSC = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Ocurrio un error inesperado. Intentelo denuevo" });
+      .json({ message: "Ocurrió un error inesperado. Inténtelo de nuevo" });
   }
 };

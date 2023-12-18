@@ -370,7 +370,7 @@ export const ventaAnularPost = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
-    return res.json({ message: `succes||${venta.codigo}` });
+    return res.json({ message: `success||${venta.codigo}` });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -413,12 +413,8 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
             { $inc: { 'subConteo.order.$.cantidad': -csc.cantidadVenta } },
             { useFindAndModify: false, new: true, session }
           );
-          for (
-            let index = 0;
-            index < resultTemp.subConteo.order.length;
-            index++
-          ) {
-            if (resultTemp.subConteo.order[index].cantidad < 0) {
+          for (const element of resultTemp.subConteo.order) {
+            if (element.cantidad < 0) {
               await session.abortTransaction();
               session.endSession();
               return res
@@ -540,12 +536,8 @@ export const ventaEjecutar = async (req, res, next) => {
               { $inc: { 'subConteo.order.$.cantidad': -csc.cantidadVenta } },
               { useFindAndModify: false, new: true, session }
             );
-            for (
-              let indexS = 0;
-              indexS < resultTemp.subConteo.order.length;
-              indexS++
-            ) {
-              if (resultTemp.subConteo.order[indexS].cantidad < 0) {
+            for (const element of resultTemp.subConteo.order) {
+              if (element.cantidad < 0) {
                 await session.abortTransaction();
                 session.endSession();
                 return res
@@ -647,7 +639,7 @@ export const ventaAnular = async (req, res) => {
       { $pull: { ventaActiva: req.body.venta.codigo } },
       { useFindAndModify: false }
     );
-    res.json({ message: 'succes' });
+    res.json({ message: 'success' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }
@@ -913,7 +905,7 @@ export const deleteMarcas = async (req, res) => {
   try {
     const deleteArray = req.params.deleteString.split('_');
     await Marca.deleteMany({ name: { $in: deleteArray } });
-    res.json({ message: 'succes' });
+    res.json({ message: 'success' });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }

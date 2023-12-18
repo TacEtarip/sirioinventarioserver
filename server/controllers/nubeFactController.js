@@ -308,7 +308,7 @@ export const generarComprobante = (req, res, next) => {
     jsonToSend = generarFactura(req.ventResult, req.count, req.sunat_guia);
   } else {
     return res.json({
-      message: `Succes||${req.ventResult.codigo}`,
+      message: `Success||${req.ventResult.codigo}`,
       _sunat: null,
     });
   }
@@ -343,7 +343,7 @@ export const generarComprobante = (req, res, next) => {
         logger.error(err);
         res
           .status(err.status || 500)
-          .json({ message: `Succes||${req.ventResult.codigo}`, _sunat: null });
+          .json({ message: `Success||${req.ventResult.codigo}`, _sunat: null });
       });
   };
 

@@ -344,7 +344,7 @@ export const login = async (req, res) => {
       return res.status(400).json({
         username: req.body.username,
         success: false,
-        message: "Authenticacion failed. No user found!",
+        message: "Usuario no encontrado",
         token: null,
       });
     }
@@ -354,7 +354,7 @@ export const login = async (req, res) => {
       return res.status(400).json({
         username: req.body.username,
         success: false,
-        message: "Authenticacion failed. Incorrect Password!",
+        message: "Contraseña incorrecta",
         token: null,
       });
     } else {
@@ -499,8 +499,13 @@ export const agregarVentaUsuario = async (req, res) => {
       { $push: { ventaActiva: req.saveResult.codigo } },
       { useFindAndModify: false }
     );
-    res.json({
-      message: `Venta generada con el codigo: ${req.saveResult.codigo}`,
+
+    if (req.saveResult === undefined || req.saveResult === null) {
+      return res.status(400).json({ message: "No se pudo generar la venta" });
+    }
+
+    return res.json({
+      message: `Venta generada con el código: ${req.saveResult.codigo}`,
       venta: req.saveResult,
     });
   } catch (error) {

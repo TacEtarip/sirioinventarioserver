@@ -311,7 +311,7 @@ export const ventaSimple = async (req, res, next) => {
     const newVenta = new Venta(req.body.venta);
     newVenta.codigo = await generarCodigo();
     await newVenta.save();
-    res.json({ item: req.newItem, message: "Succes" });
+    res.json({ item: req.newItem, message: "Success" });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }

@@ -108,7 +108,7 @@ export const addNewSubTipo = async (req, res) => {
       { codigo: tipo.codigo },
       { $push: { subTipo: req.body.subTipo, subTipoLink: "noPhoto.jpg" } }
     );
-    return res.json({ message: "succes" });
+    return res.json({ message: "success" });
   } catch (error) {
     return res.status(500).json({ errorMSG: error });
   }

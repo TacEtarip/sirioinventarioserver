@@ -29,13 +29,14 @@ app.use(cookieParser());
 
 app.use(morgan(":method :url"));
 
-app.options(
-  "*",
-  cors({ credentials: true, origin: config[process.env.NODE_ENV].origin })
-);
-app.use(
-  cors({ credentials: true, origin: config[process.env.NODE_ENV].origin })
-);
+// app.options(
+//   "*",
+//   cors({ credentials: true, origin: config[process.env.NODE_ENV].origin })
+// );
+
+// allow all origins for testing
+app.use(cors({ credentials: true, origin: "*" }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +45,7 @@ app.use((req, res, next) => {
   if (
     req.headers &&
     req.headers.authorization &&
-    req.headers.authorization.split(" ")[0] === "JWT"
+    req.headers.authorization.split(" ")[0] === "Bearer"
   ) {
     const auth = req.headers.authorization;
     jwt.verify(
