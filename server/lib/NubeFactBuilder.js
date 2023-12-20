@@ -33,15 +33,16 @@ export default class NubeFactBuilder {
     this.medio_de_pago = medio_de_pago;
   }
 
+  // get the date in the format dd-mm-yyyy
   getNowDate() {
     const utc = DateTime.local().setZone("UTC-5");
     const lclString = utc.toLocaleString();
     const arrayDate = lclString.split("/");
-    const tempoPos = arrayDate[0];
-    arrayDate[0] = arrayDate[1];
-    arrayDate[1] = tempoPos;
-    console.log(arrayDate.join("-"));
-    return arrayDate.join("-");
+    const day = arrayDate[0];
+    const month = arrayDate[1];
+    const year = arrayDate[2].split(",")[0];
+    const date = `${day}-${month}-${year}`;
+    return date;
   }
 
   addDireccion(cliente_direccion) {
@@ -64,6 +65,14 @@ export default class NubeFactBuilder {
 
   build() {
     return new NubeFact(this);
+  }
+
+/**
+ * Adds credits.
+ * @param {{ cuota: number, fecha_de_pago: string, importe: number }[]} credits - Array of credit objects
+ */
+  addCredits(credits) {
+    this.venta_al_credito = credits;
   }
 
   /**

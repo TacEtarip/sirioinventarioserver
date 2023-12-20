@@ -40,7 +40,7 @@ export default class NubeFact {
     this.detraccion = false;
     this.enviar_automaticamente_a_la_sunat = true;
     this.enviar_automaticamente_al_cliente = false;
-    this.formato_de_pdf = "A4";
+    this.formato_de_pdf = "TICKET";
     this.items = builder.items || [];
     this.guias = builder.guias || [];
     this.codigo_unico = builder.codigo_unico || "";

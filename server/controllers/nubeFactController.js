@@ -1,11 +1,221 @@
 import { DateTime } from "luxon";
 import fetch from "node-fetch";
 import config from "../../config/index";
+import GuiaRemitente from "../lib/GuiaRemitente";
 import Item from "../lib/Item";
 import NFB from "../lib/NubeFactBuilder";
-import jsonGuia from "../resources/guiaNbf.json";
 
 const logger = config[process.env.NODE_ENV].log();
+
+export const crearGuiaV2 = async (req, res, next) => {
+  try {
+    const venta = res.locals.venta;
+    const countGuias = res.locals.countGuias + 1;
+
+    const {
+      tipoDeComprobante,
+      tipoDeDocumento,
+      numeroDeDocumento,
+      denominacion,
+      direccion,
+      email,
+      observaciones,
+      motivoDeTraslado,
+      motivoDeTrasladoOtros,
+      pesoBruto,
+      pesoBrutoUnidadDeMedida,
+      numeroDeBultos,
+      fechaDeInicioDeTraslado,
+      tipoDeTransporte,
+      transportistaTipoDeDocumento,
+      transportistaNumeroDeDocumento,
+      transportistaDenominacion,
+      transportistaPlacaNumero,
+      tucVehiculoPrincipal,
+      conductorDocumentoTipo,
+      conductorDocumentoNumero,
+      conductorDenominacion,
+      conductorNombre,
+      conductorApellidos,
+      conductorNumeroLicencia,
+      destinatarioDocumentoTipo,
+      destinatarioDocumentoNumero,
+      destinatarioDenominacion,
+      puntoDePartidaUbigeo,
+      puntoDePartidaDireccion,
+      puntoDePartidaCodigoEstablecimientoSunat,
+      puntoDeLlegadaUbigeo,
+      puntoDeLlegadaDireccion,
+      puntoDeLlegadaCodigoEstablecimientoSunat,
+      vehiculosSecundarios,
+      conductoresSecundarios,
+    } = req.body;
+
+    const guia = new GuiaRemitente(tipoDeComprobante, countGuias)
+      .addCliente(
+        tipoDeDocumento,
+        numeroDeDocumento,
+        denominacion,
+        direccion,
+        email
+      )
+      .addObservaciones(observaciones)
+      .addPesoBruto(pesoBruto, pesoBrutoUnidadDeMedida)
+      .addFechaDeInicioDeTraslado(fechaDeInicioDeTraslado)
+      .addTransportistaPlacaNumero(transportistaPlacaNumero)
+      .addPuntoDePartida(puntoDePartidaUbigeo, puntoDePartidaDireccion)
+      .addPuntoDeLlegada(puntoDeLlegadaUbigeo, puntoDeLlegadaDireccion);
+
+    if (guia.motivo_de_traslado === "04" || guia.motivo_de_traslado === "18") {
+      guia
+        .addPuntoDePartidaCodigoEstablecimientoSunat(
+          puntoDePartidaCodigoEstablecimientoSunat
+        )
+        .addPuntoDeLlegadaCodigoEstablecimientoSunat(
+          puntoDeLlegadaCodigoEstablecimientoSunat
+        );
+    }
+
+    for (const item of venta.itemsVendidos) {
+      const newItem = {
+        unidad_de_medida: "NIU",
+        codigo: item.codigo,
+        descripcion: item.name + " | " + item.descripcion,
+        cantidad: item.cantidad,
+      };
+
+      if (item.unidadDeMedida === "UND") {
+        newItem.unidad_de_medida = "NIU";
+      } else if (item.unidadDeMedida === "PAR") {
+        newItem.unidad_de_medida = "PR";
+      } else if (item.unidadDeMedida === "CAJA") {
+        newItem.unidad_de_medida = "BX";
+      }
+
+      guia.addItem(newItem);
+    }
+
+    for (const vehiculo of vehiculosSecundarios) {
+      guia.addVehiculoSecundario(vehiculo.placaNumero, vehiculo.tuc);
+    }
+
+    if (guia.tipo_de_comprobante === 7) {
+      guia.addMotivoDeTraslado(motivoDeTraslado);
+      if (guia.motivo_de_traslado === "13") {
+        guia.addMotivoDeTrasladoOtros(motivoDeTrasladoOtros);
+      }
+
+      guia
+        .addNumeroDeBultos(numeroDeBultos)
+        .addTipoDeTransporte(tipoDeTransporte)
+        .addTransportista(
+          transportistaTipoDeDocumento,
+          transportistaNumeroDeDocumento,
+          transportistaDenominacion
+        );
+
+      if (guia.tipo_de_transporte === "02") {
+        guia.addConductor(
+          conductorDocumentoTipo,
+          conductorDocumentoNumero,
+          conductorDenominacion,
+          conductorNombre,
+          conductorApellidos,
+          conductorNumeroLicencia
+        );
+
+        for (const conductor of conductoresSecundarios) {
+          guia.addConductorSecundario(
+            conductor.documentoTipo,
+            conductor.documentoNumero,
+            conductor.denominacion,
+            conductor.nombre,
+            conductor.apellidos,
+            conductor.numeroLicencia
+          );
+        }
+      }
+    } else {
+      guia
+        .addTucVehiculo(tucVehiculoPrincipal)
+        .addConductor(
+          conductorDocumentoTipo,
+          conductorDocumentoNumero,
+          conductorDenominacion,
+          conductorNombre,
+          conductorApellidos,
+          conductorNumeroLicencia
+        )
+        .addDestinatario(
+          destinatarioDocumentoTipo,
+          destinatarioDocumentoNumero,
+          destinatarioDenominacion
+        );
+    }
+
+    const result = await fetch(
+      "https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: config[process.env.NODE_ENV].nbfToken,
+        },
+        body: JSON.stringify(temporalJSON),
+      }
+    );
+
+    const jsonRes = await result.json();
+
+    if (jsonRes.tipo_de_comprobante) {
+      logger.info(jsonRes);
+      res.locals.guia = jsonRes;
+      return next();
+    }
+
+    logger.error(jsonRes);
+    return res.status(400).json({ message: "Error al crear guía" });
+  } catch (error) {
+    logger.error(error);
+    return res.status(500).json({ message: "Error desconocido al crear guía" });
+  }
+};
+
+export const obtenerGuia = async (req, res) => {
+  try {
+    const result = await fetch(
+      "https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: config[process.env.NODE_ENV].nbfToken,
+        },
+        body: JSON.stringify({
+          operacion: "consultar_guia",
+          tipo_de_comprobante: req.params.tipoComprobante,
+          serie: req.params.serie,
+          numero: req.params.numero,
+        }),
+      }
+    );
+
+    const jsonRes = await result.json();
+
+    if (jsonRes.tipo_de_comprobante) {
+      logger.info(jsonRes);
+      return res.json(jsonRes);
+    }
+
+    logger.error(jsonRes);
+    return res.status(400).json({ message: "Error obtener guia" });
+  } catch (error) {
+    logger.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error desconocido al obtener guia" });
+  }
+};
 
 export const anularComprobanteSunat = async (
   tipo = 1,
@@ -42,97 +252,11 @@ const getNowDate = () => {
   const utc = DateTime.local().setZone("UTC-5");
   const lclString = utc.toLocaleString();
   const arrayDate = lclString.split("/");
-  const tempoPos = arrayDate[0];
-  arrayDate[0] = arrayDate[1];
-  arrayDate[1] = tempoPos;
-  return arrayDate.join("-");
-};
-
-export const generarGuia = (req, res, next) => {
-  if (!req.body.venta.guia) {
-    return next();
-  }
-  const temporalJSON = { ...jsonGuia };
-  temporalJSON.numero = req.countGuia + 1;
-  if (req.ventResult.documento.type === "factura") {
-    temporalJSON.cliente_tipo_de_documento = 6;
-  } else if (req.ventResult.documento.type === "boleta") {
-    temporalJSON.cliente_tipo_de_documento = 1;
-  }
-  const codigoDoc =
-    req.ventResult.documento.codigo.toString().length === 7 ||
-    req.ventResult.documento.codigo.toString().length === 10
-      ? "0" + req.ventResult.documento.codigo.toString()
-      : req.ventResult.documento.codigo;
-  temporalJSON.cliente_numero_de_documento = codigoDoc;
-  temporalJSON.cliente_denominacion = req.ventResult.documento.name;
-  temporalJSON.cliente_direccion = req.ventResult.documento.direccion || "";
-  temporalJSON.fecha_de_emision = getNowDate();
-  temporalJSON.fecha_de_inicio_de_traslado = getNowDate();
-  temporalJSON.numero_de_bultos = req.body.venta.bultos;
-  temporalJSON.peso_bruto_total = req.body.venta.peso;
-  if (req.body.venta.transportista_codigo.length === 8) {
-    temporalJSON.transportista_documento_tipo = 1;
-    temporalJSON.tipo_de_transporte = "02";
-  } else {
-    temporalJSON.transportista_documento_tipo = 6;
-    temporalJSON.tipo_de_transporte = "01";
-  }
-  temporalJSON.transportista_documento_numero =
-    req.body.venta.transportista_codigo;
-  temporalJSON.transportista_denominacion = req.body.venta.transportista_nombre;
-  temporalJSON.transportista_placa_numero = req.body.venta.transportista_placa;
-  temporalJSON.conductor_documento_tipo =
-    temporalJSON.transportista_documento_tipo;
-  temporalJSON.conductor_documento_numero =
-    temporalJSON.transportista_documento_numero;
-  temporalJSON.conductor_denominacion = temporalJSON.transportista_denominacion;
-  temporalJSON.punto_de_partida_ubigeo = req.body.venta.partida_ubigeo;
-  temporalJSON.punto_de_partida_direccion = req.body.venta.partida_direccion;
-  temporalJSON.punto_de_llegada_ubigeo = req.body.venta.llegada_ubigeo;
-  temporalJSON.punto_de_llegada_direccion = req.body.venta.llegada_direccion;
-  temporalJSON.formato_de_pdf = "A4";
-  temporalJSON.cliente_email = req.ventResult.cliente_email || "";
-  temporalJSON.enviar_automaticamente_a_la_sunat = true;
-  temporalJSON.enviar_automaticamente_al_cliente = true;
-
-  req.ventResult.itemsVendidos.forEach((item) => {
-    const newItem = {
-      unidad_de_medida: "NIU",
-      codigo: item.codigo,
-      descripcion: item.name + " | " + item.descripcion,
-      cantidad: item.cantidad,
-    };
-    if (item.unidadDeMedida === "UND") {
-      newItem.unidad_de_medida = "NIU";
-    } else if (item.unidadDeMedida === "PAR") {
-      newItem.unidad_de_medida = "PR";
-    } else if (item.unidadDeMedida === "CAJA") {
-      newItem.unidad_de_medida = "BX";
-    }
-    temporalJSON.items.push(newItem);
-  });
-
-  fetch(
-    "https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c",
-    {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: config[process.env.NODE_ENV].nbfToken,
-      },
-      body: JSON.stringify(temporalJSON),
-    }
-  )
-    .then((resT) => resT.json())
-    .then((json) => {
-      req.sunat_guia = json;
-      if (json.errors) {
-        console.log("HANDLE");
-      }
-      next();
-    })
-    .catch((err) => res.status(err.status).json(err));
+  const day = arrayDate[0];
+  const month = arrayDate[1];
+  const year = arrayDate[2].split(",")[0];
+  const date = `${day}-${month}-${year}`;
+  return date;
 };
 
 const formatearMetodoPago = (ventResult) => {
@@ -159,7 +283,7 @@ const formatearMetodoPago = (ventResult) => {
   return showMedio;
 };
 
-const generarBoleta = (ventResult, countF, sunat_guia) => {
+const generarBoleta = (ventResult, countF) => {
   let zeroOffset = "";
 
   if (ventResult.documento.codigo.toString().length < 8) {
@@ -191,6 +315,8 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
     ventResult.totalPrice
   );
 
+  newBoleta.addCredits(ventResult.credits);
+
   if (ventResult.cliente_email) {
     newBoleta.addEmail(ventResult.cliente_email);
   }
@@ -216,12 +342,14 @@ const generarBoleta = (ventResult, countF, sunat_guia) => {
     }
     newBoleta.addItem(newItem.toJSON());
   });
-  if (ventResult.guia) {
+
+  for (const guia of ventResult.guias) {
     newBoleta.addGuide({
-      guia_tipo: 1,
-      guia_serie_numero: sunat_guia.serie.toString() + "-" + sunat_guia.numero,
+      guia_tipo: guia.tipoDeComprobante === 7 ? 1 : 2,
+      guia_serie_numero: `${guia.serie.toString()}-${guia.numero}`,
     });
   }
+
   return newBoleta.build().toJSON();
 };
 
@@ -243,9 +371,7 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
       ? zeroOffset + ventResult.documento.codigo.toString()
       : ventResult.documento.codigo;
 
-  console.log(countF);
-
-  const newBoleta = new NFB(
+  const newFactura = new NFB(
     1,
     1 + countF,
     codigoDoc,
@@ -254,14 +380,16 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
     formatearMetodoPago(ventResult)
   );
 
-  newBoleta.addPrecios(
+  newFactura.addPrecios(
     ventResult.totalPriceNoIGV,
     ventResult.totalPrice - ventResult.totalPriceNoIGV,
     ventResult.totalPrice
   );
 
+  newFactura.addCredits(ventResult.credits);
+
   if (ventResult.cliente_email) {
-    newBoleta.addEmail(ventResult.cliente_email);
+    newFactura.addEmail(ventResult.cliente_email);
   }
 
   ventResult.itemsVendidos.forEach((item) => {
@@ -283,16 +411,16 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
     } else if (item.unidadDeMedida === "CAJA") {
       newItem.unidad_de_medida = "BX";
     }
-    newBoleta.addItem(newItem.toJSON());
+    newFactura.addItem(newItem.toJSON());
   });
-  newBoleta.addDireccion(ventResult.documento.direccion);
-  if (ventResult.guia) {
+  newFactura.addDireccion(ventResult.documento.direccion);
+  for (const guia of ventResult.guias) {
     newBoleta.addGuide({
-      guia_tipo: 1,
-      guia_serie_numero: sunat_guia.serie.toString() + "-" + sunat_guia.numero,
+      guia_tipo: guia.tipoDeComprobante === 7 ? 1 : 2,
+      guia_serie_numero: `${guia.serie.toString()}-${guia.numero}`,
     });
   }
-  return newBoleta.build().toJSON();
+  return newFactura.build().toJSON();
 };
 
 export const generarComprobante = (req, res, next) => {
@@ -300,12 +428,10 @@ export const generarComprobante = (req, res, next) => {
 
   logger.info(req.ventResult.documento);
 
-  console.log("xxcomprobante", req.count);
-
   if (req.ventResult.documento.type === "boleta") {
-    jsonToSend = generarBoleta(req.ventResult, req.count, req.sunat_guia);
+    jsonToSend = generarBoleta(req.ventResult, req.count);
   } else if (req.ventResult.documento.type === "factura") {
-    jsonToSend = generarFactura(req.ventResult, req.count, req.sunat_guia);
+    jsonToSend = generarFactura(req.ventResult, req.count);
   } else {
     return res.json({
       message: `Success||${req.ventResult.codigo}`,
@@ -316,7 +442,6 @@ export const generarComprobante = (req, res, next) => {
   logger.info(jsonToSend);
 
   const fetchWithRetry = (retryCount = 0, jsonToSend = {}) => {
-    console.log('countretry', retryCount);
     fetch(
       process.env.NUBE_FACT_API_URL ||
         "https://api.nubefact.com/api/v1/9e79db57-8322-4c1a-ac73-fa5093668c3c",
@@ -331,7 +456,7 @@ export const generarComprobante = (req, res, next) => {
     )
       .then((resT) => resT.json())
       .then((json) => {
-        if ((json.codigo === 23 ||json.codigo === '23') && retryCount < 3) {
+        if ((json.codigo === 23 || json.codigo === "23") && retryCount < 3) {
           // Let's retry 3 times at max
           jsonToSend.numero = json.numero + 1;
           return fetchWithRetry(retryCount + 1, jsonToSend);

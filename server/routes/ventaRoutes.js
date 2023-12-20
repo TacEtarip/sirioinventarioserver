@@ -13,12 +13,12 @@ import {
 } from "../controllers/itemController";
 import {
   generarComprobante,
-  generarGuia,
+  crearGuiaV2,
+  obtenerGuia,
 } from "../controllers/nubeFactController";
 import {
   agregarVentaUsuario,
   allLoginRequired,
-  getVentaActiva,
   getVentasActivasList,
   normalLoginRequired,
   tieneVentaActiva,
@@ -28,12 +28,11 @@ import {
   createExcel,
   eliminarItemScVenta,
   eliminarItemVenta,
-  generarVenta,
   getCantidadDeVentasPorEstado,
   getDNI,
   getGananciaIngresoPorItem,
-  getGananciasTodoItem,
   getGananciaTotalPorItem,
+  getGananciasTodoItem,
   getInfoToPlotVentasPrecioOverTime,
   getLastTenVentas,
   getMejoresClientes,
@@ -42,7 +41,8 @@ import {
   getVentasEjecutadas,
   getVentasListLoggedUser,
   getVentasPorDiaMes,
-  getVentaUser,
+  getVentaToCreateGuide,
+  createGuide,
 } from "../controllers/ventaController";
 
 const routes = new Router();
@@ -118,7 +118,6 @@ routes.post(
   "/ventaSimple",
   transaccionalLoginRequired,
   ventaSimpleItemUpdate,
-  generarGuia,
   generarComprobante,
   addLinkToPDF
 );
@@ -145,9 +144,22 @@ routes.post(
   "/ejecutarVenta",
   transaccionalLoginRequired,
   ventaEjecutar,
-  generarGuia,
   generarComprobante,
   addLinkToPDF
+);
+
+routes.post(
+  "/sunat-guide",
+  transaccionalLoginRequired,
+  getVentaToCreateGuide,
+  crearGuiaV2,
+  createGuide
+);
+
+routes.get(
+  "/sunat-guide/:serie/:numero/:tipo_de_comprobante",
+  transaccionalLoginRequired,
+  obtenerGuia
 );
 
 routes.put("/anularVenta", transaccionalLoginRequired, ventaAnular);

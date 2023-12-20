@@ -3,17 +3,64 @@ import mongoose from "mongoose";
 import config from "../../config/index";
 import { createExcelReport } from "../lib/createExcelReport";
 import ventaModel from "../models/ventaModel";
+import guiaModel from "../models/guiaModel";
 
 const tokenSunat = config[process.env.NODE_ENV].sunatToken;
 
 const Venta = mongoose.model("Venta", ventaModel);
+
+const Guia = mongoose.model("Guia", guiaModel);
+
+export const getVentaToCreateGuide = async (req, res, next) => {
+  try {
+    const result = await Venta.findOne({ codigo: req.body.ventaCod });
+    const count = await Guia.countDocuments({});
+    res.locals.venta = result;
+    res.locals.countGuias = count;
+    return next();
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+export const createGuide = async (req, res) => {
+  try {
+    const sunatGuide = res.locals.guia;
+
+    const newGuia = new Guia({
+      tipoComprobante: sunatGuide.tipo_de_comprobante,
+      serie: sunatGuide.serie,
+      numero: sunatGuide.numero,
+    });
+
+    await newGuia.save();
+
+    const updatedVenta = await Venta.findOneAndUpdate(
+      { codigo: req.body.ventaCod },
+      {
+        $push: {
+          guias: {
+            serie: sunatGuide.serie,
+            numero: sunatGuide.numero,
+            tipoComprobante: sunatGuide.tipo_de_comprobante,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    return res.json(updatedVenta);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
 
 export const getVentaUser = async (req, res) => {
   try {
     const venta = await Venta.findOne({ codigo: req.ventaCod });
     res.json(venta);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -25,7 +72,7 @@ export const getLastTenVentas = async (req, res) => {
       .limit(20);
     res.json(ventas);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -79,7 +126,7 @@ export const eliminarItemScVenta = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -90,7 +137,7 @@ export const eliminarItemVenta = async (req, res) => {
       (x) => x.codigo === req.body.itemCodigo
     );
     if (indexEx === -1) {
-      return res.status(409).json({ errorMSG: "El item ya a sido eliminado" });
+      return res.status(409).json({ message: "El item ya a sido eliminado" });
     }
     const newTotalPrice =
       Math.round(
@@ -110,7 +157,7 @@ export const eliminarItemVenta = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -124,7 +171,7 @@ export const getVenta = async (req, res) => {
     const result = await Venta.findOne({ codigo: req.params.ventaCod });
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -136,7 +183,7 @@ export const getVentasListLoggedUser = async (req, res) => {
     });
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -145,7 +192,7 @@ export const getVentasActivas = async (req, res) => {
     const result = await Venta.find({ estado: "pendiente" });
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -162,7 +209,7 @@ export const getVentasEjecutadasTest = async (req, res) => {
       .sort({ date: -1 });
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -213,7 +260,7 @@ export const getVentasEjecutadas = async (req, res) => {
     }
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -266,7 +313,7 @@ export const getCantidadDeVentasPorEstado = async (req, res) => {
 
     res.json(result[0]);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -279,11 +326,11 @@ export const getDNI = async (req, res) => {
     res.json(result.data);
   } catch (error) {
     if (error.response.status === 422) {
-      return res.status(422).json({ errorMSG: "Numero Invalido" });
+      return res.status(422).json({ message: "Numero Invalido" });
     } else if (error.response.status === 404) {
-      return res.status(404).json({ errorMSG: "Documento No Encontrado" });
+      return res.status(404).json({ message: "Documento No Encontrado" });
     } else {
-      return res.status(500).json({ errorMSG: error });
+      return res.status(500).json({ message: error });
     }
   }
 };
@@ -297,11 +344,11 @@ export const getRUC = async (req, res) => {
     res.json(result.data);
   } catch (error) {
     if (error.response.status === 422) {
-      return res.status(422).json({ errorMSG: "Numero Invalido" });
+      return res.status(422).json({ message: "Numero Invalido" });
     } else if (error.response.status === 404) {
-      return res.status(404).json({ errorMSG: "Documento No Encontrado" });
+      return res.status(404).json({ message: "Documento No Encontrado" });
     } else {
-      return res.status(500).json({ errorMSG: error });
+      return res.status(500).json({ message: error });
     }
   }
 };
@@ -313,7 +360,7 @@ export const ventaSimple = async (req, res, next) => {
     await newVenta.save();
     res.json({ item: req.newItem, message: "Success" });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -354,7 +401,7 @@ export const createExcel = async (req, res) => {
     res.write(buffer, "binary");
     res.end(null, "binary");
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -365,7 +412,7 @@ export const generarVentaNueva = async (req, res) => {
     const saveResult = await newVenta.save();
     res.json(saveResult);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -376,7 +423,7 @@ export const generarVenta = async (req, res) => {
     const saveResult = await newVenta.save();
     res.json(saveResult);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -401,7 +448,7 @@ const generarCodigo = async (tipo) => {
     const codigo = preCod + count.toString();
     return codigo;
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -414,7 +461,7 @@ export const ejecutarVenta = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -427,7 +474,7 @@ export const anularVenta = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -436,7 +483,7 @@ export const obtenerTodasLasVentas = async (req, res) => {
     const result = await Venta.find({});
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -468,7 +515,7 @@ export const getMejoresClientes = async (req, res) => {
     ]);
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -487,7 +534,7 @@ export const getMejoresClientes = async (req, res) => {
         ]);
         res.json(result);
     } catch (error) {
-        return res.status(500).json({errorMSG: error});
+        return res.status(500).json({message: error});
     }
 };*/
 
@@ -525,7 +572,7 @@ export const getGananciaTotalPorItem = async (req, res) => {
     ]);
     res.json(result[0] ? result[0] : { value: 0, totalVenta: 0 });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -633,7 +680,7 @@ export const getGananciaIngresoPorItem = async (req, res) => {
     ];
     res.json(multi);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -668,7 +715,7 @@ export const getGananciasTodoItem = async (req, res, next) => {
     req.gananciaPorItem = result;
     next();
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -772,7 +819,7 @@ export const getInfoToPlotVentasPrecioOverTime = async (req, res) => {
     ];
     return res.json(multi);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -857,7 +904,7 @@ export const getVentasPorDiaMes = async (req, res) => {
     }
     res.json(responseArray);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 

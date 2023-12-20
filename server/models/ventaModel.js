@@ -74,21 +74,15 @@ const VentaSchema = new Schema({
     type: String,
   },
 
-  guia_serie: {
-    type: String,
-  },
-
-  guia_numero: {
-    type: String,
-  },
-
-  guia: {
-    type: Boolean,
-    default: false,
-  },
-
-  guia_link: {
-    type: String,
+  guias: {
+    type: [
+      {
+        serie: String,
+        numero: String,
+        tipoComprobante: Number,
+      },
+    ],
+    default: [],
   },
 
   carrito_venta: {
@@ -99,6 +93,17 @@ const VentaSchema = new Schema({
   estado_carrito_comprando: {
     type: Boolean,
     default: false,
+  },
+
+  credits: {
+    type: [
+      {
+        cuota: Number,
+        fecha_de_pago: String,
+        importe: Number,
+      },
+    ],
+    default: [],
   },
 });
 
