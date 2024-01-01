@@ -20,10 +20,10 @@ export default class NubeFact {
     this.tipo_de_comprobante = builder.tipo_de_comprobante;
     if (this.tipo_de_comprobante === 1) {
       this.cliente_tipo_de_documento = "6";
-      this.serie = "FFF1";
+      this.serie = "FFF2";
     } else {
       this.cliente_tipo_de_documento = "1";
-      this.serie = "BBB1";
+      this.serie = "BBB2";
     }
     this.numero = builder.numero;
     this.sunat_transaction = 1;
@@ -48,6 +48,8 @@ export default class NubeFact {
     this.enviar_automaticamente_al_cliente =
       builder.enviar_automaticamente_al_cliente || false;
     this.medio_de_pago = builder.medio_de_pago;
+    this.venta_al_credito = builder.venta_al_credito || [];
+    this.fecha_de_vencimiento = builder.fecha_de_vencimiento || "";
   }
 
   toString() {

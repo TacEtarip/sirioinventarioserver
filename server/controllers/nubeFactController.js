@@ -47,8 +47,10 @@ export const crearGuiaV2 = async (req, res, next) => {
       puntoDeLlegadaUbigeo,
       puntoDeLlegadaDireccion,
       puntoDeLlegadaCodigoEstablecimientoSunat,
-      vehiculosSecundarios,
-      conductoresSecundarios,
+      // vehiculosSecundarios,
+      // conductoresSecundarios,
+      // documentosRelacionados,
+      // createFromDocument,
     } = req.body;
 
     const guia = new GuiaRemitente(tipoDeComprobante, countGuias)
@@ -66,6 +68,7 @@ export const crearGuiaV2 = async (req, res, next) => {
       .addPuntoDePartida(puntoDePartidaUbigeo, puntoDePartidaDireccion)
       .addPuntoDeLlegada(puntoDeLlegadaUbigeo, puntoDeLlegadaDireccion);
 
+
     if (guia.motivo_de_traslado === "04" || guia.motivo_de_traslado === "18") {
       guia
         .addPuntoDePartidaCodigoEstablecimientoSunat(
@@ -76,28 +79,38 @@ export const crearGuiaV2 = async (req, res, next) => {
         );
     }
 
-    for (const item of venta.itemsVendidos) {
-      const newItem = {
-        unidad_de_medida: "NIU",
-        codigo: item.codigo,
-        descripcion: item.name + " | " + item.descripcion,
-        cantidad: item.cantidad,
-      };
+    if (venta.serie && venta.numero && venta.tipoComprobante) {
+      guia.addDocumentoRelacionado(
+        venta.tipoComprobante,
+        venta.serie,
+        venta.numero
+      );
+    }
 
-      if (item.unidadDeMedida === "UND") {
-        newItem.unidad_de_medida = "NIU";
-      } else if (item.unidadDeMedida === "PAR") {
-        newItem.unidad_de_medida = "PR";
-      } else if (item.unidadDeMedida === "CAJA") {
-        newItem.unidad_de_medida = "BX";
+    if (!venta.serie && !venta.numero && !venta.tipoComprobante) {
+      for (const item of venta.itemsVendidos) {
+        const newItem = {
+          unidad_de_medida: "NIU",
+          codigo: item.codigo,
+          descripcion: item.name + " | " + item.descripcion,
+          cantidad: item.cantidad,
+        };
+
+        if (item.unidadDeMedida === "UND") {
+          newItem.unidad_de_medida = "NIU";
+        } else if (item.unidadDeMedida === "PAR") {
+          newItem.unidad_de_medida = "PR";
+        } else if (item.unidadDeMedida === "CAJA") {
+          newItem.unidad_de_medida = "BX";
+        }
+
+        guia.addItem(newItem);
       }
-
-      guia.addItem(newItem);
     }
 
-    for (const vehiculo of vehiculosSecundarios) {
-      guia.addVehiculoSecundario(vehiculo.placaNumero, vehiculo.tuc);
-    }
+    // for (const vehiculo of vehiculosSecundarios) {
+    //   guia.addVehiculoSecundario(vehiculo.placaNumero, vehiculo.tuc);
+    // }
 
     if (guia.tipo_de_comprobante === 7) {
       guia.addMotivoDeTraslado(motivoDeTraslado);
@@ -124,16 +137,16 @@ export const crearGuiaV2 = async (req, res, next) => {
           conductorNumeroLicencia
         );
 
-        for (const conductor of conductoresSecundarios) {
-          guia.addConductorSecundario(
-            conductor.documentoTipo,
-            conductor.documentoNumero,
-            conductor.denominacion,
-            conductor.nombre,
-            conductor.apellidos,
-            conductor.numeroLicencia
-          );
-        }
+        // for (const conductor of conductoresSecundarios) {
+        //   guia.addConductorSecundario(
+        //     conductor.documentoTipo,
+        //     conductor.documentoNumero,
+        //     conductor.denominacion,
+        //     conductor.nombre,
+        //     conductor.apellidos,
+        //     conductor.numeroLicencia
+        //   );
+        // }
       }
     } else {
       guia
@@ -317,6 +330,12 @@ const generarBoleta = (ventResult, countF) => {
 
   newBoleta.addCredits(ventResult.credits);
 
+  newBoleta.setFechaDeVencimiento(ventResult.fechaDeVencimiento);
+
+  if (ventResult.credits && ventResult.credits.length > 0) {
+    newBoleta.setMedioDePago("");
+  }
+
   if (ventResult.cliente_email) {
     newBoleta.addEmail(ventResult.cliente_email);
   }
@@ -388,6 +407,12 @@ const generarFactura = (ventResult, countF, sunat_guia) => {
 
   newFactura.addCredits(ventResult.credits);
 
+  newFactura.setFechaDeVencimiento(ventResult.fechaDeVencimiento);
+
+  if (ventResult.credits && ventResult.credits.length > 0) {
+    newFactura.setMedioDePago("");
+  }
+
   if (ventResult.cliente_email) {
     newFactura.addEmail(ventResult.cliente_email);
   }
@@ -439,7 +464,7 @@ export const generarComprobante = (req, res, next) => {
     });
   }
 
-  logger.info(jsonToSend);
+  logger.info('jsonToSend', jsonToSend);
 
   const fetchWithRetry = (retryCount = 0, jsonToSend = {}) => {
     fetch(

@@ -67,12 +67,20 @@ export default class NubeFactBuilder {
     return new NubeFact(this);
   }
 
-/**
- * Adds credits.
- * @param {{ cuota: number, fecha_de_pago: string, importe: number }[]} credits - Array of credit objects
- */
+  /**
+   * Adds credits.
+   * @param {{ cuota: number, fecha_de_pago: string, importe: number }[]} credits - Array of credit objects
+   */
   addCredits(credits) {
     this.venta_al_credito = credits;
+  }
+
+  setMedioDePago(medio_de_pago) {
+    this.medio_de_pago = medio_de_pago;
+  }
+
+  setFechaDeVencimiento(fecha_de_vencimiento) {
+    this.fecha_de_vencimiento = fecha_de_vencimiento;
   }
 
   /**

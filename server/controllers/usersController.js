@@ -547,9 +547,7 @@ export const tieneVentaActiva = async (req, res, next) => {
     const usuario = await User.findOne({
       username: req.user.aud.split(" ")[0],
     });
-    if (usuario.ventaActiva.lenght > 4) {
-      return res.status(409).json({ message: "Ya tienes 5 ventas activas." });
-    }
+
     req.ventaCod = usuario.ventaActiva;
     next();
   } catch (error) {

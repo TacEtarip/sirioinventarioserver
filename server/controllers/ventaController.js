@@ -13,7 +13,7 @@ const Guia = mongoose.model("Guia", guiaModel);
 
 export const getVentaToCreateGuide = async (req, res, next) => {
   try {
-    const result = await Venta.findOne({ codigo: req.body.ventaCod });
+    const result = await Venta.findOne({ codigo: req.body.saleCode });
     const count = await Guia.countDocuments({});
     res.locals.venta = result;
     res.locals.countGuias = count;
@@ -177,9 +177,11 @@ export const getVenta = async (req, res) => {
 
 export const getVentasListLoggedUser = async (req, res) => {
   try {
+    const { tipoVenta } = req.query;
     const result = await Venta.find({
       estado: "pendiente",
       vendedor: req.user.aud.split(" ")[0],
+      tipoVenta,
     });
     res.json(result);
   } catch (error) {

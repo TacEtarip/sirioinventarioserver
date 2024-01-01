@@ -4,6 +4,7 @@ import { createExcelItemReport } from "../lib/createExcelItemReport";
 import itemSchema from "../models/itemModel";
 import marcaSchema from "../models/marcaModel";
 import tagsSchema from "../models/tagsModel";
+import comprobanteSchema from "../models/comprobanteModel";
 import { UserSchema } from "../models/userModel";
 import ventaModel from "../models/ventaModel";
 import { uploadPDFventa } from "./uploadsController";
@@ -13,6 +14,7 @@ const Marca = mongoose.model("Marca", marcaSchema);
 const Venta = mongoose.model("Venta", ventaModel);
 const User = mongoose.model("User", UserSchema);
 const Tag = mongoose.model("Tag", tagsSchema);
+const Comprobante = mongoose.model("Comprobante", comprobanteSchema);
 
 export const filterItemsByRegex = async (req, res) => {
   try {
@@ -23,7 +25,7 @@ export const filterItemsByRegex = async (req, res) => {
     }).limit(req.body.limit);
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -36,7 +38,7 @@ export const filterTagsByRegex = async (req, res) => {
     }).limit(req.body.limit);
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -181,7 +183,7 @@ export const testFind = async (req, res) => {
     const result = await Item.find({ codigo: { $in: ["0SDTT2", "2SDeT3"] } });
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -281,7 +283,7 @@ export const generarVentaNueva = async (req, res, next) => {
     req.saveResult = await newVenta.save();
     next();
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -294,7 +296,7 @@ export const ventaAnularPost = async (req, res) => {
     if (ventaAct.estado === "anuladaPost") {
       await session.abortTransaction();
       session.endSession();
-      return res.status(409).json({ errorMSG: "Ya anulada" });
+      return res.status(409).json({ message: "Ya anulada" });
     }
     const variaciones = [];
     const itemsVendidosCod = [];
@@ -363,7 +365,7 @@ export const ventaAnularPost = async (req, res) => {
     }
     const venta = await Venta.findOneAndUpdate(
       { codigo: req.body.codigo },
-      { estado: "anuladaPost", linkComprobante: documentoAnulado },
+      { estado: "anuladaPost", linkComprobanteAnulado: documentoAnulado || '' },
       { useFindAndModify: false, new: true, session }
     );
 
@@ -374,7 +376,7 @@ export const ventaAnularPost = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -449,31 +451,9 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
     req.ventResult = await newVenta.save({ session });
 
     if (newVenta.documento.type === "factura") {
-      const ultimaVentaFactura = await Venta.findOne({
-        tipoComprobante: { $eq: 1 },
-        numero: { $ne: null },
-      })
-        .sort({
-          $natural: -1,
-        })
-        .limit(1);
-      console.log(ultimaVentaFactura);
-      req.count = ultimaVentaFactura.nubeCountNumber || 0;
+      req.count = await Comprobante.countDocuments({ tipoComprobante: 1 });
     } else if (newVenta.documento.type === "boleta") {
-      const ultimaVentaBoleta = await Venta.findOne({
-        tipoComprobante: { $eq: 2 },
-        numero: { $ne: null },
-      })
-        .sort({
-          $natural: -1,
-        })
-        .limit(1);
-      console.log("ultimaBoleta", ultimaVentaBoleta);
-      req.count = ultimaVentaBoleta.nubeCountNumber || 0;
-    }
-
-    if (req.body.venta.guia) {
-      req.countGuia = await Venta.countDocuments({ guia: { $eq: true } });
+      req.count = await Comprobante.countDocuments({ tipoComprobante: 2 });
     }
 
     await uploadPDFventa(newVenta);
@@ -484,7 +464,7 @@ export const ventaSimpleItemUpdate = async (req, res, next) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -493,7 +473,6 @@ export const ventaEjecutar = async (req, res, next) => {
   session.startTransaction();
   try {
     const variaciones = [];
-    const itemsVendidosCod = [];
 
     const ventaPre = await Venta.findOne({ codigo: req.body.venta.codigo });
 
@@ -502,7 +481,7 @@ export const ventaEjecutar = async (req, res, next) => {
       session.endSession();
       return res
         .status(409)
-        .json({ errorMSG: "La venta ya ha sido ejecutada." });
+        .json({ message: "La venta ya ha sido ejecutada." });
     }
 
     for (const item of ventaPre.itemsVendidos) {
@@ -574,34 +553,18 @@ export const ventaEjecutar = async (req, res, next) => {
         guia: req.body.venta.guia,
         cliente_email: req.body.venta.cliente_email,
         medio_de_pago: req.body.venta.medio_de_pago,
+        credits: req.body.venta.credits || [],
+        fechaDeVencimiento: req.body.venta.fechaDeVencimiento || "",
       },
-      { useFindAndModify: false, new: true, session }
+      { useFindAndModify: false, new: true, session, lean: true }
     );
 
     req.ventResult = venta;
 
     if (venta.documento.type === "factura") {
-      const ultimaVentaFactura = await Venta.findOne({
-        tipoComprobante: { $eq: 1 },
-        numero: { $ne: null },
-      })
-        .sort({
-          $natural: -1,
-        })
-        .limit(1);
-      console.log(ultimaVentaFactura);
-      req.count = ultimaVentaFactura.numero || 0;
+      req.count = await Comprobante.countDocuments({ tipoComprobante: 1 });
     } else if (venta.documento.type === "boleta") {
-      const ultimaVentaBoleta = await Venta.findOne({
-        tipoComprobante: { $eq: 2 },
-        numero: { $ne: null },
-      })
-        .sort({
-          $natural: -1,
-        })
-        .limit(1);
-      console.log("ultimaBoleta", ultimaVentaBoleta);
-      req.count = ultimaVentaBoleta.numero || 0;
+      req.count = await Comprobante.countDocuments({ tipoComprobante: 2 });
     }
 
     if (req.body.venta.guia) {
@@ -623,7 +586,7 @@ export const ventaEjecutar = async (req, res, next) => {
     console.log(error);
     await session.abortTransaction();
     session.endSession();
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -641,28 +604,46 @@ export const ventaAnular = async (req, res) => {
     );
     res.json({ message: "success" });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
 export const addLinkToPDF = async (req, res) => {
   try {
+    if (req.sunat.enlace_del_pdf === undefined) {
+      return res
+        .status(500)
+        .json({ message: "No se pudo generar el comprobante" });
+    }
+
     const result = await Venta.findByIdAndUpdate(
       req.ventResult._id,
       {
         numero: req.sunat.numero,
         serie: req.sunat.serie,
         tipoComprobante: req.sunat.tipo_de_comprobante,
+        linkComprobante: req.sunat.enlace_del_pdf,
       },
       { new: true, useFindAndModify: false }
     );
+
+    const nuevoComprobante = new Comprobante({
+      numero: req.sunat.numero,
+      serie: req.sunat.serie,
+      tipoComprobante: req.sunat.tipo_de_comprobante,
+      ventaCod: req.ventResult.codigo,
+      linkComprobante: req.sunat.enlace_del_pdf,
+    });
+
+    await nuevoComprobante.save();
+
     return res.json({
       venta: result,
       message: `Success||${req.ventResult.codigo}`,
       _sunat: req.sunat,
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -675,7 +656,7 @@ export const codigoTest = async (req, res) => {
     const countTwo = (await Venta.countDocuments({})) + 1;
     res.json({ c: count, ct: countTwo });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -700,7 +681,7 @@ const generarCodigoVent = async (tipo) => {
     const codigo = preCod + count.toString();
     return codigo;
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -740,7 +721,7 @@ export const cantidadUpdate = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -807,7 +788,7 @@ export const subCantidadUpdate = async (req, res) => {
     if (!req.body.tipo) {
       const testResult = itemOriginal.cantidad - req.body.cantidad;
       if (testResult < 0) {
-        return res.status(400).json({ errorMSG: "Cantidad Invalidad" });
+        return res.status(400).json({ message: "Cantidad Invalidad" });
       }
     }
 
@@ -825,7 +806,7 @@ export const subCantidadUpdate = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -835,7 +816,7 @@ export const addTag = async (req, res) => {
     const result = await newMarca.save();
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -847,7 +828,7 @@ export const deleteTag = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -856,7 +837,7 @@ export const getTags = async (req, res) => {
     const result = await Tag.find({ deleted: false });
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -868,7 +849,7 @@ export const actTagsItem = async (req, res) => {
     );
     return result;
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -879,7 +860,7 @@ export const addMarca = async (req, res) => {
     const result = await newMarca.save();
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -891,7 +872,7 @@ export const getCantidadTotal = async (req, res) => {
     ]);
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -901,7 +882,7 @@ export const deleteMarcas = async (req, res) => {
     await Marca.deleteMany({ name: { $in: deleteArray } });
     res.json({ message: "success" });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -943,7 +924,7 @@ export const addNewItem = async (req, res) => {
     const result = await newItem.save();
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -967,7 +948,7 @@ export const getAllItem = async (req, res) => {
     const result = await Item.find({ deleted: false }).sort({ orderNumber: 1 });
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -980,7 +961,7 @@ export const convertToFavorite = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -993,7 +974,7 @@ export const deConvertToFavorite = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1051,7 +1032,7 @@ export const getAllItemSort = async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1060,7 +1041,7 @@ export const getAllItemsOfType = async (req, res) => {
     const result = await Item.find({ tipo: req.params.tipo, deleted: false });
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1073,7 +1054,7 @@ export const getAllItemsSubTipoName = async (req, res) => {
     }).sort({ orderNumber: 1 });
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1100,7 +1081,7 @@ export const getItem = async (req, res) => {
     // const result = await Item.find({});
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1140,7 +1121,7 @@ export const updateCantidad = async (req, res) => {
     }
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1157,7 +1138,7 @@ export const updateItem = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1170,7 +1151,7 @@ export const updateItemsSubTipo = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1183,7 +1164,7 @@ export const updateItemsTipo = async (req, res) => {
     );
     res.json(req.newTipo);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1198,7 +1179,7 @@ export const deleteItem = async (req, res, next) => {
     req.photNameToDelete = result.photo;
     next();
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1214,7 +1195,7 @@ export const addTagsAll = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1223,7 +1204,7 @@ export const deleteItemsTipo = async (req, res) => {
     await Item.updateMany({ tipo: req.tipoDeleted.name }, { deleted: true });
     res.json(req.tipoDeleted);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1235,7 +1216,7 @@ export const deleteItemsSubTipo = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1248,7 +1229,7 @@ export const addOffer = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1261,7 +1242,7 @@ export const removeOffer = async (req, res) => {
     );
     res.status(200).json({ res: result, uploadInfo: req.uploadInfo });
   } catch (error) {
-    throw res.status(500).json({ errorMSG: error });
+    throw res.status(500).json({ message: error });
   }
 };
 
@@ -1274,7 +1255,7 @@ export const uploadPhotoName = async (req, res) => {
     );
     res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1292,7 +1273,7 @@ export const changeFileStatus = async (req, res) => {
     );
     res.status(200).json({ res: result, uploadInfo: req.uploadInfo });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1306,7 +1287,7 @@ export const actualizarItems = async (req, res) => {
     );
     res.json({ done: "done" });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1363,7 +1344,7 @@ export const filtrarTopFive = async (req, res) => {
         ]));*/
     res.json(singleToSend);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1488,7 +1469,7 @@ export const optenerVariacionPosneg = async (req, res) => {
             : 0)),
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1521,7 +1502,7 @@ export const testAgre = async (req, res) => {
     ]);
     res.json(variacionNegativaQuitar);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1683,7 +1664,7 @@ export const optenerGastosGananciasTotales = async (req, res) => {
         gastosItemsFueraTienda[0].ingresoTotal,
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1721,7 +1702,7 @@ export const optenerVentasPotenciales = async (req, res) => {
         ventasPosibles[0].totalPotencial - gastosCalculado[0].totalPotencial,
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1773,7 +1754,7 @@ export const getPeorMejorItem = async (req, res) => {
     ]);
     res.json({ peor: peorMejor[0], mejor: peorMejor[peorMejor.length - 1] });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1807,7 +1788,7 @@ export const gananciasPosiblesConItemMayor = async (req, res) => {
       .limit(1);
     res.json(mayorGananciaPosible[0]);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1886,7 +1867,7 @@ export const getGananciasTotalesSNS = async (req, res) => {
           gastosItemsFueraTienda[0].costoTotalPropio),
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1904,7 +1885,7 @@ export const getItemsMasVendido = async (req, res) => {
     const item = await Item.findOne({ codigo: itemsMasVendidos[0]._id });
     res.json(item);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1930,7 +1911,7 @@ export const getClientesConMasCompras = async (req, res) => {
       numero: mejoresClientes[0].cantidad,
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1943,7 +1924,7 @@ export const deleteCaracteristica = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1956,7 +1937,7 @@ export const addCaracteristica = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1968,7 +1949,7 @@ export const addOrderToItems = async (req, res) => {
     );
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -1997,7 +1978,7 @@ export const reOrderItems = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2009,7 +1990,7 @@ export const getItemsLowStock = async (req, res) => {
     });
     res.json(sinStockItems);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2018,7 +1999,7 @@ export const getItemsNoStock = async (req, res) => {
     const sinStockItems = await Item.find({ deleted: false, cantidad: 0 });
     res.json(sinStockItems);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2196,7 +2177,7 @@ export const getGICofItem = async (req, res) => {
             : 0)),
     });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2264,7 +2245,7 @@ export const ventasDeItemPorMesGrafico = async (req, res) => {
     ];
     res.json(single);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2472,7 +2453,7 @@ export const getTopFiveIngresosGananciasGastos = async (req, res) => {
     ]);
     res.json(gastos);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2579,7 +2560,7 @@ export const getTableInfItem = async (req, res) => {
     ]);
     res.json(tableInfo);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2588,14 +2569,14 @@ export const setItemReview = async (req, res) => {
     await Item.updateMany({}, { $set: { reviews: [] } }, { upsert: false });
     res.json({ done: "done" });
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
 export const addItemReview = async (req, res) => {
   try {
     if (!(req.body.rating <= 5 && req.body.rating >= 1)) {
-      return res.status(400).json({ errorMSG: "Rating no valido" });
+      return res.status(400).json({ message: "Rating no valido" });
     }
 
     const aCompradoElItem = await Item.aggregate([
@@ -2645,7 +2626,7 @@ export const addItemReview = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -2657,6 +2638,6 @@ export const addCategoryToALL = async (req, res) => {
     );
     return res.json(result);
   } catch (error) {
-    return res.status(500).json({ errorMSG: error });
+    return res.status(500).json({ message: error });
   }
 };

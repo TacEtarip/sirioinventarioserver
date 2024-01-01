@@ -1,5 +1,23 @@
-import { Schema } from 'mongoose';
-import { DocumentoSchema, ItemVendidoSchema } from './communModels';
+import { Schema } from "mongoose";
+import { DocumentoSchema, ItemVendidoSchema } from "./communModels";
+
+export const Credits = new Schema(
+  {
+    cuota: {
+      type: Number,
+      required: true,
+    },
+    fecha_de_pago: {
+      type: String,
+      required: true,
+    },
+    importe: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false }
+);
 
 const VentaSchema = new Schema({
   codigo: {
@@ -7,6 +25,12 @@ const VentaSchema = new Schema({
     required: true,
     trim: true,
     unique: true,
+  },
+
+  tipoVenta: {
+    type: String, // can be 'venta' or 'contrato'
+    required: true,
+    trim: true,
   },
 
   totalPrice: {
@@ -47,10 +71,18 @@ const VentaSchema = new Schema({
 
   tipoVendedor: {
     type: String,
-    default: 'admin',
+    default: "admin",
   },
 
   medio_de_pago: {
+    type: String,
+  },
+
+  fechaDeVencimiento: {
+    type: String,
+  },
+
+  linkComprobanteAnulado: {
     type: String,
   },
 
@@ -78,8 +110,8 @@ const VentaSchema = new Schema({
     type: [
       {
         serie: String,
-        numero: String,
-        tipoComprobante: Number,
+        numero: Number,
+        tipoComprobante: Number, // 7: Guia de Remision Remitente, 8: Guia de Remision Transportista
       },
     ],
     default: [],
@@ -96,15 +128,10 @@ const VentaSchema = new Schema({
   },
 
   credits: {
-    type: [
-      {
-        cuota: Number,
-        fecha_de_pago: String,
-        importe: Number,
-      },
-    ],
+    type: [Credits],
     default: [],
   },
 });
+
 
 export default VentaSchema;

@@ -2,7 +2,7 @@ export default class GuiaRemitente {
   constructor(tipoDeComprobante, numero) {
     this.operacion = "generar_guia";
     this.tipo_de_comprobante = tipoDeComprobante;
-    this.serie = tipoDeComprobante === 7 ? "TTT1" : "FFF1";
+    this.serie = tipoDeComprobante === 7 ? "TTT2" : "VVV2";
     this.numero = numero;
     this.fecha_de_emision = this.getNowDate();
     this.enviar_automaticamente_al_cliente = true;
@@ -10,6 +10,16 @@ export default class GuiaRemitente {
     this.items = [];
     this.vehiculos_secundarios = [];
     this.conductores_secundarios = [];
+    this.documento_relacionado = [];
+  }
+
+  addDocumentoRelacionado(tipo, serie, numero) {
+    this.documento_relacionado.push({
+      tipo,
+      serie,
+      numero,
+    });
+    return this;
   }
 
   addCliente(
