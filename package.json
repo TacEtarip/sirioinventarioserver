@@ -64,5 +64,8 @@
     "swagger-ui-express": "^4.1.6",
     "throng": "^5.0.0",
     "tinify": "^1.7.1"
+  },
+  "engines": {
+    "node": "18.18.2"
   }
 }
