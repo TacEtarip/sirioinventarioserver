@@ -43,6 +43,8 @@ import {
   getVentasPorDiaMes,
   getVentaToCreateGuide,
   createGuide,
+  aprobarContrato,
+  actualizarCuotas,
 } from "../controllers/ventaController";
 
 const routes = new Router();
@@ -160,6 +162,18 @@ routes.get(
   "/sunat-guide/:serie/:numero/:tipo_de_comprobante",
   transaccionalLoginRequired,
   obtenerGuia
+);
+
+routes.put(
+  "/:codigo/aprobarContrato",
+  transaccionalLoginRequired,
+  aprobarContrato,
+);
+
+routes.put(
+  "/:codigo/actualizarCuotas",
+  transaccionalLoginRequired,
+  actualizarCuotas,
 );
 
 routes.put("/anularVenta", transaccionalLoginRequired, ventaAnular);

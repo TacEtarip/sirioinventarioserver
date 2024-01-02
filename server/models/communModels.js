@@ -100,7 +100,7 @@ export const DocumentoSchema = new Schema(
     },
 
     codigo: {
-      type: Number,
+      type: String,
       trim: true,
     },
 

@@ -19,6 +19,47 @@ export const Credits = new Schema(
   { _id: false }
 );
 
+export const Guides = new Schema(
+  {
+    serie: {
+      type: String,
+      required: true,
+    },
+    numero: {
+      type: Number,
+      required: true,
+    },
+    tipoComprobante: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
+export const ContractPayments = new Schema(
+  {
+    cuota: {
+      type: Number,
+      required: true,
+    },
+    fecha_de_pago: {
+      type: String,
+      required: true,
+    },
+    importe: {
+      type: Number,
+      required: true,
+    },
+    pagado: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  { _id: false }
+);
+
 const VentaSchema = new Schema({
   codigo: {
     type: String,
@@ -107,13 +148,7 @@ const VentaSchema = new Schema({
   },
 
   guias: {
-    type: [
-      {
-        serie: String,
-        numero: Number,
-        tipoComprobante: Number, // 7: Guia de Remision Remitente, 8: Guia de Remision Transportista
-      },
-    ],
+    type: [Guides],
     default: [],
   },
 
@@ -131,7 +166,16 @@ const VentaSchema = new Schema({
     type: [Credits],
     default: [],
   },
-});
 
+  contratoAprobado: {
+    type: Boolean,
+    default: false,
+  },
+
+  pagosDeContrato: {
+    type: [ContractPayments],
+    default: [],
+  },
+});
 
 export default VentaSchema;

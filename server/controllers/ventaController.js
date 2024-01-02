@@ -11,6 +11,40 @@ const Venta = mongoose.model("Venta", ventaModel);
 
 const Guia = mongoose.model("Guia", guiaModel);
 
+export const aprobarContrato = async (req, res) => {
+  try {
+    const result = await Venta.findOneAndUpdate(
+      { codigo: req.params.codigo },
+      {
+        contratoAprobado: true,
+        documento: req.body.documento,
+        pagosDeContrato: req.body.pagosDeContrato,
+      },
+      { new: true, useFindAndModify: true }
+    );
+
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+export const actualizarCuotas = async (req, res) => {
+  try {
+    const result = await Venta.findOneAndUpdate(
+      { codigo: req.params.codigo },
+      {
+        pagosDeContrato: req.body,
+      },
+      { new: true, useFindAndModify: true }
+    );
+
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
 export const getVentaToCreateGuide = async (req, res, next) => {
   try {
     const result = await Venta.findOne({ codigo: req.body.saleCode });
@@ -221,6 +255,8 @@ export const getVentasEjecutadas = async (req, res) => {
     const preOrden = {};
     preOrden[req.body.orden] = req.body.ordenOrden;
 
+    const tipoVenta = req.body.tiposDeVenta ||  ["venta", "contrato"];
+
     const searchRegex = new RegExp(req.body.busqueda || "", "gi");
 
     const searchRegexII = new RegExp(req.body.busquedaItemCodigo || "", "gi");
@@ -230,6 +266,7 @@ export const getVentasEjecutadas = async (req, res) => {
     if (req.body.dateOne === "noone" || req.body.dateTwo === "noone") {
       result = await Venta.find({
         estado: { $in: req.body.estado },
+        tipoVenta: { $in: tipoVenta },
         "itemsVendidos.codigo": { $regex: searchRegexII },
         vendedor: { $regex: searchRegexIII },
         $or: [
@@ -244,6 +281,7 @@ export const getVentasEjecutadas = async (req, res) => {
     } else {
       result = await Venta.find({
         estado: { $in: req.body.estado },
+        tipoVenta: { $in: tipoVenta },
         "itemsVendidos.codigo": { $regex: searchRegexII },
         vendedor: { $regex: searchRegexIII },
         $or: [
