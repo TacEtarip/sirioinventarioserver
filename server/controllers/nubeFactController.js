@@ -487,6 +487,7 @@ export const generarComprobante = (req, res, next) => {
           return fetchWithRetry(retryCount + 1, jsonToSend);
         }
         req.sunat = json;
+        logger.info('jsonSunat', json);
         next();
       })
       .catch((err) => {
