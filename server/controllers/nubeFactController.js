@@ -4,6 +4,7 @@ import config from "../../config/index";
 import GuiaRemitente from "../lib/GuiaRemitente";
 import Item from "../lib/Item";
 import NFB from "../lib/NubeFactBuilder";
+import * as moment from "moment-timezone";
 
 const logger = config[process.env.NODE_ENV].log();
 
@@ -67,7 +68,6 @@ export const crearGuiaV2 = async (req, res, next) => {
       .addTransportistaPlacaNumero(transportistaPlacaNumero)
       .addPuntoDePartida(puntoDePartidaUbigeo, puntoDePartidaDireccion)
       .addPuntoDeLlegada(puntoDeLlegadaUbigeo, puntoDeLlegadaDireccion);
-
 
     if (guia.motivo_de_traslado === "04" || guia.motivo_de_traslado === "18") {
       guia
@@ -262,14 +262,10 @@ export const anularComprobanteSunat = async (
 };
 
 const getNowDate = () => {
-  const utc = DateTime.local().setZone("UTC-5");
-  const lclString = utc.toLocaleString();
-  const arrayDate = lclString.split("/");
-  const day = arrayDate[0];
-  const month = arrayDate[1];
-  const year = arrayDate[2].split(",")[0];
-  const date = `${day}-${month}-${year}`;
-  return date;
+  let nowUtc = moment.utc();
+  nowUtc.subtract(5, "hours");
+  let formattedDate = nowUtc.format("DD-MM-YYYY");
+  return formattedDate;
 };
 
 const formatearMetodoPago = (ventResult) => {
@@ -464,7 +460,7 @@ export const generarComprobante = (req, res, next) => {
     });
   }
 
-  logger.info('jsonToSend', jsonToSend);
+  logger.info("jsonToSend", jsonToSend);
 
   const fetchWithRetry = (retryCount = 0, jsonToSend = {}) => {
     fetch(
@@ -487,7 +483,7 @@ export const generarComprobante = (req, res, next) => {
           return fetchWithRetry(retryCount + 1, jsonToSend);
         }
         req.sunat = json;
-        logger.info('jsonSunat', json);
+        logger.info("jsonSunat", json);
         next();
       })
       .catch((err) => {

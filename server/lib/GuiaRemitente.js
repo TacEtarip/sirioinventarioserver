@@ -1,3 +1,5 @@
+import * as moment from "moment-timezone";
+
 export default class GuiaRemitente {
   constructor(tipoDeComprobante, numero) {
     this.operacion = "generar_guia";
@@ -38,14 +40,10 @@ export default class GuiaRemitente {
   }
 
   getNowDate() {
-    const utc = DateTime.local().setZone("UTC-5");
-    const lclString = utc.toLocaleString();
-    const arrayDate = lclString.split("/");
-    const day = arrayDate[0];
-    const month = arrayDate[1];
-    const year = arrayDate[2].split(",")[0];
-    const date = `${day}-${month}-${year}`;
-    return date;
+    let nowUtc = moment.utc();
+    nowUtc.subtract(5, "hours");
+    let formattedDate = nowUtc.format("DD-MM-YYYY");
+    return formattedDate;
   }
 
   addObservaciones(observaciones) {

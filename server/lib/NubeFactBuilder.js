@@ -1,5 +1,6 @@
-import { DateTime } from "luxon";
 import NubeFact from "./NubeFact";
+import * as moment from "moment-timezone";
+
 /**
  * Builder for NubeFactClass
  *
@@ -35,14 +36,10 @@ export default class NubeFactBuilder {
 
   // get the date in the format dd-mm-yyyy
   getNowDate() {
-    const utc = DateTime.local().setZone("UTC-5");
-    const lclString = utc.toLocaleString();
-    const arrayDate = lclString.split("/");
-    const day = arrayDate[0];
-    const month = arrayDate[1];
-    const year = arrayDate[2].split(",")[0];
-    const date = `${day}-${month}-${year}`;
-    return date;
+    let nowUtc = moment.utc();
+    nowUtc.subtract(5, "hours");
+    let formattedDate = nowUtc.format("DD-MM-YYYY");
+    return formattedDate;
   }
 
   addDireccion(cliente_direccion) {
