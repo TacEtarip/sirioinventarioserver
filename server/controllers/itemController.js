@@ -299,10 +299,8 @@ export const ventaAnularPost = async (req, res) => {
       return res.status(409).json({ message: "Ya anulada" });
     }
     const variaciones = [];
-    const itemsVendidosCod = [];
 
     for (const item of req.body.itemsVendidos) {
-      itemsVendidosCod.push(item.codigo);
       variaciones.push({
         date: Date.now(),
         cantidad: item.cantidad,
@@ -486,7 +484,6 @@ export const ventaEjecutar = async (req, res, next) => {
 
     for (const item of ventaPre.itemsVendidos) {
       if (item.codigo.charAt(2) !== "N" && item.codigo.charAt(3) !== "I") {
-        itemsVendidosCod.push(item.codigo);
         variaciones.push({
           date: Date.now(),
           cantidad: item.cantidad,
@@ -577,7 +574,7 @@ export const ventaEjecutar = async (req, res, next) => {
       { useFindAndModify: false }
     );
 
-    await uploadPDFventa(venta);
+    // await uploadPDFventa(venta);
     await session.commitTransaction();
     session.endSession();
 
