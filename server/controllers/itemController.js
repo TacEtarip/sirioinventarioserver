@@ -1258,7 +1258,7 @@ export const uploadPhotoName = async (req, res) => {
 
 const getNoIGV_Price = (igvPrice) => {
   const aprox_NO_IGV = igvPrice / 1.18;
-  return Math.round((aprox_NO_IGV + Number.EPSILON) * 100) / 100;
+  return Math.round((aprox_NO_IGV + Number.EPSILON) * 100000000) / 100000000;
 };
 
 export const changeFileStatus = async (req, res) => {
