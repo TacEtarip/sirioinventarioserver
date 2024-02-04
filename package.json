@@ -57,7 +57,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth20": "^2.0.0",
     "pdfkit": "^0.11.0",
-    "pdfmake": "^0.1.70",
+    "pdfmake": "^0.2.9",
     "regenerator-runtime": "^0.14.0",
     "replace-in-file": "^6.1.0",
     "sharp": "^0.33.1",

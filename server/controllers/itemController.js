@@ -552,6 +552,7 @@ export const ventaEjecutar = async (req, res, next) => {
         medio_de_pago: req.body.venta.medio_de_pago,
         credits: req.body.venta.credits || [],
         fechaDeVencimiento: req.body.venta.fechaDeVencimiento || "",
+        date: Date.now(),
       },
       { useFindAndModify: false, new: true, session, lean: true }
     );
@@ -574,7 +575,7 @@ export const ventaEjecutar = async (req, res, next) => {
       { useFindAndModify: false }
     );
 
-    // await uploadPDFventa(venta);
+    await uploadPDFventa(venta);
     await session.commitTransaction();
     session.endSession();
 

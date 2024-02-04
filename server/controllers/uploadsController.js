@@ -19,6 +19,50 @@ const s3 = new S3Client({
   region: "us-east-1",
 });
 
+export const createPdfFromSale = async (req, res) => {
+  try {
+    const command = new GetObjectCommand({
+      Bucket: config[process.env.NODE_ENV].bucket,
+      Key: "sirio-logo.png",
+    });
+    const data = await s3.send(command);
+
+    const streamToBuffer = (stream) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("error", reject);
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+      });
+
+    const bufferedImage = await streamToBuffer(data.Body);
+
+    const venta = res.locals.venta;
+
+    const doc = createDocumento(venta, bufferedImage);
+
+    const pdfBuffer = await new Promise((resolve, reject) => {
+      const buffers = [];
+      doc.on("data", buffers.push.bind(buffers));
+      doc.on("end", () => {
+        resolve(Buffer.concat(buffers));
+      });
+      doc.on("error", reject);
+      doc.end();
+    });
+
+    res.writeHead(200, {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": "inline; filename=venta.pdf", // Changed to 'inline'
+      "Content-Length": pdfBuffer.length,
+    });
+
+    return res.end(pdfBuffer, "binary");
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
 export const uploadPDFventa = async (venta) => {
   try {
     const command = new GetObjectCommand({
@@ -26,12 +70,33 @@ export const uploadPDFventa = async (venta) => {
       Key: "sirio-logo.png",
     });
     const data = await s3.send(command);
-    const doc = createDocumento(venta, data.Body);
-    doc.end();
+
+    const streamToBuffer = (stream) =>
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("error", reject);
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+      });
+
+    const bufferedImage = await streamToBuffer(data.Body);
+
+    const doc = createDocumento(venta, bufferedImage);
+
+    const pdfBuffer = await new Promise((resolve, reject) => {
+      const buffers = [];
+      doc.on("data", buffers.push.bind(buffers));
+      doc.on("end", () => {
+        resolve(Buffer.concat(buffers));
+      });
+      doc.on("error", reject);
+      doc.end();
+    });
+
     const uploadCommand = new PutObjectCommand({
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: `${venta.codigo}.pdf`,
-      Body: doc,
+      Body: pdfBuffer,
       ContentType: "application/pdf",
     });
     await s3.send(uploadCommand);
@@ -49,12 +114,12 @@ export const getImage = async (req, res) => {
     });
 
     const streamToBuffer = (stream) =>
-    new Promise((resolve, reject) => {
-      const chunks = [];
-      stream.on("data", (chunk) => chunks.push(chunk));
-      stream.on("error", reject);
-      stream.on("end", () => resolve(Buffer.concat(chunks)));
-    });
+      new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("error", reject);
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+      });
 
     const data = await s3.send(command);
 
@@ -114,12 +179,15 @@ export const getPDF = async (req, res) => {
       Bucket: config[process.env.NODE_ENV].bucket,
       Key: req.params.pdfName,
     });
-    const data = await s3.send(command);
-    res.writeHead(200, { "Content-Type": "aplication/pdf" });
-    res.write(data.Body, "binary");
-    res.end(null, "binary");
+    const { Body } = await s3.send(command);
+
+    res.writeHead(200, { "Content-Type": "application/pdf" });
+    Body.pipe(res);
   } catch (error) {
-    return res.status(500).json({ message: error });
+    console.error(error); // Make sure to log the error for debugging.
+    return res
+      .status(500)
+      .json({ message: "An error occurred while retrieving the PDF." });
   }
 };
 

@@ -69,6 +69,7 @@ import {
   getPDF,
   deleteImage,
   deleteImageSecond,
+  createPdfFromSale,
 } from "../controllers/uploadsController";
 import {
   normalLoginRequired,
@@ -76,6 +77,8 @@ import {
   transaccionalLoginRequired,
   allLoginRequired,
 } from "../controllers/usersController";
+
+import { getSaleForPdf } from "../controllers/ventaController";
 
 const routes = new Router();
 
@@ -108,6 +111,8 @@ routes.get("/getItemsRelacionados/:tipo/:codigo", getSimilarItems);
 routes.get("/getItemsSearch/:searchTerms", searchText);
 
 routes.get("/pdf/:pdfName", getPDF);
+
+routes.get("/sale-pdf/:saleCode", getSaleForPdf, createPdfFromSale);
 
 routes.get("/getTags", getTags);
 

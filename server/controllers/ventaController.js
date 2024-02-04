@@ -11,6 +11,91 @@ const Venta = mongoose.model("Venta", ventaModel);
 
 const Guia = mongoose.model("Guia", guiaModel);
 
+export const getSalesFromDateRange = async (req, res) => {
+  try {
+    const { pageSize, skip } = req.body.pagination || { pageSize: 10, skip: 0 };
+    const dateStart = req.body.date
+      ? new Date(req.body.date)
+      : new Date("2023-01-01");
+    const dateEnd = req.body.dateTwo
+      ? new Date(req.body.dateTwo)
+      : new Date("2023-12-31");
+
+    const filters = {
+      estado: "ejecutada",
+      date: { $gte: dateStart, $lte: dateEnd },
+    };
+
+    if (req.body.fromVendedor) {
+      filters.vendedor = req.body.fromVendedor;
+    }
+
+    // Find the total count for pagination metadata (total pages, etc.)
+    const totalCount = await Venta.countDocuments(filters);
+
+    // Execute query with pagination and sorting (if needed)
+    const result = await Venta.find(filters).skip(skip).limit(pageSize);
+    // Optionally, you could add sorting here, for example, .sort({ date: -1 })
+    // Calculate total pages
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    // Structure the response with data and pagination details
+    res.json({
+      data: result,
+      pagination: {
+        totalItems: totalCount,
+        totalPages: totalPages,
+        currentPage: Math.floor(skip / pageSize) + 1,
+        pageSize: pageSize,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching sales data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getVentasTotalPriceFromRange = async (req, res) => {
+  try {
+    const dateStart = req.body.date
+      ? new Date(req.body.date)
+      : new Date("2023-01-01");
+    const dateEnd = req.body.dateTwo
+      ? new Date(req.body.dateTwo)
+      : new Date("2023-12-31");
+
+    const filters = {
+      estado: "ejecutada",
+      date: { $gte: dateStart, $lte: dateEnd },
+    };
+
+    if (req.body.fromVendedor) {
+      filters.vendedor = req.body.fromVendedor;
+    }
+
+    const result = await Venta.aggregate([
+      { $match: filters },
+      {
+        $group: {
+          _id: null,
+          totalPrice: { $sum: "$totalPrice" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalPrice: 1,
+        },
+      },
+    ]);
+
+    res.json(result[0] ? result[0] : { totalPrice: 0 });
+  } catch (error) {
+    console.error("Error fetching sales data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const aprobarContrato = async (req, res) => {
   try {
     const result = await Venta.findOneAndUpdate(
@@ -51,6 +136,18 @@ export const getVentaToCreateGuide = async (req, res, next) => {
     const count = await Guia.countDocuments({});
     res.locals.venta = result;
     res.locals.countGuias = count;
+    return next();
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+export const getSaleForPdf = async (req, res, next) => {
+  try {
+    const result = await Venta.findOne({
+      codigo: req.params.saleCode.split(".")[0],
+    });
+    res.locals.venta = result;
     return next();
   } catch (error) {
     return res.status(500).json({ message: error });
@@ -255,7 +352,7 @@ export const getVentasEjecutadas = async (req, res) => {
     const preOrden = {};
     preOrden[req.body.orden] = req.body.ordenOrden;
 
-    const tipoVenta = req.body.tiposDeVenta ||  ["venta", "contrato"];
+    const tipoVenta = req.body.tiposDeVenta || ["venta", "contrato"];
 
     const searchRegex = new RegExp(req.body.busqueda || "", "gi");
 

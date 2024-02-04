@@ -28,7 +28,10 @@ const generateHeader = (doc, imageB) => {
 };
 
 const generateCustomerInformation = (doc, invoice) => {
-  doc.fillColor("#444444").fontSize(20).text("Comprobante", 50, 160);
+  doc
+    .fillColor("#444444")
+    .fontSize(20)
+    .text(invoice.tipoVenta === "venta" ? "Comprobante" : "Contrato", 50, 160);
 
   generateHr(doc, 185);
 
@@ -171,7 +174,10 @@ const generateInvoiceTable = (doc, invoice) => {
 const generateFooter = (doc) => {
   doc
     .fontSize(10)
-    .text("siriodinar.com", 50, 780, { align: "center", width: 500 });
+    .text("sirio-inventario-front.herokuapp.com", 50, 780, {
+      align: "center",
+      width: 500,
+    });
 };
 
 const generateTableRow = (
