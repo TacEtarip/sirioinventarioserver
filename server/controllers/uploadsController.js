@@ -8,7 +8,7 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import tinyfy from "tinify";
 import config from "../../config/index";
-import { createDocumento } from "../lib/documentGenerator";
+import { createTicketVoucher } from "../lib/documentGeneratorTicket";
 const sharp = require("sharp");
 
 const s3 = new S3Client({
@@ -39,7 +39,7 @@ export const createPdfFromSale = async (req, res) => {
 
     const venta = res.locals.venta;
 
-    const doc = createDocumento(venta, bufferedImage);
+    const doc = createTicketVoucher(venta, bufferedImage);
 
     const pdfBuffer = await new Promise((resolve, reject) => {
       const buffers = [];
@@ -81,7 +81,7 @@ export const uploadPDFventa = async (venta) => {
 
     const bufferedImage = await streamToBuffer(data.Body);
 
-    const doc = createDocumento(venta, bufferedImage);
+    const doc = createTicketVoucher(venta, bufferedImage);
 
     const pdfBuffer = await new Promise((resolve, reject) => {
       const buffers = [];
